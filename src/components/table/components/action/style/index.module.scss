@@ -1,0 +1,21 @@
+.action-item {
+    text-decoration: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.3s;
+    user-select: none;
+    -webkit-text-decoration-skip: objects;
+
+    &.action-item__primary {
+        color: $primary;
+    }
+
+    &.action-item__warning {
+        color: $warning;
+    }
+
+    &.action-item__error {
+        color: $error;
+    }
+}

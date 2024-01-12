@@ -1,0 +1,12 @@
+.query-filter {
+    position: relative;
+    row-gap: 24px;
+
+    :global(.ant-form-item) {
+        margin-block: 0;
+    }
+
+    .submitter-col {
+        text-align: end;
+    }
+}

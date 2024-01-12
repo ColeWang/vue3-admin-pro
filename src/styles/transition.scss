@@ -1,0 +1,70 @@
+/* ----------------- 淡出淡入 遮罩 ----------------- */
+.fade-enter, .fade-leave-active {
+    opacity: 0;
+}
+
+.fade-leave-active, .fade-enter-active {
+    transition: opacity .3s;
+}
+
+/* ----------------- 弹出 ----------------- */
+.bounce-enter-active {
+    animation: bounce-in .3s;
+}
+
+.bounce-leave-active {
+    animation: bounce-out .3s;
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(.7);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce-out {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(.7);
+        opacity: 0;
+    }
+}
+
+/* ----------------- 弹出 center ----------------- */
+.bounce-center-enter-active {
+    animation: bounce-center-in .3s;
+}
+
+.bounce-center-leave-active {
+    animation: bounce-center-out .3s;
+}
+
+@keyframes bounce-center-in {
+    0% {
+        transform: translate3d(-50%, -50%, 0) scale(.7);
+        opacity: 0;
+    }
+    100% {
+        transform: translate3d(-50%, -50%, 0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce-center-out {
+    0% {
+        transform: translate3d(-50%, -50%, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(-50%, -50%, 0) scale(.7);
+        opacity: 0;
+    }
+}

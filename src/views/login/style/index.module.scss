@@ -1,0 +1,42 @@
+.login {
+    @include size(100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-bg {
+    @include size(100%);
+    position: relative;
+
+    .login-bg__canvas {
+        @include size(100%);
+        overflow: hidden;
+    }
+}
+
+.login-form {
+    @include position(absolute, 50%, 260px, null, null);
+    width: 340px;
+    background: $white;
+    border-radius: 4px;
+    transform: translateY(-60%);
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+    .title {
+        padding: 14px 16px;
+        border-bottom: 1px solid $border;
+
+        .title__text {
+            font-weight: 700;
+        }
+    }
+
+    .form-wrap {
+        padding: 16px;
+
+        .checked-wrap {
+            @include flex(center, space-between);
+            margin-bottom: 18px;
+        }
+    }
+}

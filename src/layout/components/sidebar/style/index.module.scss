@@ -1,0 +1,22 @@
+.sidebar {
+    background: #001529;
+    user-select: none;
+    transition: width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    overflow: hidden;
+}
+
+.sidebar-content {
+    height: 100%;
+    padding-top: 0.1px;
+    margin-top: -0.1px;
+    overflow-y: scroll;
+    margin-right: -18px;
+
+    &::-webkit-scrollbar {
+        width: 17px;
+    }
+}
+
+.sidebar-content__wrap {
+    position: relative;
+}

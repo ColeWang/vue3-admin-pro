@@ -1,0 +1,84 @@
+.setting-title {
+    @include flex(center, space-between);
+    height: 32px;
+}
+
+.checkbox-list-group {
+    @include size(228px, null);
+    @include flex();
+    flex-direction: column;
+}
+
+.checkbox-list {
+    .checkbox-list-title {
+        @include text(12px, $text-secondary);
+        margin: 6px 0;
+        padding-left: 24px;
+    }
+
+    :global(.ant-tree) {
+        background: $background;
+    }
+
+    :global(.ant-tree-list-holder) {
+        padding-top: 2px;
+    }
+
+    :global(.ant-tree-node-content-wrapper:hover) {
+        background-color: transparent !important;
+
+        .checkbox-item-option {
+            display: block;
+        }
+    }
+
+    :global(.ant-tree-treenode) {
+        align-items: center;
+
+        :global(.ant-tree-checkbox) {
+            margin: 0 4px 0 0;
+            top: 0;
+        }
+    }
+
+    :global(.ant-tree-indent) {
+        flex-shrink: 0;
+        @include flex(center, center);
+        @include size(24px);
+        cursor: grab;
+    }
+
+    :global(.ant-tree-treenode-disabled) {
+        :global(.ant-tree-indent) {
+            cursor: not-allowed;
+        }
+
+        :global(.ant-tree-indent::before) {
+            display: none;
+        }
+    }
+
+    :global(.ant-tree-indent::before) {
+        display: block;
+        @include size(14px);
+        @include text(14px, $icon, 14px, center);
+        content: url("./holder.svg");
+    }
+}
+
+.checkbox-item {
+    @include flex(center, space-between);
+
+    .checkbox-item-title {
+        flex: 1;
+    }
+
+    .checkbox-item-option {
+        display: none;
+        cursor: pointer;
+
+        :global(span.anticon) {
+            color: $primary;
+        }
+    }
+}

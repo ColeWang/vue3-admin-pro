@@ -1,0 +1,21 @@
+.avatar-wrap {
+    height: 60px;
+    cursor: pointer;
+    position: relative;
+}
+
+.avatar-center {
+    height: 60px;
+    @include flex(center);
+
+    .avatar-center__icon-down {
+        color: $icon;
+        @include size(18px, 100%);
+        @include flex(center, center);
+    }
+}
+
+.avatar-menu {
+    min-width: 110px;
+    white-space: nowrap;
+}

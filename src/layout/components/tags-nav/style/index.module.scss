@@ -1,0 +1,86 @@
+.tags-nav-wrap {
+    @include position(relative);
+    @include size(100%, null);
+    border-top: 1px solid $border;
+    border-bottom: 1px solid $border;
+    overflow: hidden;
+}
+
+.tags-nav {
+    @include position(relative);
+    @include size(100%, 40px);
+    background: $background;
+
+    .button {
+        @include size(100%, 100%);
+        @include flex(center, center);
+        border-radius: 0;
+        font-size: 12px;
+        line-height: 0;
+        background: $white;
+        border: none;
+
+        &:hover {
+            background: $white;
+            color: $primary;
+        }
+
+        &:active {
+            background: $white;
+        }
+    }
+
+    .btn-wrap {
+        @include position(absolute, 0, null, 0, null);
+        @include size(28px, 40px);
+
+        &.left-btn {
+            left: 0;
+        }
+
+        &.right-btn {
+            right: 32px;
+        }
+    }
+
+    .close-wrap {
+        @include position(absolute, 0, 0, 0, null);
+        @include size(32px, 40px);
+        padding-right: 8px;
+        border-left: 1px solid $border;
+        background: $white;
+
+        .button {
+            position: relative;
+
+            &:after {
+                @include position(absolute, 0, -8px, 0, 0);
+                content: "";
+            }
+
+            :global(.anticon-close-circle) {
+                margin-right: -8px;
+            }
+        }
+    }
+
+    .tag {
+        margin-inline-end: 4px;
+    }
+}
+
+.scroll-outer {
+    @include position(absolute, 0, 60px, 0, 28px);
+    padding: 4px 0;
+    box-shadow: inset 0 0 3px 2px hsla(0, 0%, 39.2%, .1);
+    overflow: hidden;
+
+    .scroll-body {
+        position: absolute;
+        display: inline-block;
+        padding: 0 4px;
+        overflow: visible;
+        white-space: nowrap;
+        transition: left .3s ease;
+    }
+}

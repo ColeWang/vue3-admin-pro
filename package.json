@@ -1,0 +1,39 @@
+{
+  "name": "admin-template",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "serve": "vite --mode development",
+    "serve:dev": "vite --mode development",
+    "serve:prod": "vite --mode production",
+    "build": "vite build --mode production",
+    "build:report": "vite build --mode production",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "build:packages": "vite build --config vite.packages.config.js"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "ant-design-vue": "^4.0.0",
+    "axios": "^1.4.0",
+    "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.9",
+    "file-saver": "^2.0.5",
+    "js-cookie": "^3.0.5",
+    "lodash-es": "^4.17.21",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.1.6",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.3.1",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "eslint": "^8.46.0",
+    "eslint-plugin-vue": "^9.16.1",
+    "rollup-plugin-visualizer": "^5.9.2",
+    "sass": "^1.66.1",
+    "vite": "^4.4.9"
+  }
+}

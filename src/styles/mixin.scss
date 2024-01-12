@@ -1,0 +1,142 @@
+// 主题色
+$primary: #1677FF;
+// 主文本色
+$text: rgba(0, 0, 0, 0.88);
+// 次文本色
+$text-secondary: rgba(0, 0, 0, 0.65);
+// 三级文本色
+$text-tertiary: rgba(0, 0, 0, 0.45);
+// 四级文本色
+$text-quaternary: rgba(0, 0, 0, 0.25);
+// 图标
+$icon: rgba(0, 0, 0, 0.65);
+// 背景
+$background: #F5F5F5;
+// 边框
+$border: #D9D9D9;
+// 失效 Disabled
+$disabled: #C1C2C5;
+// Error
+$error: #FF4F3C;
+// warning
+$warning: #FAAD14;
+// White
+$white: #FFF;
+// Black
+$black: #000;
+// 浮层阴影
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+// 主字号
+$font-size: 14px;
+// 圆角
+$border-radius: 4px;
+
+/* 设置宽高 $width $height=$width */
+@mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
+/* 设置字体 $font-size, $color: null, $line-height: null, $text-align: null*/
+@mixin text($font-size, $color: null, $line-height: null,  $text-align: null) {
+    font-size: $font-size;
+    @if ($color != "" and $color != null) {
+        color: $color;
+    }
+    @if ($line-height != "" and $line-height != null) {
+        line-height: $line-height;
+    }
+    @if ($text-align != "" and $text-align != null) {
+        text-align: $text-align;
+    }
+}
+
+/* 设置字体粗细 $font-weight: null */
+@mixin text-weight($font-weight: bold) {
+    font-weight: $font-weight;
+}
+
+/* flex $justify-content: null, $align-items: null */
+@mixin flex($align-items: null, $justify-content: null) {
+    display: flex;
+    @if ($justify-content != "" and $justify-content != null) {
+        justify-content: $justify-content;
+    }
+    @if ($align-items != "" and $align-items != null) {
+        align-items: $align-items;
+    }
+}
+
+/* 绝对定位 $position, $top: null, $right: null, $bottom: null, $left: null */
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+    position: $position;
+    @if ($top != "" and $top != null) {
+        top: $top;
+    }
+    @if ($right != "" and $right != null) {
+        right: $right;
+    }
+    @if ($bottom != "" and $bottom != null) {
+        bottom: $bottom;
+    }
+    @if ($left != "" and $left != null) {
+        left: $left;
+    }
+}
+
+/* 扩展点击区域 */
+@mixin extend-click($v: 10px) {
+    position: relative;
+    &:before {
+        content: "";
+        @include position(absolute, -$v, -$v, -$v, -$v);
+    }
+}
+
+// scroll-y
+@mixin scroll-y() {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* translate 未知宽高 水平垂直居中 */
+@mixin center-translate($direction: both) {
+    position: absolute;
+    @if ($direction == both) {
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+    } @else if ($direction == horizontal) {
+        left: 50%;
+        -webkit-transform: translate3d(-50%, 0, 0);
+        transform: translate3d(-50%, 0, 0);
+    } @else if ($direction == vertical) {
+        top: 50%;
+        -webkit-transform: translate3d(0, -50%, 0);
+        transform: translate3d(0, -50%, 0);
+    }
+}
+
+/* 多行超出设置点点点 */
+@mixin box-clamp($v: 1) {
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $v;
+}
+
+/* 文字溢出点点点 */
+@mixin ellipsis-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* 圆形 */
+@mixin circle($size: 12px) {
+    border-radius: 50%;
+    width: $size;
+    height: $size;
+}

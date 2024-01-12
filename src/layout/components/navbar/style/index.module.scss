@@ -1,0 +1,43 @@
+.navbar {
+    @include size(100%, 60px);
+    @include flex(null, space-between);
+    padding: 0 20px;
+    background: $white;
+    user-select: none;
+    position: relative;
+
+    //&:after {
+    //    @include position(absolute, null, 0, 0, 0);
+    //    content: "";
+    //    border-bottom: 1px solid $border;
+    //}
+}
+
+.navbar__left, .navbar__right {
+    height: 100%;
+    @include flex(center, null);
+}
+
+.navbar__right {
+    padding-right: 20px;
+}
+
+.collapse {
+    @include size(40px);
+    @include flex(center, center);
+    @include text(30px, $icon, null, center);
+    cursor: pointer;
+
+    &:hover {
+        color: $primary;
+    }
+
+    .collapse__icon {
+        transition: all 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+        margin: auto;
+
+        &.collapse__icon-down {
+            transform: rotate(90deg);
+        }
+    }
+}

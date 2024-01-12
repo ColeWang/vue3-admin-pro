@@ -1,0 +1,18 @@
+.app-main {
+    @include size(100%);
+    @include flex;
+    flex-direction: row;
+    overflow: hidden;
+
+    .app-main__prime {
+        flex: 1;
+        @include flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        .app-main__content {
+            flex: 1;
+            overflow: hidden;
+        }
+    }
+}

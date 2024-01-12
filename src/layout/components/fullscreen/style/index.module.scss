@@ -1,0 +1,9 @@
+.fullscreen {
+    @include size(20px);
+    @include text(20px, $icon, 20px);
+    cursor: pointer;
+
+    &:hover {
+        color: $primary;
+    }
+}

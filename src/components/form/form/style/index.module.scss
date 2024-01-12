@@ -1,0 +1,28 @@
+.group {
+    display: block;
+
+    .group-title {
+        margin-block-end: 24px;
+        font-weight: bold;
+    }
+
+    :global(.ant-space-item) {
+        max-width: 100%;
+    }
+
+    &.group__inline {
+        width: 100%;
+        display: block;
+
+        .group-title {
+            width: 100%;
+            margin: 8px 0;
+        }
+    }
+
+    &.group__vertical {
+        :global(.ant-form-row) {
+            flex-direction: column;
+        }
+    }
+}
