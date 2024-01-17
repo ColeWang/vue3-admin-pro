@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-export const TOKEN_KEY = 'sessionID'
+export const TOKEN_KEY = 'TOKEN_KEY'
 
 export function setToken (token, expires) {
     Cookies.set(TOKEN_KEY, token, { expires: expires || 1 })

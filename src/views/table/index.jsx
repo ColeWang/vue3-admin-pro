@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { Table } from '@/components/table'
+import { Table, Action } from '@/components/table'
 
 export default defineComponent({
     setup () {
@@ -8,7 +8,10 @@ export default defineComponent({
                 title: 'Name',
                 search: true,
                 initialValue: '123',
-                dataIndex: 'name'
+                dataIndex: 'name',
+                formItemProps: {
+                    required: true
+                }
             },
             {
                 title: 'Age',
@@ -23,17 +26,18 @@ export default defineComponent({
             {
                 title: 'Address',
                 dataIndex: 'address'
+            },
+            {
+                title: 'Action',
+                customRender: () => {
+                    return (
+                        <Action>
+                            <Action.Item>操作</Action.Item>
+                        </Action>
+                    )
+                }
             }
         ]
-
-        function postData (data, params, paginate, filter, sort) {
-            console.log('postData', data)
-            return data
-        }
-
-        function beforeSearchSubmit (values) {
-            return { ...values, test: '111' }
-        }
 
         function request (params, paginate, filter, sort) {
             return new Promise((resolve) => {
@@ -63,13 +67,13 @@ export default defineComponent({
         return () => {
             const tableProps = {
                 columns: columns,
-                request: request,
-                beforeSearchSubmit: beforeSearchSubmit,
-                postData: postData
+                request: request
             }
 
             return (
-                <Table {...tableProps}/>
+                <div>
+                    <Table {...tableProps}/>
+                </div>
             )
         }
     }

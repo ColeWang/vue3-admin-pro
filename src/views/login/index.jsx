@@ -1,11 +1,12 @@
 import { defineComponent, onMounted, onUnmounted, reactive, ref, unref } from 'vue'
 import { Button, Checkbox, Form, Input } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import UserFilled from '@/icons/UserFilled'
 import PasswordFilled from '@/icons/PasswordFilled'
 import { localCache, PASSWORD__LOCAL, USERNAME__LOCAL } from '@/common/storage'
 import { AesDecode, AesEncode } from '@/common/ase'
-// import { HOME_NAME } from '@/config'
+import { HOME_NAME } from '@/config'
+import { setToken } from '@/utils/auth'
 import bubbly from './bubbly'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -36,6 +37,7 @@ export default defineComponent({
     setup () {
         const canvasRef = ref(null)
         const router = useRouter()
+        const route = useRoute()
 
         const checked = ref(false)
         const loading = ref(false)
@@ -95,11 +97,18 @@ export default defineComponent({
 
         function onSubmit () {
             errorType.value = undefined
-            const data = {
-                phone: Number(loginForm.username),
-                passwd: loginForm.password
-            }
+            // const data = {
+            //     phone: Number(loginForm.username),
+            //     passwd: loginForm.password
+            // }
             loading.value = true
+            setTimeout(() => {
+                setToken('token')
+                const { redirect } = route.query || {}
+                onRecall(unref(checked))
+                const name = redirect && String(redirect)
+                router.push({ name: name || HOME_NAME })
+            }, 1000)
             // requestLogin(data)
             //     .then((res) => {
             //         onRecall(unref(checked))
@@ -127,14 +136,14 @@ export default defineComponent({
                             <Form model={loginForm} rules={rules} onFinish={onSubmit}>
                                 <Form.Item name="username" wrapperCol={wrapperCol}>
                                     <Input
-                                        placeholder="请输入账号"
+                                        placeholder="任意输入"
                                         v-model:value={loginForm.username}
                                         v-slots={{ addonBefore: () => <UserFilled/> }}
                                     />
                                 </Form.Item>
                                 <Form.Item name="password" wrapperCol={wrapperCol}>
                                     <Input.Password
-                                        placeholder="请输入密码"
+                                        placeholder="任意输入"
                                         v-model:value={loginForm.password}
                                         v-slots={{ addonBefore: () => <PasswordFilled/> }}
                                     />

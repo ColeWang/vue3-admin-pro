@@ -8,8 +8,9 @@ import TagsNav from './components/tags-nav'
 import { getMenuList } from './utils'
 import routes from '@/router/routes'
 import { localCache, TAGS__LOCAL } from '@/common/storage'
-import { HOME_NAME } from '@/config'
+import { HOME_NAME, LOGIN_NAME } from '@/config'
 import { cloneProxyToRaw } from '@/utils'
+import { removeToken } from '@/utils/auth'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -84,6 +85,8 @@ export default defineComponent({
 
         function onLogout () {
             console.log('onLogOut')
+            removeToken()
+            router.push({ name: LOGIN_NAME })
         }
 
         return () => {
