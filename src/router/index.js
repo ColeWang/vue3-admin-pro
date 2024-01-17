@@ -15,7 +15,7 @@ import routes from './routes'
 // }
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/admin-template/'),
   scrollBehavior () {
     const container = document.getElementById('viewContainer')
     if (container) {

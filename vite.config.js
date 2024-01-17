@@ -26,6 +26,7 @@ function buildReport () {
 }
 
 export default defineConfig({
+    base: './',
     plugins: [
         vue(),
         vueJsx(),
