@@ -15,7 +15,7 @@ export default defineConfig({
             name: 'packages',
             fileName: 'index'
         },
-        outDir: resolve(__dirname, './docs/packages'),
+        outDir: resolve(__dirname, './packages'),
         rollupOptions: {
             exports: 'named',
             external: ['vue', 'dayjs'],
