@@ -26,12 +26,11 @@ Jsx + Css Module 编写，支持 Template。
 
 ## 预览图
 
-### 登录注册
 <img  src="https://colewang.github.io/admin-template/login.png"/>
 
-### 登录注册
-<img  src="https://colewang.github.io/admin-template/demo.png"/>
+<img  src="https://colewang.github.io/admin-template/demo-table_1.png"/>
 
+<img  src="https://colewang.github.io/admin-template/demo-table_2.png"/>
 
 ## 快速启动
 ```shell
@@ -52,6 +51,6 @@ npm run serve
 npm run build
 ```
 
-## 感谢
+### 感谢
 
 欢迎留言讨论，支持一个 star！这是作者持续维护的唯一动力
