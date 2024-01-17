@@ -1,12 +1,13 @@
 ## 简介
 基于Vue3、Vite、Antd 的后台管理模版 + 内置重装组件，
-Jsx + Css Module 编写，支持 Template。
+JSX + CSS Module 编写，支持 Template。
 
 - 🏠 预览 [admin-template](https://colewang.github.io/admin-template/)
 - 🔥 文档 [docs](https://colewang.github.io/admin-template-docs/)
 
 ## 特性
 - Vue3
+- JSX
 - Vite
 - Ant Design Vue
 - Vue Router
@@ -21,7 +22,7 @@ Jsx + Css Module 编写，支持 Template。
 - 错误页面：401、404、500
 - 重装组件：Form、Table 等
 - 其他内置：动态菜单栏、面包屑、全屏等
-- 灵活：开箱即用，提供最基础的后台模板，随意拓展，开发重点放在重装组件上
+- 灵活：开箱即用，提供最基础的后台模板，随意拓展
 - 专注：重装组件让开发者从各种状态管理中脱身出来，专注于业务开发
 
 ## 预览图
