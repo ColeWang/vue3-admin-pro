@@ -27,10 +27,10 @@ Jsx + Css Module 编写，支持 Template。
 ## 预览图
 
 ### 登录注册
-<img  src="./login.png"/>
+<img  src="https://colewang.github.io/admin-template/login.png"/>
 
 ### 登录注册
-<img  src="./demo.png"/>
+<img  src="https://colewang.github.io/admin-template/demo.png"/>
 
 
 ## 快速启动
