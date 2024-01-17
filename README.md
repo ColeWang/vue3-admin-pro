@@ -1,7 +1,7 @@
 # Vue3 + Vite + Antd 的后台管理模版
 
-[在线演示](https://colewang.github.io/admin-template/){:target="_blank"}
-[参考文档](https://colewang.github.io/admin-template-docs/){:target="_blank"}
+[在线演示](https://colewang.github.io/admin-template/)
+[参考文档](https://colewang.github.io/admin-template-docs/)
 
 ## 安装脚手架
 ```shell
