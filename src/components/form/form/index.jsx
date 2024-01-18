@@ -2,7 +2,7 @@ import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Form as AntForm, Space } from 'ant-design-vue'
 import BaseForm from '../base-form'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { isFunction, map } from 'lodash-es'
+import { forEach, isFunction } from 'lodash-es'
 import { omitUndefined } from '@/utils'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import classNames from '@/utils/classNames/bind'
@@ -97,8 +97,9 @@ const FormDependency = defineComponent({
         return () => {
             const defaultSlots = (() => {
                 if (slots.default && isFunction(slots.default)) {
-                    const result = map(props.name, (name) => {
-                        return getFieldValue(name)
+                    const result = {}
+                    forEach(props.name, (name) => {
+                        result[name] = getFieldValue(name)
                     })
                     return slots.default.bind(null, result)
                 }
