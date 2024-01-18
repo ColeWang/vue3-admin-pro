@@ -17,7 +17,7 @@ export default defineComponent({
             return (
                 <div class={cx('sidebar-logo')}>
                     <div class={cx('logo__text')}>
-                        { '-' }
+                        {'-'}
                     </div>
                 </div>
             )

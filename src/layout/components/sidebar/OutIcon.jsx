@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import XIcon from '@/components/icon'
+import Icon from '@/components/icon'
 import MenuOutlined from '@/icons/MenuOutlined'
 import { isFunction, isString } from 'lodash-es'
 
@@ -17,7 +17,7 @@ export default defineComponent({
                 return props.type(attrs)
             }
             if (props.type && isString(props.type)) {
-                return <XIcon type={props.type}/>
+                return <Icon type={props.type}/>
             }
             return <MenuOutlined/>
         }

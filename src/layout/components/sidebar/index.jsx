@@ -1,7 +1,7 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Menu } from 'ant-design-vue'
-import XIcon from './XIcon'
-import XLogo from './XLogo'
+import OutIcon from './OutIcon'
+import Logo from './Logo'
 import { hasChild } from '../../utils'
 import { dropRight, isNil, last, reverse } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
@@ -33,13 +33,13 @@ function createFlatMenus (menus) {
 function createMenuItem (item) {
     if (item.children && item.children.length === 1) {
         const menuItemSlots = {
-            icon: () => <XIcon type={item.children[0].icon || item.icon}/>,
+            icon: () => <OutIcon type={item.children[0].icon || item.icon}/>,
             default: () => <span>{item.children[0].meta.title}</span>
         }
         return <Menu.Item key={item.children[0].name} v-slots={menuItemSlots}/>
     } else {
         const menuItemSlots = {
-            icon: () => <XIcon type={item.icon}/>,
+            icon: () => <OutIcon type={item.icon}/>,
             default: () => <span>{item.meta.title}</span>
         }
         return showChildren(item) ? (
@@ -65,7 +65,7 @@ const XSubMenu = defineComponent({
                 title: () => {
                     return (
                         <Fragment>
-                            <XIcon type={props.option.icon}/>
+                            <OutIcon type={props.option.icon}/>
                             <span>{props.option.meta.title}</span>
                         </Fragment>
                     )
@@ -175,7 +175,7 @@ export default defineComponent({
                 <div class={cx('sidebar')} style={sideStyles}>
                     <div class={cx('sidebar-content')}>
                         <div class={cx('sidebar-content__wrap')}>
-                            <XLogo collapsed={props.collapsed}/>
+                            <Logo collapsed={props.collapsed}/>
                             <Menu style={sideStyles} {...menuProps} v-slots={menuSlots}/>
                         </div>
                     </div>

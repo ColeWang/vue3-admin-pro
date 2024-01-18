@@ -4,7 +4,7 @@
 
 .logo__text {
     @include text(25px, $primary, 60px, center);
-    @include text-weight(900);
+    @include text-weight(600);
     @include ellipsis-overflow;
     transition: all 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
     margin: 0 28px;
