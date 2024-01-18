@@ -2,6 +2,8 @@ import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Form as AntForm, Space } from 'ant-design-vue'
 import BaseForm from '../base-form'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
+import { isFunction, map } from 'lodash-es'
+import { omitUndefined } from '@/utils'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -73,10 +75,16 @@ const FormGroup = defineComponent({
     }
 })
 
-const FormItem = defineComponent({
+const FormDependency = defineComponent({
     inheritAttrs: false,
-    props: { ...AntForm.Item.props },
-    setup (props, { slots, attrs }) {
+    props: {
+        ...AntForm.Item.props,
+        name: {
+            type: Array,
+            default: () => ([])
+        }
+    },
+    setup (props, { attrs, slots }) {
         const formInstance = useFormInstance()
 
         function getFieldValue (name) {
@@ -88,19 +96,20 @@ const FormItem = defineComponent({
 
         return () => {
             const defaultSlots = (() => {
-                if (slots.default) {
-                    const form = { getFieldValue }
-                    return slots.default.bind(null, form)
+                if (slots.default && isFunction(slots.default)) {
+                    const result = map(props.name, (name) => {
+                        return getFieldValue(name)
+                    })
+                    return slots.default.bind(null, result)
                 }
                 return undefined
             })()
 
-            const nextSlots = { ...slots, default: defaultSlots }
-
+            const nextSlots = omitUndefined({ ...slots, default: defaultSlots })
             const itemProps = { ...attrs, ...props }
 
             return (
-                <AntForm.Item {...itemProps} v-slots={nextSlots}/>
+                <AntForm.Item noStyle={true} {...itemProps} v-slots={nextSlots}/>
             )
         }
     }
@@ -138,7 +147,8 @@ const Form = defineComponent({
 })
 
 Form.useForm = AntForm.useForm
-Form.Item = FormItem
+Form.Item = AntForm.Item
 Form.Group = FormGroup
+Form.Dependency = FormDependency
 
 export default Form
