@@ -20,7 +20,7 @@ const routes = [
     },
     {
         path: '/login',
-        name: 'Login',
+        name: 'login',
         meta: {
             hideInMenu: true
         },
@@ -43,16 +43,55 @@ const routes = [
         ]
     },
     {
-        path: '/test',
-        name: 'Test',
+        path: '/form',
+        name: 'Form',
+        redirect: { name: 'FormLayout' },
+        meta: {
+            title: '表单'
+        },
+        component: Layout,
+        children: [
+            {
+                path: 'layout',
+                name: 'FormLayout',
+                component: () => import('@/views/form/Layout'),
+                meta: {
+                    title: '表单布局'
+                }
+            },
+            {
+                path: 'modal',
+                name: 'FormModal',
+                component: () => import('@/views/form/Modal'),
+                meta: {
+                    title: '浮层表单'
+                }
+            },
+            {
+                path: 'filter',
+                name: 'FormFilter',
+                component: () => import('@/views/form/Filter'),
+                meta: {
+                    title: '筛选表单'
+                }
+            },
+        ]
+    },
+    {
+        path: '/table',
+        name: 'Table',
+        redirect: { name: 'TableIndex' },
+        meta: {
+            title: '表格'
+        },
         component: Layout,
         children: [
             {
                 path: 'index',
-                name: 'TestIndex',
-                component: () => import('@/views/Test'),
+                name: 'TableIndex',
+                component: () => import('@/views/table/index'),
                 meta: {
-                    title: 'Test'
+                    title: '表格'
                 }
             }
         ]
