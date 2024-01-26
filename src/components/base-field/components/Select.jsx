@@ -1,6 +1,7 @@
 import { computed, defineComponent, Fragment, unref } from 'vue'
-import BaseFieldProps from '../BaseFieldProps'
 import { Select } from 'ant-design-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
+import BaseFieldProps from '../BaseFieldProps'
 import { isObject } from 'lodash-es'
 
 function valueEnumToOptions (valueEnum) {
@@ -24,13 +25,15 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
+        const { t } = useLocaleReceiver('Form')
+
         const options = computed(() => {
             return valueEnumToOptions(props.valueEnum)
         })
 
         return () => {
             const { mode, text, emptyText, valueEnum, fieldProps } = props
-            const placeholder = fieldProps.placeholder || '请选择'
+            const placeholder = fieldProps.placeholder || t('selectPlaceholder')
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {

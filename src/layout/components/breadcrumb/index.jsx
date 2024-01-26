@@ -1,23 +1,37 @@
 import { computed, defineComponent, unref } from 'vue'
-import { useRouter } from 'vue-router'
 import { Breadcrumb } from 'ant-design-vue'
+import useShowTitle from '../../hooks/useShowTitle'
 
 export default defineComponent({
     inheritAttrs: false,
-    setup () {
-        const router = useRouter()
+    props: {
+        router: {
+            type: Object,
+            default: undefined
+        }
+    },
+    setup (props) {
+        const { showTitle } = useShowTitle()
 
         const levels = computed(() => {
-            return unref(router.currentRoute).matched.concat().filter((item) => {
-                return !!item.meta.title
-            })
+            if (props.router && props.router.currentRoute) {
+                return unref(props.router.currentRoute).matched.concat().filter((item) => {
+                    return !!item.meta.title
+                })
+            } else {
+                return []
+            }
         })
 
         return () => {
             const breadcrumbSlots = {
                 default: () => {
                     return unref(levels).map((item) => {
-                        return <Breadcrumb.Item>{item.meta.title}</Breadcrumb.Item>
+                        return (
+                            <Breadcrumb.Item>
+                                {showTitle(item)}
+                            </Breadcrumb.Item>
+                        )
                     })
                 }
             }

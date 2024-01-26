@@ -1,9 +1,17 @@
+import { shallowRef, unref, watch } from 'vue'
 import { Badge, Typography } from 'ant-design-vue'
+import { tryOnScopeDispose } from '@/utils'
 import { isArray, isFunction, isObject } from 'lodash-es'
 
-function useTableColumns (columns, props) {
+function useTableColumns (props) {
     const { action, emptyText } = props
-    const baseColumns = genColumnsToTable(columns || [])
+    const baseColumns = shallowRef([])
+    const tableColumns = shallowRef([])
+
+    const stopWatch = watch(() => props.columns, (value) => {
+        baseColumns.value = genColumnsToTable(value || [])
+        tableColumns.value = [...unref(baseColumns)]
+    }, { immediate: true })
 
     function genColumnsToTable (columns) {
         return columns.map((columnProps, index) => {
@@ -68,7 +76,17 @@ function useTableColumns (columns, props) {
         return undefined
     }
 
-    return { baseColumns }
+    function setTableColumns (columns) {
+        tableColumns.value = columns
+    }
+
+    const onStop = () => {
+        stopWatch && stopWatch()
+    }
+
+    tryOnScopeDispose(onStop)
+
+    return { baseColumns, tableColumns, setTableColumns }
 }
 
 export default useTableColumns

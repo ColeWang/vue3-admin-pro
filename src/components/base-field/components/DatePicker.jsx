@@ -1,6 +1,7 @@
 import { defineComponent, Fragment } from 'vue'
-import BaseFieldProps from '../BaseFieldProps'
 import { DatePicker } from 'ant-design-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
+import BaseFieldProps from '../BaseFieldProps'
 import { formatDate } from '../utils'
 
 export default defineComponent({
@@ -13,10 +14,12 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
+        const { t } = useLocaleReceiver('Form')
+
         return () => {
             const { mode, text, emptyText, fieldProps } = props
             const { format } = fieldProps
-            const placeholder = fieldProps.placeholder || '请选择'
+            const placeholder = fieldProps.placeholder || t('selectPlaceholder')
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {

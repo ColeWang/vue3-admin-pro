@@ -1,15 +1,17 @@
 import { shallowReactive, shallowRef, unref, watch } from 'vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
 import { isFunction, pick } from 'lodash-es'
+import { tryOnScopeDispose } from '@/utils'
 
-function mergePagination (pagination) {
+function mergePagination (pagination, t) {
     if (pagination === false) return false
-    const { current, pageSize, showTotal } = pagination || {}
+    const { current, pageSize, showTotal, total } = pagination || {}
     const loopShowTotal = (total, range) => {
-        return `第 ${range[0]}-${range[1]} 条/总共 ${total} 条`
+        return `${t('range')} ${range[0]}-${range[1]} ${t('total')} ${total} ${t('item')}`
     }
     return {
         ...pagination,
-        total: 0,
+        total: total || 0,
         current: current || 1,
         pageSize: pageSize || 10,
         showSizeChanger: true,
@@ -26,12 +28,13 @@ function validatePaginate (paginate) {
 }
 
 function useFetchData (request, props, options) {
+    const { t } = useLocaleReceiver('Table.pagination')
     const { onLoad, onRequestError } = options || {}
 
     const context = shallowReactive({
         loading: false,
         dataSource: props.dataSource || [],
-        pagination: mergePagination(props.pagination)
+        pagination: mergePagination(props.pagination, t)
     })
 
     const queryParams = shallowRef({})
@@ -64,14 +67,14 @@ function useFetchData (request, props, options) {
         }
     }
 
-    watch(() => context.pagination, (value, oldValue) => {
+    const stopWatchPagination = watch(() => context.pagination, (value, oldValue) => {
         if (value && oldValue && (value.current !== oldValue.current || value.pageSize !== oldValue.pageSize)) {
             oldValue.pageSize !== value.pageSize && setPaginate({ current: 1 })
             fetchData()
         }
     })
 
-    watch([() => props.params, queryParams], () => {
+    const stopWatchParams = watch([() => props.params, queryParams], () => {
         setPaginate({ current: 1 })
         fetchData()
     })
@@ -100,6 +103,13 @@ function useFetchData (request, props, options) {
         resetCurrent && setPaginate({ current: 1 })
         fetchData()
     }
+
+    function onStop () {
+        stopWatchPagination && stopWatchPagination()
+        stopWatchParams && stopWatchParams()
+    }
+
+    tryOnScopeDispose(onStop)
 
     return { context, onReload, setQueryParams, setPaginate, setFilter, setSort }
 }

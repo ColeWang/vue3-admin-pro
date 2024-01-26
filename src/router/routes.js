@@ -43,55 +43,16 @@ const routes = [
         ]
     },
     {
-        path: '/form',
-        name: 'Form',
-        redirect: { name: 'FormLayout' },
-        meta: {
-            title: '表单'
-        },
-        component: Layout,
-        children: [
-            {
-                path: 'layout',
-                name: 'FormLayout',
-                component: () => import('@/views/form/Layout'),
-                meta: {
-                    title: '表单布局'
-                }
-            },
-            {
-                path: 'modal',
-                name: 'FormModal',
-                component: () => import('@/views/form/Modal'),
-                meta: {
-                    title: '浮层表单'
-                }
-            },
-            {
-                path: 'filter',
-                name: 'FormFilter',
-                component: () => import('@/views/form/Filter'),
-                meta: {
-                    title: '筛选表单'
-                }
-            },
-        ]
-    },
-    {
-        path: '/table',
-        name: 'Table',
-        redirect: { name: 'TableIndex' },
-        meta: {
-            title: '表格'
-        },
+        path: '/test',
+        name: 'Test',
         component: Layout,
         children: [
             {
                 path: 'index',
-                name: 'TableIndex',
-                component: () => import('@/views/table/index'),
+                name: 'TestIndex',
+                component: () => import('@/views/Test'),
                 meta: {
-                    title: '表格'
+                    title: 'Test'
                 }
             }
         ]

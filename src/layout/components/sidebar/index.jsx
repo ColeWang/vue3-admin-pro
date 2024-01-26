@@ -2,8 +2,9 @@ import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Menu } from 'ant-design-vue'
 import OutIcon from './OutIcon'
 import Logo from './Logo'
+import useShowTitle from '../../hooks/useShowTitle'
+import { dropRight, head, isNil, last, reverse } from 'lodash-es'
 import { hasChild } from '../../utils'
-import { dropRight, isNil, last, reverse } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -30,17 +31,18 @@ function createFlatMenus (menus) {
     return flatMenus
 }
 
-function createMenuItem (item) {
+function createMenuItem (item, showTitle) {
     if (item.children && item.children.length === 1) {
+        const soleItem = head(item.children) || {}
         const menuItemSlots = {
-            icon: () => <OutIcon type={item.children[0].icon || item.icon}/>,
-            default: () => <span>{item.children[0].meta.title}</span>
+            icon: () => <OutIcon type={soleItem.icon || item.icon}/>,
+            default: () => <span>{showTitle(soleItem)}</span>
         }
-        return <Menu.Item key={item.children[0].name} v-slots={menuItemSlots}/>
+        return <Menu.Item key={soleItem.name} v-slots={menuItemSlots}/>
     } else {
         const menuItemSlots = {
             icon: () => <OutIcon type={item.icon}/>,
-            default: () => <span>{item.meta.title}</span>
+            default: () => <span>{showTitle(item)}</span>
         }
         return showChildren(item) ? (
             <XSubMenu option={item} key={item.name}/>
@@ -60,23 +62,27 @@ const XSubMenu = defineComponent({
         }
     },
     setup (props) {
+        const { showTitle } = useShowTitle()
+
         return () => {
+            const { option } = props
+
             const subMenuSlots = {
                 title: () => {
                     return (
                         <Fragment>
-                            <OutIcon type={props.option.icon}/>
-                            <span>{props.option.meta.title}</span>
+                            <OutIcon type={option.icon}/>
+                            <span>{showTitle(option)}</span>
                         </Fragment>
                     )
                 },
                 default: () => {
-                    return props.option.children.map((item) => {
-                        return createMenuItem(item)
+                    return option.children.map((item) => {
+                        return createMenuItem(item, showTitle)
                     })
                 }
             }
-            return <Menu.SubMenu key={props.option.name} {...props} v-slots={subMenuSlots}/>
+            return <Menu.SubMenu key={option.name} {...props} v-slots={subMenuSlots}/>
         }
     }
 })
@@ -99,6 +105,8 @@ export default defineComponent({
     },
     emits: ['change'],
     setup (props, { emit }) {
+        const { showTitle } = useShowTitle()
+
         const FlatMenus = createFlatMenus(props.menus)
         const selectedKeys = ref([])
         const openKeys = ref([])
@@ -149,12 +157,14 @@ export default defineComponent({
         }
 
         return () => {
+            const { menus, collapsed } = props
+
             const sideStyles = {
-                width: props.collapsed ? '80px' : '256px'
+                width: !!collapsed ? '80px' : '256px'
             }
 
             const menuProps = {
-                inlineCollapsed: props.collapsed,
+                inlineCollapsed: collapsed,
                 selectedKeys: unref(selectedKeys),
                 openKeys: unref(openKeys),
                 onSelect: onSelectMenu,
@@ -165,8 +175,8 @@ export default defineComponent({
 
             const menuSlots = {
                 default: () => {
-                    return props.menus.map((item) => {
-                        return createMenuItem(item)
+                    return menus.map((item) => {
+                        return createMenuItem(item, showTitle)
                     })
                 }
             }
@@ -175,7 +185,7 @@ export default defineComponent({
                 <div class={cx('sidebar')} style={sideStyles}>
                     <div class={cx('sidebar-content')}>
                         <div class={cx('sidebar-content__wrap')}>
-                            <Logo collapsed={props.collapsed}/>
+                            <Logo collapsed={collapsed}/>
                             <Menu style={sideStyles} {...menuProps} v-slots={menuSlots}/>
                         </div>
                     </div>

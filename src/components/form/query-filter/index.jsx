@@ -1,5 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Col, Form, Row } from 'ant-design-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseForm from '../base-form'
 import Submitter from '../components/Submitter'
 import { filterEmptyElement } from '@/utils'
@@ -72,6 +73,8 @@ export default defineComponent({
         const resizeRef = ref(null)
         const baseFormRef = ref(null)
 
+        const { t } = useLocaleReceiver('Form')
+
         const colLayout = ref('vertical')
         const colSpan = ref(24)
 
@@ -130,7 +133,7 @@ export default defineComponent({
 
             const submitterProps = {
                 config: {
-                    submitText: submitText || '查询',
+                    submitText: submitText || t('search'),
                     resetText: resetText
                 },
                 loading: loading,

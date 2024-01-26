@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue'
-import BaseFieldProps from '../BaseFieldProps'
 import { Input } from 'ant-design-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
+import BaseFieldProps from '../BaseFieldProps'
 import { stopPropagation } from '@/utils/event'
 
 export default defineComponent({
@@ -13,6 +14,8 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
+        const { t } = useLocaleReceiver('Form')
+
         function onKeyPress (evt) {
             if (evt.key === 'Enter') {
                 stopPropagation(evt)
@@ -21,7 +24,7 @@ export default defineComponent({
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
-            const placeholder = fieldProps.placeholder || '请输入'
+            const placeholder = fieldProps.placeholder || t('inputPlaceholder')
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {

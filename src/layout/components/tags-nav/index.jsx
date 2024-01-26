@@ -2,6 +2,7 @@ import { defineComponent, nextTick, ref, unref, watch } from 'vue'
 import { Button, Dropdown, Menu } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import Tag from './Tag'
+import useShowTitle from '../../hooks/useShowTitle'
 import { assign, omit } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -29,6 +30,8 @@ export default defineComponent({
     setup (props, { emit }) {
         const scrollOuterRef = ref(null)
         const scrollBodyRef = ref(null)
+
+        const { showTitle } = useShowTitle()
 
         const bodyLeft = ref(0)
 
@@ -180,7 +183,7 @@ export default defineComponent({
                             <div class={cx('scroll-body')} style={scrollBodyStyles} ref={scrollBodyRef}>
                                 {
                                     tags.map((item) => {
-                                        const { meta, name: key } = item || {}
+                                        const { name: key } = item || {}
                                         const tagProps = {
                                             ref: onTagRefs(key),
                                             key: key,
@@ -191,7 +194,7 @@ export default defineComponent({
                                         }
                                         return (
                                             <Tag class={cx('tag')} {...tagProps}>
-                                                {meta ? meta.title : '--'}
+                                                {showTitle(item)}
                                             </Tag>
                                         )
                                     })

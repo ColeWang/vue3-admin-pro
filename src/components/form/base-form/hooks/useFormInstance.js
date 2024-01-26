@@ -7,5 +7,5 @@ export function createFromInstance (instance) {
 }
 
 export function useFormInstance () {
-    return inject(BaseKey)
+    return inject(BaseKey, {})
 }

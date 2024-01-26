@@ -1,5 +1,6 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Modal } from 'ant-design-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseForm from '../base-form'
 import Submitter from '../components/Submitter'
 import { isFunction } from 'lodash-es'
@@ -14,7 +15,7 @@ export default defineComponent({
         },
         title: {
             type: String,
-            default: '表单'
+            default: undefined
         },
         width: {
             type: Number,
@@ -40,6 +41,9 @@ export default defineComponent({
     emits: ['open', 'cancel', 'afterClose', 'openChange', 'loadingChange'],
     setup (props, { emit, slots, attrs, expose }) {
         const baseFormRef = ref(null)
+
+        const { t } = useLocaleReceiver('Form')
+
         const open = ref(false)
         const loading = ref(false)
 
@@ -137,8 +141,8 @@ export default defineComponent({
                 footer: () => {
                     const submitterProps = {
                         config: {
-                            submitText: submitText || '确认',
-                            resetText: resetText || '取消'
+                            submitText: submitText || t('okText'),
+                            resetText: resetText || t('cancelText')
                         },
                         loading: unref(loading),
                         onSubmit: onSubmit,

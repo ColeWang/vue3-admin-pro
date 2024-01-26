@@ -1,6 +1,7 @@
 import { defineComponent, Fragment } from 'vue'
-import BaseFieldProps from '../BaseFieldProps'
 import { RangePicker } from 'ant-design-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
+import BaseFieldProps from '../BaseFieldProps'
 import { isArray } from 'lodash-es'
 import { formatDate } from '../utils'
 
@@ -14,10 +15,12 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
+        const { t } = useLocaleReceiver('Form')
+
         return () => {
             const { mode, text, emptyText, fieldProps } = props
             const { ranges, format } = fieldProps
-            const placeholder = fieldProps.placeholder || ['请选择', '请选择']
+            const placeholder = fieldProps.placeholder || [t('selectPlaceholder'), t('selectPlaceholder')]
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {

@@ -1,4 +1,4 @@
-import { defineComponent, ref, unref } from 'vue'
+import { defineComponent, ref, shallowRef, unref, watch } from 'vue'
 import { Field, QueryFilter } from '@/components/form'
 import { Card } from 'ant-design-vue'
 import { isArray } from 'lodash-es'
@@ -16,9 +16,13 @@ export default defineComponent({
     setup (props, { expose, attrs }) {
         const queryFilterRef = ref(null)
 
-        const SearchColumns = genColumnsToSearch(props.columns)
+        const baseSearchColumns = genColumnsToSearch(props.columns)
+        const initialValues = genInitialValues(baseSearchColumns)
+        const searchColumns = shallowRef([])
 
-        const initialValues = genInitialValues(SearchColumns)
+        watch(() => props.columns, (values) => {
+            searchColumns.value = genColumnsToSearch(values)
+        }, { immediate: true })
 
         function genColumnsToSearch (columns) {
             const columnsArray = []
@@ -72,7 +76,7 @@ export default defineComponent({
 
             const queryFilterSlots = {
                 default: (slotScope) => {
-                    return SearchColumns.map((columnProps) => {
+                    return unref(searchColumns).map((columnProps) => {
                         const { fieldProps, formItemProps } = columnProps
                         const formFieldProps = {
                             ...columnProps,

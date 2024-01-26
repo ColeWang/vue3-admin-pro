@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, nextTick, onMounted, ref, shallowRef, unref, watch } from 'vue'
+import { defineComponent, Fragment, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import Search from '../components/search'
 import Toolbar from '../components/toolbar'
@@ -74,9 +74,7 @@ export default defineComponent({
         const tableRef = ref(null)
 
         const size = ref(props.size || BaseTableSize)
-        const { baseColumns } = useTableColumns(props.columns, props)
-        // table
-        const tableColumns = shallowRef([...baseColumns])
+        const { baseColumns, tableColumns, setTableColumns } = useTableColumns(props)
 
         const {
             context: requestProps,
@@ -116,8 +114,8 @@ export default defineComponent({
         }
 
         function onUpdateTableColumns (columns) {
+            setTableColumns(columns)
             emit('columnsChange', columns)
-            tableColumns.value = columns
         }
 
         function onChange (paginate, filters, sorter, extra) {
@@ -198,7 +196,7 @@ export default defineComponent({
         expose({ reload: onReload, getSearchValues })
 
         return () => {
-            const { title, search, toolbar, ...restProps } = props
+            const { title, search, toolbar, columns, ...restProps } = props
             const { title: titleSlot, toolbar: toolbarSlot, ...restSlots } = slots
 
             const searchDom = (() => {
@@ -207,7 +205,7 @@ export default defineComponent({
                     ...search,
                     ref: searchRef,
                     loading: requestProps.loading,
-                    columns: props.columns,
+                    columns: columns,
                     onSubmit: onSubmit,
                     onReset: onReset
                 }
@@ -224,7 +222,7 @@ export default defineComponent({
                     title: title,
                     loading: requestProps.loading,
                     pageData: requestProps.dataSource,
-                    columns: baseColumns,
+                    columns: unref(baseColumns),
                     onRefresh: onReload,
                     onExport: onExport,
                     onSizeChange: onSizeChange,

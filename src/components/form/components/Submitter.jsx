@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
 import { Button, Space } from 'ant-design-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
 import { preventDefault } from '@/utils/event'
 
 export default defineComponent({
@@ -28,6 +29,8 @@ export default defineComponent({
     },
     emits: ['submit', 'reset', 'keyPress'],
     setup (props, { emit }) {
+        const { t } = useLocaleReceiver('Form')
+
         function onReset (evt) {
             preventDefault(evt)
             emit('reset', evt)
@@ -44,7 +47,7 @@ export default defineComponent({
 
         return () => {
             const { loading, space, submitButtonProps, resetButtonProps } = props
-            const { submitText = '提交', resetText = '重置' } = props.config
+            const { submitText, resetText } = props.config
 
             const nextSubmitButtonProps = {
                 ...submitButtonProps,
@@ -63,12 +66,12 @@ export default defineComponent({
                 <Space size={space}>
                     {resetButtonProps !== false ? (
                         <Button {...nextResetButtonProps}>
-                            {resetText}
+                            {resetText || t('reset')}
                         </Button>
                     ) : null}
                     {submitButtonProps !== false ? (
                         <Button {...nextSubmitButtonProps} html-type={'submit'}>
-                            {submitText}
+                            {submitText || t('submit')}
                         </Button>
                     ) : null}
                 </Space>

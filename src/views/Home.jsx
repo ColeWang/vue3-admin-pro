@@ -1,75 +1,91 @@
-import { defineComponent } from 'vue'
+import { computed, defineComponent, unref, ref } from 'vue'
+import { Button } from 'ant-design-vue'
 import { Table } from '@/components/table'
+import LocaleProvider from '@/components/locale-provider'
+import zhCN from '@/components/locale-provider/lang/zh-CN'
+import enUS from '@/components/locale-provider/lang/en-US'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
     setup () {
-        const columns = [
-            {
-                title: 'Name',
-                search: true,
-                initialValue: '123',
-                dataIndex: 'name'
-            },
-            {
-                title: 'Age',
-                search: true,
-                dataIndex: 'age',
-                valueType: 'select',
-                valueEnum: {
-                    '1': '选项一',
-                    '2': '选项二'
+        const comLocale = ref(zhCN)
+
+        const { t, locale, getLocaleMessage } = useI18n({
+            messages: {
+                'zh-CN': {
+                    component: zhCN,
+                    name: '名字',
+                    age: '年龄'
                 },
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address'
+                'en-US': {
+                    component: enUS,
+                    name: 'Name',
+                    age: 'Age'
+                }
             }
-        ]
+        })
 
-        function postData (data, params, paginate, filter, sort) {
-            console.log('postData', data)
-            return data
-        }
+        const columns = computed(() => {
+            return [
+                {
+                    title: t('name'),
+                    search: true,
+                    dataIndex: 'name'
+                },
+                {
+                    title: t('age'),
+                    search: true,
+                    dataIndex: 'age'
+                }
+            ]
+        })
 
-        function beforeSearchSubmit (values) {
-            return { ...values, test: '111' }
+        function onClick (value) {
+            locale.value = value
+            const { component } = getLocaleMessage(value)
+            comLocale.value = component
         }
 
         function request (params, paginate, filter, sort) {
             return new Promise((resolve) => {
-                console.log(params)
-
                 const data = [
                     {
                         key: '1',
                         name: 'John Brown',
-                        age: 32,
-                        address: 'New York No. 1 Lake Park',
+                        age: 32
                     },
                     {
                         key: '2',
                         name: 'Jim Green',
-                        age: 42,
-                        address: 'London No. 1 Lake Park',
+                        age: 42
                     }
                 ]
 
                 setTimeout(() => {
                     resolve({ data: data })
-                }, 1000)
+                }, 500)
             })
         }
 
         return () => {
             const tableProps = {
-                columns: columns,
-                request: request,
-                beforeSearchSubmit: beforeSearchSubmit,
-                postData: postData
+                columns: unref(columns),
+                request: request
+            }
+
+            const tableSlots = {
+                toolbar: () => {
+                    return [
+                        <Button onClick={onClick.bind(null, 'zh-CN')}>zh-CN</Button>,
+                        <Button onClick={onClick.bind(null, 'en-US')}>en-US</Button>
+                    ]
+                }
             }
 
             return (
-                <Table {...tableProps}/>
+                <LocaleProvider locale={unref(comLocale)}>
+                    <Table {...tableProps} v-slots={tableSlots}/>
+                </LocaleProvider>
             )
         }
     }

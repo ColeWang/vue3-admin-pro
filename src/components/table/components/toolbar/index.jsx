@@ -1,6 +1,7 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Button, ConfigProvider, Space, Tooltip } from 'ant-design-vue'
 import { ReloadOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
 import Density from './Density'
 import Setting from './Setting'
 import classNames from '@/utils/classNames/bind'
@@ -35,6 +36,8 @@ export default defineComponent({
     emits: ['refresh', 'sizeChange', 'updateTableColumns', 'export'],
     setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
+
+        const { t } = useLocaleReceiver('Table.toolbar')
 
         function handleClickRefresh () {
             !props.loading && emit('refresh')
@@ -72,12 +75,12 @@ export default defineComponent({
                             {slots.default ? slots.default() : null}
                         </Space>
                         <Space.Compact>
-                            <Tooltip title={'刷新'}>
+                            <Tooltip title={t('reload')}>
                                 <Button onClick={handleClickRefresh}>
                                     <ReloadOutlined spin={loading}/>
                                 </Button>
                             </Tooltip>
-                            <Tooltip title={'导出'}>
+                            <Tooltip title={t('export')}>
                                 <Button onClick={handleClickExport}>
                                     <VerticalAlignBottomOutlined/>
                                 </Button>

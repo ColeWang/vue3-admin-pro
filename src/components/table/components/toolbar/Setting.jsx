@@ -1,4 +1,4 @@
-import { computed, defineComponent, shallowRef, unref } from 'vue'
+import { defineComponent, shallowRef, unref, watch } from 'vue'
 import { Button, Checkbox, Popover, Space, Tooltip, Tree } from 'ant-design-vue'
 import {
     SettingOutlined,
@@ -6,6 +6,7 @@ import {
     VerticalAlignMiddleOutlined,
     VerticalAlignTopOutlined
 } from '@ant-design/icons-vue'
+import { useLocaleReceiver } from '@/components/locale-provider'
 import { preventDefault } from '@/utils/event'
 import { isBoolean } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
@@ -66,6 +67,8 @@ const CheckboxItem = defineComponent({
     },
     emits: ['change'],
     setup (props, { emit, attrs }) {
+        const { t } = useLocaleReceiver('Table.toolbar')
+
         function onChange (fixed) {
             emit('change', props.columnKey, fixed)
         }
@@ -82,21 +85,21 @@ const CheckboxItem = defineComponent({
                 <Space size={4}>
                     {
                         fixed !== 'left' ? (
-                            <TooltipIcon title={'固定在列首'} fixed={'left'} {...iconProps}>
+                            <TooltipIcon title={t('leftPin')} fixed={'left'} {...iconProps}>
                                 <VerticalAlignTopOutlined/>
                             </TooltipIcon>
                         ) : null
                     }
                     {
                         !!fixed ? (
-                            <TooltipIcon title={'不固定'} {...iconProps}>
+                            <TooltipIcon title={t('noPin')} {...iconProps}>
                                 <VerticalAlignMiddleOutlined/>
                             </TooltipIcon>
                         ) : null
                     }
                     {
                         fixed !== 'right' ? (
-                            <TooltipIcon title={'固定在列尾'} fixed={'right'} {...iconProps}>
+                            <TooltipIcon title={t('rightPin')} fixed={'right'} {...iconProps}>
                                 <VerticalAlignBottomOutlined/>
                             </TooltipIcon>
                         ) : null
@@ -148,7 +151,7 @@ const CheckboxList = defineComponent({
     setup (props, { emit }) {
         function onTreeNodeCheck (_, info) {
             const { node, checked } = info
-            const columnProps = props.columns.find((columnProps) => columnProps.key === node.key)
+            const columnProps = props.columns.find((item) => item.key === node.key)
             emit('checkChange', node.key, { ...columnProps, checked: checked })
         }
 
@@ -160,28 +163,28 @@ const CheckboxList = defineComponent({
         }
 
         function onChangeFixed (key, fixed) {
-            const columnProps = props.columns.find((columnProps) => columnProps.key === key)
+            const columnProps = props.columns.find((item) => item.key === key)
             emit('fixedChange', key, { ...columnProps, fixed: fixed })
         }
 
         return () => {
             if (props.columns.length === 0) return null
 
-            const { showTitle, title, fixed, checkable, draggable } = props
+            const { columns, showTitle, title, fixed, checkable, draggable } = props
 
-            const checkedKeys = props.columns.filter((columnProps) => {
-                return columnProps.checked !== false
-            }).map((columnProps) => {
-                return columnProps.key
+            const checkedKeys = columns.filter((item) => {
+                return item.checked !== false
+            }).map((item) => {
+                return item.key
             })
 
-            const loopTreeData = props.columns.map((columnProps) => {
+            const loopTreeData = columns.map((item) => {
                 return {
-                    key: columnProps.key,
-                    title: columnProps.title,
+                    key: item.key,
+                    title: item.title,
                     selectable: false,
-                    // disabled: columnProps.disable === true,
-                    disableCheckbox: columnProps.disable === true
+                    // disabled: item.disable === true,
+                    disableCheckbox: item.disable === true
                 }
             })
 
@@ -222,15 +225,6 @@ const CheckboxList = defineComponent({
     }
 })
 
-function genBaseColumns (columns) {
-    return columns.map((columnProps) => {
-        const checked = isBoolean(columnProps.checked) ? columnProps.checked : true
-        // 当存在 filters sorter 自动禁用
-        const disable = (columnProps.filters || columnProps.sorter) ? true : columnProps.disable
-        return { ...columnProps, checked: checked, disable: disable }
-    })
-}
-
 export default defineComponent({
     inheritAttrs: false,
     props: {
@@ -249,51 +243,56 @@ export default defineComponent({
     },
     emits: ['updateTableColumns'],
     setup (props, { emit }) {
-        const BaseColumns = genBaseColumns(props.columns)
-        const localColumns = shallowRef([...BaseColumns])
+        const { t } = useLocaleReceiver('Table.toolbar')
+
+        const baseColumns = shallowRef([])
+        const localColumns = shallowRef([])
+
+        watch(() => props.columns, (values) => {
+            baseColumns.value = genBaseColumns(values)
+            localColumns.value = [...unref(baseColumns)]
+        }, { immediate: true })
 
         onUpdateTableColumns(unref(localColumns))
 
-        const frontColumns = computed(() => {
-            return unref(localColumns).filter((columnProps) => columnProps.fixed === 'left')
-        })
-        const betweenColumns = computed(() => {
-            return unref(localColumns).filter((columnProps) => columnProps.fixed === undefined)
-        })
-        const behindColumns = computed(() => {
-            return unref(localColumns).filter((columnProps) => columnProps.fixed === 'right')
-        })
+        function genBaseColumns (columns) {
+            return columns.map((item) => {
+                const checked = isBoolean(item.checked) ? item.checked : true
+                // 当存在 filters sorter 自动禁用
+                const disable = (item.filters || item.sorter) ? true : item.disable
+                return { ...item, checked: checked, disable: disable }
+            })
+        }
 
         function onUpdateTableColumns (columns) {
-            const front = columns.filter((columnProps) => columnProps.fixed === 'left')
-            const between = columns.filter((columnProps) => columnProps.fixed === undefined)
-            const behind = columns.filter((columnProps) => columnProps.fixed === 'right')
+            const front = columns.filter((item) => item.fixed === 'left')
+            const between = columns.filter((item) => item.fixed === undefined)
+            const behind = columns.filter((item) => item.fixed === 'right')
             localColumns.value = [...front, ...between, ...behind]
-            const nextTableColumns = unref(localColumns).map((columnProps) => {
-                return { ...columnProps }
-            }).filter((columnProps) => {
-                return !!columnProps.checked
+            const nextTableColumns = unref(localColumns).map((column) => {
+                return { ...column }
+            }).filter((column) => {
+                return !!column.checked
             })
             emit('updateTableColumns', nextTableColumns)
         }
 
         function onCheckClick (evt) {
             const { checked: targetChecked } = evt.target
-            const nextColumns = unref(localColumns).map((columnProps) => {
-                const checked = columnProps.disable ? columnProps.checked : targetChecked
-                return { ...columnProps, checked: checked }
+            const nextColumns = unref(localColumns).map((item) => {
+                const checked = item.disable ? item.checked : targetChecked
+                return { ...item, checked: checked }
             })
             onUpdateTableColumns(nextColumns)
         }
 
         function onClearClick () {
-            const nextColumns = BaseColumns.map((columnProps) => ({ ...columnProps }))
-            onUpdateTableColumns(nextColumns)
+            onUpdateTableColumns([...unref(baseColumns)])
         }
 
         function onFixedChange (key, node) {
             const nextColumns = [...unref(localColumns)]
-            const findIndex = nextColumns.findIndex((columnProps) => columnProps.key === key)
+            const findIndex = nextColumns.findIndex((item) => item.key === key)
             nextColumns.splice(findIndex, 1)
             nextColumns.push(node)
             onUpdateTableColumns(nextColumns)
@@ -301,15 +300,15 @@ export default defineComponent({
 
         function onCheckChange (key, node) {
             const nextColumns = [...unref(localColumns)]
-            const findIndex = nextColumns.findIndex((columnProps) => columnProps.key === key)
+            const findIndex = nextColumns.findIndex((item) => item.key === key)
             nextColumns.splice(findIndex, 1, node)
             onUpdateTableColumns(nextColumns)
         }
 
         function onDropChange (dragKey, dropKey, trueDropPosition, dropPosition) {
             const nextColumns = [...unref(localColumns)]
-            const dragIndex = nextColumns.findIndex((columnProps) => columnProps.key === dragKey)
-            const dropIndex = nextColumns.findIndex((columnProps) => columnProps.key === dropKey)
+            const dragIndex = nextColumns.findIndex((item) => item.key === dragKey)
+            const dropIndex = nextColumns.findIndex((item) => item.key === dropKey)
             const targetItem = nextColumns[dragIndex]
             nextColumns.splice(dragIndex, 1)
             if (trueDropPosition === -1 || dropPosition > dragIndex) {
@@ -325,30 +324,42 @@ export default defineComponent({
 
             const popoverSlots = {
                 title: () => {
-                    const unCheckedColumns = unref(localColumns).filter((columnProps) => {
-                        return columnProps.checked === false
-                    })
+                    const unCheckedColumns = unref(localColumns).filter((item) => item.checked === false)
                     const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(localColumns).length
                     const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(localColumns).length
 
                     return (
                         <div class={cx('setting-title')}>
-                            <Checkbox indeterminate={indeterminate} checked={checked} onChange={onCheckClick}>
-                                列展示
+                            <Checkbox
+                                indeterminate={indeterminate}
+                                checked={checked}
+                                onChange={onCheckClick}
+                            >
+                                {t('columnDisplay')}
                             </Checkbox>
-                            <Button style={{ padding: '4px' }} type={'link'} onClick={onClearClick}>{'重置'}</Button>
+                            <Button
+                                style={{ padding: '4px' }}
+                                type={'link'}
+                                onClick={onClearClick}
+                            >
+                                {t('reset')}
+                            </Button>
                         </div>
                     )
                 },
                 content: () => {
-                    const showTitle = unref(frontColumns).length > 0 || unref(behindColumns).length > 0
+                    const frontColumns = unref(localColumns).filter((item) => item.fixed === 'left')
+                    const betweenColumns = unref(localColumns).filter((item) => item.fixed === undefined)
+                    const behindColumns = unref(localColumns).filter((item) => item.fixed === 'right')
+
+                    const showTitle = frontColumns.length > 0 || behindColumns.length > 0
 
                     return (
                         <div class={cx('checkbox-list-group')}>
                             <CheckboxList
                                 fixed={'left'}
-                                title={'固定在列首'}
-                                columns={unref(frontColumns)}
+                                title={t('leftPin')}
+                                columns={frontColumns}
                                 checkable={checkable}
                                 draggable={draggable}
                                 onCheckChange={onCheckChange}
@@ -356,9 +367,9 @@ export default defineComponent({
                                 onDropChange={onDropChange}
                             />
                             <CheckboxList
-                                title={'不固定'}
+                                title={t('noPin')}
                                 showTitle={showTitle}
-                                columns={unref(betweenColumns)}
+                                columns={betweenColumns}
                                 checkable={checkable}
                                 draggable={draggable}
                                 onCheckChange={onCheckChange}
@@ -367,8 +378,8 @@ export default defineComponent({
                             />
                             <CheckboxList
                                 fixed={'right'}
-                                title={'固定在列尾'}
-                                columns={unref(behindColumns)}
+                                title={t('rightPin')}
+                                columns={behindColumns}
                                 checkable={checkable}
                                 draggable={draggable}
                                 onCheckChange={onCheckChange}
@@ -381,7 +392,7 @@ export default defineComponent({
             }
             return (
                 <Popover trigger={'click'} placement={'bottomRight'} v-slots={popoverSlots}>
-                    <Tooltip title={'设置表头'}>
+                    <Tooltip title={t('columnSetting')}>
                         <Button>
                             <SettingOutlined/>
                         </Button>

@@ -3,6 +3,7 @@ import { Space } from 'ant-design-vue'
 import Breadcrumb from '../breadcrumb'
 import Fullscreen from '../fullscreen'
 import Avatar from '../avatar'
+import Language from '../language'
 import HamburgerOutlined from '@/icons/HamburgerOutlined'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -12,20 +13,30 @@ const cx = classNames.bind(styles)
 export default defineComponent({
     inheritAttrs: false,
     props: {
+        router: {
+            type: Object,
+            default: undefined
+        },
         collapsed: {
             type: Boolean,
             default: false
         }
     },
-    emits: ['change'],
+    emits: ['change', 'local'],
     setup (props, { emit, attrs }) {
         function handleCollapseClick () {
             emit('change', !props.collapsed)
         }
 
+        function onLanguageChange (local) {
+            emit('local', local)
+        }
+
         return () => {
+            const { router, collapsed } = props
+
             const collapseClassNames = cx('collapse__icon', {
-                'collapse__icon-down': props.collapsed
+                'collapse__icon-down': !!collapsed
             })
 
             return (
@@ -34,11 +45,12 @@ export default defineComponent({
                         <div class={cx('collapse')} onClick={handleCollapseClick}>
                             <HamburgerOutlined class={collapseClassNames}/>
                         </div>
-                        <Breadcrumb/>
+                        <Breadcrumb router={router}/>
                     </div>
                     <div class={cx('navbar__right')}>
                         <Space size={20}>
                             <Fullscreen/>
+                            <Language onChange={onLanguageChange}/>
                             <Avatar {...attrs}/>
                         </Space>
                     </div>
