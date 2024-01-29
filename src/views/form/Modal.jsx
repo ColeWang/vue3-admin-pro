@@ -29,6 +29,11 @@ export default defineComponent({
                         <Text
                             label={'文本'}
                             name={'text'}
+                            colProps={{ span: 24 }}
+                        />
+                        <Text
+                            label={'文本'}
+                            name={'text'}
                             colProps={{ span: 12 }}
                         />
                         <Number

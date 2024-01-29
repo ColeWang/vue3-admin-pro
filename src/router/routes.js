@@ -20,7 +20,7 @@ const routes = [
     },
     {
         path: '/login',
-        name: 'login',
+        name: 'Login',
         meta: {
             hideInMenu: true
         },
