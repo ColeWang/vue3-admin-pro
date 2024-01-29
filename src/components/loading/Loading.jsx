@@ -1,4 +1,4 @@
-import { defineComponent, ref, Transition } from 'vue'
+import { defineComponent, ref, Transition, unref } from 'vue'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -6,39 +6,33 @@ const cx = classNames.bind(styles)
 
 export default defineComponent({
     props: {
-        doClose: Function
+        onClose: Function
     },
-    setup (props) {
+    setup (props, { emit, expose }) {
         const spinning = ref(true)
 
         function doClose () {
-            // 动画结束
-            props.doClose && props.doClose()
+            props.onClose && props.onClose()
         }
 
-        function onHide () {
+        function hide () {
             spinning.value = false
         }
 
-        return {
-            spinning,
-            doClose,
-            onHide
-        }
-    },
-    render () {
-        const { spinning } = this
+        expose({ spinning, hide })
 
-        return (
-            <Transition name={'fade'} appear={true} onAfterLeave={this.doClose}>
-                <div class={cx('loading')} v-show={spinning}>
-                    <div class={cx('loading-container')}>
-                        <svg viewBox="25 25 50 50" class={cx('circular')}>
-                            <circle cx="50" cy="50" r="20" fill="none" class={cx('path')}/>
-                        </svg>
+        return () => {
+            return (
+                <Transition name={'fade'} appear={true} onAfterLeave={doClose}>
+                    <div class={cx('loading')} v-show={unref(spinning)}>
+                        <div class={cx('loading-container')}>
+                            <svg viewBox="25 25 50 50" class={cx('circular')}>
+                                <circle cx="50" cy="50" r="20" fill="none" class={cx('path')}/>
+                            </svg>
+                        </div>
                     </div>
-                </div>
-            </Transition>
-        )
+                </Transition>
+            )
+        }
     }
 })

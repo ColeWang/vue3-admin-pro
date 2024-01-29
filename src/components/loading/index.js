@@ -2,46 +2,40 @@ import { createVNode, render as vueRender } from 'vue'
 import LoadingCom from './Loading'
 
 let container = null
+let vNode = null
 
 function removeChild (node) {
     try {
         node && document.body.removeChild(node)
     } catch (err) {
-        console.log(err)
+        console.warn(err)
     }
 }
 
-function Loading () {
-    const nextProps = {
-        doClose: doClose
-    }
+function destroy () {
+    container && vueRender(null, container)
+    container && removeChild(container)
+    vNode = null
+    container = null
+}
 
-    let vNode = createVNode(LoadingCom, nextProps)
-    removeChild(container)
+function Loading () {
+    container && destroy()
+    // ---
     container = document.createElement('div')
+    vNode = createVNode(LoadingCom, { onClose: destroy })
     vueRender(vNode, container)
     document.body.appendChild(container)
 
-    function doClose () {
-        container && vueRender(null, container)
-        removeChild(container)
-        vNode = null
-        container = null
-    }
-
     return () => {
         if (vNode && vNode.component) {
-            const instance = vNode.component
-            const vm = instance.proxy
-            vm.onHide()
+            const instance = vNode.component || {}
+            const { exposeProxy } = instance
+            exposeProxy && exposeProxy.hide()
         }
     }
 }
 
-Loading.destroy = function () {
-    container && vueRender(null, container)
-    container = null
-    return removeChild(container)
-}
+Loading.destroy = destroy
 
 export default Loading
