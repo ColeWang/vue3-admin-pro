@@ -4,6 +4,7 @@ import router from '@/router'
 import pinia from '@/store'
 import i18n from '@/locale'
 // CSS
+import 'ant-design-vue/es/style/reset.css'
 import '@/styles/base.css'
 import '@/styles/transition.scss'
 import '@/styles/nprogress.scss'
