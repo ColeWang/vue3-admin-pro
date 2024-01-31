@@ -17,26 +17,27 @@
 .login-form {
     @include position(absolute, 50%, 260px, null, null);
     width: 340px;
-    background: $white;
-    border-radius: 4px;
     transform: translateY(-60%);
-    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
 
-    .title {
-        padding: 14px 16px;
-        border-bottom: 1px solid $border;
-
-        .title__text {
-            font-weight: 700;
-        }
+    :global(.ant-card-head) {
+        min-height: 46px;
+        font-size: 14px;
+        color: #657180;
     }
 
-    .form-wrap {
-        padding: 16px;
+    .checked-wrap {
+        @include flex(center, space-between);
+        margin-bottom: 18px;
+    }
 
-        .checked-wrap {
-            @include flex(center, space-between);
-            margin-bottom: 18px;
+    .login-form__error {
+        margin-bottom: 0;
+        min-height: 56px;
+
+        :global(.ant-form-show-help) {
+            height: 24px;
+            text-align: center;
+            @include ellipsis-overflow;
         }
     }
 }

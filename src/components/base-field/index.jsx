@@ -6,6 +6,7 @@ import FieldSelect from './components/Select'
 import FieldNumber from './components/Number'
 import FieldTextArea from './components/TextArea'
 import FieldText from './components/Text'
+import FieldPassword from './components/Password'
 import { omitUndefined } from '@/utils'
 
 function defaultRenderText (dataValue, valueType, props, slots) {
@@ -29,6 +30,9 @@ function defaultRenderText (dataValue, valueType, props, slots) {
     }
     if (valueType === 'textarea') {
         return <FieldTextArea {...props} text={dataValue} v-slots={slots}/>
+    }
+    if (valueType === 'password') {
+        return <FieldPassword {...props} text={dataValue} v-slots={slots}/>
     }
     return <FieldText {...props} text={dataValue} v-slots={slots}/>
 }

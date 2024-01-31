@@ -56,7 +56,6 @@ export default defineComponent({
             }
 
             const formItemSlots = {
-                ...fieldSlots,
                 default: () => {
                     const fieldStyles = (() => {
                         const { style: nextStyle } = fieldProps
@@ -80,6 +79,7 @@ export default defineComponent({
                             {...restProps}
                             fieldProps={nextFieldProps}
                             formItemProps={nextFormItemProps}
+                            v-slots={fieldSlots}
                         />
                     )
                 }

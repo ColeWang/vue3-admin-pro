@@ -1,22 +1,18 @@
-import { defineComponent, onMounted, onUnmounted, reactive, ref, unref } from 'vue'
-import { Button, Checkbox, Form, Input } from 'ant-design-vue'
-import { useRoute, useRouter } from 'vue-router'
+import { defineComponent, onUnmounted, reactive, ref, unref } from 'vue'
+import { Button, Card, Checkbox } from 'ant-design-vue'
+import { Form, Password, Text } from '@/components/form'
 import UserFilled from '@/icons/UserFilled'
 import PasswordFilled from '@/icons/PasswordFilled'
-import { localCache, PASSWORD__LOCAL, USERNAME__LOCAL } from '@/common/storage'
-import { AesDecode, AesEncode } from '@/common/ase'
+import { useRoute, useRouter } from 'vue-router'
 import { HOME_NAME } from '@/config'
-import { setToken } from '@/utils/auth'
+import useRemember from './useRemember'
 import bubbly from './bubbly'
+import { setToken } from '@/utils/auth'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 import BACKGROUND from './images/background.svg'
 
 const cx = classNames.bind(styles)
-
-const wrapperCol = {
-    span: 24
-}
 
 let destroy = null
 
@@ -39,15 +35,20 @@ export default defineComponent({
         const router = useRouter()
         const route = useRoute()
 
-        const checked = ref(false)
         const loading = ref(false)
+        const errorType = ref(undefined)
 
-        const loginForm = reactive({
+        const model = reactive({
             username: '',
             password: ''
         })
 
-        const errorType = ref(undefined)
+        const { checked, setChecked, localRemember } = useRemember({
+            setState: (state) => {
+                model.username = state.username
+                model.password = state.password
+            }
+        })
 
         const rules = {
             username: [{
@@ -60,18 +61,8 @@ export default defineComponent({
             }]
         }
 
-        onMounted(() => {
-            loadImage(BACKGROUND).then((image) => {
-                destroy = bubbly(unref(canvasRef), image)
-            })
-            // 账号信息
-            const username = localCache.get(USERNAME__LOCAL)
-            const password = localCache.get(PASSWORD__LOCAL)
-            if (username && password) {
-                loginForm.username = AesDecode(username)
-                loginForm.password = AesDecode(password)
-                checked.value = true
-            }
+        loadImage(BACKGROUND).then((image) => {
+            destroy = bubbly(unref(canvasRef), image)
         })
 
         onUnmounted(() => {
@@ -79,39 +70,23 @@ export default defineComponent({
             destroy = null
         })
 
-        function onRecall (checked) {
-            if (checked) {
-                const username = localCache.get(USERNAME__LOCAL)
-                const password = localCache.get(PASSWORD__LOCAL)
-                const nextUsername = AesEncode(loginForm.username)
-                const nextPassword = AesEncode(loginForm.password)
-                if (username !== nextUsername && password !== nextPassword) {
-                    localCache.set(USERNAME__LOCAL, nextUsername)
-                    localCache.set(PASSWORD__LOCAL, nextPassword)
-                }
-            } else {
-                localCache.remove(USERNAME__LOCAL)
-                localCache.remove(PASSWORD__LOCAL)
-            }
-        }
-
         function onSubmit () {
             errorType.value = undefined
-            // const data = {
-            //     phone: Number(loginForm.username),
-            //     passwd: loginForm.password
-            // }
+            const data = {
+                phone: Number(model.username),
+                passwd: model.password
+            }
             loading.value = true
             setTimeout(() => {
                 setToken('token')
                 const { redirect } = route.query || {}
-                onRecall(unref(checked))
+                localRemember(model)
                 const name = redirect && String(redirect)
                 router.push({ name: name || HOME_NAME })
             }, 1000)
             // requestLogin(data)
             //     .then((res) => {
-            //         onRecall(unref(checked))
+            //         localRemember(model)
             //         router.push({ name: HOME_NAME })
             //     })
             //     .catch((err) => {
@@ -123,43 +98,46 @@ export default defineComponent({
         }
 
         return () => {
+            const cardProps = {
+                title: '欢迎登陆',
+                bordered: false,
+                bodyStyle: {
+                    padding: '16px'
+                }
+            }
+
             return (
                 <div class={cx('login')}>
                     <div class={cx('login-bg')}>
                         <canvas class={cx('login-bg__canvas')} ref={canvasRef}/>
                     </div>
-                    <div class={cx('login-form')}>
-                        <div class={cx('title')}>
-                            <div class={cx('title__text')}>欢迎登陆</div>
-                        </div>
-                        <div class={cx('form-wrap')}>
-                            <Form model={loginForm} rules={rules} onFinish={onSubmit}>
-                                <Form.Item name="username" wrapperCol={wrapperCol}>
-                                    <Input
-                                        placeholder="任意输入"
-                                        v-model:value={loginForm.username}
-                                        v-slots={{ addonBefore: () => <UserFilled/> }}
-                                    />
-                                </Form.Item>
-                                <Form.Item name="password" wrapperCol={wrapperCol}>
-                                    <Input.Password
-                                        placeholder="任意输入"
-                                        v-model:value={loginForm.password}
-                                        v-slots={{ addonBefore: () => <PasswordFilled/> }}
-                                    />
-                                </Form.Item>
-                                <div class={cx('checked-wrap')}>
-                                    <Checkbox v-model:checked={checked.value}>记住账号</Checkbox>
-                                    <a href="javaScript: void 0">忘记密码</a>
-                                </div>
-                                <Form.Item wrapperCol={wrapperCol} validateStatus="error" help={unref(errorType)}>
-                                    <Button type="primary" html-type="submit" block={true} loading={unref(loading)}>
-                                        登录
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        </div>
-                    </div>
+                    <Card class={cx('login-form')} {...cardProps}>
+                        <Form model={model} rules={rules} onFinish={onSubmit}>
+                            <Text
+                                name={'username'}
+                                placeholder={'请输入账号'}
+                                fieldProps={{ allowClear: false }}
+                                v-slots={{ addonBefore: () => <UserFilled/> }}
+                            />
+                            <Password
+                                name={'password'}
+                                placeholder={'请输入密码'}
+                                fieldProps={{ allowClear: false }}
+                                v-slots={{ addonBefore: () => <PasswordFilled/> }}
+                            />
+                            <div class={cx('checked-wrap')}>
+                                <Checkbox checked={unref(checked)} onChange={setChecked}>
+                                    记住账号
+                                </Checkbox>
+                                <a href="javaScript: void 0">忘记密码</a>
+                            </div>
+                            <Form.Item class={cx('login-form__error')} validateStatus={'error'} help={unref(errorType)}>
+                                <Button type={'primary'} html-type={'submit'} block={true} loading={unref(loading)}>
+                                    登录
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </Card>
                 </div>
             )
         }

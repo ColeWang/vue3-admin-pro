@@ -1,16 +1,26 @@
 function bubbly (canvas, image) {
     let cancel = null
 
-    const cv = (() => {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-        return canvas
-    })()
+    const width = window.innerWidth
+    const height = window.innerHeight
+
+    const cv = canvas || document.createElement('canvas')
     const ctx = cv.getContext('2d')
+    const devicePixelRatio = (window.devicePixelRatio || 1)
+    const backingStoreRatio = (
+        ctx.webkitBackingStorePixelRatio ||
+        ctx.mozBackingStorePixelRatio ||
+        ctx.msBackingStorePixelRatio ||
+        ctx.oBackingStorePixelRatio ||
+        ctx.backingStorePixelRatio || 1
+    )
+    const ratio = devicePixelRatio / backingStoreRatio
+    cv.width = width * ratio
+    cv.height = height * ratio
 
     const objectCreator = () => ({
         f: `rgba(105, 177, 255, ${Math.random()})`,
-        r: 4 + Math.random() * window.innerWidth / 25,
+        r: 4 + Math.random() * cv.width / 25,
         x: Math.random() * cv.width,
         y: Math.random() * cv.height,
         a: Math.random() * Math.PI * 2,

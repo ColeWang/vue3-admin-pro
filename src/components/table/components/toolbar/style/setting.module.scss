@@ -62,7 +62,7 @@
         display: block;
         @include size(14px);
         @include text(14px, $icon, 14px, center);
-        content: url("./holder.svg");
+        content: url("../image/holder.svg");
     }
 }
 
