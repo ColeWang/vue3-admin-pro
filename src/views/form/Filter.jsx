@@ -3,6 +3,7 @@ import { Card } from 'ant-design-vue'
 import { Number, QueryFilter, Select, Text } from '@/components/form'
 
 export default defineComponent({
+    name: 'FormFilter',
     setup () {
         return () => {
             const queryFilterSlots = {

@@ -9,10 +9,12 @@ import useTags from './hooks/useTags'
 import { getMenuList } from './utils'
 import routes from '@/router/routes'
 import { HOME_NAME } from '@/config'
+import { useAppInstance } from '@/useAppInstance'
 
 export default defineComponent({
     inheritAttrs: false,
     setup () {
+        const { setLocale } = useAppInstance()
         const route = useRoute()
         const router = useRouter()
         // --
@@ -26,6 +28,10 @@ export default defineComponent({
 
         function onCollapsedChange (value) {
             collapsed.value = value
+        }
+
+        function onLocalChange (value) {
+            setLocale && setLocale(value)
         }
 
         function onLogout () {
@@ -50,6 +56,7 @@ export default defineComponent({
                         router: router,
                         collapsed: unref(collapsed),
                         onChange: onCollapsedChange,
+                        onLocal: onLocalChange,
                         onLogout: onLogout
                     }
                     const tagsNavProps = {

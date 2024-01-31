@@ -5,9 +5,11 @@ function useShowTitle () {
 
     function showTitle (route) {
         const { title } = route.meta || {}
-        const hasKey = te(route.name)
+        // 对应 i18n
+        const path = `routes.${route.name}`
+        const hasKey = te(path)
         if (title && hasKey) {
-            return t(route.name)
+            return t(path)
         }
         return title || route.name
     }

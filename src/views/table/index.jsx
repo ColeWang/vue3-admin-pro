@@ -2,6 +2,7 @@ import { defineComponent } from 'vue'
 import { Table, Action } from '@/components/table'
 
 export default defineComponent({
+    name: 'TableIndex',
     setup () {
         const columns = [
             {

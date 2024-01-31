@@ -1,22 +1,27 @@
-import { defineComponent } from 'vue'
+import { defineComponent, unref } from 'vue'
 import { RouterView } from 'vue-router'
 import { ConfigProvider } from 'ant-design-vue'
-import dayjs from 'dayjs'
-// language
-import zhCN_ant from 'ant-design-vue/es/locale/zh_CN'
-import zhCN_day from 'dayjs/locale/zh-cn'
-
-dayjs.locale(zhCN_day)
+import LocaleProvider from '@/components/locale-provider'
+import { useLocale } from '@/locale'
+import { createAppInstance } from './useAppInstance'
 
 export default defineComponent({
     setup () {
+        const { ant, provider, setLocale } = useLocale()
+
+        createAppInstance({
+            setLocale: setLocale
+        })
+
         return () => {
-            const providerProps = {
-                locale: zhCN_ant
+            const configProviderProps = {
+                locale: unref(ant)
             }
             return (
-                <ConfigProvider {...providerProps}>
-                    <RouterView/>
+                <ConfigProvider {...configProviderProps}>
+                    <LocaleProvider locale={unref(provider)}>
+                        <RouterView/>
+                    </LocaleProvider>
                 </ConfigProvider>
             )
         }

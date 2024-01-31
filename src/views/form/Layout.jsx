@@ -3,6 +3,7 @@ import { Radio, Card } from 'ant-design-vue'
 import { Form, Number, Text } from '@/components/form'
 
 export default defineComponent({
+    name: 'FormLayout',
     setup () {
         const layout = ref('horizontal')
         const span = ref(6)

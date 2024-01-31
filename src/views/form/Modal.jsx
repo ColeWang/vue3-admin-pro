@@ -3,6 +3,7 @@ import { Button, Card } from 'ant-design-vue'
 import { ModalForm, Number, Text } from '@/components/form'
 
 export default defineComponent({
+    name: 'FormModal',
     setup () {
         function onFinish (values) {
             console.log(values)
