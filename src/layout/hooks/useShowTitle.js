@@ -1,15 +1,15 @@
+import { unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 function useShowTitle () {
-    const { t, te } = useI18n()
+    const { locale, getLocaleMessage } = useI18n()
 
     function showTitle (route) {
         const { title } = route.meta || {}
-        // 对应 i18n
-        const path = `routes.${route.name}`
-        const hasKey = te(path)
-        if (title && hasKey) {
-            return t(path)
+        const { routes } = getLocaleMessage(unref(locale))
+        // 对应 i18n routes
+        if (title && routes[route.name]) {
+            return routes[route.name]
         }
         return title || route.name
     }

@@ -4,5 +4,6 @@ export default {
     FormLayout: '表单布局',
     FormModal: '浮层表单',
     FormFilter: '筛选表单',
+    Table: '表格',
     TableIndex: '表格'
 }
