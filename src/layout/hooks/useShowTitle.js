@@ -17,4 +17,16 @@ function useShowTitle () {
     return { showTitle }
 }
 
+/**
+ * 不需要多语言的话 去掉 i18n 就好
+ */
+// function useShowTitle () {
+//     function showTitle (route) {
+//         const { title } = route.meta || {}
+//         return title || route.name
+//     }
+//
+//     return { showTitle }
+// }
+
 export default useShowTitle

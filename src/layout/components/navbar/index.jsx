@@ -3,6 +3,7 @@ import { Space } from 'ant-design-vue'
 import Breadcrumb from '../breadcrumb'
 import Fullscreen from '../fullscreen'
 import Avatar from '../avatar'
+// 不需要多语言的话 去掉 Language 就好
 import Language from '../language'
 import HamburgerOutlined from '@/icons/HamburgerOutlined'
 import classNames from '@/utils/classNames/bind'
