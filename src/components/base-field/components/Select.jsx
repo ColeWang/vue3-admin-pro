@@ -2,7 +2,7 @@ import { computed, defineComponent, Fragment, unref } from 'vue'
 import { Select } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseFieldProps from '../BaseFieldProps'
-import { isObject } from 'lodash-es'
+import { isFunction, isObject } from 'lodash-es'
 
 function valueEnumToOptions (valueEnum) {
     if (valueEnum && isObject(valueEnum)) {
@@ -52,7 +52,7 @@ export default defineComponent({
                         {...fieldProps}
                     />
                 )
-                if (renderFormItem) {
+                if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)
                 }
                 return renderDom

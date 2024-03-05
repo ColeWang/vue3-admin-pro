@@ -2,6 +2,7 @@ import { defineComponent, Fragment } from 'vue'
 import { Input } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseFieldProps from '../BaseFieldProps'
+import { isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -43,7 +44,7 @@ export default defineComponent({
                         {...fieldProps}
                     />
                 )
-                if (renderFormItem) {
+                if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)
                 }
                 return renderDom
