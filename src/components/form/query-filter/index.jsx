@@ -3,7 +3,7 @@ import { Col, Form, Row } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseForm from '../base-form'
 import Submitter from '../components/Submitter'
-import { filterEmptyElement } from '@/utils'
+import { cloneProxyToRaw, filterEmptyElement } from '@/utils'
 import useResizeObserver from '@/hooks/useResizeObserver'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -119,7 +119,16 @@ export default defineComponent({
             return unref(baseFormRef)
         }
 
-        expose({ getFormInstance })
+        function getValues () {
+            const formInstance = unref(baseFormRef)
+            if (formInstance && formInstance.model) {
+                const { model } = formInstance
+                return cloneProxyToRaw(unref(model))
+            }
+            return {}
+        }
+
+        expose({ getFormInstance, getValues })
 
         return () => {
             const { loading, labelWidth, gutter, submitText, resetText, ...restProps } = props

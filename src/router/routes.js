@@ -97,6 +97,25 @@ const routes = [
         ]
     },
     {
+        path: '/test',
+        name: 'Test',
+        redirect: { name: 'TestIndex' },
+        meta: {
+            title: '测试'
+        },
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: 'TestIndex',
+                component: () => import('@/views/Test'),
+                meta: {
+                    title: '测试'
+                }
+            }
+        ]
+    },
+    {
         path: '/401',
         name: 'error-401',
         meta: {

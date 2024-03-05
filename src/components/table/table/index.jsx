@@ -197,7 +197,7 @@ export default defineComponent({
 
         return () => {
             const { title, search, toolbar, columns, ...restProps } = props
-            const { title: titleSlot, toolbar: toolbarSlot, ...restSlots } = slots
+            const { title: titleSlot, toolbar: toolbarSlot, search: searchSlot, ...restSlots } = slots
 
             const searchDom = (() => {
                 if (search === false) return null
@@ -208,6 +208,9 @@ export default defineComponent({
                     columns: columns,
                     onSubmit: onSubmit,
                     onReset: onReset
+                }
+                if (searchSlot && isFunction(searchSlot)) {
+                    return searchSlot(searchProps)
                 }
                 return (
                     <Search {...searchProps}/>
