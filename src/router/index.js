@@ -15,7 +15,7 @@ import routes from './routes'
 // }
 
 const router = createRouter({
-  history: createWebHistory('/admin-template/'),
+  history: createWebHistory('/vue3-admin-pro/'),
   scrollBehavior () {
     const container = document.getElementById('viewContainer')
     if (container) {

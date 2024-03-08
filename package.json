@@ -1,7 +1,11 @@
 {
-  "name": "admin-template",
-  "version": "0.0.1",
-  "private": true,
+  "name": "vue3-admin-pro",
+  "version": "0.1.0",
+  "description": "基于Vue3、Vite、Antd 的后台管理模版 + 内置重装组件， Jsx + Css Module 编写，支持 Template。",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ColeWang/vue3-admin-pro.git"
+  },
   "scripts": {
     "serve": "vite --mode development",
     "serve:dev": "vite --mode development",
@@ -33,8 +37,26 @@
     "@vitejs/plugin-vue-jsx": "^3.0.2",
     "eslint": "^8.46.0",
     "eslint-plugin-vue": "^9.16.1",
-    "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.66.1",
     "vite": "^4.4.9"
-  }
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "jsx",
+    "css-module",
+    "ant-design-vue",
+    "admin",
+    "vue-admin",
+    "vue3-admin",
+    "vue3-admin-pro",
+    "admin-template",
+    "vite",
+    "vite-admin"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "license": "MIT"
 }
