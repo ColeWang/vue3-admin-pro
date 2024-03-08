@@ -2,7 +2,7 @@
 基于Vue3、Vite、Antd 的后台管理模版 + 内置重装组件，
 JSX + CSS Module 编写，支持 Template。
 
-- 🏠 预览 [admin-template](https://colewang.github.io/admin-template/)
+- 🏠 预览 [vue3-admin-pro](https://colewang.github.io/vue3-admin-pro/)
 - 🔥 文档 [docs](https://colewang.github.io/admin-template-docs/)
 
 ## 特性
@@ -27,22 +27,21 @@ JSX + CSS Module 编写，支持 Template。
 
 ## 预览图
 
-<img  src="https://colewang.github.io/admin-template/login.png"/>
+<img  src="https://colewang.github.io/vue3-admin-pro/login.png"/>
 
-<img  src="https://colewang.github.io/admin-template/demo-table_1.png"/>
+<img  src="https://colewang.github.io/vue3-admin-pro/demo-table_1.png"/>
 
-<img  src="https://colewang.github.io/admin-template/demo-table_2.png"/>
+<img  src="https://colewang.github.io/vue3-admin-pro/demo-table_2.png"/>
 
 ## 快速启动
 ```shell
 # 克隆项目
-git clone https://github.com/ColeWang/admin-template.git
+git clone https://github.com/ColeWang/vue3-admin-pro.git
 
 # 进入项目目录
-cd admin-template
+cd vue3-admin-pro
 
 # 安装依赖
-# Node 16.0+
 npm install
 
 # 启动服务
