@@ -71,6 +71,8 @@
 
     .checkbox-item-title {
         flex: 1;
+        max-width: 120px;
+        @include ellipsis-overflow;
     }
 
     .checkbox-item-option {
