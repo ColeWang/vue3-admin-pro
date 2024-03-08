@@ -65,14 +65,16 @@ export default defineComponent({
 
             const renderTitle = slots.title || title
 
+            const slotScope = { loading, size, pageData, ...attrs }
+
             const toolbarDom = (
                 <div class={cx('toolbar')}>
                     <div class={cx('toolbar-title')}>
-                        {renderTitle ? renderTitle(pageData) : null}
+                        {renderTitle ? renderTitle(slotScope) : null}
                     </div>
                     <div class={cx('toolbar-action')}>
                         <Space size={8} style={{ marginRight: '12px' }}>
-                            {slots.default ? slots.default() : null}
+                            {slots.default ? slots.default(slotScope) : null}
                         </Space>
                         <Space.Compact>
                             <Tooltip title={t('reload')}>
