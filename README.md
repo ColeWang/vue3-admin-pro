@@ -3,7 +3,7 @@
 JSX + CSS Module 编写，支持 Template。
 
 - 🏠 预览 [vue3-admin-pro](https://colewang.github.io/vue3-admin-pro/)
-- 🔥 文档 [docs](https://colewang.github.io/admin-template-docs/)
+- 🔥 文档 [docs](https://colewang.github.io/admin-docs/)
 
 ## 特性
 - Vue3
