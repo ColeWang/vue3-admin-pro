@@ -93,6 +93,14 @@ const routes = [
                 meta: {
                     title: '表格'
                 }
+            },
+            {
+                path: 'custom-search',
+                name: 'TableCustomSearch',
+                component: () => import('@/views/table/CustomSearch'),
+                meta: {
+                    title: '自定义搜索'
+                }
             }
         ]
     },

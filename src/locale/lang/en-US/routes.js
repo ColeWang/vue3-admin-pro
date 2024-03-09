@@ -5,5 +5,6 @@ export default {
     FormModal: 'Modal Form',
     FormFilter: 'Filter Form',
     Table: 'Table',
-    TableIndex: 'Table'
+    TableIndex: 'Table',
+    TableCustomSearch: 'Custom Search'
 }
