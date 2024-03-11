@@ -160,7 +160,7 @@ export default defineComponent({
             const { menus, collapsed } = props
 
             const sideStyles = {
-                width: !!collapsed ? '80px' : '256px'
+                width: collapsed ? '80px' : '256px'
             }
 
             const menuProps = {

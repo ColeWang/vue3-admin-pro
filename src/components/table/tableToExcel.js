@@ -127,7 +127,7 @@ function tableToExcel (tableDom) {
         }), fileName)
         message.success('导出成功')
     } catch (error) {
-        console.log(error, etOut)
+        console.log(error)
         message.error('导出失败')
     }
 }
