@@ -7,20 +7,26 @@ import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
+export const actionEnum = {
+    PRIMARY: 'primary',
+    WARNING: 'warning',
+    ERROR: 'error'
+}
+
 const ActionItem = defineComponent({
     inheritAttrs: false,
     props: {
         type: {
             type: String,
-            default: 'primary' // warning error
+            default: actionEnum.PRIMARY
         }
     },
     setup (props, { slots, attrs }) {
         return () => {
             const actionItemNames = cx('action-item', {
-                'action-item__primary': props.type === 'primary',
-                'action-item__warning': props.type === 'warning',
-                'action-item__error': props.type === 'error',
+                'action-item__primary': props.type === actionEnum.PRIMARY,
+                'action-item__warning': props.type === actionEnum.WARNING,
+                'action-item__error': props.type === actionEnum.ERROR,
             })
 
             return (
@@ -49,14 +55,17 @@ const Action = defineComponent({
         return () => {
             const { max, ...restProps } = props
 
-            const slotsItems = filterEmptyElement(slots.default ? slots.default() : [])
-            if (slotsItems.length < (max + 1)) {
+            const nodes = filterEmptyElement(slots.default ? slots.default() : [])
+            if (nodes.length < (max + 1)) {
                 return (
                     <Space {...restProps}>
-                        {slotsItems}
+                        {nodes}
                     </Space>
                 )
             }
+
+            const firstNodes = take(nodes, max)
+            const secondNodes = takeRight(nodes, nodes.length - max)
 
             const dropdownSlots = {
                 default: () => {
@@ -65,11 +74,10 @@ const Action = defineComponent({
                     )
                 },
                 overlay: () => {
-                    const len = slotsItems.length - max
                     return (
                         <Menu selectedKeys={[]}>
                             {
-                                takeRight(slotsItems, len).map((item) => {
+                                secondNodes.map((item) => {
                                     return (
                                         <Menu.Item>{item}</Menu.Item>
                                     )
@@ -80,14 +88,10 @@ const Action = defineComponent({
                 }
             }
 
-            const children = [
-                ...take(slotsItems, max),
-                <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}/>
-            ]
-
             return (
                 <Space {...restProps}>
-                    {children}
+                    {firstNodes}
+                    <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}/>
                 </Space>
             )
         }

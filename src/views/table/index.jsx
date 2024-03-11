@@ -33,7 +33,11 @@ export default defineComponent({
                 customRender: () => {
                     return (
                         <Action>
-                            <Action.Item>操作</Action.Item>
+                            <Action.Item>操作1</Action.Item>
+                            <Action.Item>操作2</Action.Item>
+                            <Action.Item>操作3</Action.Item>
+                            <Action.Item>操作4</Action.Item>
+                            <Action.Item>长长长长长长长长长长长长长长</Action.Item>
                         </Action>
                     )
                 }
