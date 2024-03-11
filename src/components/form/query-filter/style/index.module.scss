@@ -6,7 +6,23 @@
         margin-block: 0;
     }
 
-    .submitter-col {
+    .form-item-vertical {
+        margin-top: 30px;
+    }
+
+    .action-col {
         text-align: end;
+    }
+
+    .col-hidden {
+        display: none;
+    }
+
+    .collapse-button {
+        padding: 0;
+
+        :global(.anticon) {
+            margin-left: 2px;
+        }
     }
 }

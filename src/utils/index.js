@@ -39,6 +39,10 @@ export function omitUndefined (object = {}) {
     return omitBy(object, isUndefined)
 }
 
+export function isValidElement (element) {
+    return element && element.__v_isVNode && typeof element.type !== 'symbol'
+}
+
 export function isEmptyElement (c) {
     const isText = (c.type === Text && c.children.trim() === '')
     const isFragment = c.type === Fragment && c.children.length === 0
@@ -58,5 +62,5 @@ export function filterEmptyElement (children) {
             }
         })
     }
-    return res.filter(c => !isEmptyElement(c))
+    return res.filter((c) => !isEmptyElement(c))
 }

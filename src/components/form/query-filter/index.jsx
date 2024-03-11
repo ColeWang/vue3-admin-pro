@@ -1,9 +1,11 @@
-import { defineComponent, ref, unref } from 'vue'
-import { Col, Form, Row } from 'ant-design-vue'
+import { defineComponent, ref, unref, watch, computed } from 'vue'
+import { Col, Form, Row, Space, Button } from 'ant-design-vue'
+import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseForm from '../base-form'
 import Submitter from '../components/Submitter'
-import { cloneProxyToRaw, filterEmptyElement } from '@/utils'
+import { cloneProxyToRaw, filterEmptyElement, isValidElement } from '@/utils'
+import { isUndefined, filter } from 'lodash-es'
 import useResizeObserver from '@/hooks/useResizeObserver'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -19,7 +21,7 @@ const breakpoints = {
     ],
     default: [
         [513, 24, 'vertical'],
-        [701, 12, 'vertical'],
+        [725, 12, 'vertical'],
         [1352, 8, 'horizontal'],
         [Infinity, 6, 'horizontal']
     ]
@@ -67,9 +69,22 @@ export default defineComponent({
         resetText: {
             type: String,
             default: undefined
+        },
+        collapseRender: {
+            type: Boolean,
+            default: false
+        },
+        collapsed: {
+            type: Boolean,
+            default: true
+        },
+        defaultRowsNumber: {
+            type: Number,
+            default: 1
         }
     },
-    setup (props, { slots, attrs, expose }) {
+    emits: ['collapse'],
+    setup (props, { slots, emit, attrs, expose }) {
         const resizeRef = ref(null)
         const baseFormRef = ref(null)
 
@@ -77,6 +92,20 @@ export default defineComponent({
 
         const colLayout = ref('vertical')
         const colSpan = ref(24)
+
+        const sCollapsed = ref(props.collapsed)
+
+        const colsNumber = computed(() => {
+            const n = 24 / unref(colSpan)
+            if (!isUndefined(props.defaultRowsNumber)) {
+                return Math.max(1, (n * props.defaultRowsNumber) - 1)
+            }
+            return Math.max(1, n - 1)
+        })
+
+        watch(() => props.collapsed, (value) => {
+            sCollapsed.value = value
+        }, { immediate: true })
 
         useResizeObserver(resizeRef, (entries) => {
             const entry = entries[0]
@@ -94,6 +123,12 @@ export default defineComponent({
         function onReset () {
             const context = unref(baseFormRef)
             context && context.resetForm()
+        }
+
+        function onCollapse () {
+            const nextValue = !unref(sCollapsed)
+            sCollapsed.value = nextValue
+            emit('collapse', nextValue)
         }
 
         function genFormItemFixStyle (labelWidth) {
@@ -131,7 +166,7 @@ export default defineComponent({
         expose({ getFormInstance, getValues })
 
         return () => {
-            const { loading, labelWidth, gutter, submitText, resetText, ...restProps } = props
+            const { loading, labelWidth, gutter, submitText, resetText, collapseRender, ...restProps } = props
 
             const baseFormProps = {
                 ...attrs,
@@ -155,21 +190,44 @@ export default defineComponent({
                 props: genFormItemFixStyle(labelWidth)
             }
 
-            const nodes = filterEmptyElement(slots.default ? slots.default(slotScope) : [])
-            const offset = getOffset(nodes.length, unref(colSpan))
+            const children = slots.default ? slots.default(slotScope) : []
+            const nodes = filterEmptyElement(children).map((child, index) => {
+                const propsHidden = child.props && child.props.hidden || false
+                const colHidden = propsHidden || unref(sCollapsed) && (index > unref(colsNumber) - 1)
+                const hidden = collapseRender ? colHidden : propsHidden
+                const key = (isValidElement(child) && child.key) || index
+                const node = (
+                    <Col class={cx({ 'col-hidden': hidden })} span={unref(colSpan)} key={key}>
+                        {child}
+                    </Col>
+                )
+                return { child: node, hidden: hidden }
+            })
+
+            const showCols = filter(nodes, (c) => !c.hidden)
+            const offset = getOffset(showCols.length, unref(colSpan))
+
+            const haveRow = unref(colSpan) + offset === 24
+            const formItemClassNames = cx({ 'form-item-vertical': unref(colLayout) === 'vertical' && !haveRow })
+
+            const collapseDom = collapseRender ? (
+                <Button class={cx('collapse-button')} type={'link'} onClick={onCollapse}>
+                    <span>{!unref(sCollapsed) ? t('expand') : t('collapsed')}</span>
+                    {unref(sCollapsed) ? <DownOutlined/> : <UpOutlined/>}
+                </Button>
+            ) : null
 
             return (
                 <BaseForm {...baseFormProps}>
                     <div ref={resizeRef}>
                         <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
-                            {
-                                nodes.map((item) => {
-                                    return <Col span={unref(colSpan)}>{item}</Col>
-                                })
-                            }
-                            <Col key={'submitter'} class={cx('submitter-col')} span={unref(colSpan)} offset={offset}>
-                                <Form.Item colon={false}>
-                                    <Submitter {...submitterProps}/>
+                            {nodes.map((c) => c.child)}
+                            <Col key={'action'} class={cx('action-col')} span={unref(colSpan)} offset={offset}>
+                                <Form.Item class={formItemClassNames} colon={false}>
+                                    <Space size={8}>
+                                        <Submitter {...submitterProps}/>
+                                        {collapseDom}
+                                    </Space>
                                 </Form.Item>
                             </Col>
                         </Row>

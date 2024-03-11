@@ -21,6 +21,10 @@ export default defineComponent({
             type: [String, Number],
             default: undefined
         },
+        hidden: {
+            type: Boolean,
+            default: false
+        },
         colProps: {
             type: Object,
             default: () => ({})
@@ -44,7 +48,7 @@ export default defineComponent({
         }
 
         return () => {
-            const { fieldProps, formItemProps, width: fieldWidth, colProps, ...restProps } = props
+            const { fieldProps, formItemProps, width: fieldWidth, colProps, hidden, ...restProps } = props
 
             const model = formInstance ? unref(formInstance.model) : {}
             const formProps = formInstance ? unref(formInstance.formProps) : {}
@@ -98,6 +102,7 @@ export default defineComponent({
                 <ColWrap
                     key={formItemProps.name}
                     {...colWrapProps}
+                    hidden={hidden}
                     v-slots={colWrapSlots}
                 />
             )

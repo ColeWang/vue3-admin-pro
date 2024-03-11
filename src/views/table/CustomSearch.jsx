@@ -82,26 +82,6 @@ export default defineComponent({
                     }
                     const queryFilterSlots = {
                         default: ({ props: slotProps }) => {
-                            // 注意: DOM 节点变化会导致重置异常
-                            if (unref(model).age && unref(model).age === '1') {
-                                return [
-                                    <Select
-                                        label={'Age'}
-                                        name={'age'}
-                                        valueEnum={{
-                                            '1': '选项一',
-                                            '2': '选项二',
-                                        }}
-                                        formItemProps={slotProps}
-                                    />,
-                                    <Text
-                                        label={'Name'}
-                                        name={'name'}
-                                        required={true}
-                                        formItemProps={slotProps}
-                                    />
-                                ]
-                            }
                             return [
                                 <Select
                                     label={'Age'}
@@ -110,6 +90,13 @@ export default defineComponent({
                                         '1': '选项一',
                                         '2': '选项二',
                                     }}
+                                    formItemProps={slotProps}
+                                />,
+                                <Text
+                                    hidden={unref(model).age && unref(model).age === '1'}
+                                    label={'Name'}
+                                    name={'name'}
+                                    required={true}
                                     formItemProps={slotProps}
                                 />
                             ]

@@ -7,6 +7,8 @@ export default {
         search: 'Query',
         reset: 'Reset',
         submit: 'Submit',
+        collapsed: 'Expand',
+        expand: 'Collapse',
         inputPlaceholder: 'Please enter',
         selectPlaceholder: 'Please select'
     },
