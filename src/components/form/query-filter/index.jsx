@@ -210,12 +210,12 @@ export default defineComponent({
             const haveRow = unref(colSpan) + offset === 24
             const formItemClassNames = cx({ 'form-item-vertical': unref(colLayout) === 'vertical' && !haveRow })
 
-            const collapseDom = collapseRender ? (
+            const collapseDom = collapseRender && (
                 <Button class={cx('collapse-button')} type={'link'} onClick={onCollapse}>
                     <span>{!unref(sCollapsed) ? t('expand') : t('collapsed')}</span>
                     {unref(sCollapsed) ? <DownOutlined/> : <UpOutlined/>}
                 </Button>
-            ) : null
+            )
 
             return (
                 <BaseForm {...baseFormProps}>

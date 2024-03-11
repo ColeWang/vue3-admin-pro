@@ -1,15 +1,12 @@
 import Loading from '@/components/loading'
+import Sidebar from '@/layout/components/sidebar'
+import TagsNav from '@/layout/components/tags-nav'
+import Navbar from '@/layout/components/navbar'
 
 export { Loading }
-
+export * from '@/icons'
 export * from '@/components/table'
 export * from '@/components/form'
-
-import Sidebar from '@/layout/components/sidebar'
 export { Sidebar }
-
-import Navbar from '@/layout/components/navbar'
 export { Navbar }
-
-import TagsNav from '@/layout/components/tags-nav'
 export { TagsNav }

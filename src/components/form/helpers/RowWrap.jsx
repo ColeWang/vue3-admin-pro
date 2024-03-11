@@ -13,7 +13,7 @@ export default defineComponent({
     setup (props, { slots }) {
         return () => {
             const { grid, ...restProps } = props
-            const children = slots.default ? slots.default() : null
+            const children = slots.default && slots.default()
 
             if (!grid) return (<Fragment>{children}</Fragment>)
             return (

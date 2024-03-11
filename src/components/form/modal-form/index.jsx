@@ -155,11 +155,11 @@ export default defineComponent({
                 }
             }
 
-            const triggerDom = slots.trigger ? (
+            const triggerDom = slots.trigger && (
                 <div style={{ display: 'inline-block' }} onClick={onOpenClick}>
                     {slots.trigger()}
                 </div>
-            ) : null
+            )
 
             return (
                 <Fragment>

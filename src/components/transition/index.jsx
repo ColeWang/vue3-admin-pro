@@ -23,7 +23,7 @@ export default defineComponent({
 
             return (
                 <Transition {...collapseMotion(name, appear)}>
-                    {slots.default ? slots.default() : null}
+                    {slots.default && slots.default()}
                 </Transition>
             )
         }

@@ -31,9 +31,21 @@ export default defineComponent({
         pageData: {
             type: Array,
             default: () => ([])
+        },
+        exportRender: {
+            type: Boolean,
+            default: true
+        },
+        sizeRender: {
+            type: Boolean,
+            default: true
+        },
+        settingRender: {
+            type: Boolean,
+            default: true
         }
     },
-    emits: ['refresh', 'sizeChange', 'updateTableColumns', 'export'],
+    emits: ['refresh', 'export', 'sizeChange', 'settingChange'],
     setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
 
@@ -51,8 +63,8 @@ export default defineComponent({
             emit('sizeChange', value)
         }
 
-        function onUpdateTableColumns (columns) {
-            emit('updateTableColumns', columns)
+        function onSettingChange (columns) {
+            emit('settingChange', columns)
         }
 
         function getPopupContainer () {
@@ -62,19 +74,38 @@ export default defineComponent({
 
         return () => {
             const { title, loading, size, columns, pageData } = props
+            const { exportRender, sizeRender, settingRender } = props
 
             const renderTitle = slots.title || title
 
             const slotScope = { loading, size, pageData, ...attrs }
 
+            const exportDom = exportRender && (
+                <Tooltip title={t('export')}>
+                    <Button onClick={handleClickExport}>
+                        <VerticalAlignBottomOutlined/>
+                    </Button>
+                </Tooltip>
+            )
+            const sizeDom = sizeRender && (
+                <Density size={size} onSizeChange={onSizeChange}/>
+            )
+            const settingDom = settingRender && (
+                <Setting
+                    {...attrs}
+                    columns={columns}
+                    onUpdateTableColumns={onSettingChange}
+                />
+            )
+
             const toolbarDom = (
                 <div class={cx('toolbar')}>
                     <div class={cx('toolbar-title')}>
-                        {renderTitle ? renderTitle(slotScope) : null}
+                        {renderTitle && renderTitle(slotScope)}
                     </div>
                     <div class={cx('toolbar-action')}>
                         <Space size={8} style={{ marginRight: '12px' }}>
-                            {slots.default ? slots.default(slotScope) : null}
+                            {slots.default && slots.default(slotScope)}
                         </Space>
                         <Space.Compact>
                             <Tooltip title={t('reload')}>
@@ -82,17 +113,9 @@ export default defineComponent({
                                     <ReloadOutlined spin={loading}/>
                                 </Button>
                             </Tooltip>
-                            <Tooltip title={t('export')}>
-                                <Button onClick={handleClickExport}>
-                                    <VerticalAlignBottomOutlined/>
-                                </Button>
-                            </Tooltip>
-                            <Density size={size} onSizeChange={onSizeChange}/>
-                            <Setting
-                                {...attrs}
-                                columns={columns}
-                                onUpdateTableColumns={onUpdateTableColumns}
-                            />
+                            {exportDom}
+                            {sizeDom}
+                            {settingDom}
                         </Space.Compact>
                     </div>
                 </div>

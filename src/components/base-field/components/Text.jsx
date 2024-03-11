@@ -28,9 +28,9 @@ export default defineComponent({
             if (mode === 'read') {
                 return (
                     <Fragment>
-                        {slots.prefix ? slots.prefix() : null}
+                        {slots.prefix && slots.prefix()}
                         {text || emptyText}
-                        {slots.suffix ? slots.suffix() : null}
+                        {slots.suffix && slots.suffix()}
                     </Fragment>
                 )
             }

@@ -51,7 +51,7 @@ const FormGroup = defineComponent({
             }
 
             const titleDom = (() => {
-                const children = titleSlot ? titleSlot() : null
+                const children = titleSlot && titleSlot()
                 if (children || title) {
                     return (
                         <div class={cx('group-title')}>{children || title}</div>

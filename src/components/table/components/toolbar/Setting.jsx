@@ -41,7 +41,7 @@ const TooltipIcon = defineComponent({
             return (
                 <Tooltip title={props.title}>
                     <span onClick={onClick}>
-                        {slots.default ? slots.default() : null}
+                        {slots.default && slots.default()}
                     </span>
                 </Tooltip>
             )
@@ -84,25 +84,25 @@ const CheckboxItem = defineComponent({
             const iconDom = (
                 <Space size={4}>
                     {
-                        fixed !== 'left' ? (
+                        fixed !== 'left' && (
                             <TooltipIcon title={t('leftPin')} fixed={'left'} {...iconProps}>
                                 <VerticalAlignTopOutlined/>
                             </TooltipIcon>
-                        ) : null
+                        )
                     }
                     {
-                        !!fixed ? (
+                        !!fixed && (
                             <TooltipIcon title={t('noPin')} {...iconProps}>
                                 <VerticalAlignMiddleOutlined/>
                             </TooltipIcon>
-                        ) : null
+                        )
                     }
                     {
-                        fixed !== 'right' ? (
+                        fixed !== 'right' && (
                             <TooltipIcon title={t('rightPin')} fixed={'right'} {...iconProps}>
                                 <VerticalAlignBottomOutlined/>
                             </TooltipIcon>
-                        ) : null
+                        )
                     }
                 </Space>
             )
@@ -217,7 +217,11 @@ const CheckboxList = defineComponent({
 
             return (
                 <div class={cx('checkbox-list')}>
-                    {showTitle ? (<div className={cx('checkbox-list-title')}>{title}</div>) : null}
+                    {
+                        showTitle && (
+                            <div className={cx('checkbox-list-title')}>{title}</div>
+                        )
+                    }
                     <Tree {...treeProps} v-slots={treeSlots}/>
                 </div>
             )

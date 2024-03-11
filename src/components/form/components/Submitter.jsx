@@ -64,16 +64,20 @@ export default defineComponent({
 
             return (
                 <Space size={space}>
-                    {resetButtonProps !== false ? (
-                        <Button {...nextResetButtonProps}>
-                            {resetText || t('reset')}
-                        </Button>
-                    ) : null}
-                    {submitButtonProps !== false ? (
-                        <Button {...nextSubmitButtonProps} html-type={'submit'}>
-                            {submitText || t('submit')}
-                        </Button>
-                    ) : null}
+                    {
+                        resetButtonProps !== false && (
+                            <Button {...nextResetButtonProps}>
+                                {resetText || t('reset')}
+                            </Button>
+                        )
+                    }
+                    {
+                        submitButtonProps !== false && (
+                            <Button {...nextSubmitButtonProps} html-type={'submit'}>
+                                {submitText || t('submit')}
+                            </Button>
+                        )
+                    }
                 </Space>
             )
         }

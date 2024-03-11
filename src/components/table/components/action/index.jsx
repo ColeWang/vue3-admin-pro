@@ -25,7 +25,7 @@ const ActionItem = defineComponent({
 
             return (
                 <a {...attrs} class={actionItemNames}>
-                    {slots.default ? slots.default() : null}
+                    {slots.default && slots.default()}
                 </a>
             )
         }

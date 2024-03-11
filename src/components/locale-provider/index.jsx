@@ -53,7 +53,7 @@ export default defineComponent({
         }, { immediate: true })
 
         return () => {
-            return slots.default ? slots.default() : null
+            return slots.default && slots.default()
         }
     }
 })

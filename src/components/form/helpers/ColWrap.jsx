@@ -14,7 +14,7 @@ export default defineComponent({
     setup (props, { slots }) {
         return () => {
             const { grid, ...restProps } = props
-            const children = slots.default ? slots.default() : null
+            const children = slots.default && slots.default()
 
             const originProps = clone(restProps)
 

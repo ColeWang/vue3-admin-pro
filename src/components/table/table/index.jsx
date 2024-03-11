@@ -67,7 +67,7 @@ export default defineComponent({
             default: '-'
         }
     },
-    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'sizeChange', 'columnsChange', 'load', 'requestError', 'submit', 'reset'],
+    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'sizeChange', 'settingChange', 'load', 'requestError', 'submit', 'reset'],
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
         const searchRef = ref(null)
@@ -113,9 +113,9 @@ export default defineComponent({
             return {}
         }
 
-        function onUpdateTableColumns (columns) {
+        function onSettingChange (columns) {
             setTableColumns(columns)
-            emit('columnsChange', columns)
+            emit('settingChange', columns)
         }
 
         function onChange (paginate, filters, sorter, extra) {
@@ -180,7 +180,11 @@ export default defineComponent({
 
         function onExport () {
             const context = unref(tableRef)
-            context && tableToExcel(context)
+            if (props.toolbar !== false && isFunction(props.toolbar.onExport)) {
+                props.toolbar.onExport(context, requestProps.dataSource)
+            } else {
+                context && tableToExcel(context)
+            }
         }
 
         function onSizeChange (value) {
@@ -229,7 +233,7 @@ export default defineComponent({
                     onRefresh: onReload,
                     onExport: onExport,
                     onSizeChange: onSizeChange,
-                    onUpdateTableColumns: onUpdateTableColumns,
+                    onSettingChange: onSettingChange,
                 }
                 const toolbarSlots = {
                     default: toolbarSlot,

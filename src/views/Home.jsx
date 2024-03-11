@@ -15,7 +15,22 @@ export default defineComponent({
                     title: 'Age',
                     search: true,
                     dataIndex: 'age'
-                }
+                },
+                {
+                    title: 'AAAAAA',
+                    search: true,
+                    dataIndex: 'aaa'
+                },
+                {
+                    title: 'BBBBBB',
+                    search: true,
+                    dataIndex: 'bbb'
+                },
+                {
+                    title: 'CCCCCC',
+                    search: true,
+                    dataIndex: 'ccc'
+                },
             ]
         })
 
@@ -43,7 +58,10 @@ export default defineComponent({
         return () => {
             const tableProps = {
                 columns: unref(columns),
-                request: request
+                request: request,
+                search: {
+                    collapseRender: true
+                }
             }
 
             return (

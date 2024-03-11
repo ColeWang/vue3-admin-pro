@@ -10,11 +10,11 @@ export default defineComponent({
         return () => {
             return (
                 <div class={cx('app-main')}>
-                    {slots.sidebar ? slots.sidebar() : null}
+                    {slots.sidebar && slots.sidebar()}
                     <div class={cx('app-main__prime')}>
-                        {slots.navbar ? slots.navbar() : null}
+                        {slots.navbar && slots.navbar()}
                         <div class={cx('app-main__content')}>
-                            {slots.default ? slots.default() : null}
+                            {slots.default && slots.default()}
                         </div>
                     </div>
                 </div>

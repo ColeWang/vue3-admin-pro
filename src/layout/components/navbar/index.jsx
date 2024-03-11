@@ -5,7 +5,7 @@ import Fullscreen from '../fullscreen'
 import Avatar from '../avatar'
 // 不需要多语言的话 去掉 Language 就好
 import Language from '../language'
-import HamburgerOutlined from '@/icons/HamburgerOutlined'
+import { HamburgerOutlined } from '@/icons'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
