@@ -21,7 +21,7 @@ const breakpoints = {
     ],
     default: [
         [513, 24, 'vertical'],
-        [725, 12, 'vertical'],
+        [743, 12, 'vertical'],
         [1352, 8, 'horizontal'],
         [Infinity, 6, 'horizontal']
     ]
@@ -224,7 +224,7 @@ export default defineComponent({
                             {nodes.map((c) => c.child)}
                             <Col key={'action'} class={cx('action-col')} span={unref(colSpan)} offset={offset}>
                                 <Form.Item class={formItemClassNames} colon={false}>
-                                    <Space size={8}>
+                                    <Space size={10}>
                                         <Submitter {...submitterProps}/>
                                         {collapseDom}
                                     </Space>
