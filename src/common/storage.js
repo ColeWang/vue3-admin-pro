@@ -35,8 +35,8 @@ class GalleryCache {
     }
 
     getObj (key) {
-        const value = this.cache.getItem(key)
         try {
+            const value = this.cache.getItem(key)
             const nextValue = JSON.parse(value || 'null')
             return !isEmpty(nextValue) ? nextValue : undefined
         } catch (err) {
