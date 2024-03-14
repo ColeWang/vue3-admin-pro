@@ -1,3 +1,5 @@
+import { isEmpty } from '@/utils'
+
 class GalleryCache {
     cache = null
 
@@ -6,41 +8,39 @@ class GalleryCache {
     }
 
     set (key, value) {
-        if (key && value) {
-            try {
-                this.cache.setItem(key, value)
-            } catch (e) {
-                console.warn('Exceeding the available storage space')
-            }
+        try {
+            this.cache.setItem(key, value)
+        } catch (err) {
+            console.warn(err.message)
         }
     }
 
     setObj (key, value) {
-        if (key && value) {
-            try {
-                this.cache.setItem(key, JSON.stringify(value))
-            } catch (e) {
-                console.warn('Exceeding the available storage space')
-            }
+        try {
+            const nextValue = JSON.stringify(value)
+            this.cache.setItem(key, nextValue)
+        } catch (err) {
+            console.warn(err.message)
         }
     }
 
     get (key) {
-        if (key) {
-            return this.cache.getItem(key) || undefined
+        try {
+            const value = this.cache.getItem(key)
+            return !isEmpty(value) ? value : undefined
+        } catch (err) {
+            console.warn(err.message)
         }
         return undefined
     }
 
     getObj (key) {
-        if (key) {
-            let value = undefined
-            try {
-                value = JSON.parse(this.cache.getItem(key) || 'null')
-            } catch (e) {
-                console.warn('Error JSON.parse()')
-            }
-            return value === null ? undefined : value
+        const value = this.cache.getItem(key)
+        try {
+            const nextValue = JSON.parse(value || 'null')
+            return !isEmpty(nextValue) ? nextValue : undefined
+        } catch (err) {
+            console.warn(err.message)
         }
         return undefined
     }

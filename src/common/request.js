@@ -35,31 +35,30 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use((config) => {
-        return config
-    }, (err) => {
-        return Promise.reject(err)
-    }
-)
+    return config
+}, (err) => {
+    return Promise.reject(err)
+})
+
 instance.interceptors.response.use((res) => {
-        if (res && res.data && res.data.er === -1) {
-            onExpireToken()
-            Loading.destroy()
-            return new Promise(() => ({}))
-        }
-        if (res && res.data && res.data.er !== 0) {
-            const error = new Error(res.data.message || 'Error')
-            error.er = res.data.er
-            return Promise.reject(error)
-        }
-        return res
-    }, (err) => {
-        const data = err.response && err.response.data
-        if (data && (data.message || data.code)) {
-            err.message = data.message
-            err.code = data.code
-        }
-        return Promise.reject(err)
+    if (res && res.data && res.data.er === -1) {
+        onExpireToken()
+        Loading.destroy()
+        return new Promise(() => ({}))
     }
-)
+    if (res && res.data && res.data.er !== 0) {
+        const error = new Error(res.data.message || 'Error')
+        error.er = res.data.er
+        return Promise.reject(error)
+    }
+    return res
+}, (err) => {
+    const data = err.response && err.response.data
+    if (data && (data.message || data.code)) {
+        err.message = data.message
+        err.code = data.code
+    }
+    return Promise.reject(err)
+})
 
 export default instance
