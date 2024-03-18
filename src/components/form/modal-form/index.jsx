@@ -12,6 +12,10 @@ const modalFormProps = {
         type: String,
         default: 'vertical'
     },
+    open: {
+        type: Boolean,
+        default: false
+    },
     title: {
         type: String,
         default: undefined
@@ -24,25 +28,53 @@ const modalFormProps = {
         type: Boolean,
         default: true
     },
+    destroyOnClose: {
+        type: Boolean,
+        default: true
+    },
     modalProps: {
         type: Object,
         default: () => ({})
+    },
+    onOpen: {
+        type: Function,
+        default: undefined
+    },
+    onCancel: {
+        type: Function,
+        default: undefined
+    },
+    onAfterClose: {
+        type: Function,
+        default: undefined
+    },
+    onOpenChange: {
+        type: Function,
+        default: undefined
+    },
+    onLoadingChange: {
+        type: Function,
+        default: undefined
     }
 }
 
 export default defineComponent({
     inheritAttrs: false,
     props: modalFormProps,
-    emits: ['open', 'cancel', 'afterClose', 'openChange', 'loadingChange'],
+    emits: ['update:open', 'open', 'cancel', 'afterClose', 'openChange', 'loadingChange'],
     setup (props, { emit, slots, attrs, expose }) {
         const baseFormRef = ref(null)
 
         const { t } = useLocaleReceiver('Form')
 
-        const open = ref(false)
+        const sOpen = ref(props.open)
         const loading = ref(false)
 
-        watch(open, (value) => {
+        watch(() => props.open, (value) => {
+            sOpen.value = value
+        }, { immediate: true })
+
+        watch(sOpen, (value) => {
             emit('openChange', value)
         })
 
@@ -51,29 +83,34 @@ export default defineComponent({
         })
 
         function setOpenValue (value) {
-            open.value = value
+            sOpen.value = value
+            emit('update:open', value)
         }
 
         function onOpenClick () {
             setOpenValue(true)
-            emit('open')
-            props.modalProps.onOpen && props.modalProps.onOpen()
+            props.onOpen && emit('open')
+            isFunction(props.modalProps.onOpen) && props.modalProps.onOpen()
         }
 
         function onModalClose () {
             if (unref(loading)) return
             setOpenValue(false)
-            emit('cancel')
-            props.modalProps.onCancel && props.modalProps.onCancel()
+            props.onCancel && emit('cancel')
+            isFunction(props.modalProps.onCancel) && props.modalProps.onCancel()
         }
 
         function onAfterClose () {
-            if (props.modalProps.destroyOnClose) {
+            const modalProps = {
+                ...pick(props, Object.keys(Modal.props)),
+                ...props.modalProps
+            }
+            if (modalProps.destroyOnClose) {
                 const context = unref(baseFormRef)
                 context && context.resetFields()
             }
-            emit('afterClose')
-            props.modalProps.onAfterClose && props.modalProps.onAfterClose()
+            props.onAfterClose && emit('afterClose')
+            isFunction(props.modalProps.onAfterClose) && props.modalProps.onAfterClose()
         }
 
         function onSubmit () {
@@ -144,7 +181,7 @@ export default defineComponent({
             const needModalProps = {
                 ...pick(props, Object.keys(Modal.props)),
                 ...modalProps,
-                open: unref(open),
+                open: unref(sOpen),
                 onCancel: onModalClose,
                 afterClose: onAfterClose
             }
