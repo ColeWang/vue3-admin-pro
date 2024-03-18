@@ -67,9 +67,7 @@ export default defineComponent({
                     const needFieldProps = {
                         ...fieldProps,
                         style: fieldStyles(fieldProps.style, fieldWidth),
-                        'onUpdate:value': onUpdateValue,
-                        // TODO: 待优化
-                        onUpdateValue: onUpdateValue
+                        'onUpdate:value': onUpdateValue
                     }
                     const needFormItemProps = {
                         ...formItemProps,
