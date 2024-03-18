@@ -13,6 +13,10 @@ const ActionItem = defineComponent({
         type: {
             type: String,
             default: 'primary'
+        },
+        onClick: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['click'],

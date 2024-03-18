@@ -41,14 +41,14 @@ export default defineComponent({
                 )
             }
             if (mode === 'edit') {
+                const needFieldProps = {
+                    rows: 3,
+                    placeholder: placeholder,
+                    onKeyPress: onKeyPress,
+                    ...fieldProps
+                }
                 const renderDom = (
-                    <Input.TextArea
-                        v-slots={slots}
-                        rows={3}
-                        placeholder={placeholder}
-                        onKeyPress={onKeyPress}
-                        {...fieldProps}
-                    />
+                    <Input.TextArea {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)

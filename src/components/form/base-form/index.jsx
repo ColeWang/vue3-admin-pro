@@ -26,6 +26,22 @@ const baseFormProps = {
     rowProps: {
         type: Object,
         default: () => ({ gutter: [32, 0] })
+    },
+    onFinish: {
+        type: Function,
+        default: undefined
+    },
+    onSubmit: {
+        type: Function,
+        default: undefined
+    },
+    onReset: {
+        type: Function,
+        default: undefined
+    },
+    onValuesChange: {
+        type: Function,
+        default: undefined
     }
 }
 
@@ -121,11 +137,13 @@ export default defineComponent({
                 model: unref(model)
             }
 
+            const rowWrapProps = { ...rowProps, grid }
+
             return (
                 <ConfigProvider getPopupContainer={getPopupContainer}>
                     <div class={cx('form-wrap')} ref={popupContainer}>
-                        <Form ref={formInstanceRef} {...formProps}>
-                            <RowWrap {...rowProps} grid={grid} v-slots={slots}/>
+                        <Form {...formProps} ref={formInstanceRef}>
+                            <RowWrap {...rowWrapProps} v-slots={slots}/>
                         </Form>
                     </div>
                 </ConfigProvider>

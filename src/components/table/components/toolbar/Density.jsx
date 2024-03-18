@@ -29,9 +29,10 @@ export default defineComponent({
                     const menuProps = {
                         style: { width: '88px' },
                         selectedKeys: [value],
+                        onClick: onChangeClick
                     }
                     return (
-                        <Menu {...menuProps} onClick={onChangeClick}>
+                        <Menu {...menuProps}>
                             <Menu.Item key={'large'}>{t('densityLarger')}</Menu.Item>
                             <Menu.Item key={'middle'}>{t('densityMiddle')}</Menu.Item>
                             <Menu.Item key={'small'}>{t('densitySmall')}</Menu.Item>

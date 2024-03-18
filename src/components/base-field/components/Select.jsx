@@ -43,14 +43,14 @@ export default defineComponent({
                 )
             }
             if (mode === 'edit') {
+                const needFieldProps = {
+                    options: unref(options),
+                    placeholder: placeholder,
+                    allowClear: true,
+                    ...fieldProps
+                }
                 const renderDom = (
-                    <Select
-                        v-slots={slots}
-                        options={unref(options)}
-                        placeholder={placeholder}
-                        allowClear={true}
-                        {...fieldProps}
-                    />
+                    <Select {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)

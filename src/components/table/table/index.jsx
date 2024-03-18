@@ -63,6 +63,42 @@ const tableProps = {
     emptyText: {
         type: String,
         default: '-'
+    },
+    onChange: {
+        type: Function,
+        default: undefined
+    },
+    onPaginateChange: {
+        type: Function,
+        default: undefined
+    },
+    onFilterChange: {
+        type: Function,
+        default: undefined
+    },
+    onSortChange: {
+        type: Function,
+        default: undefined
+    },
+    onLoadingChange: {
+        type: Function,
+        default: undefined
+    },
+    onLoad: {
+        type: Function,
+        default: undefined
+    },
+    onRequestError: {
+        type: Function,
+        default: undefined
+    },
+    onSubmit: {
+        type: Function,
+        default: undefined
+    },
+    onReset: {
+        type: Function,
+        default: undefined
     }
 }
 
@@ -212,7 +248,6 @@ export default defineComponent({
                 if (search === false) return null
                 const searchProps = {
                     ...search,
-                    ref: searchRef,
                     loading: requestProps.loading,
                     columns: columns,
                     onSubmit: onSubmit,
@@ -222,7 +257,7 @@ export default defineComponent({
                     return searchSlot(searchProps)
                 }
                 return (
-                    <Search {...searchProps}/>
+                    <Search {...searchProps} ref={searchRef}/>
                 )
             })()
 
@@ -232,20 +267,20 @@ export default defineComponent({
                     default: toolbarSlot,
                     title: titleSlot
                 }
+                const toolbarProps = {
+                    ...toolbar,
+                    title: title,
+                    density: unref(size),
+                    loading: requestProps.loading,
+                    pageData: requestProps.dataSource,
+                    columns: unref(baseColumns),
+                    onReload: onReload,
+                    onExport: onExport,
+                    onDensity: onDensity,
+                    onSetting: onSetting
+                }
                 return (
-                    <Toolbar
-                        {...toolbar}
-                        title={title}
-                        density={unref(size)}
-                        loading={requestProps.loading}
-                        pageData={requestProps.dataSource}
-                        columns={unref(baseColumns)}
-                        onReload={onReload}
-                        onExport={onExport}
-                        onDensity={onDensity}
-                        onSetting={onSetting}
-                        v-slots={toolbarSlots}
-                    />
+                    <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
                 )
             })()
 
@@ -256,6 +291,15 @@ export default defineComponent({
                 paddingBlock: '16px'
             })
 
+            const needTableProps = {
+                ...attrs,
+                ...pick(props, Object.keys(Table.props)),
+                ...requestProps,
+                size: unref(size),
+                columns: unref(tableColumns),
+                onChange: onChange
+            }
+
             return (
                 <div class={cx('table')}>
                     <Fragment>{searchDom}</Fragment>
@@ -264,15 +308,7 @@ export default defineComponent({
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>
                                 <div class={cx('table-wrapper')} ref={tableRef}>
-                                    <Table
-                                        {...attrs}
-                                        {...pick(props, Object.keys(Table.props))}
-                                        {...requestProps}
-                                        size={unref(size)}
-                                        columns={unref(tableColumns)}
-                                        onChange={onChange}
-                                        v-slots={restSlots}
-                                    />
+                                    <Table {...needTableProps} v-slots={restSlots}/>
                                 </div>
                             </div>
                         </ConfigProvider>

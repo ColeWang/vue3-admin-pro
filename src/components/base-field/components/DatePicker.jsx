@@ -30,14 +30,14 @@ export default defineComponent({
                 )
             }
             if (mode === 'edit') {
+                const needFieldProps = {
+                    format: format,
+                    placeholder: placeholder,
+                    allowClear: true,
+                    ...fieldProps
+                }
                 const renderDom = (
-                    <DatePicker
-                        v-slots={slots}
-                        format={format}
-                        placeholder={placeholder}
-                        allowClear={true}
-                        {...fieldProps}
-                    />
+                    <DatePicker {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)

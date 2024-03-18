@@ -31,13 +31,13 @@ export default defineComponent({
                 )
             }
             if (mode === 'edit') {
+                const needFieldProps = {
+                    placeholder: placeholder,
+                    min: 0,
+                    ...fieldProps
+                }
                 const renderDom = (
-                    <InputNumber
-                        v-slots={slots}
-                        placeholder={placeholder}
-                        min={0}
-                        {...fieldProps}
-                    />
+                    <InputNumber {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)

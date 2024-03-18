@@ -49,29 +49,33 @@ export default defineComponent({
                     return unref(searchColumns).map((column) => {
                         const { fieldProps, formItemProps } = column
                         const key = column.key || column.dataIndex
-                        const nextFormItemProps = {
+                        const needFormItemProps = {
                             ...formItemProps,
                             name: key,
                             label: column.title
                         }
+                        const needFieldProps = {
+                            ...column,
+                            fieldProps: { ...fieldProps, style: { width: '100%' } },
+                            formItemProps: needFormItemProps
+                        }
                         return (
-                            <Field
-                                {...column}
-                                key={key}
-                                fieldProps={{ ...fieldProps, style: { width: '100%' } }}
-                                formItemProps={nextFormItemProps}
-                            />
+                            <Field {...needFieldProps} key={key}/>
                         )
                     })
                 }
             }
 
+            const baseSearchProps = {
+                ...attrs,
+                ...pick(props, Object.keys(BaseSearch.props)),
+                initialValues: initialValues
+            }
+
             return (
                 <BaseSearch
-                    {...attrs}
-                    {...pick(props, Object.keys(BaseSearch.props))}
+                    {...baseSearchProps}
                     ref={baseSearchRef}
-                    initialValues={initialValues}
                     v-slots={baseSearchSlots}
                 />
             )

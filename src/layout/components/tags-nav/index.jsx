@@ -1,4 +1,4 @@
-import { defineComponent, nextTick, ref, unref, watch } from 'vue'
+import { defineComponent, nextTick, ref, unref, watch, Fragment } from 'vue'
 import { Button, Dropdown, Menu } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import Tag from './Tag'
@@ -24,6 +24,14 @@ export default defineComponent({
         tags: {
             type: Array,
             default: () => ([])
+        },
+        onClick: {
+            type: Function,
+            default: undefined
+        },
+        onClose: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['click', 'close'],
@@ -153,15 +161,15 @@ export default defineComponent({
             const tagNodes = tags.map((item) => {
                 const { name: key } = item || {}
                 const tagProps = {
-                    key: key,
-                    ref: onTagRefs(key),
                     color: currentRoute.name === key ? 'primary' : 'default',
                     closable: key !== homeName,
                     onClick: onClick(item),
                     onClose: onClose(item)
                 }
                 return (
-                    <Tag class={cx('tag')} {...tagProps}>{showTitle(item)}</Tag>
+                    <Tag {...tagProps} class={cx('tag')} key={key} ref={onTagRefs(key)}>
+                        {showTitle(item)}
+                    </Tag>
                 )
             })
 
@@ -202,7 +210,7 @@ export default defineComponent({
                         </div>
                         <div class={cx('scroll-outer')} ref={scrollOuterRef}>
                             <div class={cx('scroll-body')} style={scrollBodyStyles} ref={scrollBodyRef}>
-                                {tagNodes}
+                                <Fragment>{tagNodes}</Fragment>
                             </div>
                         </div>
                         <div class={cx('btn-wrap', 'right-btn')}>

@@ -21,6 +21,14 @@ export default defineComponent({
         collapsed: {
             type: Boolean,
             default: false
+        },
+        onChange: {
+            type: Function,
+            default: undefined
+        },
+        onLocal: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['change', 'local'],

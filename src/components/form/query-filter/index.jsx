@@ -43,6 +43,10 @@ const queryFilterProps = {
     defaultRowsNumber: {
         type: Number,
         default: 1
+    },
+    onCollapse: {
+        type: Function,
+        default: undefined
     }
 }
 
@@ -98,8 +102,16 @@ export default defineComponent({
             const baseFormProps = {
                 ...attrs,
                 ...pick(props, Object.keys(BaseForm.props)),
-                ref: baseFormRef,
                 layout: unref(layout)
+            }
+
+            const actionsProps = {
+                ...pick(props, Object.keys(Actions.props)),
+                submitText: submitText || t('search'),
+                collapsed: unref(collapsed),
+                onSubmit: onSubmit,
+                onReset: onReset,
+                onCollapse: onCollapse
             }
 
             const formItemClassNames = cx({
@@ -107,20 +119,13 @@ export default defineComponent({
             })
 
             return (
-                <BaseForm {...baseFormProps}>
+                <BaseForm {...baseFormProps} ref={baseFormRef}>
                     <div ref={resizeRef}>
                         <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
                             <Fragment>{nodes}</Fragment>
                             <Col key={'action'} class={cx('action-col')} span={unref(span)} offset={offset}>
                                 <Form.Item class={formItemClassNames} colon={false}>
-                                    <Actions
-                                        {...pick(props, Object.keys(Actions.props))}
-                                        submitText={submitText || t('search')}
-                                        collapsed={unref(collapsed)}
-                                        onSubmit={onSubmit}
-                                        onReset={onReset}
-                                        onCollapse={onCollapse}
-                                    />
+                                    <Actions {...actionsProps}/>
                                 </Form.Item>
                             </Col>
                         </Row>

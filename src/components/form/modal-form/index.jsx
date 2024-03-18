@@ -110,27 +110,27 @@ export default defineComponent({
 
             const modalSlots = {
                 default: () => {
+                    const baseFormProps = {
+                        ...attrs,
+                        ...pick(props, Object.keys(BaseForm.props)),
+                        onSubmit: onFinishHandle,
+                        onFinish: onFinishHandle
+                    }
                     return (
-                        <BaseForm
-                            {...attrs}
-                            {...pick(props, Object.keys(BaseForm.props))}
-                            ref={baseFormRef}
-                            onSubmit={onFinishHandle}
-                            onFinish={onFinishHandle}
-                            v-slots={slots}
-                        />
+                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={slots}/>
                     )
                 },
                 footer: () => {
+                    const submitterProps = {
+                        ...pick(props, Object.keys(Submitter.props)),
+                        loading: unref(loading),
+                        submitText: submitText || t('okText'),
+                        resetText: resetText || t('cancelText'),
+                        onSubmit: onSubmit,
+                        onReset: onModalClose
+                    }
                     return (
-                        <Submitter
-                            {...pick(props, Object.keys(Submitter.props))}
-                            loading={unref(loading)}
-                            submitText={submitText || t('okText')}
-                            resetText={resetText || t('cancelText')}
-                            onSubmit={onSubmit}
-                            onReset={onModalClose}
-                        />
+                        <Submitter {...submitterProps}/>
                     )
                 }
             }
@@ -141,16 +141,17 @@ export default defineComponent({
                 </div>
             )
 
+            const needModalProps = {
+                ...pick(props, Object.keys(Modal.props)),
+                ...modalProps,
+                open: unref(open),
+                onCancel: onModalClose,
+                afterClose: onAfterClose
+            }
+
             return (
                 <Fragment>
-                    <Modal
-                        {...pick(props, Object.keys(Modal.props))}
-                        {...modalProps}
-                        open={unref(open)}
-                        onCancel={onModalClose}
-                        afterClose={onAfterClose}
-                        v-slots={modalSlots}
-                    />
+                    <Modal {...needModalProps} v-slots={modalSlots}/>
                     <Fragment>{triggerDom}</Fragment>
                 </Fragment>
             )

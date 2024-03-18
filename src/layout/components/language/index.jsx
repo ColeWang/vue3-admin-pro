@@ -10,6 +10,12 @@ const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
+    props: {
+        onChange: {
+            type: Function,
+            default: undefined
+        }
+    },
     emits: ['change'],
     setup (props, { emit }) {
         const { t, locale } = useI18n()

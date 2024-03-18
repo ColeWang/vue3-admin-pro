@@ -99,7 +99,7 @@ export default defineComponent({
                                 <Density value={density} onChange={onDensityChange}/>
                             )}
                             {settingRender && (
-                                <Setting {...attrs} columns={columns} onChange={onSettingChange}/>
+                                <Setting columns={columns} onChange={onSettingChange}/>
                             )}
                         </Space.Compact>
                     </div>

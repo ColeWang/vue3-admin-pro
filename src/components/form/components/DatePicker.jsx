@@ -15,15 +15,15 @@ export default defineComponent({
                 ...pick(props, Object.keys(Form.Item.props)),
                 ...props.formItemProps,
             }
+            const needFieldProps = {
+                ...attrs,
+                ...props,
+                valueType: valueType,
+                fieldProps: fieldProps,
+                formItemProps: formItemProps
+            }
             return (
-                <Field
-                    {...attrs}
-                    {...props}
-                    valueType={valueType}
-                    fieldProps={fieldProps}
-                    formItemProps={formItemProps}
-                    v-slots={slots}
-                />
+                <Field {...needFieldProps} v-slots={slots}/>
             )
         }
     }

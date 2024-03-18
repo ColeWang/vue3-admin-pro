@@ -3,6 +3,7 @@ import { Space, Button } from 'ant-design-vue'
 import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import Submitter from '../components/Submitter'
+import { pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/actions.module.scss'
 
@@ -19,6 +20,10 @@ export default defineComponent({
         collapsed: {
             type: Boolean,
             default: true
+        },
+        onCollapse: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['collapse'],
@@ -30,7 +35,7 @@ export default defineComponent({
         }
 
         return () => {
-            const { collapseRender, collapsed, ...restProps } = props
+            const { collapseRender, collapsed } = props
 
             const collapseDom = collapseRender && (
                 <Button class={cx('collapse-button')} type={'link'} onClick={onCollapse}>
@@ -38,9 +43,13 @@ export default defineComponent({
                     {collapsed ? <DownOutlined/> : <UpOutlined/>}
                 </Button>
             )
+            const submitterProps = {
+                ...attrs,
+                ...pick(props, Object.keys(Submitter.props))
+            }
             return (
                 <Space size={10}>
-                    <Submitter {...attrs} {...restProps}/>
+                    <Submitter {...submitterProps}/>
                     {collapseDom}
                 </Space>
             )

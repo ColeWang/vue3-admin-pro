@@ -15,6 +15,14 @@ export default defineComponent({
         color: {
             type: String,
             default: 'default' // primary
+        },
+        onClick: {
+            type: Function,
+            default: undefined
+        },
+        onClose: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['click', 'close'],

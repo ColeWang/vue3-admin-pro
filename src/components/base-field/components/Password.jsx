@@ -42,13 +42,13 @@ export default defineComponent({
                 return <Fragment>{emptyText}</Fragment>
             }
             if (mode === 'edit') {
+                const needFieldProps = {
+                    placeholder: placeholder,
+                    allowClear: true,
+                    ...fieldProps
+                }
                 const renderDom = (
-                    <Input.Password
-                        v-slots={slots}
-                        placeholder={placeholder}
-                        allowClear={true}
-                        {...fieldProps}
-                    />
+                    <Input.Password {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)

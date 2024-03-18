@@ -53,6 +53,12 @@ const FormGroup = defineComponent({
                 maxWidth: '100%'
             }
 
+            const spaceProps = {
+                wrap: true,
+                align: align,
+                size: layout === 'inline' ? 0 : size
+            }
+
             const groupClassNames = cx('group', {
                 'group__inline': layout === 'inline',
                 'group__vertical': 'xs' === unref(className) || layout === 'vertical',
@@ -61,13 +67,7 @@ const FormGroup = defineComponent({
             return (
                 <div class={groupClassNames}>
                     <Fragment>{titleDom}</Fragment>
-                    <Space
-                        size={layout === 'inline' ? 0 : size}
-                        align={align}
-                        wrap={true}
-                        style={spaceStyles}
-                        v-slots={restSlots}
-                    />
+                    <Space {...spaceProps} style={spaceStyles} v-slots={restSlots}/>
                 </div>
             )
         }
@@ -107,14 +107,10 @@ const FormDependency = defineComponent({
                 return undefined
             })()
 
-            const nextSlots = omitUndefined({ ...slots, default: defaultSlots })
+            const needSlots = omitUndefined({ ...slots, default: defaultSlots })
+            const formItemProps = { ...attrs, ...restProps, noStyle: true }
             return (
-                <AntForm.Item
-                    {...attrs}
-                    {...restProps}
-                    noStyle={true}
-                    v-slots={nextSlots}
-                />
+                <AntForm.Item {...formItemProps} v-slots={needSlots}/>
             )
         }
     }
@@ -139,13 +135,9 @@ const Form = defineComponent({
         expose({ getFormInstance })
 
         return () => {
+            const baseFormProps = { ...attrs, ...props }
             return (
-                <BaseForm
-                    {...attrs}
-                    {...props}
-                    ref={baseFormRef}
-                    v-slots={slots}
-                />
+                <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={slots}/>
             )
         }
     }

@@ -27,6 +27,18 @@ const submitterProps = {
     resetButtonProps: {
         type: [Object, Boolean],
         default: undefined
+    },
+    onSubmit: {
+        type: Function,
+        default: undefined
+    },
+    onReset: {
+        type: Function,
+        default: undefined
+    },
+    onKeyPress: {
+        type: Function,
+        default: undefined
     }
 }
 
@@ -54,7 +66,7 @@ export default defineComponent({
         return () => {
             const { loading, space, submitText, resetText, submitButtonProps, resetButtonProps } = props
 
-            const nextSubmitButtonProps = {
+            const needSubmitButtonProps = {
                 ...submitButtonProps,
                 type: 'primary',
                 loading: loading,
@@ -70,7 +82,7 @@ export default defineComponent({
                         </Button>
                     )}
                     {submitButtonProps !== false && (
-                        <Button {...nextSubmitButtonProps} html-type={'submit'}>
+                        <Button {...needSubmitButtonProps} html-type={'submit'}>
                             {submitText || t('submit')}
                         </Button>
                     )}

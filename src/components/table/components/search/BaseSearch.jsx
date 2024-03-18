@@ -22,15 +22,6 @@ export default defineComponent({
         expose({ getValues })
 
         return () => {
-            const cardProps = {
-                bodyStyle: {
-                    paddingInline: '24px'
-                },
-                style: {
-                    marginBottom: '16px'
-                }
-            }
-
             const queryFilterSlots = {
                 default: (slotScope) => {
                     const children = slots.default ? slots.default() : []
@@ -47,11 +38,21 @@ export default defineComponent({
                 }
             }
 
+            const queryFilterProps = { ...attrs, ...props }
+
+            const cardProps = {
+                bodyStyle: {
+                    paddingInline: '24px'
+                },
+                style: {
+                    marginBottom: '16px'
+                }
+            }
+
             return (
                 <Card {...cardProps}>
                     <QueryFilter
-                        {...attrs}
-                        {...props}
+                        {...queryFilterProps}
                         ref={queryFilterRef}
                         v-slots={queryFilterSlots}
                     />

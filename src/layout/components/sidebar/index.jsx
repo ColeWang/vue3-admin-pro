@@ -107,6 +107,10 @@ export default defineComponent({
         menus: {
             type: Array,
             default: () => ([])
+        },
+        onChange: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['change'],

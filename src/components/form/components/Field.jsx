@@ -64,26 +64,26 @@ export default defineComponent({
 
             const formItemSlots = {
                 default: () => {
-                    const nextFieldProps = {
+                    const needFieldProps = {
                         ...fieldProps,
                         style: fieldStyles(fieldProps.style, fieldWidth),
                         'onUpdate:value': onUpdateValue,
                         // TODO: 待优化
                         onUpdateValue: onUpdateValue
                     }
-                    const nextFormItemProps = {
+                    const needFormItemProps = {
                         ...formItemProps,
                         key: formItemProps.name,
                         model: unref(model)
                     }
+                    const baseFieldProps = {
+                        ...attrs,
+                        ...pick(props, Object.keys(BaseField.props)),
+                        fieldProps: needFieldProps,
+                        formItemProps: needFormItemProps
+                    }
                     return (
-                        <BaseField
-                            {...attrs}
-                            {...pick(props, Object.keys(BaseField.props))}
-                            fieldProps={nextFieldProps}
-                            formItemProps={nextFormItemProps}
-                            v-slots={fieldSlots}
-                        />
+                        <BaseField {...baseFieldProps} v-slots={fieldSlots}/>
                     )
                 }
             }
@@ -91,12 +91,11 @@ export default defineComponent({
             const colWrapProps = {
                 ...colProps,
                 hidden: hidden,
-                key: formItemProps.name,
                 grid: !!(unref(formProps).grid),
             }
 
             return (
-                <ColWrap {...colWrapProps}>
+                <ColWrap {...colWrapProps} key={formItemProps.name}>
                     <Form.Item {...formItemProps} v-slots={formItemSlots}/>
                 </ColWrap>
             )
