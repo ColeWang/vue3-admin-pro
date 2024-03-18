@@ -1,0 +1,76 @@
+.tree-list {
+    .tree-list-title {
+        @include text(12px, $text-secondary);
+        margin: 6px 0;
+        padding-left: 24px;
+    }
+
+    .tree-node {
+        @include flex(center, space-between);
+
+        .tree-node-title {
+            flex: 1;
+            max-width: 120px;
+            @include ellipsis-overflow;
+        }
+
+        .tree-node-option {
+            padding-right: 4px;
+            cursor: pointer;
+            display: none;
+
+            :global(span.anticon) {
+                color: $primary;
+            }
+        }
+    }
+
+    :global(.ant-tree-node-content-wrapper:hover) {
+        background-color: transparent !important;
+
+        .tree-node-option {
+            display: block;
+        }
+    }
+
+    :global(.ant-tree) {
+        background: $background;
+    }
+
+    :global(.ant-tree-list-holder) {
+        padding-top: 2px;
+    }
+
+    :global(.ant-tree-indent) {
+        flex-shrink: 0;
+        @include flex(center, center);
+        @include size(24px);
+        cursor: grab;
+    }
+
+    :global(.ant-tree-indent::before) {
+        display: block;
+        @include size(14px);
+        @include text(14px, $icon, 14px, center);
+        content: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSI2NCA2NCA4OTYgODk2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9jdXNhYmxlPSJmYWxzZSIgZmlsbD0icmdiYSgwLCAwLCAwLCAwLjY1KSI+PHBhdGggZD0iTTMwMCAyNzYuNWE1NiA1NiAwIDEwNTYtOTcgNTYgNTYgMCAwMC01NiA5N3ptMCAyODRhNTYgNTYgMCAxMDU2LTk3IDU2IDU2IDAgMDAtNTYgOTd6TTY0MCAyMjhhNTYgNTYgMCAxMDExMiAwIDU2IDU2IDAgMDAtMTEyIDB6bTAgMjg0YTU2IDU2IDAgMTAxMTIgMCA1NiA1NiAwIDAwLTExMiAwek0zMDAgODQ0LjVhNTYgNTYgMCAxMDU2LTk3IDU2IDU2IDAgMDAtNTYgOTd6TTY0MCA3OTZhNTYgNTYgMCAxMDExMiAwIDU2IDU2IDAgMDAtMTEyIDB6Ii8+PC9zdmc+");
+    }
+
+    :global(.ant-tree-treenode) {
+        align-items: center;
+
+        :global(.ant-tree-checkbox) {
+            margin: 0 4px 0 0;
+            top: 0;
+        }
+    }
+
+    :global(.ant-tree-treenode-disabled) {
+        :global(.ant-tree-indent) {
+            cursor: not-allowed;
+        }
+
+        :global(.ant-tree-indent::before) {
+            display: none;
+        }
+    }
+}

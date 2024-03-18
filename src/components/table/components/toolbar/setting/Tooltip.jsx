@@ -16,6 +16,10 @@ export default defineComponent({
         fixed: {
             type: String,
             default: undefined
+        },
+        onChange: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['change'],

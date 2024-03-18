@@ -8,7 +8,7 @@ import {
 import Tooltip from './Tooltip'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
+import styles from './style/tree.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -69,9 +69,9 @@ export default defineComponent({
             )
 
             return (
-                <div class={cx('checkbox-item')}>
-                    <div class={cx('checkbox-item-title')}>{title}</div>
-                    <div class={cx('checkbox-item-option')}>
+                <div class={cx('tree-node')}>
+                    <div class={cx('tree-node-title')}>{title}</div>
+                    <div class={cx('tree-node-option')}>
                         {!attrs.disabled && iconDom}
                     </div>
                 </div>

@@ -139,7 +139,7 @@ export default defineComponent({
                     const showTitle = frontColumns.length > 0 || behindColumns.length > 0
 
                     return (
-                        <div class={cx('checkbox-list-group')}>
+                        <div class={cx('tree-list-group')}>
                             <TreeList
                                 fixed={'left'}
                                 title={t('leftPin')}

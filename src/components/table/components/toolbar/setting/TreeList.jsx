@@ -2,7 +2,7 @@ import { defineComponent } from 'vue'
 import { Tree } from 'ant-design-vue'
 import TreeNode from './TreeNode'
 import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
+import styles from './style/tree.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -19,7 +19,7 @@ export default defineComponent({
         },
         fixed: {
             type: String,
-            default: undefined // left right
+            default: undefined
         },
         columns: {
             type: Array,
@@ -50,8 +50,8 @@ export default defineComponent({
     setup (props, { emit }) {
         function onTreeNodeCheck (_, info) {
             const { node, checked } = info
-            const columnProps = props.columns.find((item) => item.key === node.key)
-            emit('checkChange', node.key, { ...columnProps, checked: checked })
+            const column = props.columns.find((item) => item.key === node.key)
+            emit('checkChange', node.key, { ...column, checked: checked })
         }
 
         function onTreeNodeDrop (info) {
@@ -62,29 +62,18 @@ export default defineComponent({
         }
 
         function onChangeFixed (key, fixed) {
-            const columnProps = props.columns.find((item) => item.key === key)
-            emit('fixedChange', key, { ...columnProps, fixed: fixed })
+            const column = props.columns.find((item) => item.key === key)
+            emit('fixedChange', key, { ...column, fixed: fixed })
         }
 
         return () => {
             if (props.columns.length === 0) return null
-
             const { columns, showTitle, title, fixed, checkable, draggable } = props
 
             const checkedKeys = columns.filter((item) => {
                 return item.checked !== false
             }).map((item) => {
                 return item.key
-            })
-
-            const loopTreeData = columns.map((item) => {
-                return {
-                    key: item.key,
-                    title: item.title,
-                    selectable: false,
-                    // disabled: item.disable === true,
-                    disableCheckbox: item.disable === true
-                }
             })
 
             const treeSlots = {
@@ -101,24 +90,34 @@ export default defineComponent({
                 }
             }
 
+            const loopTreeData = columns.map((item) => {
+                return {
+                    key: item.key,
+                    title: item.title,
+                    selectable: false,
+                    disableCheckbox: item.disable === true
+                }
+            })
+
+            const needTreeProps = {
+                height: 280,
+                showLine: false,
+                blockNode: true,
+                checkStrictly: true,
+                checkable: checkable,
+                draggable: draggable,
+                checkedKeys: checkedKeys,
+                treeData: loopTreeData,
+                onCheck: onTreeNodeCheck,
+                onDrop: onTreeNodeDrop
+            }
+
             return (
-                <div class={cx('checkbox-list')}>
+                <div class={cx('tree-list')}>
                     {showTitle && (
-                        <div class={cx('checkbox-list-title')}>{title}</div>
+                        <div class={cx('tree-list-title')}>{title}</div>
                     )}
-                    <Tree
-                        height={80}
-                        showLine={false}
-                        blockNode={true}
-                        checkStrictly={true}
-                        checkable={checkable}
-                        draggable={draggable}
-                        checkedKeys={checkedKeys}
-                        treeData={loopTreeData}
-                        onCheck={onTreeNodeCheck}
-                        onDrop={onTreeNodeDrop}
-                        v-slots={treeSlots}
-                    />
+                    <Tree {...needTreeProps} v-slots={treeSlots}/>
                 </div>
             )
         }
