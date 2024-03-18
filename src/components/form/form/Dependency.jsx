@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { Form as AntForm } from 'ant-design-vue'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { forEach, isFunction } from 'lodash-es'
+import { fromPairs, isFunction } from 'lodash-es'
 import { omitUndefined } from '@/utils'
 
 export default defineComponent({
@@ -28,10 +28,10 @@ export default defineComponent({
 
             const defaultSlots = (() => {
                 if (slots.default && isFunction(slots.default)) {
-                    const result = {}
-                    forEach(name, (key) => {
-                        result[key] = getFieldValue(key)
+                    const values = name.map((key) => {
+                        return [key, getFieldValue(key)]
                     })
+                    const result = fromPairs(values)
                     return slots.default.bind(null, result)
                 }
                 return undefined

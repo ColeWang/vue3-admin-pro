@@ -1,17 +1,18 @@
-import { defineComponent, ref, computed, unref, watch } from 'vue'
+import { computed, defineComponent, ref, unref } from 'vue'
 import { Field } from '@/components/form'
 import BaseSearch from './BaseSearch'
-import { pick } from 'lodash-es'
+import { fromPairs, pick } from 'lodash-es'
+import { isEmpty } from '@/utils'
 
 function genInitialValues (columns) {
-    const values = {}
-    columns.forEach((column) => {
+    const values = columns.filter((column) => {
         const key = column.key || column.dataIndex
-        if (key && column.initialValue) {
-            values[key] = column.initialValue
-        }
+        return key && !isEmpty(column.initialValue)
+    }).map((column) => {
+        const key = column.key || column.dataIndex
+        return [key, column.initialValue]
     })
-    return values
+    return fromPairs(values)
 }
 
 function filterSearchColumns (columns) {

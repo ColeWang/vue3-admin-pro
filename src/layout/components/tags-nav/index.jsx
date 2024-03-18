@@ -1,9 +1,10 @@
-import { defineComponent, nextTick, ref, unref, watch, Fragment } from 'vue'
+import { defineComponent, Fragment, nextTick, ref, unref, watch } from 'vue'
 import { Button, Dropdown, Menu } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import Tag from './Tag'
 import useShowTitle from '../../hooks/useShowTitle'
-import { assign, omit, isString } from 'lodash-es'
+import { omitNil } from '@/utils'
+import { isString } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -36,6 +37,8 @@ export default defineComponent({
     },
     emits: ['click', 'close'],
     setup (props, { emit }) {
+        let tagRefsMap = {}
+
         const scrollOuterRef = ref(null)
         const scrollBodyRef = ref(null)
 
@@ -43,14 +46,10 @@ export default defineComponent({
 
         const bodyLeft = ref(0)
 
-        let tagRefsMap = {}
-
-        function onTagRefs (key) {
-            return function (instance) {
-                if (key && isString(key)) {
-                    const source = { [key]: instance }
-                    tagRefsMap = instance ? assign(tagRefsMap, source) : omit(tagRefsMap, [key])
-                }
+        function onTagRefs (key, instance) {
+            if (key && isString(key)) {
+                const values = { ...tagRefsMap, [key]: instance }
+                tagRefsMap = omitNil(values)
             }
         }
 
@@ -167,7 +166,7 @@ export default defineComponent({
                     onClose: onClose(item)
                 }
                 return (
-                    <Tag {...tagProps} class={cx('tag')} key={key} ref={onTagRefs(key)}>
+                    <Tag {...tagProps} class={cx('tag')} key={key} ref={onTagRefs.bind(null, key)}>
                         {showTitle(item)}
                     </Tag>
                 )

@@ -2,6 +2,7 @@ import { defineComponent, Fragment, nextTick, onMounted, ref, unref, watch } fro
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import Search from '../components/search'
 import Toolbar from '../components/toolbar'
+import useColumnRender from '../hooks/useColumnRender'
 import useTableColumns from '../hooks/useTableColumns'
 import useFetchData from '../hooks/useFetchData'
 import { isArray, isFunction, pick } from 'lodash-es'
@@ -47,10 +48,6 @@ const tableProps = {
     postData: {
         type: Function,
         default: undefined
-    },
-    action: {
-        type: Object,
-        default: () => ({})
     },
     search: {
         type: [Object, Boolean],
@@ -112,7 +109,8 @@ export default defineComponent({
         const tableRef = ref(null)
 
         const size = ref(props.size || BaseTableSize)
-        const { baseColumns, tableColumns, setTableColumns } = useTableColumns(props)
+        const { needColumns } = useColumnRender(props)
+        const { tableColumns, toolbarColumns, setColumnsMap } = useTableColumns(needColumns)
 
         const {
             context: requestProps,
@@ -226,11 +224,12 @@ export default defineComponent({
             size.value = value
         }
 
-        function onSetting (columns) {
-            if (props.toolbar && isFunction(props.toolbar.onSetting)) {
-                props.toolbar.onSetting(columns)
-            }
-            setTableColumns(columns)
+        function onSetting (values, reset) {
+            setColumnsMap(values, reset)
+            // if (props.toolbar && isFunction(props.toolbar.onSetting)) {
+            //     props.toolbar.onSetting(columns)
+            // }
+            // setTableColumns(columns)
         }
 
         function getPopupContainer () {
@@ -273,7 +272,7 @@ export default defineComponent({
                     density: unref(size),
                     loading: requestProps.loading,
                     pageData: requestProps.dataSource,
-                    columns: unref(baseColumns),
+                    columns: unref(toolbarColumns),
                     onReload: onReload,
                     onExport: onExport,
                     onDensity: onDensity,

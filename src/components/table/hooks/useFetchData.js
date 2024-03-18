@@ -85,10 +85,8 @@ function useFetchData (request, props, options) {
 
     function setPaginate (paginate) {
         if (context.pagination === false) return
-        context.pagination = validatePaginate({
-            ...context.pagination,
-            ...paginate
-        })
+        const needPaginate = { ...context.pagination, ...paginate }
+        context.pagination = validatePaginate(needPaginate)
     }
 
     function setFilter (filter) {

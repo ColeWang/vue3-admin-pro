@@ -1,9 +1,9 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Button, ConfigProvider, Space, Tooltip } from 'ant-design-vue'
 import { ReloadOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons-vue'
+import Density from '../Density'
+import Setting from '../setting'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import Density from './Density'
-import Setting from './setting'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -57,8 +57,8 @@ export default defineComponent({
             emit('density', value)
         }
 
-        function onSettingChange (columns) {
-            emit('setting', columns)
+        function onSettingChange (values, reset) {
+            emit('setting', values, reset)
         }
 
         function getPopupContainer () {

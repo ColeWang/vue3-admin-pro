@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { Space, Button } from 'ant-design-vue'
+import { Button, Space } from 'ant-design-vue'
 import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import Submitter from '../components/Submitter'

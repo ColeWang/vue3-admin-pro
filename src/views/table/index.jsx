@@ -1,52 +1,57 @@
-import { defineComponent } from 'vue'
+import { defineComponent, computed, unref } from 'vue'
 import { Table, Action } from '@/components/table'
+import { useLocaleReceiver } from '@/components/locale-provider'
 
 export default defineComponent({
     name: 'TableIndex',
     setup () {
-        const columns = [
-            {
-                title: 'Name',
-                search: true,
-                initialValue: '123',
-                dataIndex: 'name',
-                formItemProps: {
-                    required: true
-                }
-            },
-            {
-                title: 'Age',
-                search: true,
-                dataIndex: 'age',
-                valueType: 'select',
-                valueEnum: {
-                    '1': '选项一',
-                    '2': '选项二'
+        const { t } = useLocaleReceiver('Form')
+
+        const columns = computed(() => {
+            return [
+                {
+                    title: t('collapsed'),
+                    search: true,
+                    initialValue: '123',
+                    dataIndex: 'name',
+                    formItemProps: {
+                        required: true
+                    }
                 },
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address'
-            },
-            {
-                title: 'Action',
-                customRender: () => {
-                    return (
-                        <Action.Group>
-                            <Action>操作1</Action>
-                            <Action>操作2</Action>
-                            <Action>操作3</Action>
-                            <Action>操作4</Action>
-                            <Action>长长长长长长长长长长长长长长</Action>
-                        </Action.Group>
-                    )
+                {
+                    title: 'Age',
+                    search: true,
+                    dataIndex: 'age',
+                    valueType: 'select',
+                    valueEnum: {
+                        '1': '选项一',
+                        '2': '选项二'
+                    }
+                },
+                {
+                    title: 'Address',
+                    dataIndex: 'address'
+                },
+                {
+                    title: 'Action',
+                    customRender: () => {
+                        return (
+                            <Action.Group>
+                                <Action>操作1</Action>
+                                <Action>操作2</Action>
+                                <Action>操作3</Action>
+                                <Action>操作4</Action>
+                                <Action>长长长长长长长长长长长长长长</Action>
+                            </Action.Group>
+                        )
+                    }
                 }
-            }
-        ]
+            ]
+        })
 
         function request (params, paginate, filter, sort) {
             return new Promise((resolve) => {
-                console.log(params)
+                // console.log(params)
 
                 const data = [
                     {
@@ -71,7 +76,7 @@ export default defineComponent({
 
         return () => {
             const tableProps = {
-                columns: columns,
+                columns: unref(columns),
                 request: request
             }
 
