@@ -7,6 +7,10 @@ export default defineComponent({
     setup () {
         const { t } = useLocaleReceiver('Form')
 
+        function onColumnsChange (values) {
+            console.log(values)
+        }
+
         const columns = computed(() => {
             return [
                 {
@@ -77,7 +81,8 @@ export default defineComponent({
         return () => {
             const tableProps = {
                 columns: unref(columns),
-                request: request
+                request: request,
+                onColumnsChange: onColumnsChange
             }
 
             return (

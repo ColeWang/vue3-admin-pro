@@ -9,36 +9,60 @@ import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
-const defaultOptions = { exportRender: true, densityRender: true, settingRender: true }
+const toolbarProps = {
+    title: {
+        type: Function,
+        default: undefined
+    },
+    loading: {
+        type: Boolean,
+        default: false
+    },
+    density: {
+        type: String,
+        default: 'large'
+    },
+    columns: {
+        type: Array,
+        default: () => ([])
+    },
+    pageData: {
+        type: Array,
+        default: () => ([])
+    },
+    exportRender: {
+        type: Boolean,
+        default: true
+    },
+    densityRender: {
+        type: Boolean,
+        default: true
+    },
+    settingRender: {
+        type: Boolean,
+        default: true
+    },
+    onReload: {
+        type: Function,
+        default: undefined
+    },
+    onExport: {
+        type: Function,
+        default: undefined
+    },
+    onDensity: {
+        type: Function,
+        default: undefined
+    },
+    onSetting: {
+        type: Function,
+        default: undefined
+    }
+}
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        loading: {
-            type: Boolean,
-            default: false
-        },
-        title: {
-            type: Function,
-            default: undefined
-        },
-        columns: {
-            type: Array,
-            default: () => ([])
-        },
-        pageData: {
-            type: Array,
-            default: () => ([])
-        },
-        density: {
-            type: String,
-            default: 'large'
-        },
-        options: {
-            type: Object,
-            default: () => ({})
-        }
-    },
+    props: toolbarProps,
     emits: ['reload', 'export', 'density', 'setting'],
     setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
@@ -67,8 +91,8 @@ export default defineComponent({
         }
 
         return () => {
-            const { title, loading, density, columns, pageData, options } = props
-            const { exportRender, densityRender, settingRender } = { ...defaultOptions, ...options }
+            const { title, loading, density, columns, pageData } = props
+            const { exportRender, densityRender, settingRender } = props
 
             const renderTitle = slots.title || title
             const slotScope = { loading, density, pageData, ...attrs }

@@ -81,6 +81,10 @@ const tableProps = {
         type: Function,
         default: undefined
     },
+    onColumnsChange: {
+        type: Function,
+        default: undefined
+    },
     onLoad: {
         type: Function,
         default: undefined
@@ -102,7 +106,7 @@ const tableProps = {
 export default defineComponent({
     inheritAttrs: false,
     props: tableProps,
-    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'load', 'requestError', 'submit', 'reset'],
+    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'columnsChange', 'load', 'requestError', 'submit', 'reset'],
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
         const searchRef = ref(null)
@@ -127,6 +131,10 @@ export default defineComponent({
         watch(() => requestProps.loading, (value) => {
             emit('loadingChange', value)
         })
+
+        watch(tableColumns, (value) => {
+            emit('columnsChange', value)
+        }, { immediate: true })
 
         onMounted(() => {
             nextTick().then(() => {
@@ -218,18 +226,10 @@ export default defineComponent({
         }
 
         function onDensity (value) {
+            size.value = value
             if (props.toolbar && isFunction(props.toolbar.onDensity)) {
                 props.toolbar.onDensity(value)
             }
-            size.value = value
-        }
-
-        function onSetting (values, reset) {
-            setColumnsMap(values, reset)
-            // if (props.toolbar && isFunction(props.toolbar.onSetting)) {
-            //     props.toolbar.onSetting(columns)
-            // }
-            // setTableColumns(columns)
         }
 
         function getPopupContainer () {
@@ -269,14 +269,14 @@ export default defineComponent({
                 const toolbarProps = {
                     ...toolbar,
                     title: title,
-                    density: unref(size),
                     loading: requestProps.loading,
+                    density: unref(size),
                     pageData: requestProps.dataSource,
                     columns: unref(toolbarColumns),
                     onReload: onReload,
+                    onSetting: setColumnsMap,
                     onExport: onExport,
-                    onDensity: onDensity,
-                    onSetting: onSetting
+                    onDensity: onDensity
                 }
                 return (
                     <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
