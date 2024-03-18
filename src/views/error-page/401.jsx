@@ -8,7 +8,7 @@ export default defineComponent({
             return (
                 <ErrorContent
                     code={'401'}
-                    desc="Oh~~您没有浏览这个页面的权限~"
+                    desc={'Oh~~您没有浏览这个页面的权限~'}
                     src={error401}
                 />
             )

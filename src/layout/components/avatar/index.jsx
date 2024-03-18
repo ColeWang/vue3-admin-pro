@@ -52,7 +52,11 @@ export default defineComponent({
 
             return (
                 <div class={cx('avatar-wrap')}>
-                    <Dropdown placement={'bottomRight'} getPopupContainer={getPopupContainer} v-slots={dropdownSlots}/>
+                    <Dropdown
+                        placement={'bottomRight'}
+                        getPopupContainer={getPopupContainer}
+                        v-slots={dropdownSlots}
+                    />
                 </div>
             )
         }

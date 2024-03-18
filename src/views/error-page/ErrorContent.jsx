@@ -60,7 +60,9 @@ export default defineComponent({
                         </div>
                         <Space class={cx('back-btn-group')} size={10}>
                             <Button onClick={backHome}>返回首页</Button>
-                            <Button style={{ width: '130px' }} onClick={backPrev}>返回上一页({unref(second)}s)</Button>
+                            <Button style={{ width: '130px' }} onClick={backPrev}>
+                                返回上一页({unref(second)}s)
+                            </Button>
                         </Space>
                     </div>
                 </div>

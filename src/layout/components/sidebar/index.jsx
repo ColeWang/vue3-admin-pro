@@ -84,8 +84,8 @@ const XSubMenu = defineComponent({
             }
             return (
                 <Menu.SubMenu
-                    key={option.name}
                     {...restProps}
+                    key={option.name}
                     v-slots={subMenuSlots}
                 />
             )

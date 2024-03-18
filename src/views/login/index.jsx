@@ -128,7 +128,7 @@ export default defineComponent({
                                 <Checkbox checked={unref(checked)} onChange={setChecked}>
                                     记住账号
                                 </Checkbox>
-                                <a href="javaScript: void 0">忘记密码</a>
+                                <a href={'javaScript: void 0'}>忘记密码</a>
                             </div>
                             <Form.Item class={cx('login-form__error')} validateStatus={'error'} help={unref(errorType)}>
                                 <Button type={'primary'} html-type={'submit'} block={true} loading={unref(loading)}>
