@@ -1,0 +1,41 @@
+import { defineComponent } from 'vue'
+import { preventDefault } from '@/utils/event'
+import { Tooltip } from 'ant-design-vue'
+
+export default defineComponent({
+    inheritAttrs: false,
+    props: {
+        columnKey: {
+            type: String,
+            default: undefined
+        },
+        title: {
+            type: String,
+            default: undefined
+        },
+        fixed: {
+            type: String,
+            default: undefined
+        }
+    },
+    emits: ['change'],
+    setup (props, { emit, slots }) {
+        function onClick (evt) {
+            preventDefault(evt, true)
+            emit('change', props.fixed)
+        }
+
+        return () => {
+            const { title } = props
+
+            return (
+                <Tooltip title={title}>
+                    <span onClick={onClick}>
+                        {slots.default && slots.default()}
+                    </span>
+                </Tooltip>
+            )
+        }
+    }
+})
+

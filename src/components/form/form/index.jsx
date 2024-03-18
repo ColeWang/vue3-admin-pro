@@ -1,120 +1,8 @@
-import { defineComponent, Fragment, ref, unref } from 'vue'
-import { Form as AntForm, Space } from 'ant-design-vue'
+import { defineComponent, ref, unref } from 'vue'
+import { Form as AntForm } from 'ant-design-vue'
 import BaseForm from '../base-form'
-import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { forEach, isFunction } from 'lodash-es'
-import { omitUndefined } from '@/utils'
-import useMediaQuery from '@/hooks/useMediaQuery'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
-
-const FormGroup = defineComponent({
-    inheritAttrs: false,
-    props: {
-        title: {
-            type: String,
-            default: undefined
-        },
-        size: {
-            type: Number,
-            default: 32
-        },
-        align: {
-            type: String,
-            default: 'start'
-        }
-    },
-    setup (props, { slots }) {
-        const { className } = useMediaQuery()
-        const formInstance = useFormInstance()
-
-        return () => {
-            const { title, size, align } = props
-            const { formProps = {} } = formInstance
-            const { title: titleSlot, ...restSlots } = slots
-            const layout = unref(formProps).layout || 'vertical'
-
-            const titleDom = (() => {
-                const children = titleSlot && titleSlot()
-                if (children || title) {
-                    return (
-                        <div class={cx('group-title')}>{children || title}</div>
-                    )
-                }
-                return null
-            })()
-
-            const spaceStyles = {
-                rowGap: 0,
-                marginBottom: 0,
-                flexWrap: 'wrap',
-                maxWidth: '100%'
-            }
-
-            const spaceProps = {
-                wrap: true,
-                align: align,
-                size: layout === 'inline' ? 0 : size
-            }
-
-            const groupClassNames = cx('group', {
-                'group__inline': layout === 'inline',
-                'group__vertical': 'xs' === unref(className) || layout === 'vertical',
-            })
-
-            return (
-                <div class={groupClassNames}>
-                    <Fragment>{titleDom}</Fragment>
-                    <Space {...spaceProps} style={spaceStyles} v-slots={restSlots}/>
-                </div>
-            )
-        }
-    }
-})
-
-const FormDependency = defineComponent({
-    inheritAttrs: false,
-    props: {
-        ...AntForm.Item.props,
-        name: {
-            type: Array,
-            default: () => ([])
-        }
-    },
-    setup (props, { attrs, slots }) {
-        const formInstance = useFormInstance()
-
-        function getFieldValue (name) {
-            if (formInstance && formInstance.getModelValue) {
-                return formInstance.getModelValue(name)
-            }
-            return undefined
-        }
-
-        return () => {
-            const { name, ...restProps } = props
-
-            const defaultSlots = (() => {
-                if (slots.default && isFunction(slots.default)) {
-                    const result = {}
-                    forEach(name, (key) => {
-                        result[key] = getFieldValue(key)
-                    })
-                    return slots.default.bind(null, result)
-                }
-                return undefined
-            })()
-
-            const needSlots = omitUndefined({ ...slots, default: defaultSlots })
-            const formItemProps = { ...attrs, ...restProps, noStyle: true }
-            return (
-                <AntForm.Item {...formItemProps} v-slots={needSlots}/>
-            )
-        }
-    }
-})
+import Group from './Group'
+import Dependency from './Dependency'
 
 const Form = defineComponent({
     inheritAttrs: false,
@@ -145,7 +33,7 @@ const Form = defineComponent({
 
 Form.useForm = AntForm.useForm
 Form.Item = AntForm.Item
-Form.Group = FormGroup
-Form.Dependency = FormDependency
+Form.Group = Group
+Form.Dependency = Dependency
 
 export default Form

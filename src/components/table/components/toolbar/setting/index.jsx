@@ -1,233 +1,13 @@
 import { defineComponent, shallowRef, unref, watch } from 'vue'
-import { Button, Checkbox, Popover, Space, Tooltip, Tree } from 'ant-design-vue'
-import {
-    SettingOutlined,
-    VerticalAlignBottomOutlined,
-    VerticalAlignMiddleOutlined,
-    VerticalAlignTopOutlined
-} from '@ant-design/icons-vue'
+import { Button, Checkbox, Popover, Tooltip } from 'ant-design-vue'
+import { SettingOutlined } from '@ant-design/icons-vue'
+import TreeList from './TreeList'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import { preventDefault } from '@/utils/event'
 import { isBoolean } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
-import styles from './style/setting.module.scss'
+import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
-
-const TooltipIcon = defineComponent({
-    inheritAttrs: false,
-    props: {
-        columnKey: {
-            type: String,
-            default: undefined
-        },
-        title: {
-            type: String,
-            default: undefined
-        },
-        fixed: {
-            type: String,
-            default: undefined
-        }
-    },
-    emits: ['change'],
-    setup (props, { emit, slots }) {
-        function onClick (evt) {
-            preventDefault(evt, true)
-            emit('change', props.fixed)
-        }
-
-        return () => {
-            return (
-                <Tooltip title={props.title}>
-                    <span onClick={onClick}>
-                        {slots.default && slots.default()}
-                    </span>
-                </Tooltip>
-            )
-        }
-    }
-})
-
-const CheckboxItem = defineComponent({
-    inheritAttrs: false,
-    props: {
-        columnKey: {
-            type: String,
-            default: undefined
-        },
-        title: {
-            type: String,
-            default: undefined
-        },
-        fixed: {
-            type: String,
-            default: undefined
-        }
-    },
-    emits: ['change'],
-    setup (props, { emit, attrs }) {
-        const { t } = useLocaleReceiver('Table.toolbar')
-
-        function onChange (fixed) {
-            emit('change', props.columnKey, fixed)
-        }
-
-        return () => {
-            const { title, fixed, columnKey } = props
-
-            const iconProps = {
-                columnKey: columnKey,
-                onChange: onChange
-            }
-
-            const iconDom = (
-                <Space size={4}>
-                    {
-                        fixed !== 'left' && (
-                            <TooltipIcon title={t('leftPin')} fixed={'left'} {...iconProps}>
-                                <VerticalAlignTopOutlined/>
-                            </TooltipIcon>
-                        )
-                    }
-                    {
-                        !!fixed && (
-                            <TooltipIcon title={t('noPin')} {...iconProps}>
-                                <VerticalAlignMiddleOutlined/>
-                            </TooltipIcon>
-                        )
-                    }
-                    {
-                        fixed !== 'right' && (
-                            <TooltipIcon title={t('rightPin')} fixed={'right'} {...iconProps}>
-                                <VerticalAlignBottomOutlined/>
-                            </TooltipIcon>
-                        )
-                    }
-                </Space>
-            )
-
-            return (
-                <div class={cx('checkbox-item')}>
-                    <div class={cx('checkbox-item-title')}>{title}</div>
-                    <div class={cx('checkbox-item-option')}>
-                        {!attrs.disabled ? iconDom : null}
-                    </div>
-                </div>
-            )
-        }
-    }
-})
-
-const CheckboxList = defineComponent({
-    inheritAttrs: false,
-    props: {
-        showTitle: {
-            type: Boolean,
-            default: true
-        },
-        title: {
-            type: String,
-            default: undefined
-        },
-        fixed: {
-            type: String,
-            default: undefined // left right
-        },
-        columns: {
-            type: Array,
-            default: () => ([])
-        },
-        checkable: {
-            type: Boolean,
-            default: true
-        },
-        draggable: {
-            type: Boolean,
-            default: true
-        }
-    },
-    emits: ['checkChange', 'dropChange', 'fixedChange'],
-    setup (props, { emit }) {
-        function onTreeNodeCheck (_, info) {
-            const { node, checked } = info
-            const columnProps = props.columns.find((item) => item.key === node.key)
-            emit('checkChange', node.key, { ...columnProps, checked: checked })
-        }
-
-        function onTreeNodeDrop (info) {
-            const { node, dragNode, dropPosition } = info
-            const dragKey = dragNode.key, dropKey = node.key, dropPos = node.pos.split('-')
-            const trueDropPosition = dropPosition - Number(dropPos[dropPos.length - 1])
-            emit('dropChange', dragKey, dropKey, trueDropPosition, dropPosition)
-        }
-
-        function onChangeFixed (key, fixed) {
-            const columnProps = props.columns.find((item) => item.key === key)
-            emit('fixedChange', key, { ...columnProps, fixed: fixed })
-        }
-
-        return () => {
-            if (props.columns.length === 0) return null
-
-            const { columns, showTitle, title, fixed, checkable, draggable } = props
-
-            const checkedKeys = columns.filter((item) => {
-                return item.checked !== false
-            }).map((item) => {
-                return item.key
-            })
-
-            const loopTreeData = columns.map((item) => {
-                return {
-                    key: item.key,
-                    title: item.title,
-                    selectable: false,
-                    // disabled: item.disable === true,
-                    disableCheckbox: item.disable === true
-                }
-            })
-
-            const treeProps = {
-                height: 280,
-                showLine: false,
-                blockNode: true,
-                checkStrictly: true,
-                checkable: checkable,
-                draggable: draggable,
-                checkedKeys: checkedKeys,
-                treeData: loopTreeData,
-                onCheck: onTreeNodeCheck,
-                onDrop: onTreeNodeDrop
-            }
-
-            const treeSlots = {
-                title: (slotScope) => {
-                    const checkboxItemProps = {
-                        ...slotScope,
-                        fixed: fixed,
-                        columnKey: slotScope.key,
-                        onChange: onChangeFixed
-                    }
-                    return (
-                        <CheckboxItem {...checkboxItemProps}/>
-                    )
-                }
-            }
-
-            return (
-                <div class={cx('checkbox-list')}>
-                    {
-                        showTitle && (
-                            <div className={cx('checkbox-list-title')}>{title}</div>
-                        )
-                    }
-                    <Tree {...treeProps} v-slots={treeSlots}/>
-                </div>
-            )
-        }
-    }
-})
 
 export default defineComponent({
     inheritAttrs: false,
@@ -360,7 +140,7 @@ export default defineComponent({
 
                     return (
                         <div class={cx('checkbox-list-group')}>
-                            <CheckboxList
+                            <TreeList
                                 fixed={'left'}
                                 title={t('leftPin')}
                                 columns={frontColumns}
@@ -370,7 +150,7 @@ export default defineComponent({
                                 onFixedChange={onFixedChange}
                                 onDropChange={onDropChange}
                             />
-                            <CheckboxList
+                            <TreeList
                                 title={t('noPin')}
                                 showTitle={showTitle}
                                 columns={betweenColumns}
@@ -380,7 +160,7 @@ export default defineComponent({
                                 onFixedChange={onFixedChange}
                                 onDropChange={onDropChange}
                             />
-                            <CheckboxList
+                            <TreeList
                                 fixed={'right'}
                                 title={t('rightPin')}
                                 columns={behindColumns}

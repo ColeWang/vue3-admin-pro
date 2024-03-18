@@ -1,4 +1,4 @@
-.action-item {
+.action {
     text-decoration: none;
     background-color: transparent;
     outline: none;
@@ -7,7 +7,7 @@
     user-select: none;
     -webkit-text-decoration-skip: objects;
 
-    &.action-item__primary {
+    &.action__primary {
         color: $primary;
 
         &:hover {
@@ -19,7 +19,7 @@
         }
     }
 
-    &.action-item__warning {
+    &.action__warning {
         color: $warning;
 
         &:hover {
@@ -31,7 +31,7 @@
         }
     }
 
-    &.action-item__error {
+    &.action__error {
         color: $error;
 
         &:hover {

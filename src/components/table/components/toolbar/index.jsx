@@ -3,7 +3,7 @@ import { Button, ConfigProvider, Space, Tooltip } from 'ant-design-vue'
 import { ReloadOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import Density from './Density'
-import Setting from './Setting'
+import Setting from './setting'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
