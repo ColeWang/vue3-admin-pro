@@ -41,13 +41,11 @@ export default defineComponent({
                 <div class={cx('tag')} {...attrs} onClick={onClick}>
                     <span class={dotInnerClassNames}/>
                     <span class={cx('tag_text')}>{children}</span>
-                    {
-                        closable && (
-                            <span class={cx('close')} onClick={withModifiers(onClose, ['stop'])}>
-                                <CloseOutlined/>
-                            </span>
-                        )
-                    }
+                    {closable && (
+                        <span class={cx('close')} onClick={withModifiers(onClose, ['stop'])}>
+                            <CloseOutlined/>
+                        </span>
+                    )}
                 </div>
             )
         }

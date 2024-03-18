@@ -6,7 +6,7 @@
         margin-block: 0;
     }
 
-    .form-item-vertical {
+    .form-item__vertical {
         margin-top: 30px;
     }
 
@@ -16,13 +16,5 @@
 
     .col-hidden {
         display: none;
-    }
-
-    .collapse-button {
-        padding: 0;
-
-        :global(.anticon) {
-            margin-left: 2px;
-        }
     }
 }

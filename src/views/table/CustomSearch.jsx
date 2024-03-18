@@ -1,7 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Card } from 'ant-design-vue'
-import { QueryFilter, Select, Text } from '@/components/form'
-import { Action, Table } from '@/components/table'
+import { Select, Text } from '@/components/form'
+import { Action, Table, BaseSearch } from '@/components/table'
 
 export default defineComponent({
     name: 'TableCustomSearch',
@@ -65,24 +64,11 @@ export default defineComponent({
                 request: request
             }
 
-            const tableSlots = {
-                search: (slotScope) => {
-                    console.log(slotScope)
-                    const cardProps = {
-                        bodyStyle: {
-                            paddingInline: '24px'
-                        },
-                        style: {
-                            marginBottom: '16px'
-                        }
-                    }
-                    const queryFilterProps = {
-                        ...slotScope,
-                        model: unref(model)
-                    }
-                    const queryFilterSlots = {
-                        default: ({ props: slotProps }) => {
-                            return [
+            return (
+                <div>
+                    <Table {...tableProps} v-slots={{
+                        search: (slotScope) => (
+                            <BaseSearch {...slotScope} model={unref(model)}>
                                 <Select
                                     label={'Age'}
                                     name={'age'}
@@ -90,29 +76,16 @@ export default defineComponent({
                                         '1': '选项一',
                                         '2': '选项二',
                                     }}
-                                    formItemProps={slotProps}
-                                />,
+                                />
                                 <Text
                                     hidden={unref(model).age && unref(model).age === '1'}
                                     label={'Name'}
                                     name={'name'}
                                     required={true}
-                                    formItemProps={slotProps}
                                 />
-                            ]
-                        }
-                    }
-                    return (
-                        <Card {...cardProps}>
-                            <QueryFilter {...queryFilterProps} v-slots={queryFilterSlots}/>
-                        </Card>
-                    )
-                }
-            }
-
-            return (
-                <div>
-                    <Table {...tableProps} v-slots={tableSlots}/>
+                            </BaseSearch>
+                        )
+                    }}/>
                 </div>
             )
         }

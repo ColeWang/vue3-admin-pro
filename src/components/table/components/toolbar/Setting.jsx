@@ -245,7 +245,7 @@ export default defineComponent({
             default: () => ([])
         }
     },
-    emits: ['updateTableColumns'],
+    emits: ['change'],
     setup (props, { emit }) {
         const { t } = useLocaleReceiver('Table.toolbar')
 
@@ -278,7 +278,7 @@ export default defineComponent({
             }).filter((column) => {
                 return !!column.checked
             })
-            emit('updateTableColumns', nextTableColumns)
+            emit('change', nextTableColumns)
         }
 
         function onCheckClick (evt) {

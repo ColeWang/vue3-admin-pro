@@ -11,7 +11,7 @@ function useTags (menus, homeName) {
     const cacheTags = localCache.getObj(TAGS__LOCAL)
     const tags = ref(cacheTags ? [...filterCache(menus, cacheTags)] : [homeRoute])
 
-    const stopWatch = watch(() => route, (currentRoute) => {
+    const stopWatch = watch(route, (currentRoute) => {
         if (currentRoute && currentRoute.name) {
             const { query, meta, params, name } = currentRoute
             const result = unref(tags).findIndex((item) => {

@@ -3,41 +3,36 @@ import { Modal } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseForm from '../base-form'
 import Submitter from '../components/Submitter'
-import { isFunction } from 'lodash-es'
+import { isFunction, pick } from 'lodash-es'
+
+const modalFormProps = {
+    ...BaseForm.props,
+    ...Submitter.props,
+    layout: {
+        type: String,
+        default: 'vertical'
+    },
+    title: {
+        type: String,
+        default: undefined
+    },
+    width: {
+        type: Number,
+        default: 512
+    },
+    maskClosable: {
+        type: Boolean,
+        default: true
+    },
+    modalProps: {
+        type: Object,
+        default: () => ({})
+    }
+}
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        ...BaseForm.props,
-        layout: {
-            type: String,
-            default: undefined
-        },
-        title: {
-            type: String,
-            default: undefined
-        },
-        width: {
-            type: Number,
-            default: 800
-        },
-        maskClosable: {
-            type: Boolean,
-            default: true
-        },
-        modalProps: {
-            type: Object,
-            default: () => ({})
-        },
-        submitText: {
-            type: String,
-            default: undefined
-        },
-        resetText: {
-            type: String,
-            default: undefined
-        }
-    },
+    props: modalFormProps,
     emits: ['open', 'cancel', 'afterClose', 'openChange', 'loadingChange'],
     setup (props, { emit, slots, attrs, expose }) {
         const baseFormRef = ref(null)
@@ -47,11 +42,11 @@ export default defineComponent({
         const open = ref(false)
         const loading = ref(false)
 
-        watch(() => open, (value) => {
+        watch(open, (value) => {
             emit('openChange', value)
         })
 
-        watch(() => loading, (value) => {
+        watch(loading, (value) => {
             emit('loadingChange', value)
         })
 
@@ -111,46 +106,31 @@ export default defineComponent({
         })
 
         return () => {
-            const { title, width, maskClosable, modalProps, submitText, resetText, ...restProps } = props
-
-            const nextModalProps = {
-                ...modalProps,
-                title: title,
-                width: width,
-                maskClosable: maskClosable,
-                open: unref(open),
-                onCancel: onModalClose,
-                afterClose: onAfterClose,
-            }
+            const { modalProps, submitText, resetText } = props
 
             const modalSlots = {
                 default: () => {
-                    const baseFormProps = {
-                        ...attrs,
-                        ...restProps,
-                        ref: baseFormRef,
-                        layout: props.layout || 'vertical',
-                        onSubmit: onFinishHandle,
-                        onFinish: onFinishHandle
-                    }
-
                     return (
-                        <BaseForm {...baseFormProps} v-slots={slots}/>
+                        <BaseForm
+                            {...attrs}
+                            {...pick(props, Object.keys(BaseForm.props))}
+                            ref={baseFormRef}
+                            onSubmit={onFinishHandle}
+                            onFinish={onFinishHandle}
+                            v-slots={slots}
+                        />
                     )
                 },
                 footer: () => {
-                    const submitterProps = {
-                        config: {
-                            submitText: submitText || t('okText'),
-                            resetText: resetText || t('cancelText')
-                        },
-                        loading: unref(loading),
-                        onSubmit: onSubmit,
-                        onReset: onModalClose
-                    }
-
                     return (
-                        <Submitter {...submitterProps}/>
+                        <Submitter
+                            {...pick(props, Object.keys(Submitter.props))}
+                            loading={unref(loading)}
+                            submitText={submitText || t('okText')}
+                            resetText={resetText || t('cancelText')}
+                            onSubmit={onSubmit}
+                            onReset={onModalClose}
+                        />
                     )
                 }
             }
@@ -163,7 +143,14 @@ export default defineComponent({
 
             return (
                 <Fragment>
-                    <Modal {...nextModalProps} v-slots={modalSlots}/>
+                    <Modal
+                        {...pick(props, Object.keys(Modal.props))}
+                        {...modalProps}
+                        open={unref(open)}
+                        onCancel={onModalClose}
+                        afterClose={onAfterClose}
+                        v-slots={modalSlots}
+                    />
                     <Fragment>{triggerDom}</Fragment>
                 </Fragment>
             )

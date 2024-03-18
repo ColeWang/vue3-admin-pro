@@ -3,7 +3,6 @@ import { tryOnScopeDispose } from '@/utils'
 
 function useResizeObserver (target, callback, options) {
     let observer = undefined
-    const isSupported = window && 'ResizeObserver' in window
 
     function cleanup () {
         observer && observer.disconnect()
@@ -17,7 +16,7 @@ function useResizeObserver (target, callback, options) {
 
     const stopWatch = watch(elTarget, (el) => {
         cleanup()
-        if (isSupported && window) {
+        if (window && 'ResizeObserver' in window) {
             observer = new ResizeObserver(callback)
             el && observer.observe(el, options)
         }
@@ -30,10 +29,7 @@ function useResizeObserver (target, callback, options) {
 
     tryOnScopeDispose(onStop)
 
-    return {
-        isSupported,
-        onStop
-    }
+    return { onStop }
 }
 
 export default useResizeObserver

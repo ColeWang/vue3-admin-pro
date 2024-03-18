@@ -3,14 +3,32 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { isNumber } from 'lodash-es'
+import { isNumber, pick } from 'lodash-es'
 
-const SizeEnum = {
+const sizeEnum = {
     xs: 104,
     sm: 216,
     md: 328,
     lg: 440,
     xl: 552
+}
+
+function unit (value) {
+    if (value && isNumber(value)) {
+        return `${value}px`
+    }
+    return undefined
+}
+
+function fieldStyles (style, fieldWidth) {
+    const { maxWidth, minWidth, width, ...restStyles } = style || {}
+    const fieldSize = isNumber(fieldWidth) ? unit(fieldWidth) : unit(sizeEnum[fieldWidth])
+    return {
+        ...restStyles,
+        maxWidth: maxWidth || '100%',
+        minWidth: minWidth || unit(sizeEnum['xs']),
+        width: width || fieldSize || '100%'
+    }
 }
 
 export default defineComponent({
@@ -30,57 +48,38 @@ export default defineComponent({
             default: () => ({})
         }
     },
-    setup (props, { slots: fieldSlots }) {
+    setup (props, { slots: fieldSlots, attrs }) {
         const formInstance = useFormInstance()
 
-        function unit (value) {
-            if (value && isNumber(value)) {
-                return `${value}px`
-            }
-            return undefined
-        }
-
         function onUpdateValue (value) {
-            const { formItemProps } = props
-            if (formInstance && formItemProps.name) {
-                formInstance.setModelValue(value, formItemProps.name)
+            const { formItemProps: { name } } = props
+            if (formInstance.setModelValue && name) {
+                formInstance.setModelValue(value, name)
             }
         }
 
         return () => {
-            const { fieldProps, formItemProps, width: fieldWidth, colProps, hidden, ...restProps } = props
-
-            const model = formInstance ? unref(formInstance.model) : {}
-            const formProps = formInstance ? unref(formInstance.formProps) : {}
-
-            const nextFormItemProps = {
-                ...formItemProps,
-                model: model,
-                key: formItemProps.name,
-            }
+            const { fieldProps, formItemProps, width: fieldWidth, hidden, colProps } = props
+            const { model = {}, formProps = {} } = formInstance
 
             const formItemSlots = {
                 default: () => {
-                    const fieldStyles = (() => {
-                        const { style: nextStyle } = fieldProps
-                        const { maxWidth, minWidth, width } = nextStyle || {}
-                        const fieldSize = isNumber(fieldWidth) ? unit(fieldWidth) : unit(SizeEnum[fieldWidth])
-                        return {
-                            ...nextStyle,
-                            maxWidth: maxWidth || '100%',
-                            minWidth: minWidth || unit(SizeEnum['xs']),
-                            width: width || fieldSize || '100%'
-                        }
-                    })()
                     const nextFieldProps = {
                         ...fieldProps,
-                        style: fieldStyles,
-                        onUpdateValue: onUpdateValue,
-                        'onUpdate:value': onUpdateValue
+                        style: fieldStyles(fieldProps.style, fieldWidth),
+                        'onUpdate:value': onUpdateValue,
+                        // TODO: 待优化
+                        onUpdateValue: onUpdateValue
+                    }
+                    const nextFormItemProps = {
+                        ...formItemProps,
+                        key: formItemProps.name,
+                        model: unref(model)
                     }
                     return (
                         <BaseField
-                            {...restProps}
+                            {...attrs}
+                            {...pick(props, Object.keys(BaseField.props))}
                             fieldProps={nextFieldProps}
                             formItemProps={nextFormItemProps}
                             v-slots={fieldSlots}
@@ -89,22 +88,17 @@ export default defineComponent({
                 }
             }
 
-            const colWrapProps = { grid: !!formProps.grid, ...colProps }
-
-            const colWrapSlots = {
-                default: () => {
-                    return (
-                        <Form.Item {...nextFormItemProps} v-slots={formItemSlots}/>
-                    )
-                }
+            const colWrapProps = {
+                ...colProps,
+                hidden: hidden,
+                key: formItemProps.name,
+                grid: !!(unref(formProps).grid),
             }
+
             return (
-                <ColWrap
-                    key={formItemProps.name}
-                    {...colWrapProps}
-                    hidden={hidden}
-                    v-slots={colWrapSlots}
-                />
+                <ColWrap {...colWrapProps}>
+                    <Form.Item {...formItemProps} v-slots={formItemSlots}/>
+                </ColWrap>
             )
         }
     }

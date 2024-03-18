@@ -43,17 +43,16 @@ export default defineComponent({
                     )
                 },
                 overlay: () => {
+                    const nodes = map(localList, (value, key) => {
+                        return (
+                            <Menu.Item key={key} onClick={onChange.bind(null, key)}>
+                                {value}
+                            </Menu.Item>
+                        )
+                    })
                     return (
                         <Menu class={cx('language-menu')} selectedKeys={unref(selectedKeys)}>
-                            {
-                                map(localList, (value, key) => {
-                                    return (
-                                        <Menu.Item key={key} onClick={onChange.bind(null, key)}>
-                                            {value}
-                                        </Menu.Item>
-                                    )
-                                })
-                            }
+                            {nodes}
                         </Menu>
                     )
                 }

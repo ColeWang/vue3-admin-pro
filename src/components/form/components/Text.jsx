@@ -17,8 +17,8 @@ export default defineComponent({
             }
             return (
                 <Field
-                    {...props}
                     {...attrs}
+                    {...props}
                     valueType={valueType}
                     fieldProps={fieldProps}
                     formItemProps={formItemProps}

@@ -19,7 +19,7 @@ export default defineComponent({
                 <Card>
                     <ModalForm
                         grid={true}
-                        width={512}
+                        width={800}
                         onFinish={onFinish}
                         v-slots={{
                             trigger: () => {

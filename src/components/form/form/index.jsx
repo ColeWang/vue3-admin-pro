@@ -31,24 +31,10 @@ const FormGroup = defineComponent({
         const formInstance = useFormInstance()
 
         return () => {
-            const { title, size } = props
+            const { title, size, align } = props
+            const { formProps = {} } = formInstance
             const { title: titleSlot, ...restSlots } = slots
-
-            const formProps = formInstance ? unref(formInstance.formProps) : {}
-            const layout = formProps.layout || 'vertical'
-
-            const spaceProps = {
-                size: layout === 'inline' ? 0 : size,
-                align: 'start',
-                wrap: true,
-            }
-
-            const spaceStyles = {
-                rowGap: 0,
-                marginBottom: 0,
-                flexWrap: 'wrap',
-                maxWidth: '100%'
-            }
+            const layout = unref(formProps).layout || 'vertical'
 
             const titleDom = (() => {
                 const children = titleSlot && titleSlot()
@@ -60,6 +46,13 @@ const FormGroup = defineComponent({
                 return null
             })()
 
+            const spaceStyles = {
+                rowGap: 0,
+                marginBottom: 0,
+                flexWrap: 'wrap',
+                maxWidth: '100%'
+            }
+
             const groupClassNames = cx('group', {
                 'group__inline': layout === 'inline',
                 'group__vertical': 'xs' === unref(className) || layout === 'vertical',
@@ -68,7 +61,13 @@ const FormGroup = defineComponent({
             return (
                 <div class={groupClassNames}>
                     <Fragment>{titleDom}</Fragment>
-                    <Space {...spaceProps} style={spaceStyles} v-slots={restSlots}/>
+                    <Space
+                        size={layout === 'inline' ? 0 : size}
+                        align={align}
+                        wrap={true}
+                        style={spaceStyles}
+                        v-slots={restSlots}
+                    />
                 </div>
             )
         }
@@ -95,11 +94,13 @@ const FormDependency = defineComponent({
         }
 
         return () => {
+            const { name, ...restProps } = props
+
             const defaultSlots = (() => {
                 if (slots.default && isFunction(slots.default)) {
                     const result = {}
-                    forEach(props.name, (name) => {
-                        result[name] = getFieldValue(name)
+                    forEach(name, (key) => {
+                        result[key] = getFieldValue(key)
                     })
                     return slots.default.bind(null, result)
                 }
@@ -107,10 +108,13 @@ const FormDependency = defineComponent({
             })()
 
             const nextSlots = omitUndefined({ ...slots, default: defaultSlots })
-            const itemProps = { ...attrs, ...props }
-
             return (
-                <AntForm.Item noStyle={true} {...itemProps} v-slots={nextSlots}/>
+                <AntForm.Item
+                    {...attrs}
+                    {...restProps}
+                    noStyle={true}
+                    v-slots={nextSlots}
+                />
             )
         }
     }
@@ -122,7 +126,7 @@ const Form = defineComponent({
         ...BaseForm.props,
         layout: {
             type: String,
-            default: undefined
+            default: 'vertical'
         }
     },
     setup (props, { slots, attrs, expose }) {
@@ -135,13 +139,13 @@ const Form = defineComponent({
         expose({ getFormInstance })
 
         return () => {
-            const baseFormProps = {
-                ...attrs,
-                ...props,
-                layout: props.layout || 'vertical'
-            }
             return (
-                <BaseForm ref={baseFormRef} {...baseFormProps} v-slots={slots}/>
+                <BaseForm
+                    {...attrs}
+                    {...props}
+                    ref={baseFormRef}
+                    v-slots={slots}
+                />
             )
         }
     }

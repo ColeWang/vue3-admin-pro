@@ -9,20 +9,18 @@ import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
+const defaultOptions = { exportRender: true, densityRender: true, settingRender: true }
+
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        title: {
-            type: Function,
-            default: undefined
-        },
         loading: {
             type: Boolean,
             default: false
         },
-        size: {
-            type: String,
-            default: 'large'
+        title: {
+            type: Function,
+            default: undefined
         },
         columns: {
             type: Array,
@@ -32,39 +30,35 @@ export default defineComponent({
             type: Array,
             default: () => ([])
         },
-        exportRender: {
-            type: Boolean,
-            default: true
+        density: {
+            type: String,
+            default: 'large'
         },
-        sizeRender: {
-            type: Boolean,
-            default: true
-        },
-        settingRender: {
-            type: Boolean,
-            default: true
+        options: {
+            type: Object,
+            default: () => ({})
         }
     },
-    emits: ['refresh', 'export', 'sizeChange', 'settingChange'],
+    emits: ['reload', 'export', 'density', 'setting'],
     setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
 
         const { t } = useLocaleReceiver('Table.toolbar')
 
-        function handleClickRefresh () {
-            !props.loading && emit('refresh')
+        function handleReloadClick () {
+            !props.loading && emit('reload')
         }
 
-        function handleClickExport () {
+        function handleExportClick () {
             emit('export')
         }
 
-        function onSizeChange (value) {
-            emit('sizeChange', value)
+        function onDensityChange (value) {
+            emit('density', value)
         }
 
         function onSettingChange (columns) {
-            emit('settingChange', columns)
+            emit('setting', columns)
         }
 
         function getPopupContainer () {
@@ -73,30 +67,11 @@ export default defineComponent({
         }
 
         return () => {
-            const { title, loading, size, columns, pageData } = props
-            const { exportRender, sizeRender, settingRender } = props
+            const { title, loading, density, columns, pageData, options } = props
+            const { exportRender, densityRender, settingRender } = { ...defaultOptions, ...options }
 
             const renderTitle = slots.title || title
-
-            const slotScope = { loading, size, pageData, ...attrs }
-
-            const exportDom = exportRender && (
-                <Tooltip title={t('export')}>
-                    <Button onClick={handleClickExport}>
-                        <VerticalAlignBottomOutlined/>
-                    </Button>
-                </Tooltip>
-            )
-            const sizeDom = sizeRender && (
-                <Density size={size} onSizeChange={onSizeChange}/>
-            )
-            const settingDom = settingRender && (
-                <Setting
-                    {...attrs}
-                    columns={columns}
-                    onUpdateTableColumns={onSettingChange}
-                />
-            )
+            const slotScope = { loading, density, pageData, ...attrs }
 
             const toolbarDom = (
                 <div class={cx('toolbar')}>
@@ -109,13 +84,23 @@ export default defineComponent({
                         </Space>
                         <Space.Compact>
                             <Tooltip title={t('reload')}>
-                                <Button onClick={handleClickRefresh}>
+                                <Button onClick={handleReloadClick}>
                                     <ReloadOutlined spin={loading}/>
                                 </Button>
                             </Tooltip>
-                            {exportDom}
-                            {sizeDom}
-                            {settingDom}
+                            {exportRender && (
+                                <Tooltip title={t('export')}>
+                                    <Button onClick={handleExportClick}>
+                                        <VerticalAlignBottomOutlined/>
+                                    </Button>
+                                </Tooltip>
+                            )}
+                            {densityRender && (
+                                <Density value={density} onChange={onDensityChange}/>
+                            )}
+                            {settingRender && (
+                                <Setting {...attrs} columns={columns} onChange={onSettingChange}/>
+                            )}
                         </Space.Compact>
                     </div>
                 </div>

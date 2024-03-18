@@ -17,11 +17,9 @@ export default defineComponent({
             const children = slots.default && slots.default()
 
             const originProps = clone(restProps)
-
             if (isUndefined(originProps.span) && isUndefined(originProps.xs)) {
                 originProps.xs = 24
             }
-
             if (!grid) return (<Fragment>{children}</Fragment>)
             return (
                 <Col {...originProps}>{children}</Col>

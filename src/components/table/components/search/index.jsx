@@ -1,63 +1,42 @@
-import { defineComponent, ref, shallowRef, unref, watch } from 'vue'
-import { Field, QueryFilter } from '@/components/form'
-import { Card } from 'ant-design-vue'
-import { isArray } from 'lodash-es'
-import { cloneProxyToRaw } from '@/utils'
+import { defineComponent, ref, computed, unref, watch } from 'vue'
+import { Field } from '@/components/form'
+import BaseSearch from './BaseSearch'
+import { pick } from 'lodash-es'
+
+function genInitialValues (columns) {
+    const values = {}
+    columns.forEach((column) => {
+        const key = column.key || column.dataIndex
+        if (key && column.initialValue) {
+            values[key] = column.initialValue
+        }
+    })
+    return values
+}
+
+function filterSearchColumns (columns) {
+    return columns.filter((column) => column.search)
+}
 
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        ...QueryFilter.props,
+        ...BaseSearch.props,
         columns: {
             type: Array,
             default: () => ([])
         }
     },
     setup (props, { expose, attrs }) {
-        const queryFilterRef = ref(null)
-
-        const baseSearchColumns = genColumnsToSearch(props.columns)
-        const initialValues = genInitialValues(baseSearchColumns)
-        const searchColumns = shallowRef([])
-
-        watch(() => props.columns, (values) => {
-            searchColumns.value = genColumnsToSearch(values)
-        }, { immediate: true })
-
-        function genColumnsToSearch (columns) {
-            const columnsArray = []
-
-            function loopColumns (columns) {
-                columns.forEach((columnProps) => {
-                    const tempColumns = { ...columnProps }
-                    if (columnProps.children && isArray(columnProps.children)) {
-                        loopColumns(columnProps.children)
-                    }
-                    columnsArray.push(tempColumns)
-                })
-            }
-
-            loopColumns(columns)
-            return columnsArray.filter((columnProps) => columnProps.search)
-        }
-
-        function genInitialValues (columns) {
-            const values = {}
-            columns.forEach((columnProps) => {
-                const columnKey = columnProps.key || columnProps.dataIndex
-                if (columnKey && columnProps.initialValue) {
-                    values[columnKey] = columnProps.initialValue
-                }
-            })
-            return values
-        }
+        const baseSearchRef = ref(null)
+        const defaultSearchColumns = filterSearchColumns(props.columns)
+        const initialValues = genInitialValues(defaultSearchColumns)
+        const searchColumns = computed(() => filterSearchColumns(props.columns))
 
         function getValues () {
-            const context = unref(queryFilterRef)
-            if (context && context.getFormInstance) {
-                const formInstance = context.getFormInstance()
-                const { model } = formInstance
-                return cloneProxyToRaw(unref(model))
+            const context = unref(baseSearchRef)
+            if (context && context.getValues) {
+                return context.getValues()
             }
             return {}
         }
@@ -65,50 +44,36 @@ export default defineComponent({
         expose({ getValues })
 
         return () => {
-            const cardProps = {
-                bodyStyle: {
-                    paddingInline: '24px'
-                },
-                style: {
-                    marginBottom: '16px'
-                }
-            }
-
-            const queryFilterSlots = {
-                default: (slotScope) => {
-                    return unref(searchColumns).map((columnProps) => {
-                        const { fieldProps, formItemProps } = columnProps
-                        const formFieldProps = {
-                            ...columnProps,
-                            fieldProps: {
-                                ...fieldProps,
-                                style: { width: '100%' }
-                            },
-                            formItemProps: {
-                                ...slotScope.props,
-                                ...formItemProps,
-                                label: columnProps.title,
-                                name: columnProps.key || columnProps.dataIndex
-                            }
+            const baseSearchSlots = {
+                default: () => {
+                    return unref(searchColumns).map((column) => {
+                        const { fieldProps, formItemProps } = column
+                        const key = column.key || column.dataIndex
+                        const nextFormItemProps = {
+                            ...formItemProps,
+                            name: key,
+                            label: column.title
                         }
-                        return <Field {...formFieldProps}/>
+                        return (
+                            <Field
+                                {...column}
+                                key={key}
+                                fieldProps={{ ...fieldProps, style: { width: '100%' } }}
+                                formItemProps={nextFormItemProps}
+                            />
+                        )
                     })
                 }
             }
 
-            const queryFilterProps = {
-                ...props, ...attrs,
-                initialValues: initialValues
-            }
-
             return (
-                <Card {...cardProps}>
-                    <QueryFilter
-                        ref={queryFilterRef}
-                        {...queryFilterProps}
-                        v-slots={queryFilterSlots}
-                    />
-                </Card>
+                <BaseSearch
+                    {...attrs}
+                    {...pick(props, Object.keys(BaseSearch.props))}
+                    ref={baseSearchRef}
+                    initialValues={initialValues}
+                    v-slots={baseSearchSlots}
+                />
             )
         }
     }

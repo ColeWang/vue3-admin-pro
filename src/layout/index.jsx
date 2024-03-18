@@ -41,35 +41,32 @@ export default defineComponent({
         return () => {
             const mainSlots = {
                 sidebar: () => {
-                    const sidebarProps = {
-                        route: route,
-                        menus: menus,
-                        collapsed: unref(collapsed),
-                        onChange: onSidebarChange
-                    }
                     return (
-                        <Sidebar {...sidebarProps}/>
+                        <Sidebar
+                            route={route}
+                            menus={menus}
+                            collapsed={unref(collapsed)}
+                            onChange={onSidebarChange}
+                        />
                     )
                 },
                 navbar: () => {
-                    const navbarProps = {
-                        router: router,
-                        collapsed: unref(collapsed),
-                        onChange: onCollapsedChange,
-                        onLocal: onLocalChange,
-                        onLogout: onLogout
-                    }
-                    const tagsNavProps = {
-                        homeName: HOME_NAME,
-                        route: route,
-                        tags: unref(tags),
-                        onClick: onTagClick,
-                        onClose: onTagClose
-                    }
                     return (
                         <Fragment>
-                            <Navbar {...navbarProps}/>
-                            <TagsNav {...tagsNavProps}/>
+                            <Navbar
+                                router={router}
+                                collapsed={unref(collapsed)}
+                                onChange={onCollapsedChange}
+                                onLocal={onLocalChange}
+                                onLogout={onLogout}
+                            />
+                            <TagsNav
+                                homeName={HOME_NAME}
+                                route={route}
+                                tags={unref(tags)}
+                                onClick={onTagClick}
+                                onClose={onTagClose}
+                            />
                         </Fragment>
                     )
                 },
@@ -80,7 +77,9 @@ export default defineComponent({
                     }).map((item) => {
                         return item.name
                     })
-                    return <AppContent include={include}/>
+                    return (
+                        <AppContent include={include}/>
+                    )
                 }
             }
 

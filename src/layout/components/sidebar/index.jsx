@@ -65,7 +65,7 @@ const XSubMenu = defineComponent({
         const { showTitle } = useShowTitle()
 
         return () => {
-            const { option } = props
+            const { option, ...restProps } = props
 
             const subMenuSlots = {
                 title: () => {
@@ -82,7 +82,13 @@ const XSubMenu = defineComponent({
                     })
                 }
             }
-            return <Menu.SubMenu key={option.name} {...props} v-slots={subMenuSlots}/>
+            return (
+                <Menu.SubMenu
+                    key={option.name}
+                    {...restProps}
+                    v-slots={subMenuSlots}
+                />
+            )
         }
     }
 })
@@ -159,20 +165,6 @@ export default defineComponent({
         return () => {
             const { menus, collapsed } = props
 
-            const sideStyles = {
-                width: collapsed ? '80px' : '256px'
-            }
-
-            const menuProps = {
-                inlineCollapsed: collapsed,
-                selectedKeys: unref(selectedKeys),
-                openKeys: unref(openKeys),
-                onSelect: onSelectMenu,
-                onOpenChange: onOpenChange,
-                theme: 'dark',
-                mode: 'inline'
-            }
-
             const menuSlots = {
                 default: () => {
                     return menus.map((item) => {
@@ -181,12 +173,26 @@ export default defineComponent({
                 }
             }
 
+            const sideStyles = {
+                width: collapsed ? '80px' : '256px'
+            }
+
             return (
                 <div class={cx('sidebar')} style={sideStyles}>
                     <div class={cx('sidebar-content')}>
                         <div class={cx('sidebar-content__wrap')}>
                             <Logo collapsed={collapsed}/>
-                            <Menu style={sideStyles} {...menuProps} v-slots={menuSlots}/>
+                            <Menu
+                                style={sideStyles}
+                                inlineCollapsed={collapsed}
+                                selectedKeys={unref(selectedKeys)}
+                                openKeys={unref(openKeys)}
+                                onSelect={onSelectMenu}
+                                onOpenChange={onOpenChange}
+                                theme={'dark'}
+                                mode={'inline'}
+                                v-slots={menuSlots}
+                            />
                         </div>
                     </div>
                 </div>

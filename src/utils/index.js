@@ -39,8 +39,8 @@ export function omitUndefined (object = {}) {
     return omitBy(object, isUndefined)
 }
 
-export function isValidElement (element) {
-    return element && element.__v_isVNode && typeof element.type !== 'symbol'
+export function isValidElement (el) {
+    return el && el.__v_isVNode && typeof el.type !== 'symbol'
 }
 
 export function isEmptyElement (c) {

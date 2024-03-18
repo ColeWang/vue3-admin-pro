@@ -14,60 +14,62 @@ const cx = classNames.bind(styles)
 
 const BaseTableSize = 'small'
 
+const tableProps = {
+    ...Table.props,
+    title: {
+        type: Function,
+        default: undefined
+    },
+    scroll: {
+        type: Object,
+        default: () => ({ x: 'max-content' })
+    },
+    columns: {
+        type: Array,
+        default: () => ([])
+    },
+    manualRequest: {
+        type: Boolean,
+        default: false
+    },
+    request: {
+        type: Function,
+        default: undefined
+    },
+    params: {
+        type: Object,
+        default: undefined
+    },
+    beforeSearchSubmit: {
+        type: Function,
+        default: undefined
+    },
+    postData: {
+        type: Function,
+        default: undefined
+    },
+    action: {
+        type: Object,
+        default: () => ({})
+    },
+    search: {
+        type: [Object, Boolean],
+        default: undefined
+    },
+    toolbar: {
+        type: [Object, Boolean],
+        default: undefined
+    },
+    emptyText: {
+        type: String,
+        default: '-'
+    }
+}
+
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        ...Table.props,
-        title: {
-            type: Function,
-            default: undefined
-        },
-        scroll: {
-            type: Object,
-            default: () => ({ x: 'max-content' })
-        },
-        columns: {
-            type: Array,
-            default: () => ([])
-        },
-        manualRequest: {
-            type: Boolean,
-            default: false
-        },
-        request: {
-            type: Function,
-            default: undefined
-        },
-        params: {
-            type: Object,
-            default: undefined
-        },
-        beforeSearchSubmit: {
-            type: Function,
-            default: undefined
-        },
-        postData: {
-            type: Function,
-            default: undefined
-        },
-        action: {
-            type: Object,
-            default: () => ({})
-        },
-        search: {
-            type: [Object, Boolean],
-            default: undefined
-        },
-        toolbar: {
-            type: [Object, Boolean],
-            default: undefined
-        },
-        emptyText: {
-            type: String,
-            default: '-'
-        }
-    },
-    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'sizeChange', 'settingChange', 'load', 'requestError', 'submit', 'reset'],
+    props: tableProps,
+    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'load', 'requestError', 'submit', 'reset'],
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
         const searchRef = ref(null)
@@ -107,15 +109,9 @@ export default defineComponent({
         function getSearchValues () {
             const context = unref(searchRef)
             if (context && context.getValues) {
-                const values = context.getValues()
-                return values || {}
+                return context.getValues() || {}
             }
             return {}
-        }
-
-        function onSettingChange (columns) {
-            setTableColumns(columns)
-            emit('settingChange', columns)
         }
 
         function onChange (paginate, filters, sorter, extra) {
@@ -180,16 +176,25 @@ export default defineComponent({
 
         function onExport () {
             const context = unref(tableRef)
-            if (props.toolbar !== false && isFunction(props.toolbar.onExport)) {
+            if (props.toolbar && isFunction(props.toolbar.onExport)) {
                 props.toolbar.onExport(context, requestProps.dataSource)
             } else {
                 context && tableToExcel(context)
             }
         }
 
-        function onSizeChange (value) {
+        function onDensity (value) {
+            if (props.toolbar && isFunction(props.toolbar.onDensity)) {
+                props.toolbar.onDensity(value)
+            }
             size.value = value
-            emit('sizeChange', value)
+        }
+
+        function onSetting (columns) {
+            if (props.toolbar && isFunction(props.toolbar.onSetting)) {
+                props.toolbar.onSetting(columns)
+            }
+            setTableColumns(columns)
         }
 
         function getPopupContainer () {
@@ -200,7 +205,7 @@ export default defineComponent({
         expose({ reload: onReload, getSearchValues })
 
         return () => {
-            const { title, search, toolbar, columns, ...restProps } = props
+            const { title, search, toolbar, columns } = props
             const { title: titleSlot, toolbar: toolbarSlot, search: searchSlot, ...restSlots } = slots
 
             const searchDom = (() => {
@@ -223,24 +228,24 @@ export default defineComponent({
 
             const toolbarDom = (() => {
                 if (toolbar === false) return null
-                const toolbarProps = {
-                    ...toolbar,
-                    size: unref(size),
-                    title: title,
-                    loading: requestProps.loading,
-                    pageData: requestProps.dataSource,
-                    columns: unref(baseColumns),
-                    onRefresh: onReload,
-                    onExport: onExport,
-                    onSizeChange: onSizeChange,
-                    onSettingChange: onSettingChange,
-                }
                 const toolbarSlots = {
                     default: toolbarSlot,
                     title: titleSlot
                 }
                 return (
-                    <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
+                    <Toolbar
+                        {...toolbar}
+                        title={title}
+                        density={unref(size)}
+                        loading={requestProps.loading}
+                        pageData={requestProps.dataSource}
+                        columns={unref(baseColumns)}
+                        onReload={onReload}
+                        onExport={onExport}
+                        onDensity={onDensity}
+                        onSetting={onSetting}
+                        v-slots={toolbarSlots}
+                    />
                 )
             })()
 
@@ -251,14 +256,6 @@ export default defineComponent({
                 paddingBlock: '16px'
             })
 
-            const tableProps = {
-                ...attrs,
-                ...restProps,
-                ...requestProps,
-                size: unref(size),
-                columns: unref(tableColumns)
-            }
-
             return (
                 <div class={cx('table')}>
                     <Fragment>{searchDom}</Fragment>
@@ -267,7 +264,15 @@ export default defineComponent({
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>
                                 <div class={cx('table-wrapper')} ref={tableRef}>
-                                    <Table {...tableProps} v-slots={restSlots} onChange={onChange}/>
+                                    <Table
+                                        {...attrs}
+                                        {...pick(props, Object.keys(Table.props))}
+                                        {...requestProps}
+                                        size={unref(size)}
+                                        columns={unref(tableColumns)}
+                                        onChange={onChange}
+                                        v-slots={restSlots}
+                                    />
                                 </div>
                             </div>
                         </ConfigProvider>

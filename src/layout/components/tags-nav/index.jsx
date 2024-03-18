@@ -3,7 +3,7 @@ import { Button, Dropdown, Menu } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import Tag from './Tag'
 import useShowTitle from '../../hooks/useShowTitle'
-import { assign, omit } from 'lodash-es'
+import { assign, omit, isString } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -39,8 +39,10 @@ export default defineComponent({
 
         function onTagRefs (key) {
             return function (instance) {
-                const source = { [key]: instance }
-                tagRefsMap = instance ? assign(tagRefsMap, source) : omit(tagRefsMap, [key])
+                if (key && isString(key)) {
+                    const source = { [key]: instance }
+                    tagRefsMap = instance ? assign(tagRefsMap, source) : omit(tagRefsMap, [key])
+                }
             }
         }
 
@@ -144,6 +146,25 @@ export default defineComponent({
         return () => {
             const { tags, route: currentRoute, homeName } = props
 
+            const scrollBodyStyles = {
+                left: unref(bodyLeft) + 'px'
+            }
+
+            const tagNodes = tags.map((item) => {
+                const { name: key } = item || {}
+                const tagProps = {
+                    key: key,
+                    ref: onTagRefs(key),
+                    color: currentRoute.name === key ? 'primary' : 'default',
+                    closable: key !== homeName,
+                    onClick: onClick(item),
+                    onClose: onClose(item)
+                }
+                return (
+                    <Tag class={cx('tag')} {...tagProps}>{showTitle(item)}</Tag>
+                )
+            })
+
             const dropdownSlots = {
                 default: () => {
                     return (
@@ -157,15 +178,15 @@ export default defineComponent({
                 overlay: () => {
                     return (
                         <Menu selectedKeys={[]}>
-                            <Menu.Item onClick={onMenuClose.bind(null, 'all')}>关闭所有</Menu.Item>
-                            <Menu.Item onClick={onMenuClose.bind(null, 'others')}>关闭其他</Menu.Item>
+                            <Menu.Item onClick={onMenuClose.bind(null, 'all')}>
+                                关闭所有
+                            </Menu.Item>
+                            <Menu.Item onClick={onMenuClose.bind(null, 'others')}>
+                                关闭其他
+                            </Menu.Item>
                         </Menu>
                     )
                 }
-            }
-
-            const scrollBodyStyles = {
-                left: unref(bodyLeft) + 'px'
             }
 
             return (
@@ -181,24 +202,7 @@ export default defineComponent({
                         </div>
                         <div class={cx('scroll-outer')} ref={scrollOuterRef}>
                             <div class={cx('scroll-body')} style={scrollBodyStyles} ref={scrollBodyRef}>
-                                {
-                                    tags.map((item) => {
-                                        const { name: key } = item || {}
-                                        const tagProps = {
-                                            ref: onTagRefs(key),
-                                            key: key,
-                                            color: currentRoute.name === key ? 'primary' : 'default',
-                                            closable: key !== homeName,
-                                            onClick: onClick(item),
-                                            onClose: onClose(item)
-                                        }
-                                        return (
-                                            <Tag class={cx('tag')} {...tagProps}>
-                                                {showTitle(item)}
-                                            </Tag>
-                                        )
-                                    })
-                                }
+                                {tagNodes}
                             </div>
                         </div>
                         <div class={cx('btn-wrap', 'right-btn')}>

@@ -6,32 +6,32 @@ import { useLocaleReceiver } from '@/components/locale-provider'
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        size: {
+        value: {
             type: String,
             default: 'middle'
         }
     },
-    emits: ['sizeChange'],
+    emits: ['change'],
     setup (props, { emit }) {
         const { t } = useLocaleReceiver('Table.toolbar')
 
-        function onSizeClick (params) {
-            if (props.size !== params.key) {
-                emit('sizeChange', params.key)
+        function onChangeClick (params) {
+            if (props.value !== params.key) {
+                emit('change', params.key)
             }
         }
 
         return () => {
-            const { size } = props
+            const { value } = props
 
             const dropdownSlots = {
                 overlay: () => {
                     const menuProps = {
                         style: { width: '88px' },
-                        selectedKeys: [size],
+                        selectedKeys: [value],
                     }
                     return (
-                        <Menu {...menuProps} onClick={onSizeClick}>
+                        <Menu {...menuProps} onClick={onChangeClick}>
                             <Menu.Item key={'large'}>{t('densityLarger')}</Menu.Item>
                             <Menu.Item key={'middle'}>{t('densityMiddle')}</Menu.Item>
                             <Menu.Item key={'small'}>{t('densitySmall')}</Menu.Item>

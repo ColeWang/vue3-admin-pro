@@ -39,15 +39,15 @@ function genMediaQueryEnum (values) {
 }
 
 function onMediaQuery (mediaQuery) {
-    const MediaQueryList = window.matchMedia(mediaQuery)
-    const matches = ref(MediaQueryList.matches)
+    const mediaQueryList = window.matchMedia(mediaQuery)
+    const matches = ref(mediaQueryList.matches)
     const listener = (e) => {
         matches.value = e.matches
     }
-    MediaQueryList.addListener(listener)
+    mediaQueryList.addListener(listener)
 
     function onStop () {
-        MediaQueryList.removeListener(listener)
+        mediaQueryList.removeListener(listener)
     }
 
     tryOnScopeDispose(onStop)
@@ -55,8 +55,8 @@ function onMediaQuery (mediaQuery) {
 }
 
 export default function (values = defaultValues) {
-    const MediaQueryEnum = genMediaQueryEnum(values)
-    const matchesEnum = mapValues(MediaQueryEnum, (value) => onMediaQuery(value))
+    const mediaQueryEnum = genMediaQueryEnum(values)
+    const matchesEnum = mapValues(mediaQueryEnum, (value) => onMediaQuery(value))
 
     const className = ref('md')
 
@@ -77,8 +77,5 @@ export default function (values = defaultValues) {
 
     tryOnScopeDispose(onStop)
 
-    return {
-        className,
-        onStop
-    }
+    return { className, onStop }
 }

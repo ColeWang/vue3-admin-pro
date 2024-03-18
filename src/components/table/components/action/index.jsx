@@ -7,30 +7,29 @@ import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
-export const actionEnum = {
-    PRIMARY: 'primary',
-    WARNING: 'warning',
-    ERROR: 'error'
-}
-
 const ActionItem = defineComponent({
     inheritAttrs: false,
     props: {
         type: {
             type: String,
-            default: actionEnum.PRIMARY
+            default: 'primary'
         }
     },
-    setup (props, { slots, attrs }) {
+    emits: ['click'],
+    setup (props, { emit, slots, attrs }) {
+        function onClick (evt) {
+            emit('click', evt)
+        }
+
         return () => {
             const actionItemNames = cx('action-item', {
-                'action-item__primary': props.type === actionEnum.PRIMARY,
-                'action-item__warning': props.type === actionEnum.WARNING,
-                'action-item__error': props.type === actionEnum.ERROR,
+                'action-item__primary': props.type === 'primary',
+                'action-item__warning': props.type === 'warning',
+                'action-item__error': props.type === 'error'
             })
 
             return (
-                <a {...attrs} class={actionItemNames}>
+                <a class={actionItemNames} {...attrs} onClick={onClick}>
                     {slots.default && slots.default()}
                 </a>
             )
@@ -58,9 +57,7 @@ const Action = defineComponent({
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
             if (nodes.length < (max + 1)) {
                 return (
-                    <Space {...restProps}>
-                        {nodes}
-                    </Space>
+                    <Space {...restProps}>{nodes}</Space>
                 )
             }
 
@@ -74,16 +71,13 @@ const Action = defineComponent({
                     )
                 },
                 overlay: () => {
+                    const nodes = secondNodes.map((item) => {
+                        return (
+                            <Menu.Item>{item}</Menu.Item>
+                        )
+                    })
                     return (
-                        <Menu selectedKeys={[]}>
-                            {
-                                secondNodes.map((item) => {
-                                    return (
-                                        <Menu.Item>{item}</Menu.Item>
-                                    )
-                                })
-                            }
-                        </Menu>
+                        <Menu selectedKeys={[]}>{nodes}</Menu>
                     )
                 }
             }
