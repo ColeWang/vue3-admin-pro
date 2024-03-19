@@ -2,52 +2,52 @@ import { computed } from 'vue'
 import { Badge, Typography } from 'ant-design-vue'
 import { isArray, isFunction, isObject } from 'lodash-es'
 
-function columnRender (column, emptyText) {
-    if (column.customRender && isFunction(column.customRender)) {
-        const oldCustomRender = column.customRender
-        return function ({ text, record, index, column }) {
-            return oldCustomRender.call(null, text, record, index, column)
-        }
+function getEllipsis (column) {
+    if (column.ellipsis && column.ellipsis.showTitle === false) {
+        return false
     }
-    if (column.valueEnum && isObject(column.valueEnum)) {
-        return function ({ text, record, index, column }) {
-            const plain = column.valueEnum[text]
-            const badgeProps = isObject(plain) ? plain : { text: plain || emptyText }
-            return (
-                <Badge {...badgeProps}/>
-            )
-        }
-    }
-    if (column.copyable || column.ellipsis) {
-        return function ({ text, record, index, column }) {
-            const copyable = (() => {
-                if (column.copyable && text) {
-                    if (isObject(column.copyable)) {
-                        return { text, ...column.copyable }
-                    }
-                    return { text, tooltip: true }
-                }
-                return false
-            })()
-            const ellipsis = (() => {
-                if (isObject(column.ellipsis)) {
-                    const { showTitle, ...rest } = column.ellipsis
-                    return showTitle !== false ? { ...rest } : false
-                }
-                return { tooltip: true }
-            })()
+    return column.ellipsis
+}
 
+function getCopyable (column, text) {
+    if (column.copyable && text) {
+        if (isObject(column.copyable)) {
+            return { text, ...column.copyable }
+        }
+        return { text, tooltip: true }
+    }
+    return false
+}
+
+function columnRender (oldColumn, emptyText) {
+    return function ({ text, record, index, column }) {
+        if (oldColumn.customRender && isFunction(oldColumn.customRender)) {
+            const oldCustomRender = oldColumn.customRender
+            return oldCustomRender.apply(null, [text, record, index, column])
+        }
+        if (oldColumn.valueEnum && isObject(oldColumn.valueEnum)) {
+            const plain = oldColumn.valueEnum[text] || emptyText
+            const badgeProps = isObject(plain) ? plain : { text: plain }
+            return <Badge {...badgeProps}/>
+        }
+        if (column.copyable || column.ellipsis) {
+            const copyable = getCopyable(column, text)
+            const ellipsis = getEllipsis(column)
             return (
-                <Typography.Text copyable={copyable} ellipsis={ellipsis} content={text}/>
+                <Typography.Text
+                    copyable={copyable}
+                    ellipsis={ellipsis}
+                    content={text}
+                />
             )
         }
+        return text || emptyText
     }
-    return undefined
 }
 
 function useColumnRender (props) {
     const needColumns = computed(() => {
-        return genNeedColumns(props.columns || [], props)
+        return genNeedColumns(props.columns || [])
     })
 
     function genNeedColumns (columns) {

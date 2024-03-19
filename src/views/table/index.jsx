@@ -61,13 +61,13 @@ export default defineComponent({
                     {
                         key: '1',
                         name: 'John Brown',
-                        age: 32,
+                        age: '1',
                         address: 'New York No. 1 Lake Park',
                     },
                     {
                         key: '2',
                         name: 'Jim Green',
-                        age: 42,
+                        age: '2',
                         address: 'London No. 1 Lake Park',
                     }
                 ]
