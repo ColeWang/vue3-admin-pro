@@ -185,6 +185,7 @@ export default defineComponent({
                 onClose: onDrawerClose,
                 onAfterOpenChange: onAfterClose
             }
+
             return (
                 <Fragment>
                     <Drawer {...needDrawerProps} v-slots={drawerSlots}/>
