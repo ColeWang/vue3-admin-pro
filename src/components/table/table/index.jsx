@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, nextTick, onMounted, ref, unref, watch } from 'vue'
+import { defineComponent, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import Search from '../components/search'
 import Toolbar from '../components/toolbar'
@@ -243,8 +243,7 @@ export default defineComponent({
             const { title, search, toolbar, columns } = props
             const { title: titleSlot, toolbar: toolbarSlot, search: searchSlot, ...restSlots } = slots
 
-            const searchDom = (() => {
-                if (search === false) return null
+            const renderSearch = () => {
                 const searchProps = {
                     ...search,
                     loading: requestProps.loading,
@@ -258,10 +257,9 @@ export default defineComponent({
                 return (
                     <Search {...searchProps} ref={searchRef}/>
                 )
-            })()
+            }
 
-            const toolbarDom = (() => {
-                if (toolbar === false) return null
+            const renderToolbar = () => {
                 const toolbarSlots = {
                     default: toolbarSlot,
                     title: titleSlot
@@ -281,9 +279,9 @@ export default defineComponent({
                 return (
                     <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
                 )
-            })()
+            }
 
-            const cardBodyStyle = toolbarDom ? ({
+            const cardBodyStyle = toolbar !== false ? ({
                 paddingBlock: '16px',
                 paddingBlockStart: '0'
             }) : ({
@@ -301,9 +299,9 @@ export default defineComponent({
 
             return (
                 <div class={cx('table')}>
-                    <Fragment>{searchDom}</Fragment>
+                    {search !== false && renderSearch()}
                     <Card bodyStyle={cardBodyStyle}>
-                        <Fragment>{toolbarDom}</Fragment>
+                        {toolbar !== false && renderToolbar()}
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>
                                 <div class={cx('table-wrapper')} ref={tableRef}>

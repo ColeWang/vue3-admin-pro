@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, ref, unref } from 'vue'
+import { defineComponent, ref, unref } from 'vue'
 import { Button, ConfigProvider, Space, Tooltip } from 'ant-design-vue'
 import { ReloadOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons-vue'
 import Density from '../Density'
@@ -133,7 +133,7 @@ export default defineComponent({
             return (
                 <ConfigProvider getPopupContainer={getPopupContainer}>
                     <div class={cx('popup-container')} ref={popupContainer}>
-                        <Fragment>{toolbarDom}</Fragment>
+                        {toolbarDom}
                     </div>
                 </ConfigProvider>
             )

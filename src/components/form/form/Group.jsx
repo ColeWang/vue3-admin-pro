@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, unref } from 'vue'
+import { defineComponent, unref } from 'vue'
 import { Space } from 'ant-design-vue'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
 import useMediaQuery from '@/hooks/useMediaQuery'
@@ -33,15 +33,11 @@ export default defineComponent({
             const { title: titleSlot, ...restSlots } = slots
             const layout = unref(formProps).layout || 'vertical'
 
-            const titleDom = (() => {
-                const children = titleSlot && titleSlot()
-                if (children || title) {
-                    return (
-                        <div class={cx('group-title')}>{children || title}</div>
-                    )
-                }
-                return null
-            })()
+            const children = titleSlot && titleSlot()
+
+            const titleDom = (children || title) && (
+                <div class={cx('group-title')}>{children || title}</div>
+            )
 
             const spaceStyles = {
                 rowGap: 0,
@@ -63,7 +59,7 @@ export default defineComponent({
 
             return (
                 <div class={groupClassNames}>
-                    <Fragment>{titleDom}</Fragment>
+                    {titleDom}
                     <Space {...spaceProps} style={spaceStyles} v-slots={restSlots}/>
                 </div>
             )

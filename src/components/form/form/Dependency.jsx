@@ -1,8 +1,7 @@
 import { defineComponent } from 'vue'
 import { Form as AntForm } from 'ant-design-vue'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { fromPairs, isFunction } from 'lodash-es'
-import { omitUndefined } from '@/utils'
+import { fromPairs } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -26,21 +25,15 @@ export default defineComponent({
         return () => {
             const { name, ...restProps } = props
 
-            const defaultSlots = (() => {
-                if (slots.default && isFunction(slots.default)) {
-                    const values = name.map((key) => {
-                        return [key, getFieldValue(key)]
-                    })
-                    const result = fromPairs(values)
-                    return slots.default.bind(null, result)
-                }
-                return undefined
-            })()
+            const values = name.map((key) => {
+                return [key, getFieldValue(key)]
+            })
+            const slotScope = fromPairs(values)
+            const children = slots.default && slots.default(slotScope)
 
-            const needSlots = omitUndefined({ ...slots, default: defaultSlots })
             const formItemProps = { ...attrs, ...restProps, noStyle: true }
             return (
-                <AntForm.Item {...formItemProps} v-slots={needSlots}/>
+                <AntForm.Item {...formItemProps}>{children}</AntForm.Item>
             )
         }
     }

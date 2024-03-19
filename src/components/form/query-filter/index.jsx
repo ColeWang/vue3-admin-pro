@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, ref, unref } from 'vue'
+import { defineComponent, ref, unref } from 'vue'
 import { Col, Form, Row } from 'ant-design-vue'
 import BaseForm from '../base-form'
 import Actions from './Actions'
@@ -91,7 +91,7 @@ export default defineComponent({
             }
 
             const children = slots.default ? slots.default(slotScope) : []
-            const { nodes, offset, haveRow } = genColNodes(children, (item) => {
+            const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
                 const { child, hidden, key } = item
                 const colClassNames = cx({ 'col-hidden': hidden })
                 return (
@@ -122,7 +122,7 @@ export default defineComponent({
                 <BaseForm {...baseFormProps} ref={baseFormRef}>
                     <div ref={resizeRef}>
                         <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
-                            <Fragment>{nodes}</Fragment>
+                            {colNodes}
                             <Col key={'action'} class={cx('action-col')} span={unref(span)} offset={offset}>
                                 <Form.Item class={formItemClassNames} colon={false}>
                                     <Actions {...actionsProps}/>

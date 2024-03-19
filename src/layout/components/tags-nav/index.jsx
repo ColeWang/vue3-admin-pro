@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, nextTick, ref, unref, watch } from 'vue'
+import { defineComponent, nextTick, ref, unref, watch } from 'vue'
 import { Button, Dropdown, Menu } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import Tag from './Tag'
@@ -209,7 +209,7 @@ export default defineComponent({
                         </div>
                         <div class={cx('scroll-outer')} ref={scrollOuterRef}>
                             <div class={cx('scroll-body')} style={scrollBodyStyles} ref={scrollBodyRef}>
-                                <Fragment>{tagNodes}</Fragment>
+                                {tagNodes}
                             </div>
                         </div>
                         <div class={cx('btn-wrap', 'right-btn')}>

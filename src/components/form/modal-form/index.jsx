@@ -189,7 +189,7 @@ export default defineComponent({
             return (
                 <Fragment>
                     <Modal {...needModalProps} v-slots={modalSlots}/>
-                    <Fragment>{triggerDom}</Fragment>
+                    {triggerDom}
                 </Fragment>
             )
         }
