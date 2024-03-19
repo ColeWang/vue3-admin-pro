@@ -8,6 +8,7 @@ import FieldTextArea from './components/TextArea'
 import FieldText from './components/Text'
 import FieldPassword from './components/Password'
 import { omitUndefined } from '@/utils'
+import { isFunction } from 'lodash-es'
 
 function defaultRenderText (valueType, props, slots) {
     if (valueType === 'date') {
@@ -37,7 +38,7 @@ export default defineComponent({
     setup (props, { slots, attrs }) {
         function onUpdateValue (value) {
             const { fieldProps } = props
-            if (fieldProps && fieldProps['onUpdate:value']) {
+            if (isFunction(fieldProps['onUpdate:value'])) {
                 fieldProps['onUpdate:value'](value)
             }
         }

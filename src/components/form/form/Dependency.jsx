@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { Form as AntForm } from 'ant-design-vue'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { fromPairs } from 'lodash-es'
+import { fromPairs, isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -13,11 +13,11 @@ export default defineComponent({
         }
     },
     setup (props, { attrs, slots }) {
-        const formInstance = useFormInstance()
+        const { getModelValue } = useFormInstance()
 
         function getFieldValue (name) {
-            if (formInstance && formInstance.getModelValue) {
-                return formInstance.getModelValue(name)
+            if (isFunction(getModelValue)) {
+                return getModelValue(name)
             }
             return undefined
         }

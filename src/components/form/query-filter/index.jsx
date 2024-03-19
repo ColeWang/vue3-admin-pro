@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Col, Form, Row } from 'ant-design-vue'
-import BaseForm from '../base-form'
+import { BaseForm } from '../base-form'
 import Actions from './Actions'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import useQueryFilter from './hooks/useQueryFilter'

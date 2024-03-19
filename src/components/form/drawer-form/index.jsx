@@ -1,8 +1,7 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Drawer } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import BaseForm from '../base-form'
-import Submitter from '../components/Submitter'
+import { BaseForm, Submitter } from '../base-form'
 import { isFunction, pick } from 'lodash-es'
 
 const drawerFormProps = {

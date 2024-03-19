@@ -3,7 +3,7 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
 import { isValidElement } from '@/utils'
-import { head, pick } from 'lodash-es'
+import { head, isFunction, pick } from 'lodash-es'
 import { fieldStyles } from './utils'
 
 const fieldCustomProps = {
@@ -32,17 +32,17 @@ export default defineComponent({
         const formInstance = useFormInstance()
 
         function onUpdateValue (value) {
-            const { name } = { ...pick(props, Object.keys(Form.Item.props)), ...props.formItemProps }
-            if (formInstance.setModelValue && name) {
-                formInstance.setModelValue(value, name)
+            const { setModelValue } = formInstance
+            const pickProps = pick(props, Object.keys(Form.Item.props))
+            const { name } = { ...pickProps, ...props.formItemProps }
+            if (isFunction(setModelValue) && name) {
+                setModelValue(value, name)
             }
         }
 
         return () => {
-            const formItemProps = {
-                ...pick(props, Object.keys(Form.Item.props)),
-                ...props.formItemProps,
-            }
+            const pickProps = pick(props, Object.keys(Form.Item.props))
+            const formItemProps = { ...pickProps, ...props.formItemProps }
             const { width: fieldWidth, hidden, colProps } = props
             const { model = {}, formProps = {} } = formInstance
 
@@ -53,7 +53,8 @@ export default defineComponent({
                     if (!isValidElement(vNode)) {
                         return vNode
                     }
-                    const inputValue = unref(model)[formItemProps.name]
+                    const name = formItemProps.name
+                    const inputValue = unref(model)[name]
                     return cloneVNode(vNode, {
                         value: inputValue,
                         style: fieldStyles({}, fieldWidth),

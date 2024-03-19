@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Form as AntForm } from 'ant-design-vue'
-import BaseForm from '../base-form'
+import { BaseForm } from '../base-form'
 import Group from './Group'
 import Dependency from './Dependency'
 

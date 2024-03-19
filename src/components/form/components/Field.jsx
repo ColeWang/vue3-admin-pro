@@ -3,7 +3,7 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { pick } from 'lodash-es'
+import { isFunction, pick } from 'lodash-es'
 import { fieldStyles } from './utils'
 
 export default defineComponent({
@@ -27,9 +27,10 @@ export default defineComponent({
         const formInstance = useFormInstance()
 
         function onUpdateValue (value) {
+            const { setModelValue } = formInstance
             const { formItemProps: { name } } = props
-            if (formInstance.setModelValue && name) {
-                formInstance.setModelValue(value, name)
+            if (isFunction(setModelValue) && name) {
+                setModelValue(value, name)
             }
         }
 
