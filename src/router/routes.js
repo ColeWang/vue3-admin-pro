@@ -68,6 +68,14 @@ const routes = [
                 }
             },
             {
+                path: 'drawer',
+                name: 'FormDrawer',
+                component: () => import('@/views/form/Drawer'),
+                meta: {
+                    title: '抽屉表单'
+                }
+            },
+            {
                 path: 'filter',
                 name: 'FormFilter',
                 component: () => import('@/views/form/Filter'),

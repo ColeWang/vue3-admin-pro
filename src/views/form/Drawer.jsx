@@ -1,9 +1,9 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Button, Card, Input } from 'ant-design-vue'
-import { FieldCustom, ModalForm, Number, Text } from '@/components/form'
+import { DrawerForm, FieldCustom, Number, Text } from '@/components/form'
 
 export default defineComponent({
-    name: 'FormModal',
+    name: 'FormDrawer',
     setup () {
         const open = ref(false)
 
@@ -28,11 +28,10 @@ export default defineComponent({
             return (
                 <Card>
                     <Button onClick={onClick}>新建表单</Button>
-                    <ModalForm
+                    <DrawerForm
                         v-model:open={open.value}
                         title={'编辑'}
                         grid={true}
-                        width={800}
                         onFinish={onFinish}
                         onValuesChange={onValuesChange}
                         v-slots={{
@@ -59,7 +58,7 @@ export default defineComponent({
                         <FieldCustom colProps={{ span: 12 }} label={'自定义'} name={'custom'}>
                             <Input/>
                         </FieldCustom>
-                    </ModalForm>
+                    </DrawerForm>
                 </Card>
             )
         }
