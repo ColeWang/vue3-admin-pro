@@ -144,6 +144,7 @@ export default defineComponent({
 
         return () => {
             const { modalProps, submitText, resetText } = props
+            const { submitter: submitterSlot, ...restSlots } = slots
 
             const modalSlots = {
                 default: () => {
@@ -154,7 +155,7 @@ export default defineComponent({
                         onFinish: onFinishHandle
                     }
                     return (
-                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={slots}/>
+                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={restSlots}/>
                     )
                 },
                 footer: () => {
@@ -165,6 +166,9 @@ export default defineComponent({
                         resetText: resetText || t('cancelText'),
                         onSubmit: onSubmit,
                         onReset: onClose
+                    }
+                    if (submitterSlot && isFunction(submitterSlot)) {
+                        return submitterSlot(submitterProps)
                     }
                     return (
                         <Submitter {...submitterProps}/>
