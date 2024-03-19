@@ -25,15 +25,15 @@ export default defineComponent({
         return () => {
             const { name, ...restProps } = props
 
+            const formItemProps = { ...attrs, ...restProps, noStyle: true }
             const values = name.map((key) => {
                 return [key, getFieldValue(key)]
             })
             const slotScope = fromPairs(values)
-            const children = slots.default && slots.default(slotScope)
-
-            const formItemProps = { ...attrs, ...restProps, noStyle: true }
             return (
-                <AntForm.Item {...formItemProps}>{children}</AntForm.Item>
+                <AntForm.Item {...formItemProps}>
+                    {slots.default && slots.default(slotScope)}
+                </AntForm.Item>
             )
         }
     }

@@ -23,38 +23,30 @@ export default defineComponent({
     setup (props, { slots }) {
         return () => {
             const { max, ...restProps } = props
-
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
-            if (nodes.length < (max + 1)) {
+
+            if (nodes.length && nodes.length > max) {
+                const firstNodes = take(nodes, max)
+                const secondNodes = takeRight(nodes, nodes.length - max)
+
+                const dropdownSlots = {
+                    default: () => (<a class={cx('action', 'action__primary')}>...</a>),
+                    overlay: () => {
+                        const children = secondNodes.map((item) => {
+                            return <Menu.Item>{item}</Menu.Item>
+                        })
+                        return <Menu selectedKeys={[]}>{children}</Menu>
+                    }
+                }
                 return (
-                    <Space {...restProps}>{nodes}</Space>
+                    <Space {...restProps}>
+                        {firstNodes}
+                        <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}/>
+                    </Space>
                 )
             }
-
-            const firstNodes = take(nodes, max)
-            const secondNodes = takeRight(nodes, nodes.length - max)
-
-            const dropdownSlots = {
-                default: () => {
-                    return (
-                        <a class={cx('action', 'action__primary')}>...</a>
-                    )
-                },
-                overlay: () => {
-                    const children = secondNodes.map((item) => {
-                        return <Menu.Item>{item}</Menu.Item>
-                    })
-                    return (
-                        <Menu selectedKeys={[]}>{children}</Menu>
-                    )
-                }
-            }
-
             return (
-                <Space {...restProps}>
-                    {firstNodes}
-                    <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}/>
-                </Space>
+                <Space {...restProps}>{nodes}</Space>
             )
         }
     }
