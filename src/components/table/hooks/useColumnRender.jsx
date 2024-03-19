@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import { Badge, Typography } from 'ant-design-vue'
 import { isArray, isFunction, isObject } from 'lodash-es'
+import { isEmpty } from '@/utils'
 
 function getEllipsis (column) {
     if (column.ellipsis && column.ellipsis.showTitle === false) {
@@ -41,7 +42,7 @@ function columnRender (oldColumn, emptyText) {
                 />
             )
         }
-        return text || emptyText
+        return isEmpty(text) ? emptyText : text
     }
 }
 
