@@ -1,6 +1,6 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, unref } from 'vue'
-import { FullscreenOutlined, ExitFullscreenOutlined } from '@/icons'
-import NativeAPI from './screenfull'
+import { ExitFullscreenOutlined, FullscreenOutlined } from '@/icons'
+import native from './screenfull'
 import { off, on } from '@/utils/dom'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -10,6 +10,8 @@ const cx = classNames.bind(styles)
 export default defineComponent({
     inheritAttrs: false,
     setup () {
+        const { fullscreenElement, exitFullscreen, requestFullscreen, fullscreenchange } = native
+
         const fullest = ref(false)
 
         function onChange () {
@@ -17,26 +19,24 @@ export default defineComponent({
         }
 
         function isFullscreen () {
-            if (!NativeAPI) return false
-            return !!(document[NativeAPI.fullscreenElement])
+            return fullscreenElement && !!(document[fullscreenElement])
         }
 
         function handleFullscreen () {
-            if (!NativeAPI) return false
             if (unref(fullest)) {
-                document[NativeAPI.exitFullscreen]()
+                exitFullscreen && document[exitFullscreen]()
             } else {
-                document.body[NativeAPI.requestFullscreen]()
+                requestFullscreen && document.body[requestFullscreen]()
             }
         }
 
         onMounted(() => {
             fullest.value = isFullscreen()
-            NativeAPI && on(document, NativeAPI.fullscreenchange, onChange, false)
+            fullscreenchange && on(document, fullscreenchange, onChange, false)
         })
 
         onBeforeUnmount(() => {
-            NativeAPI && off(document, NativeAPI.fullscreenchange, onChange, false)
+            fullscreenchange && off(document, fullscreenchange, onChange, false)
         })
 
         return () => {

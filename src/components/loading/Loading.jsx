@@ -6,9 +6,12 @@ const cx = classNames.bind(styles)
 
 export default defineComponent({
     props: {
-        onClose: Function
+        onClose: {
+            type: Function,
+            default: undefined
+        }
     },
-    setup (props, { emit, expose }) {
+    setup (props, { expose }) {
         const spinning = ref(true)
 
         function doClose () {
