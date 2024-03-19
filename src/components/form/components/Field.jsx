@@ -3,33 +3,8 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form/hooks/useFormInstance'
-import { isNumber, pick } from 'lodash-es'
-
-const sizeEnum = {
-    xs: 104,
-    sm: 216,
-    md: 328,
-    lg: 440,
-    xl: 552
-}
-
-function unit (value) {
-    if (value && isNumber(value)) {
-        return `${value}px`
-    }
-    return undefined
-}
-
-function fieldStyles (style, fieldWidth) {
-    const { maxWidth, minWidth, width, ...restStyles } = style || {}
-    const fieldSize = isNumber(fieldWidth) ? unit(fieldWidth) : unit(sizeEnum[fieldWidth])
-    return {
-        ...restStyles,
-        maxWidth: maxWidth || '100%',
-        minWidth: minWidth || unit(sizeEnum['xs']),
-        width: width || fieldSize || '100%'
-    }
-}
+import { pick } from 'lodash-es'
+import { fieldStyles } from './utils'
 
 export default defineComponent({
     inheritAttrs: false,

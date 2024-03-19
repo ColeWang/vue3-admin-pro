@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Button, Card } from 'ant-design-vue'
-import { ModalForm, Number, Text } from '@/components/form'
+import { Button, Card, Input } from 'ant-design-vue'
+import { ModalForm, Number, Text, FieldCustom } from '@/components/form'
 
 export default defineComponent({
     name: 'FormModal',
@@ -9,6 +9,10 @@ export default defineComponent({
 
         function onClick () {
             open.value = !unref(open)
+        }
+
+        function onValuesChange (values) {
+            console.log('cole', values)
         }
 
         function onFinish (values) {
@@ -29,6 +33,7 @@ export default defineComponent({
                         grid={true}
                         width={800}
                         onFinish={onFinish}
+                        onValuesChange={onValuesChange}
                         v-slots={{
                             trigger: () => {
                                 return <Button>新建表单</Button>
@@ -50,6 +55,9 @@ export default defineComponent({
                             name={'number'}
                             colProps={{ span: 12 }}
                         />
+                        <FieldCustom colProps={{ span: 12 }} label={'自定义'} name={'custom'}>
+                            <Input/>
+                        </FieldCustom>
                     </ModalForm>
                 </Card>
             )
