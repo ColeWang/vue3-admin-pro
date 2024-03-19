@@ -93,7 +93,7 @@ export default defineComponent({
             isFunction(props.drawerProps.onOpen) && props.drawerProps.onOpen()
         }
 
-        function onDrawerClose () {
+        function onClose () {
             if (unref(loading)) return
             setOpenValue(false)
             props.onCancel && emit('cancel')
@@ -125,7 +125,7 @@ export default defineComponent({
             try {
                 const result = await request(values)
                 loading.value = false
-                result && onDrawerClose()
+                result && onClose()
             } catch (err) {
                 loading.value = false
                 console.warn(err)
@@ -138,7 +138,7 @@ export default defineComponent({
 
         expose({
             open: onOpenClick,
-            close: onDrawerClose,
+            close: onClose,
             getFormInstance,
         })
 
@@ -164,7 +164,7 @@ export default defineComponent({
                         submitText: submitText || t('okText'),
                         resetText: resetText || t('cancelText'),
                         onSubmit: onSubmit,
-                        onReset: onDrawerClose
+                        onReset: onClose
                     }
                     return (
                         <Submitter {...submitterProps}/>
@@ -182,7 +182,7 @@ export default defineComponent({
                 ...pick(props, Object.keys(Drawer.props)),
                 ...drawerProps,
                 open: unref(sOpen),
-                onClose: onDrawerClose,
+                onClose: onClose,
                 onAfterOpenChange: onAfterClose
             }
 

@@ -93,7 +93,7 @@ export default defineComponent({
             isFunction(props.modalProps.onOpen) && props.modalProps.onOpen()
         }
 
-        function onModalClose () {
+        function onClose () {
             if (unref(loading)) return
             setOpenValue(false)
             props.onCancel && emit('cancel')
@@ -125,7 +125,7 @@ export default defineComponent({
             try {
                 const result = await request(values)
                 loading.value = false
-                result && onModalClose()
+                result && onClose()
             } catch (err) {
                 loading.value = false
                 console.warn(err)
@@ -138,7 +138,7 @@ export default defineComponent({
 
         expose({
             open: onOpenClick,
-            close: onModalClose,
+            close: onClose,
             getFormInstance,
         })
 
@@ -164,7 +164,7 @@ export default defineComponent({
                         submitText: submitText || t('okText'),
                         resetText: resetText || t('cancelText'),
                         onSubmit: onSubmit,
-                        onReset: onModalClose
+                        onReset: onClose
                     }
                     return (
                         <Submitter {...submitterProps}/>
@@ -182,7 +182,7 @@ export default defineComponent({
                 ...pick(props, Object.keys(Modal.props)),
                 ...modalProps,
                 open: unref(sOpen),
-                onCancel: onModalClose,
+                onCancel: onClose,
                 afterClose: onAfterClose
             }
 
