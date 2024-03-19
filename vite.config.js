@@ -32,7 +32,7 @@ export default defineConfig((config) => {
                     const index = css.indexOf(`.${name}`)
                     const lineNumber = css.slice(0, index).split(/[\r\n]/).length
                     const hash = stringHash(css).toString(36).slice(0, 5)
-                    return isProd ? `_${hash}_${lineNumber}` : `${name}_${hash}_${lineNumber}`
+                    return `${name}_${hash}_${lineNumber}`
                 }
             }
         },

@@ -26,7 +26,7 @@ export default defineComponent({
         }
     },
     emits: ['click', 'close'],
-    setup (props, { emit, slots, attrs }) {
+    setup (props, { emit, slots }) {
         function onClick (evt) {
             emit('click', evt)
         }
@@ -46,7 +46,7 @@ export default defineComponent({
             const children = slots.default && slots.default()
 
             return (
-                <div class={cx('tag')} {...attrs} onClick={onClick}>
+                <div class={cx('tag')} onClick={onClick}>
                     <span class={dotInnerClassNames}/>
                     <span class={cx('tag_text')}>{children}</span>
                     {closable && (

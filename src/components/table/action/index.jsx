@@ -18,7 +18,7 @@ const Action = defineComponent({
         }
     },
     emits: ['click'],
-    setup (props, { emit, slots, attrs }) {
+    setup (props, { emit, slots }) {
         function onClick (evt) {
             emit('click', evt)
         }
@@ -31,7 +31,7 @@ const Action = defineComponent({
             })
 
             return (
-                <a class={actionClassNames} {...attrs} onClick={onClick}>
+                <a class={actionClassNames} onClick={onClick}>
                     {slots.default && slots.default()}
                 </a>
             )
