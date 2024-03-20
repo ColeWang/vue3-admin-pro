@@ -20,7 +20,7 @@ function getCopyable (column, text) {
     return false
 }
 
-function columnRender (oldColumn, emptyText) {
+function customRender (oldColumn, emptyText) {
     return function ({ text, record, index, column }) {
         if (oldColumn.customRender && isFunction(oldColumn.customRender)) {
             const oldCustomRender = oldColumn.customRender
@@ -46,24 +46,24 @@ function columnRender (oldColumn, emptyText) {
     }
 }
 
-function useColumnRender (props) {
-    const needColumns = computed(() => {
-        return genNeedColumns(props.columns || [])
+function useCustomRender (props) {
+    const columns = computed(() => {
+        return genCustomRenderColumns(props.columns || [])
     })
 
-    function genNeedColumns (columns) {
+    function genCustomRenderColumns (columns) {
         return columns.map((column, index) => {
-            const render = columnRender(column, props.emptyText)
+            const render = customRender(column, props.emptyText)
             const key = column.key || column.dataIndex || String(index)
             const tempColumns = { ...column, key: key, customRender: render }
             if (column.children && isArray(column.children)) {
-                tempColumns.children = genNeedColumns(column.children)
+                tempColumns.children = genCustomRenderColumns(column.children)
             }
             return tempColumns
         }).filter((column) => !column.hideInTable)
     }
 
-    return { needColumns }
+    return { columns }
 }
 
-export default useColumnRender
+export default useCustomRender

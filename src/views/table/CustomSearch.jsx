@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Select, Text } from '@/components/form'
-import { Action, Table, BaseSearch } from '@/components/table'
+import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
 
 export default defineComponent({
     name: 'TableCustomSearch',
@@ -24,9 +24,9 @@ export default defineComponent({
                 title: 'Action',
                 customRender: () => {
                     return (
-                        <Action.Group>
+                        <ActionGroup>
                             <Action>操作</Action>
-                        </Action.Group>
+                        </ActionGroup>
                     )
                 }
             }

@@ -1,7 +1,7 @@
 import { cloneVNode, defineComponent, unref } from 'vue'
 import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
-import { useFormInstance } from '../base-form/hooks/useFormInstance'
+import { useFormInstance } from '../base-form'
 import { isValidElement } from '@/utils'
 import { head, isFunction, pick } from 'lodash-es'
 import { fieldStyles } from './utils'
@@ -27,6 +27,7 @@ const fieldCustomProps = {
 }
 
 export default defineComponent({
+    inheritAttrs: false,
     props: fieldCustomProps,
     setup (props, { slots }) {
         const formInstance = useFormInstance()

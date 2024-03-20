@@ -2,7 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
-import { useFormInstance } from '../base-form/hooks/useFormInstance'
+import { useFormInstance } from '../base-form'
 import { isFunction, pick } from 'lodash-es'
 import { fieldStyles } from './utils'
 

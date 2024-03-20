@@ -1,19 +1,16 @@
-import { defineComponent, nextTick, onMounted, ref, unref, watch } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
-import Search from '../components/search'
-import Toolbar from '../components/toolbar'
-import useColumnRender from '../hooks/useColumnRender'
-import useTableColumns from '../hooks/useTableColumns'
+import Search from '../compatible/search'
+import Toolbar from '../compatible/toolbar'
 import useFetchData from '../hooks/useFetchData'
+import useTableContext from '../hooks/useTableContext'
+import { omitNil } from '@/utils'
 import { isArray, isFunction, pick } from 'lodash-es'
 import tableToExcel from '../tableToExcel'
-import { omitNil } from '@/utils'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
-
-const BaseTableSize = 'small'
 
 const tableProps = {
     ...Table.props,
@@ -112,10 +109,6 @@ export default defineComponent({
         const searchRef = ref(null)
         const tableRef = ref(null)
 
-        const size = ref(props.size || BaseTableSize)
-        const { needColumns } = useColumnRender(props)
-        const { tableColumns, toolbarColumns, setColumnsMap } = useTableColumns(needColumns)
-
         const {
             context: requestProps,
             onReload,
@@ -126,6 +119,12 @@ export default defineComponent({
         } = useFetchData(props.request, props, {
             onLoad: (dataSource) => emit('load', dataSource),
             onRequestError: (err) => emit('requestError', err)
+        })
+
+        const { columns, size } = useTableContext(props)
+
+        const tableColumns = computed(() => {
+            return unref(columns).filter((column) => column.checked)
         })
 
         watch(() => requestProps.loading, (value) => {
@@ -225,13 +224,6 @@ export default defineComponent({
             }
         }
 
-        function onDensity (value) {
-            size.value = value
-            if (props.toolbar && isFunction(props.toolbar.onDensity)) {
-                props.toolbar.onDensity(value)
-            }
-        }
-
         function getPopupContainer () {
             const plain = unref(popupContainer)
             return plain ? (plain.$el || plain) : plain
@@ -240,14 +232,14 @@ export default defineComponent({
         expose({ reload: onReload, getSearchValues })
 
         return () => {
-            const { title, search, toolbar, columns } = props
+            const { title, search, toolbar, columns: searchColumns } = props
             const { title: titleSlot, toolbar: toolbarSlot, search: searchSlot, ...restSlots } = slots
 
             const renderSearch = () => {
                 const searchProps = {
                     ...search,
                     loading: requestProps.loading,
-                    columns: columns,
+                    columns: searchColumns,
                     onSubmit: onSubmit,
                     onReset: onReset
                 }
@@ -268,13 +260,11 @@ export default defineComponent({
                     ...toolbar,
                     title: title,
                     loading: requestProps.loading,
-                    density: unref(size),
+                    size: unref(size),
+                    columns: unref(columns),
                     pageData: requestProps.dataSource,
-                    columns: unref(toolbarColumns),
                     onReload: onReload,
-                    onSetting: setColumnsMap,
-                    onExport: onExport,
-                    onDensity: onDensity
+                    onExport: onExport
                 }
                 return (
                     <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>

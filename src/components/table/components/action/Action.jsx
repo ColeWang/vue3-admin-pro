@@ -1,11 +1,10 @@
 import { defineComponent } from 'vue'
-import Group from './Group'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
-const Action = defineComponent({
+export default defineComponent({
     inheritAttrs: false,
     props: {
         type: {
@@ -38,7 +37,3 @@ const Action = defineComponent({
         }
     }
 })
-
-Action.Group = Group
-
-export default Action

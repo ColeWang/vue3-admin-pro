@@ -1,7 +1,8 @@
-import { computed, defineComponent, unref } from 'vue'
+import { defineComponent, unref } from 'vue'
 import { Button, Checkbox, Popover, Tooltip } from 'ant-design-vue'
 import { SettingOutlined } from '@ant-design/icons-vue'
 import TreeList from './TreeList'
+import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import { fromPairs, map } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
@@ -23,20 +24,12 @@ export default defineComponent({
         columns: {
             type: Array,
             default: () => ([])
-        },
-        onChange: {
-            type: Function,
-            default: undefined
         }
     },
-    emits: ['change'],
-    setup (props, { emit }) {
-        const { t } = useLocaleReceiver('Table.toolbar')
+    setup (props) {
+        const { columnsMap = {}, setColumnsMap } = useSharedContext()
 
-        const columnsMap = computed(() => {
-            const values = props.columns.map((column) => [column.key, column])
-            return fromPairs(values)
-        })
+        const { t } = useLocaleReceiver('Table.toolbar')
 
         function onCheckClick (evt) {
             const { checked: targetChecked } = evt.target
@@ -44,19 +37,21 @@ export default defineComponent({
                 const checked = column.disable ? column.checked : targetChecked
                 return [key, { ...column, checked: checked }]
             })
-            emit('change', fromPairs(values))
+            setColumnsMap && setColumnsMap(fromPairs(values))
         }
 
         function onClearClick () {
-            emit('change', {}, true)
+            setColumnsMap && setColumnsMap(false)
         }
 
         function onFixedChange (key, column) {
-            emit('change', { ...unref(columnsMap), [key]: column })
+            const values = { ...unref(columnsMap), [key]: column }
+            setColumnsMap && setColumnsMap(values)
         }
 
         function onCheckChange (key, column) {
-            emit('change', { ...unref(columnsMap), [key]: column })
+            const values = { ...unref(columnsMap), [key]: column }
+            setColumnsMap && setColumnsMap(values)
         }
 
         function onDropChange (dragKey, dropKey, trueDropPosition, dropPosition) {
@@ -74,7 +69,7 @@ export default defineComponent({
                 const column = unref(columnsMap)[key] || {}
                 return [key, { ...column, order }]
             })
-            emit('change', fromPairs(values))
+            setColumnsMap && setColumnsMap(fromPairs(values))
         }
 
         return () => {

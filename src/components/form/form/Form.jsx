@@ -1,10 +1,7 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Form as AntForm } from 'ant-design-vue'
-import { BaseForm } from '../base-form'
-import Group from './Group'
-import Dependency from './Dependency'
+import BaseForm from '../base-form'
 
-const Form = defineComponent({
+export default defineComponent({
     inheritAttrs: false,
     props: {
         ...BaseForm.props,
@@ -30,10 +27,3 @@ const Form = defineComponent({
         }
     }
 })
-
-Form.useForm = AntForm.useForm
-Form.Item = AntForm.Item
-Form.Group = Group
-Form.Dependency = Dependency
-
-export default Form

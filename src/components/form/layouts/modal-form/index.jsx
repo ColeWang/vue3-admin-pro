@@ -1,7 +1,7 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import { BaseForm, Submitter } from '../base-form'
+import { default as BaseForm, Submitter } from '../../base-form'
 import { isFunction, pick } from 'lodash-es'
 
 const modalFormProps = {

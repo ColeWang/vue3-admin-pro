@@ -1,17 +1,9 @@
-import Text from './Text'
-import Number from './Number'
-import TextArea from './TextArea'
-import Password from './Password'
-import Select from './Select'
-import DatePicker from './DatePicker'
-import RangePicker from './RangePicker'
-import FieldCustom from './FieldCustom'
+import HocField from './HocField'
 
-export { Text }
-export { Number }
-export { TextArea }
-export { Password }
-export { Select }
-export { DatePicker }
-export { RangePicker }
-export { FieldCustom }
+export const Text = HocField('text')
+export const Number = HocField('number')
+export const TextArea = HocField('textarea')
+export const Password = HocField('password')
+export const Select = HocField('select')
+export const DatePicker = HocField('date')
+export const RangePicker = HocField('dateRange')
