@@ -1,7 +1,7 @@
 import { ref, unref, watch } from 'vue'
 import { default as BaseForm, Submitter } from '../../base-form'
+import { tryOnScopeDispose } from '@/utils'
 import { isFunction } from 'lodash-es'
-import { tryOnScopeDispose } from '@/utils/index.js'
 
 export const FloatProps = {
     ...BaseForm.props,
