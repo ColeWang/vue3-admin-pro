@@ -91,6 +91,7 @@ export default defineComponent({
             const needDrawerProps = {
                 ...pick(props, Object.keys(Drawer.props)),
                 ...extraProps,
+                headerStyle: { paddingBlock: '14px' },
                 open: unref(open),
                 onClose: onCancel,
                 onAfterOpenChange: onAfterClose
