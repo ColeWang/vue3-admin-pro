@@ -1,4 +1,5 @@
 import { shallowReactive } from 'vue'
+import { isFunction, isObject } from 'lodash-es'
 
 function mergeRowSelection (defaultValue, rowSelection) {
     const { selectedRowKeys, ...restValue } = defaultValue
@@ -30,7 +31,7 @@ function useRowSelection (props) {
 
     function onChange (keys, rows, info) {
         const { rowSelection } = props
-        if (rowSelection && rowSelection.onChange) {
+        if (isObject(rowSelection) && isFunction(rowSelection.onChange)) {
             rowSelection.onChange(keys, rows, info)
         }
         setSelectedRowKeys(keys, rows)
