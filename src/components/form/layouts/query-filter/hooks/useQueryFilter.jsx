@@ -1,5 +1,4 @@
 import { computed, ref, unref, watch } from 'vue'
-import useResizeObserver from '@/hooks/useResizeObserver'
 import { filterEmptyElement, isValidElement, tryOnScopeDispose } from '@/utils'
 import { map } from 'lodash-es'
 
@@ -29,7 +28,7 @@ function getOffset (length, span) {
     return (cols - 1 - (length % cols)) * span
 }
 
-function useQueryFilter (el, props) {
+function useQueryFilter (size, props) {
     const { collapseRender } = props
 
     const layout = ref('vertical')
@@ -41,17 +40,15 @@ function useQueryFilter (el, props) {
         return Math.max(1, cols - 1)
     })
 
-    const stopWatchCollapsed = watch(() => props.collapsed, (value) => {
-        collapsed.value = value
-    }, { immediate: true })
-
-    useResizeObserver(el, (entries) => {
-        const entry = entries[0]
-        const { width } = entry.contentRect
+    const stopWatchSize = watch(size, ({ width }) => {
         const spanSize = getSpanConfig(props.layout, width)
         layout.value = spanSize.layout
         span.value = spanSize.span
     })
+
+    const stopWatchCollapsed = watch(() => props.collapsed, (value) => {
+        collapsed.value = value
+    }, { immediate: true })
 
     function setCollapse (value) {
         collapsed.value = value
@@ -72,6 +69,7 @@ function useQueryFilter (el, props) {
     }
 
     function onStop () {
+        stopWatchSize && stopWatchSize()
         stopWatchCollapsed && stopWatchCollapsed()
     }
 

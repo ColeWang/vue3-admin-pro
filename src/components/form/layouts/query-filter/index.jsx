@@ -1,5 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Col, Form, Row } from 'ant-design-vue'
+import ResizeObserver from '@/components/resize-observer'
 import BaseForm from '../../base-form'
 import Actions from './Actions'
 import { useLocaleReceiver } from '@/components/locale-provider'
@@ -44,6 +45,10 @@ const queryFilterProps = {
         type: Number,
         default: 1
     },
+    onResize: {
+        type: Function,
+        default: undefined
+    },
     onCollapse: {
         type: Function,
         default: undefined
@@ -53,13 +58,19 @@ const queryFilterProps = {
 export default defineComponent({
     inheritAttrs: false,
     props: queryFilterProps,
-    emits: ['collapse'],
+    emits: ['resize', 'collapse'],
     setup (props, { slots, emit, attrs, expose }) {
-        const resizeRef = ref(null)
         const baseFormRef = ref(null)
 
+        const size = ref({ width: 0, height: 0 })
+
         const { t } = useLocaleReceiver('Form')
-        const { layout, span, collapsed, setCollapse, genColNodes } = useQueryFilter(resizeRef, props)
+        const { layout, span, collapsed, setCollapse, genColNodes } = useQueryFilter(size, props)
+
+        function onResize (value) {
+            size.value = value
+            emit('resize', value)
+        }
 
         function onSubmit () {
             const context = unref(baseFormRef)
@@ -120,7 +131,7 @@ export default defineComponent({
 
             return (
                 <BaseForm {...baseFormProps} ref={baseFormRef}>
-                    <div ref={resizeRef}>
+                    <ResizeObserver onResize={onResize}>
                         <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
                             {colNodes}
                             <Col key={'action'} class={cx('action-col')} span={unref(span)} offset={offset}>
@@ -129,7 +140,7 @@ export default defineComponent({
                                 </Form.Item>
                             </Col>
                         </Row>
-                    </div>
+                    </ResizeObserver>
                 </BaseForm>
             )
         }
