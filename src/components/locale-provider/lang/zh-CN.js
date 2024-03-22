@@ -13,11 +13,6 @@ export default {
         selectPlaceholder: '请选择'
     },
     Table: {
-        pagination: {
-            range: '第',
-            total: '条/总共',
-            item: '条'
-        },
         toolbar: {
             reload: '刷新',
             export: '导出',
@@ -31,6 +26,16 @@ export default {
             leftPin: '固定在列首',
             rightPin: '固定在列尾',
             noPin: '不固定'
+        },
+        alert: {
+            clear: '取消选择',
+            selected: '已选择',
+            item: '项'
+        },
+        pagination: {
+            range: '第',
+            total: '条/总共',
+            item: '条'
         }
     }
 }

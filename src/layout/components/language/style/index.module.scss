@@ -6,6 +6,7 @@
 
 .language-center {
     height: 60px;
+    white-space: nowrap;
     @include flex(center);
 
     .language-center__icon-down {

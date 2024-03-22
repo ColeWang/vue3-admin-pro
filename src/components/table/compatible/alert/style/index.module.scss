@@ -1,0 +1,27 @@
+.alert {
+    margin-block-end: 16px;
+    background-color: #FAFAFA;
+    border-radius: 6px;
+    border: none;
+}
+
+.alert-container {
+    padding-block: 12px;
+    padding-inline: 24px;
+}
+
+.alert-info {
+    @include flex(null, center);
+    transition: all 0.3s;
+    color: $text-secondary;
+    white-space: nowrap;
+
+    .alert-info-content {
+        flex: 1;
+    }
+
+    .alert-info-option {
+        min-width: 48px;
+        padding-inline-start: 16px;
+    }
+}

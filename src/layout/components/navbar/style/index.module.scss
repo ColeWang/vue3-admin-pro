@@ -26,6 +26,7 @@
     @include size(40px);
     @include flex(center, center);
     @include text(30px, $icon, null, center);
+    flex-shrink: 0;
     cursor: pointer;
 
     &:hover {

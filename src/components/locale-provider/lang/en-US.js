@@ -13,11 +13,6 @@ export default {
         selectPlaceholder: 'Please select'
     },
     Table: {
-        pagination: {
-            range: ' ',
-            total: 'of',
-            item: 'items'
-        },
         toolbar: {
             reload: 'Refresh',
             export: 'Export',
@@ -31,6 +26,16 @@ export default {
             leftPin: 'Pin to left',
             rightPin: 'Pin to right',
             noPin: 'Unpinned'
+        },
+        alert: {
+            clear: 'Clear',
+            selected: 'Selected',
+            item: 'Item'
+        },
+        pagination: {
+            range: ' ',
+            total: 'of',
+            item: 'items'
         }
     }
 }

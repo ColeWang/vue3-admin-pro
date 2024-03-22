@@ -2,7 +2,9 @@ import { computed, defineComponent, nextTick, onMounted, ref, unref, watch } fro
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import Search from '../compatible/search'
 import Toolbar from '../compatible/toolbar'
+import Alert from '../compatible/alert'
 import useFetchData from '../hooks/useFetchData'
+import useRowSelection from '../hooks/useRowSelection'
 import useTableContext from '../hooks/useTableContext'
 import { omitNil } from '@/utils'
 import { isArray, isFunction, pick } from 'lodash-es'
@@ -53,6 +55,10 @@ const tableProps = {
     toolbar: {
         type: [Object, Boolean],
         default: undefined
+    },
+    rowSelection: {
+        type: [Object, Boolean],
+        default: false
     },
     emptyText: {
         type: String,
@@ -120,6 +126,8 @@ export default defineComponent({
             onLoad: (dataSource) => emit('load', dataSource),
             onRequestError: (err) => emit('requestError', err)
         })
+
+        const { rowSelection, onCleanSelected } = useRowSelection(props)
 
         const { columns, size } = useTableContext(props)
 
@@ -232,14 +240,14 @@ export default defineComponent({
         expose({ reload: onReload, getSearchValues })
 
         return () => {
-            const { title, search, toolbar, columns: searchColumns } = props
-            const { title: titleSlot, toolbar: toolbarSlot, search: searchSlot, ...restSlots } = slots
+            const { title, search, toolbar, rowSelection: propsRowSelection, columns: propsColumns } = props
+            const { title: titleSlot, search: searchSlot, toolbar: toolbarSlot, alert: alertSlot, ...restSlots } = slots
 
             const renderSearch = () => {
                 const searchProps = {
                     ...search,
                     loading: requestProps.loading,
-                    columns: searchColumns,
+                    columns: propsColumns,
                     onSubmit: onSubmit,
                     onReset: onReset
                 }
@@ -271,6 +279,18 @@ export default defineComponent({
                 )
             }
 
+            const renderAlert = () => {
+                const alertSlots = { default: alertSlot }
+                const alertProps = {
+                    selectedRowKeys: rowSelection.selectedRowKeys,
+                    selectedRows: rowSelection.selectedRows,
+                    onCleanSelected: onCleanSelected
+                }
+                return (
+                    <Alert {...alertProps} v-slots={alertSlots}/>
+                )
+            }
+
             const cardBodyStyle = toolbar !== false ? ({
                 paddingBlock: '16px',
                 paddingBlockStart: '0'
@@ -284,6 +304,7 @@ export default defineComponent({
                 ...requestProps,
                 size: unref(size),
                 columns: unref(tableColumns),
+                rowSelection: propsRowSelection !== false ? rowSelection : undefined,
                 onChange: onChange
             }
 
@@ -292,6 +313,7 @@ export default defineComponent({
                     {search !== false && renderSearch()}
                     <Card bodyStyle={cardBodyStyle}>
                         {toolbar !== false && renderToolbar()}
+                        {propsRowSelection !== false && renderAlert()}
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>
                                 <div class={cx('table-wrapper')} ref={tableRef}>

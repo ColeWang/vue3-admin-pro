@@ -85,9 +85,20 @@ export default defineComponent({
                 onColumnsChange: onColumnsChange
             }
 
+            const tableSlots = {
+                alert: () => {
+                    return (
+                        <Action.Group size={16}>
+                            <Action>批量删除</Action>
+                            <Action>批量删除</Action>
+                        </Action.Group>
+                    )
+                }
+            }
+
             return (
                 <div>
-                    <Table {...tableProps}/>
+                    <Table {...tableProps} v-slots={tableSlots}/>
                 </div>
             )
         }
