@@ -18,7 +18,8 @@ function useRowSelection (props) {
     function setSelectedRowKeys (keys, rows) {
         rowSelection.selectedRowKeys = keys
         if (keys.length !== rows.length) {
-            const { rowKey = 'key', selectedRows } = rowSelection
+            const { rowKey = 'key' } = props
+            const { selectedRows } = rowSelection
             rowSelection.selectedRows = keys.map((key) => {
                 const oldRow = selectedRows.find((row) => row[rowKey] === key)
                 const newRow = rows.find((row) => row[rowKey] === key)
