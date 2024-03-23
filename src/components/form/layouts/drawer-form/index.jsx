@@ -74,8 +74,12 @@ export default defineComponent({
                     )
                 },
                 default: () => {
-                    const originProps = { ...attrs, ...pick(props, Object.keys(BaseForm.props)) }
-                    const baseFormProps = { ...originProps, onFinish: onFinish }
+                    const baseFormProps = {
+                        ...attrs,
+                        ...pick(props, Object.keys(BaseForm.props)),
+                        onFinish: onFinish,
+                        onSubmit: onFinish
+                    }
                     return (
                         <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={slots}/>
                     )
