@@ -1,8 +1,8 @@
-import { computed, defineComponent, Fragment, unref } from 'vue'
-import { Select } from 'ant-design-vue'
+import { defineComponent, Fragment } from 'vue'
+import { TimePicker } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseFieldProps from '../BaseFieldProps'
-import { valueEnumToOptions } from '../utils'
+import { formatDate } from '../utils'
 import { isFunction } from 'lodash-es'
 
 export default defineComponent({
@@ -17,30 +17,27 @@ export default defineComponent({
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('Form')
 
-        const options = computed(() => {
-            return valueEnumToOptions(props.valueEnum)
-        })
-
         return () => {
-            const { mode, text, emptyText, valueEnum, fieldProps } = props
+            const { mode, text, emptyText, fieldProps } = props
+            const { format } = fieldProps
             const placeholder = fieldProps.placeholder || t('selectPlaceholder')
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                const valueText = valueEnum[text]
+                const valueText = formatDate(text, format)
                 return (
                     <Fragment>{valueText || emptyText}</Fragment>
                 )
             }
             if (mode === 'edit') {
                 const needFieldProps = {
-                    options: unref(options),
+                    format: format,
                     placeholder: placeholder,
                     allowClear: true,
                     ...fieldProps
                 }
                 const renderDom = (
-                    <Select {...needFieldProps} v-slots={slots}/>
+                    <TimePicker {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)

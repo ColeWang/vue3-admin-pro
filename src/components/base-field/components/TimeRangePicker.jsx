@@ -1,9 +1,9 @@
-import { computed, defineComponent, Fragment, unref } from 'vue'
-import { Select } from 'ant-design-vue'
+import { defineComponent, Fragment } from 'vue'
+import { TimeRangePicker } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseFieldProps from '../BaseFieldProps'
-import { valueEnumToOptions } from '../utils'
-import { isFunction } from 'lodash-es'
+import { isArray, isFunction } from 'lodash-es'
+import { formatDate } from '../utils'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -17,30 +17,34 @@ export default defineComponent({
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('Form')
 
-        const options = computed(() => {
-            return valueEnumToOptions(props.valueEnum)
-        })
-
         return () => {
-            const { mode, text, emptyText, valueEnum, fieldProps } = props
-            const placeholder = fieldProps.placeholder || t('selectPlaceholder')
+            const { mode, text, emptyText, fieldProps } = props
+            const { ranges, format } = fieldProps
+            const placeholder = fieldProps.placeholder || [t('selectPlaceholder'), t('selectPlaceholder')]
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                const valueText = valueEnum[text]
+                const [startText, endText] = isArray(text) ? text : []
+                const valueStartText = formatDate(startText, format)
+                const valueEndText = formatDate(endText, format)
                 return (
-                    <Fragment>{valueText || emptyText}</Fragment>
+                    <Fragment>
+                        {valueStartText || emptyText}
+                        {'~'}
+                        {valueEndText || emptyText}
+                    </Fragment>
                 )
             }
             if (mode === 'edit') {
                 const needFieldProps = {
-                    options: unref(options),
+                    ranges: ranges,
+                    format: format,
                     placeholder: placeholder,
                     allowClear: true,
                     ...fieldProps
                 }
                 const renderDom = (
-                    <Select {...needFieldProps} v-slots={slots}/>
+                    <TimeRangePicker {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
                     return renderFormItem(text, { mode, fieldProps }, renderDom)
