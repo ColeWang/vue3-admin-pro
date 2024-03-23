@@ -38,7 +38,7 @@ export default defineComponent({
             const { length } = selectedRowKeys
             const alertInfo = `${t('alert.selected')} ${length} ${t('alert.item')}`
 
-            const slotScope = { selectedRowKeys, selectedRows }
+            const slotScope = { keys: selectedRowKeys, rows: selectedRows }
             const children = slots.default && slots.default(slotScope)
 
             return (
