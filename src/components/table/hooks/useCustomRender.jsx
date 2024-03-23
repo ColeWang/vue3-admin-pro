@@ -31,9 +31,9 @@ function customRender (oldColumn, emptyText) {
             const badgeProps = isObject(plain) ? plain : { text: plain }
             return <Badge {...badgeProps}/>
         }
-        if (column.copyable || column.ellipsis) {
-            const copyable = getCopyable(column, text)
-            const ellipsis = getEllipsis(column)
+        if (oldColumn.copyable || oldColumn.ellipsis) {
+            const copyable = getCopyable(oldColumn, text)
+            const ellipsis = getEllipsis(oldColumn)
             return (
                 <Typography.Text
                     copyable={copyable}
