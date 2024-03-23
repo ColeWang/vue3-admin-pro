@@ -237,7 +237,11 @@ export default defineComponent({
             return plain ? (plain.$el || plain) : plain
         }
 
-        expose({ reload: onReload, getSearchValues })
+        expose({
+            reload: onReload,
+            cleanSelected: onCleanSelected,
+            getSearchValues
+        })
 
         return () => {
             const { title, search, toolbar, rowSelection: propsRowSelection, columns: propsColumns } = props
