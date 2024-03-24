@@ -63,7 +63,7 @@ export default defineComponent({
 
         watch(model, (curr) => {
             emit('valuesChange', curr)
-        }, { deep: true })
+        }, { immediate: true, deep: true })
 
         function setModelValue (value, name) {
             if (name && isString(name)) {

@@ -126,9 +126,8 @@ export default defineComponent({
             onRequestError: (err) => emit('requestError', err)
         })
 
-        const { rowSelection, onCleanSelected } = useRowSelection(props)
-
         const { columns, size } = useTableContext(props)
+        const { rowSelection, onCleanSelected } = useRowSelection(props)
 
         const tableColumns = computed(() => {
             return unref(columns).filter((column) => column.checked)
