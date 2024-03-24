@@ -1,4 +1,4 @@
-import { computed, defineComponent, nextTick, onMounted, ref, unref, watch } from 'vue'
+import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import Search from '../compatible/search'
 import Toolbar from '../compatible/toolbar'
@@ -112,7 +112,6 @@ export default defineComponent({
     emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'columnsChange', 'load', 'requestError', 'submit', 'reset'],
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
-        const searchRef = ref(null)
         const tableRef = ref(null)
 
         const {
@@ -142,26 +141,6 @@ export default defineComponent({
         watch(tableColumns, (value) => {
             emit('columnsChange', value)
         }, { immediate: true })
-
-        onMounted(() => {
-            nextTick().then(() => {
-                if (props.manualRequest) return
-                if (props.search !== false) {
-                    const values = getSearchValues()
-                    values && onSubmit(values)
-                } else {
-                    onReload(false)
-                }
-            })
-        })
-
-        function getSearchValues () {
-            const context = unref(searchRef)
-            if (context && context.getValues) {
-                return context.getValues() || {}
-            }
-            return {}
-        }
 
         function onChange (paginate, filters, sorter, extra) {
             emit('change', paginate, filters, sorter, extra)
@@ -239,19 +218,26 @@ export default defineComponent({
 
         expose({
             reload: onReload,
-            cleanSelected: onCleanSelected,
-            getSearchValues
+            cleanSelected: onCleanSelected
         })
 
         return () => {
-            const { title, search, toolbar, rowSelection: propsRowSelection, columns: propsColumns } = props
-            const { title: titleSlot, search: searchSlot, toolbar: toolbarSlot, alert: alertSlot, ...restSlots } = slots
+            const { search: propsSearch, toolbar: propsToolbar, rowSelection: propsRowSelection } = props
+            const { title: propsTitle, columns: propsColumns, manualRequest } = props
+            const {
+                search: searchSlot,
+                toolbar: toolbarSlot,
+                title: titleSlot,
+                alert: alertSlot,
+                ...restSlots
+            } = slots
 
             const renderSearch = () => {
                 const searchProps = {
-                    ...search,
+                    ...propsSearch,
                     loading: requestProps.loading,
                     columns: propsColumns,
+                    manualRequest: manualRequest,
                     onSubmit: onSubmit,
                     onReset: onReset
                 }
@@ -259,24 +245,24 @@ export default defineComponent({
                     return searchSlot(searchProps)
                 }
                 return (
-                    <Search {...searchProps} ref={searchRef}/>
+                    <Search {...searchProps}/>
                 )
             }
 
             const renderToolbar = () => {
-                const toolbarSlots = {
-                    default: toolbarSlot,
-                    title: titleSlot
-                }
                 const toolbarProps = {
-                    ...toolbar,
-                    title: title,
+                    ...propsToolbar,
+                    title: propsTitle,
                     loading: requestProps.loading,
                     size: unref(size),
                     columns: unref(columns),
                     pageData: requestProps.dataSource,
                     onReload: onReload,
                     onExport: onExport
+                }
+                const toolbarSlots = {
+                    default: toolbarSlot,
+                    title: titleSlot
                 }
                 return (
                     <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
@@ -314,9 +300,9 @@ export default defineComponent({
 
             return (
                 <div class={cx('table')}>
-                    {search !== false && renderSearch()}
+                    {propsSearch !== false && renderSearch()}
                     <Card bodyStyle={cardBodyStyle}>
-                        {toolbar !== false && renderToolbar()}
+                        {propsToolbar !== false && renderToolbar()}
                         {propsRowSelection !== false && renderAlert()}
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>

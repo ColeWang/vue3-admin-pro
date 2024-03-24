@@ -1,25 +1,31 @@
-import { cloneVNode, defineComponent, ref, unref } from 'vue'
+import { cloneVNode, defineComponent, onMounted, ref, unref } from 'vue'
 import { QueryFilter } from '@/components/form'
 import { Card } from 'ant-design-vue'
-import { cloneProxyToRaw, isValidElement } from '@/utils'
+import { isValidElement } from '@/utils'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: { ...QueryFilter.props },
-    setup (props, { expose, attrs, slots }) {
+    props: {
+        ...QueryFilter.props,
+        manualRequest: {
+            type: Boolean,
+            default: false
+        }
+    },
+    setup (props, { attrs, slots }) {
         const queryFilterRef = ref(null)
 
-        function getValues () {
+        onMounted(() => {
+            !props.manualRequest && onSubmit()
+        })
+
+        function onSubmit () {
             const context = unref(queryFilterRef)
             if (context && context.getFormInstance) {
                 const formInstance = context.getFormInstance()
-                const { model } = formInstance
-                return cloneProxyToRaw(unref(model))
+                formInstance && formInstance.submit()
             }
-            return {}
         }
-
-        expose({ getValues })
 
         return () => {
             const queryFilterSlots = {

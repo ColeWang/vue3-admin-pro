@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, unref } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 import { Field } from '@/components/form'
 import BaseSearch from './BaseSearch'
 import { fromPairs, pick } from 'lodash-es'
@@ -28,21 +28,10 @@ export default defineComponent({
             default: () => ([])
         }
     },
-    setup (props, { expose, attrs }) {
-        const baseSearchRef = ref(null)
+    setup (props, { attrs }) {
         const defaultSearchColumns = filterSearchColumns(props.columns)
         const initialValues = genInitialValues(defaultSearchColumns)
         const searchColumns = computed(() => filterSearchColumns(props.columns))
-
-        function getValues () {
-            const context = unref(baseSearchRef)
-            if (context && context.getValues) {
-                return context.getValues()
-            }
-            return {}
-        }
-
-        expose({ getValues })
 
         return () => {
             const baseSearchSlots = {
@@ -74,11 +63,7 @@ export default defineComponent({
             }
 
             return (
-                <BaseSearch
-                    {...baseSearchProps}
-                    ref={baseSearchRef}
-                    v-slots={baseSearchSlots}
-                />
+                <BaseSearch{...baseSearchProps} v-slots={baseSearchSlots}/>
             )
         }
     }
