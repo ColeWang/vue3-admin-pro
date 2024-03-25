@@ -1,6 +1,6 @@
 import { Badge, Space } from 'ant-design-vue'
 import { isNumber, isObject, isString } from 'lodash-es'
-import { isEmpty } from '@/utils/index.js'
+import { isEmpty } from '@/utils'
 
 export function valueEnumToOptions (valueEnum = {}) {
     return Object.keys(valueEnum).map((key) => {
@@ -22,7 +22,7 @@ export function valueEnumParsingText (text, valueEnum = {}) {
             </Space>
         )
     }
-    if (isString(text) || isNumber(text)) {
+    if (!isEmpty(text) && (isString(text) || isNumber(text))) {
         const plain = valueEnum[text]
         if (plain && isObject(plain)) {
             return <Badge {...plain}/>
