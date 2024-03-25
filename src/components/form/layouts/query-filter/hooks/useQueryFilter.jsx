@@ -29,7 +29,7 @@ function getOffset (length, span) {
 }
 
 function useQueryFilter (size, props) {
-    const { collapseRender, span: propsSpan } = props
+    const { span: propsSpan, collapseRender } = props
 
     const layout = ref('vertical')
     const span = ref(24)
