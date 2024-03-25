@@ -1,11 +1,11 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Radio, Select } from '@/components/form'
+import { Checkbox, Radio, Select } from '@/components/form'
 import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
 
 export default defineComponent({
     name: 'TableCustomSearch',
     setup () {
-        const model = ref({ age: '1', radio: '1' })
+        const model = ref({ age: '1', radio: '1', checkbox: ['1', '2', '3', '4', '5', '6'] })
 
         const columns = [
             {
@@ -86,11 +86,24 @@ export default defineComponent({
                                     label={'Radio'}
                                     name={'radio'}
                                     required={true}
-                                    mode={'read'}
                                     fieldProps={{ optionType: 'button' }}
                                     valueEnum={{
                                         '1': '选项一',
                                         '2': '选项二',
+                                    }}
+                                />
+                                <Checkbox
+                                    label={'Box'}
+                                    name={'checkbox'}
+                                    required={true}
+                                    mode={'read'}
+                                    valueEnum={{
+                                        '1': '选项一',
+                                        '2': '选项二',
+                                        '3': '选项一',
+                                        '4': '选项二',
+                                        '5': '选项一',
+                                        '6': '选项二',
                                     }}
                                 />
                             </BaseSearch>
