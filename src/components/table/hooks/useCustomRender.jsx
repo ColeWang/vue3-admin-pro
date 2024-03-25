@@ -57,6 +57,8 @@ function useCustomRender (props) {
             const key = column.key || column.dataIndex || String(index)
             const tempColumns = { ...column, key: key, customRender: render }
             if (column.children && isArray(column.children)) {
+                // delete customRender
+                tempColumns.customRender = undefined
                 tempColumns.children = genCustomRenderColumns(column.children)
             }
             return tempColumns
