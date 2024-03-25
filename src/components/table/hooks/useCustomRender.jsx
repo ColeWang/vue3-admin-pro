@@ -1,5 +1,6 @@
 import { computed } from 'vue'
-import { Badge, Typography } from 'ant-design-vue'
+import { Typography } from 'ant-design-vue'
+import { valueEnumParsingText } from '@/components/base-field/utils/valueEnum'
 import { isArray, isFunction, isObject } from 'lodash-es'
 import { isEmpty } from '@/utils'
 
@@ -27,9 +28,7 @@ function customRender (oldColumn, emptyText) {
             return oldCustomRender.apply(null, [text, record, index, column])
         }
         if (oldColumn.valueEnum && isObject(oldColumn.valueEnum)) {
-            const plain = oldColumn.valueEnum[text] || emptyText
-            const badgeProps = isObject(plain) ? plain : { text: plain }
-            return <Badge {...badgeProps}/>
+            return valueEnumParsingText(text, oldColumn.valueEnum)
         }
         if (oldColumn.copyable || oldColumn.ellipsis) {
             const copyable = getCopyable(oldColumn, text)

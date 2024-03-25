@@ -7,13 +7,7 @@ import { isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        ...BaseFieldProps,
-        emptyText: {
-            type: String,
-            default: '-'
-        }
-    },
+    props: { ...BaseFieldProps },
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('global')
 

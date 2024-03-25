@@ -27,6 +27,10 @@ const BaseFieldProps = {
         type: Object,
         default: () => ({})
     },
+    emptyText: {
+        type: String,
+        default: '-'
+    },
     renderFormItem: {
         type: Function,
         default: undefined

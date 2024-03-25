@@ -1,36 +1,27 @@
-import { computed, defineComponent, Fragment, unref } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 import { Radio } from 'ant-design-vue'
 import BaseFieldProps from '../BaseFieldProps'
-import { valueEnumToOptions } from '../utils'
+import { valueEnumParsingText, valueEnumToOptions } from '../utils/valueEnum'
 import { isFunction } from 'lodash-es'
 
+/**
+ * @todo 待优化 validateStatus 变化应该使组件颜色变化
+ * 组件库没有对外暴露 Form.Item 的 Status
+ */
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        ...BaseFieldProps,
-        type: {
-            type: String,
-            default: 'text'
-        },
-        emptyText: {
-            type: String,
-            default: '-'
-        }
-    },
+    props: { ...BaseFieldProps },
     setup (props, { slots }) {
         const options = computed(() => {
             return valueEnumToOptions(props.valueEnum)
         })
 
         return () => {
-            const { mode, text, emptyText, valueEnum, fieldProps } = props
+            const { mode, text, valueEnum, fieldProps } = props
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                const valueText = valueEnum[text]
-                return (
-                    <Fragment>{valueText || emptyText}</Fragment>
-                )
+                return valueEnumParsingText(text, valueEnum)
             }
             if (mode === 'edit') {
                 const needFieldProps = {

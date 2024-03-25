@@ -11,10 +11,6 @@ export default defineComponent({
         type: {
             type: String,
             default: 'text'
-        },
-        emptyText: {
-            type: String,
-            default: '-'
         }
     },
     setup (props, { slots }) {

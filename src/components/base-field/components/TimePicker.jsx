@@ -1,4 +1,4 @@
-import { defineComponent, Fragment } from 'vue'
+import { defineComponent } from 'vue'
 import { TimePicker } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseFieldProps from '../BaseFieldProps'
@@ -7,13 +7,7 @@ import { isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        ...BaseFieldProps,
-        emptyText: {
-            type: String,
-            default: '-'
-        }
-    },
+    props: { ...BaseFieldProps },
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('global')
 
@@ -25,9 +19,7 @@ export default defineComponent({
 
             if (mode === 'read') {
                 const valueText = formatDate(text, format)
-                return (
-                    <Fragment>{valueText || emptyText}</Fragment>
-                )
+                return valueText || emptyText
             }
             if (mode === 'edit') {
                 const needFieldProps = {

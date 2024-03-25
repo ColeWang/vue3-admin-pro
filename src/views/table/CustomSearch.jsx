@@ -1,11 +1,11 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Select, Text } from '@/components/form'
+import { Radio, Select } from '@/components/form'
 import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
 
 export default defineComponent({
     name: 'TableCustomSearch',
     setup () {
-        const model = ref({ age: '1', name: '123' })
+        const model = ref({ age: '1', radio: '1' })
 
         const columns = [
             {
@@ -13,8 +13,12 @@ export default defineComponent({
                 dataIndex: 'name'
             },
             {
-                title: 'Age',
-                dataIndex: 'age',
+                title: 'Radio',
+                dataIndex: 'radio',
+                valueEnum: {
+                    '1': '选项一',
+                    '2': '选项二'
+                }
             },
             {
                 title: 'Address',
@@ -41,13 +45,13 @@ export default defineComponent({
                     {
                         key: '1',
                         name: 'John Brown',
-                        age: 32,
+                        radio: '1',
                         address: 'New York No. 1 Lake Park',
                     },
                     {
                         key: '2',
                         name: 'Jim Green',
-                        age: 42,
+                        radio: ['2', '1'],
                         address: 'London No. 1 Lake Park',
                     }
                 ]
@@ -72,16 +76,22 @@ export default defineComponent({
                                 <Select
                                     label={'Age'}
                                     name={'age'}
+                                    required={true}
                                     valueEnum={{
                                         '1': '选项一',
                                         '2': '选项二',
                                     }}
                                 />
-                                <Text
-                                    hidden={unref(model).age && unref(model).age === '1'}
-                                    label={'Name'}
-                                    name={'name'}
+                                <Radio
+                                    label={'Radio'}
+                                    name={'radio'}
                                     required={true}
+                                    mode={'read'}
+                                    fieldProps={{ optionType: 'button' }}
+                                    valueEnum={{
+                                        '1': '选项一',
+                                        '2': '选项二',
+                                    }}
                                 />
                             </BaseSearch>
                         )

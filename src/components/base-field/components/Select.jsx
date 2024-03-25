@@ -1,19 +1,13 @@
-import { computed, defineComponent, Fragment, unref } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 import { Select } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseFieldProps from '../BaseFieldProps'
-import { valueEnumToOptions } from '../utils'
+import { valueEnumParsingText, valueEnumToOptions } from '../utils/valueEnum'
 import { isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        ...BaseFieldProps,
-        emptyText: {
-            type: String,
-            default: '-'
-        }
-    },
+    props: { ...BaseFieldProps },
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('global')
 
@@ -22,15 +16,12 @@ export default defineComponent({
         })
 
         return () => {
-            const { mode, text, emptyText, valueEnum, fieldProps } = props
+            const { mode, text, valueEnum, fieldProps } = props
             const placeholder = fieldProps.placeholder || t('selectPlaceholder')
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                const valueText = valueEnum[text]
-                return (
-                    <Fragment>{valueText || emptyText}</Fragment>
-                )
+                return valueEnumParsingText(text, valueEnum)
             }
             if (mode === 'edit') {
                 const needFieldProps = {
