@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, unref, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import Search from '../compatible/search'
 import Toolbar from '../compatible/toolbar'
@@ -140,6 +140,13 @@ export default defineComponent({
         watch(tableColumns, (value) => {
             emit('columnsChange', value)
         }, { immediate: true })
+
+        // 没搜索的时候 发起请求
+        onMounted(() => {
+            if (props.manualRequest === false && props.search === false) {
+                onReload(false)
+            }
+        })
 
         function onChange (paginate, filters, sorter, extra) {
             emit('change', paginate, filters, sorter, extra)
