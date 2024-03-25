@@ -53,13 +53,12 @@ function useCustomRender (props) {
 
     function genCustomRenderColumns (columns) {
         return columns.map((column, index) => {
-            const render = customRender(column, props.emptyText)
             const key = column.key || column.dataIndex || String(index)
-            const tempColumns = { ...column, key: key, customRender: render }
+            const tempColumns = { ...column, key: key }
             if (column.children && isArray(column.children)) {
-                // delete customRender
-                tempColumns.customRender = undefined
                 tempColumns.children = genCustomRenderColumns(column.children)
+            } else {
+                tempColumns.customRender = customRender(column, props.emptyText)
             }
             return tempColumns
         }).filter((column) => !column.hideInTable)
