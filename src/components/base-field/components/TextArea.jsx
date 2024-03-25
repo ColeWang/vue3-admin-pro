@@ -15,7 +15,7 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
-        const { t } = useLocaleReceiver('Form')
+        const { t } = useLocaleReceiver('global')
 
         function onKeyPress (evt) {
             if (evt.key === 'Enter') {

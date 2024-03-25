@@ -1,6 +1,11 @@
 export default {
     locale: 'en-US',
-    global: {},
+    global: {
+        inputPlaceholder: 'Please enter',
+        selectPlaceholder: 'Please select',
+        open: 'open',
+        close: 'close'
+    },
     Form: {
         okText: 'OK',
         cancelText: 'Cancel',
@@ -8,9 +13,7 @@ export default {
         reset: 'Reset',
         submit: 'Submit',
         collapsed: 'Expand',
-        expand: 'Collapse',
-        inputPlaceholder: 'Please enter',
-        selectPlaceholder: 'Please select'
+        expand: 'Collapse'
     },
     Table: {
         toolbar: {

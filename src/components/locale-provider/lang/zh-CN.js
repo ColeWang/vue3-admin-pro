@@ -1,6 +1,11 @@
 export default {
     locale: 'zh-CN',
-    global: {},
+    global: {
+        inputPlaceholder: '请输入',
+        selectPlaceholder: '请选择',
+        open: '打开',
+        close: '关闭'
+    },
     Form: {
         okText: '确定',
         cancelText: '取消',
@@ -8,9 +13,7 @@ export default {
         reset: '重置',
         submit: '提交',
         collapsed: '展开',
-        expand: '收起',
-        inputPlaceholder: '请输入',
-        selectPlaceholder: '请选择'
+        expand: '收起'
     },
     Table: {
         toolbar: {

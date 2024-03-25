@@ -15,7 +15,7 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
-        const { t } = useLocaleReceiver('Form')
+        const { t } = useLocaleReceiver('global')
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props

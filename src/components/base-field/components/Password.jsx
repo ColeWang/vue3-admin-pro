@@ -15,7 +15,7 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
-        const { t } = useLocaleReceiver('Form')
+        const { t } = useLocaleReceiver('global')
 
         const { fieldProps } = props
         const visible = ref(fieldProps.visible || false)
