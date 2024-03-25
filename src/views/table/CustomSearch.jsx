@@ -72,7 +72,7 @@ export default defineComponent({
                 <div>
                     <Table {...tableProps} v-slots={{
                         search: (slotScope) => (
-                            <BaseSearch {...slotScope} model={unref(model)}>
+                            <BaseSearch {...slotScope} span={12} model={unref(model)}>
                                 <Select
                                     label={'Age'}
                                     name={'age'}

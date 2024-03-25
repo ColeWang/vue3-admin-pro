@@ -29,7 +29,7 @@ function getOffset (length, span) {
 }
 
 function useQueryFilter (size, props) {
-    const { collapseRender } = props
+    const { collapseRender, span: propsSpan } = props
 
     const layout = ref('vertical')
     const span = ref(24)
@@ -43,7 +43,7 @@ function useQueryFilter (size, props) {
     const stopWatchSize = watch(size, ({ width }) => {
         const spanSize = getSpanConfig(props.layout, width)
         layout.value = spanSize.layout
-        span.value = spanSize.span
+        span.value = (propsSpan || spanSize.span)
     })
 
     const stopWatchCollapsed = watch(() => props.collapsed, (value) => {

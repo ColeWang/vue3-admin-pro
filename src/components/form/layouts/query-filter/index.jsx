@@ -33,13 +33,17 @@ function genFormItemFixStyle (labelWidth, layout) {
 const queryFilterProps = {
     ...BaseForm.props,
     ...Actions.props,
+    span: {
+        type: Number,
+        default: undefined
+    },
     gutter: {
         type: [Number, String],
         default: 24
     },
     labelWidth: {
         type: [Number, String],
-        default: 80
+        default: 80 // 'auto'
     },
     defaultRowsNumber: {
         type: Number,
