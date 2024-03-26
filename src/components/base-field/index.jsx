@@ -7,6 +7,7 @@ import FieldTimeRangePicker from './components/TimeRangePicker'
 import FieldRadio from './components/Radio'
 import FieldCheckbox from './components/Checkbox'
 import FieldSelect from './components/Select'
+import FieldSwitch from './components/Switch'
 import FieldNumber from './components/Number'
 import FieldTextArea from './components/TextArea'
 import FieldText from './components/Text'
@@ -126,6 +127,9 @@ function defaultRenderText (valueType, props, slots) {
     }
     if (valueType === 'select') {
         return <FieldSelect {...props} v-slots={slots}/>
+    }
+    if (valueType === 'switch') {
+        return <FieldSwitch {...props} v-slots={slots}/>
     }
     if (valueType === 'number') {
         return <FieldNumber {...props} v-slots={slots}/>

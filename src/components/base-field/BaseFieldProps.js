@@ -1,6 +1,6 @@
 const BaseFieldProps = {
     text: {
-        type: [String, Number, Array, Object],
+        type: [String, Number, Boolean, Array, Object],
         default: undefined
     },
     mode: {

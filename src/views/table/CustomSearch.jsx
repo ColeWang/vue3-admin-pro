@@ -1,5 +1,5 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Checkbox, Radio, Select } from '@/components/form'
+import { Checkbox, Radio, Select, Switch } from '@/components/form'
 import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
 
 export default defineComponent({
@@ -91,6 +91,11 @@ export default defineComponent({
                                         '1': '选项一',
                                         '2': '选项二',
                                     }}
+                                />
+                                <Switch
+                                    label={'Switch'}
+                                    name={'switch'}
+                                    required={true}
                                 />
                                 <Checkbox
                                     label={'Box'}
