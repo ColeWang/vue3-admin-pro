@@ -5,6 +5,7 @@ import FieldRangePicker from './components/RangePicker'
 import FieldTimePicker from './components/TimePicker'
 import FieldTimeRangePicker from './components/TimeRangePicker'
 import FieldSelect from './components/Select'
+import FieldTreeSelect from './components/TreeSelect'
 import FieldCascader from './components/Cascader'
 import FieldRadio from './components/Radio'
 import FieldCheckbox from './components/Checkbox'
@@ -123,6 +124,9 @@ function defaultRenderText (valueType, props, slots) {
     }
     if (valueType === 'select') {
         return <FieldSelect {...props} v-slots={slots}/>
+    }
+    if (valueType === 'treeSelect') {
+        return <FieldTreeSelect {...props} v-slots={slots}/>
     }
     if (valueType === 'cascader') {
         return <FieldCascader {...props} v-slots={slots}/>
