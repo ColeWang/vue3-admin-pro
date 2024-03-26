@@ -25,7 +25,7 @@ export default defineComponent({
     },
     emits: ['cleanSelected'],
     setup (props, { emit, slots }) {
-        const { t } = useLocaleReceiver('Table')
+        const { t } = useLocaleReceiver('Table.alert')
 
         function onCleanSelected () {
             emit('cleanSelected')
@@ -36,7 +36,7 @@ export default defineComponent({
 
             const { selectedRowKeys, selectedRows } = props
             const { length } = selectedRowKeys
-            const alertInfo = `${t('alert.selected')} ${length} ${t('alert.item')}`
+            const alertInfo = `${t('selected')} ${length} ${t('item')}`
 
             const slotScope = { keys: selectedRowKeys, rows: selectedRows }
             const children = slots.default && slots.default(slotScope)
@@ -48,7 +48,7 @@ export default defineComponent({
                             <div class={cx('alert-info-content')}>
                                 <Space size={8}>
                                     <span>{alertInfo}</span>
-                                    <Action onClick={onCleanSelected}>{t('alert.clear')}</Action>
+                                    <Action onClick={onCleanSelected}>{t('clear')}</Action>
                                 </Space>
                             </div>
                             <div class={cx('alert-info-option')}>{children}</div>
