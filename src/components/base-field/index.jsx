@@ -182,7 +182,7 @@ export default defineComponent({
                 placeholder: placeholder,
                 'onUpdate:value': onUpdateValue
             }
-            const needProps = {
+            const fieldRenderProps = {
                 ...props,
                 ...attrs,
                 text: dataValue,
@@ -194,10 +194,9 @@ export default defineComponent({
             if (customRenderText && isFunction(customRenderText)) {
                 // 与 renderFormItem 参数保持一致
                 // valueType: (text, props) => {}
-                const { text: needText, fieldProps: needFieldProps } = needProps
-                return customRenderText(needText, { mode, ...needFieldProps })
+                return customRenderText(dataValue, { mode, ...needFieldProps })
             }
-            return defaultRenderText(valueType, needProps, slots)
+            return defaultRenderText(valueType, fieldRenderProps, slots)
         }
     }
 })
