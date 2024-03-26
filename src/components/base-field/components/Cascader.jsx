@@ -32,7 +32,7 @@ export default defineComponent({
                     <Cascader {...needFieldProps} v-slots={slots}/>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, fieldProps }, renderDom)
+                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
                 }
                 return renderDom
             }

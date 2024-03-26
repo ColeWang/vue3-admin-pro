@@ -27,10 +27,9 @@ export default defineComponent({
                 return text ? open : close
             }
             if (mode === 'edit') {
-                const { style, ...restFieldProps } = fieldProps
-                const checked = fieldProps.checked ?? fieldProps.value
+                const { value, checked, style, ...restFieldProps } = fieldProps
                 const needFieldProps = {
-                    checked: checked,
+                    checked: checked || value,
                     'onUpdate:checked': onUpdateChecked,
                     ...restFieldProps
                 }
@@ -40,7 +39,7 @@ export default defineComponent({
                     </div>
                 )
                 if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, fieldProps }, renderDom)
+                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
                 }
                 return renderDom
             }

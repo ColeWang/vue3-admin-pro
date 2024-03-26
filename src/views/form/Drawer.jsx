@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Button, Card, Input } from 'ant-design-vue'
-import { DrawerForm, FieldCustom, Number, Text } from '@/components/form'
+import { Button, Card } from 'ant-design-vue'
+import { DrawerForm, Number, Text } from '@/components/form'
 
 export default defineComponent({
     name: 'FormDrawer',
@@ -55,9 +55,6 @@ export default defineComponent({
                             name={'number'}
                             colProps={{ span: 12 }}
                         />
-                        <FieldCustom colProps={{ span: 12 }} label={'自定义'} name={'custom'}>
-                            <Input/>
-                        </FieldCustom>
                     </DrawerForm>
                 </Card>
             )

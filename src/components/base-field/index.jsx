@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, unref } from 'vue'
 import BaseFieldProps from './BaseFieldProps'
 import FieldDatePicker from './components/DatePicker'
 import FieldRangePicker from './components/RangePicker'
@@ -15,8 +15,8 @@ import FieldNumber from './components/Number'
 import FieldTextArea from './components/TextArea'
 import FieldText from './components/Text'
 import FieldPassword from './components/Password'
-import { omitUndefined } from '@/utils'
-import { isFunction } from 'lodash-es'
+import { useCustomFields } from './custom-fields'
+import { isFunction, isObject } from 'lodash-es'
 
 function mergeFieldProps (props, extraFieldProps) {
     const fieldProps = { ...props.fieldProps, ...extraFieldProps }
@@ -159,6 +159,8 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...BaseFieldProps },
     setup (props, { slots, attrs }) {
+        const { valueTypeMap } = useCustomFields()
+
         function onUpdateValue (value) {
             const { fieldProps } = props
             if (isFunction(fieldProps['onUpdate:value'])) {
@@ -167,27 +169,35 @@ export default defineComponent({
         }
 
         return () => {
-            const { text, valueType, fieldProps, renderFormItem, formItemProps } = props
+            const { mode, text, valueType, fieldProps, formItemProps } = props
             const placeholder = fieldProps.placeholder || props.placeholder
             const { model = {}, name } = formItemProps
+
             const inputValue = model[name]
-            const dataValue = props.mode === 'edit' ? (inputValue ?? text ?? '') : (text ?? inputValue ?? '')
-            const omitFieldProps = {
+            const dataValue = mode === 'edit' ? (inputValue ?? text ?? '') : (text ?? inputValue ?? '')
+
+            const needFieldProps = {
                 ...fieldProps,
                 value: inputValue,
                 placeholder: placeholder,
                 'onUpdate:value': onUpdateValue
             }
-            const renderProps = {
+            const needProps = {
                 ...props,
                 ...attrs,
                 text: dataValue,
-                fieldProps: omitUndefined(omitFieldProps),
-                formItemProps: omitUndefined(formItemProps),
-                renderFormItem: renderFormItem,
+                fieldProps: needFieldProps
             }
 
-            return defaultRenderText(valueType, renderProps, slots)
+            const types = unref(valueTypeMap)
+            const customRenderText = isObject(types) && types[valueType]
+            if (customRenderText && isFunction(customRenderText)) {
+                // 与 renderFormItem 参数保持一致
+                // valueType: (text, props) => {}
+                const { text: needText, fieldProps: needFieldProps } = needProps
+                return customRenderText(needText, { mode, ...needFieldProps })
+            }
+            return defaultRenderText(valueType, needProps, slots)
         }
     }
 })

@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Button, Card, Input } from 'ant-design-vue'
-import { FieldCustom, ModalForm, Number, Text } from '@/components/form'
+import { Button, Card } from 'ant-design-vue'
+import { ModalForm, Number, Text } from '@/components/form'
 
 export default defineComponent({
     name: 'FormModal',
@@ -56,9 +56,6 @@ export default defineComponent({
                             name={'number'}
                             colProps={{ span: 12 }}
                         />
-                        <FieldCustom colProps={{ span: 12 }} label={'自定义'} name={'custom'}>
-                            <Input/>
-                        </FieldCustom>
                     </ModalForm>
                 </Card>
             )
