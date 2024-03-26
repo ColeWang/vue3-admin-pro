@@ -89,23 +89,27 @@ export default defineComponent({
 
         function onMenuClose (type) {
             const { homeName, route: currentRoute, tags } = props
-            if (type.includes('all')) {
-                const result = tags.filter((item) => {
-                    return item.name === homeName
-                })
-                emit('close', result, homeName)
-                setTimeout(() => {
-                    getTagInstanceByRoute(homeName)
-                }, 100)
-            } else if (type.includes('others')) {
-                const result = tags.filter((item) => {
-                    return item.name === currentRoute.name || item.name === homeName
-                })
-                emit('close', result)
-                setTimeout(() => {
-                    getTagInstanceByRoute(currentRoute.name)
-                }, 100)
+            const finalAction = {
+                all: () => {
+                    const result = tags.filter((item) => {
+                        return item.name === homeName
+                    })
+                    emit('close', result, homeName)
+                    setTimeout(() => {
+                        getTagInstanceByRoute(homeName)
+                    }, 100)
+                },
+                others: () => {
+                    const result = tags.filter((item) => {
+                        return item.name === currentRoute.name || item.name === homeName
+                    })
+                    emit('close', result)
+                    setTimeout(() => {
+                        getTagInstanceByRoute(currentRoute.name)
+                    }, 100)
+                }
             }
+            finalAction[type] && finalAction[type]()
         }
 
         function handleScroll (offset) {
@@ -127,7 +131,7 @@ export default defineComponent({
         }
 
         function getTagInstanceByRoute (name) {
-            nextTick(() => {
+            nextTick().then(() => {
                 setTimeout(() => {
                     const instance = tagRefsMap[name] || {}
                     instance.$el && onMoveToView(instance.$el)

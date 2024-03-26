@@ -1,5 +1,5 @@
-import { isArray } from 'lodash-es'
 import { hasAccess as hasRoleAccess } from '@/permission'
+import { isArray } from 'lodash-es'
 
 export function hasChild (item) {
     return !!(item.children && item.children.length !== 0)
@@ -14,23 +14,22 @@ export function hasAccess (route, access) {
 }
 
 export function getMenuList (routers, access) {
-    const arr = []
-    routers.forEach((item) => {
-        if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
-            const obj = {
-                icon: (item.meta && item.meta.icon),
-                name: item.name,
-                meta: item.meta
+    const result = []
+    if (isArray(routers) && routers.length !== 0) {
+        routers.forEach((route) => {
+            const { name, meta, children } = route
+            if (!meta || (meta && !meta.hideInMenu)) {
+                const obj = { name, meta, icon: (meta && meta.icon) }
+                if (hasChild(route) && hasAccess(route, access)) {
+                    obj.children = getMenuList(children, access)
+                }
+                if (hasAccess(route, access)) {
+                    result.push(obj)
+                }
             }
-            if (hasChild(item) && hasAccess(item, access)) {
-                obj.children = getMenuList(item.children, access)
-            }
-            if (hasAccess(item, access)) {
-                arr.push(obj)
-            }
-        }
-    })
-    return arr
+        })
+    }
+    return result
 }
 
 export function canTurnTo (name, routes, access) {

@@ -1,8 +1,8 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Radio } from 'ant-design-vue'
 import BaseFieldProps from '../BaseFieldProps'
-import { valueEnumParsingText, valueEnumToOptions } from '../utils/valueEnum'
-import { isFunction } from 'lodash-es'
+import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../utils/valueEnum'
+import { isFunction, isUndefined } from 'lodash-es'
 
 /**
  * @todo 待优化
@@ -14,6 +14,9 @@ export default defineComponent({
     props: { ...BaseFieldProps },
     setup (props, { slots }) {
         const options = computed(() => {
+            if (isUndefined(props.valueEnum)) {
+                return props.fieldProps.options || []
+            }
             return valueEnumToOptions(props.valueEnum)
         })
 
@@ -22,7 +25,9 @@ export default defineComponent({
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                const valueText = valueEnumParsingText(text, valueEnum)
+                const { options: propsOptions, fieldNames } = fieldProps
+                const optionsValueEnum = optionsToValueEnum(propsOptions, fieldNames)
+                const valueText = valueEnumToText(text, valueEnum || optionsValueEnum)
                 return valueText ?? emptyText
             }
             if (mode === 'edit') {

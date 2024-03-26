@@ -13,7 +13,7 @@ export function cloneProxyToRaw (proxy) {
             const nextValue = toRaw(value)
             return cloneDeep(nextValue)
         } else {
-            return cloneDeep(value)
+            return value
         }
     })
 }
@@ -50,17 +50,17 @@ export function isEmptyElement (c) {
 }
 
 export function filterEmptyElement (children) {
-    const res = []
-    if (isArray(children)) {
+    const result = []
+    if (isArray(children) && children.length !== 0) {
         children.forEach((child) => {
             if (isArray(child)) {
-                res.push(...child)
+                result.push(...child)
             } else if (child && child.type === Fragment && isArray(child.children)) {
-                res.push(...filterEmptyElement(child.children))
+                result.push(...filterEmptyElement(child.children))
             } else if (child) {
-                res.push(child)
+                result.push(child)
             }
         })
     }
-    return res.filter((c) => !isEmptyElement(c))
+    return result.filter((c) => !isEmptyElement(c))
 }

@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { Typography } from 'ant-design-vue'
-import { valueEnumParsingText } from '@/components/base-field/utils/valueEnum'
+import { valueEnumToText } from '@/components/base-field/utils/valueEnum'
 import { isArray, isFunction, isObject } from 'lodash-es'
 import { isEmpty } from '@/utils'
 
@@ -28,17 +28,13 @@ function customRender (oldColumn, emptyText) {
             return oldCustomRender.apply(null, [text, record, index, column])
         }
         if (oldColumn.valueEnum && isObject(oldColumn.valueEnum) && !isEmpty(text)) {
-            return valueEnumParsingText(text, oldColumn.valueEnum)
+            return valueEnumToText(text, oldColumn.valueEnum)
         }
         if ((oldColumn.copyable || oldColumn.ellipsis) && !isEmpty(text)) {
             const copyable = getCopyable(oldColumn, text)
             const ellipsis = getEllipsis(oldColumn)
             return (
-                <Typography.Text
-                    copyable={copyable}
-                    ellipsis={ellipsis}
-                    content={text}
-                />
+                <Typography.Text copyable={copyable} ellipsis={ellipsis} content={text}/>
             )
         }
         return isEmpty(text) ? emptyText : text

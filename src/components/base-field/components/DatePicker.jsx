@@ -13,17 +13,15 @@ export default defineComponent({
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
-            const { format } = fieldProps
             const placeholder = fieldProps.placeholder || t('selectPlaceholder')
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                const valueText = formatDate(text, format)
+                const valueText = formatDate(text, fieldProps.format)
                 return valueText ?? emptyText
             }
             if (mode === 'edit') {
                 const needFieldProps = {
-                    format: format,
                     placeholder: placeholder,
                     allowClear: true,
                     ...fieldProps

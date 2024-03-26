@@ -13,14 +13,13 @@ export default defineComponent({
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
-            const { ranges, format } = fieldProps
             const placeholder = fieldProps.placeholder || [t('selectPlaceholder'), t('selectPlaceholder')]
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
                 const [startText, endText] = isArray(text) ? text : []
-                const valueStartText = formatDate(startText, format)
-                const valueEndText = formatDate(endText, format)
+                const valueStartText = formatDate(startText, fieldProps.format)
+                const valueEndText = formatDate(endText, fieldProps.format)
                 return (
                     <Fragment>
                         {valueStartText ?? emptyText}
@@ -31,8 +30,6 @@ export default defineComponent({
             }
             if (mode === 'edit') {
                 const needFieldProps = {
-                    ranges: ranges,
-                    format: format,
                     placeholder: placeholder,
                     allowClear: true,
                     ...fieldProps

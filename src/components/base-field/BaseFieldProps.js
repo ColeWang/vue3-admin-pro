@@ -17,7 +17,7 @@ const BaseFieldProps = {
     },
     valueEnum: {
         type: Object,
-        default: () => ({})
+        default: undefined
     },
     fieldProps: { // 组件Props
         type: Object,
