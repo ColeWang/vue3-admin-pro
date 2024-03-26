@@ -19,7 +19,7 @@ export default defineComponent({
                 return (
                     <Fragment>
                         {slots.prefix && slots.prefix()}
-                        {text || emptyText}
+                        {text ?? emptyText}
                         {slots.suffix && slots.suffix()}
                     </Fragment>
                 )

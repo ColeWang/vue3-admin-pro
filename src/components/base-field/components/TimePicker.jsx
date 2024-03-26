@@ -19,7 +19,7 @@ export default defineComponent({
 
             if (mode === 'read') {
                 const valueText = formatDate(text, format)
-                return valueText || emptyText
+                return valueText ?? emptyText
             }
             if (mode === 'edit') {
                 const needFieldProps = {

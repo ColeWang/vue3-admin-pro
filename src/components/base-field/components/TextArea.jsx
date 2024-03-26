@@ -31,7 +31,7 @@ export default defineComponent({
                     whiteSpace: 'pre-wrap',
                 }
                 return (
-                    <span style={styles}>{text || emptyText}</span>
+                    <span style={styles}>{text ?? emptyText}</span>
                 )
             }
             if (mode === 'edit') {

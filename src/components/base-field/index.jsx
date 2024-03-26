@@ -4,10 +4,11 @@ import FieldDatePicker from './components/DatePicker'
 import FieldRangePicker from './components/RangePicker'
 import FieldTimePicker from './components/TimePicker'
 import FieldTimeRangePicker from './components/TimeRangePicker'
+import FieldSelect from './components/Select'
 import FieldRadio from './components/Radio'
 import FieldCheckbox from './components/Checkbox'
-import FieldSelect from './components/Select'
 import FieldSwitch from './components/Switch'
+import FieldSlider from './components/Slider'
 import FieldNumber from './components/Number'
 import FieldTextArea from './components/TextArea'
 import FieldText from './components/Text'
@@ -119,17 +120,20 @@ function defaultRenderText (valueType, props, slots) {
         })
         return <FieldTimeRangePicker {...dateProps} v-slots={slots}/>
     }
+    if (valueType === 'select') {
+        return <FieldSelect {...props} v-slots={slots}/>
+    }
     if (valueType === 'radio') {
         return <FieldRadio {...props} v-slots={slots}/>
     }
     if (valueType === 'checkbox') {
         return <FieldCheckbox {...props} v-slots={slots}/>
     }
-    if (valueType === 'select') {
-        return <FieldSelect {...props} v-slots={slots}/>
-    }
     if (valueType === 'switch') {
         return <FieldSwitch {...props} v-slots={slots}/>
+    }
+    if (valueType === 'slider') {
+        return <FieldSlider {...props} v-slots={slots}/>
     }
     if (valueType === 'number') {
         return <FieldNumber {...props} v-slots={slots}/>

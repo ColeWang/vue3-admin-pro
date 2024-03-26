@@ -27,10 +27,10 @@ function customRender (oldColumn, emptyText) {
             const oldCustomRender = oldColumn.customRender
             return oldCustomRender.apply(null, [text, record, index, column])
         }
-        if (oldColumn.valueEnum && isObject(oldColumn.valueEnum)) {
+        if (oldColumn.valueEnum && isObject(oldColumn.valueEnum) && !isEmpty(text)) {
             return valueEnumParsingText(text, oldColumn.valueEnum)
         }
-        if (oldColumn.copyable || oldColumn.ellipsis) {
+        if ((oldColumn.copyable || oldColumn.ellipsis) && !isEmpty(text)) {
             const copyable = getCopyable(oldColumn, text)
             const ellipsis = getEllipsis(oldColumn)
             return (

@@ -18,11 +18,12 @@ export default defineComponent({
         })
 
         return () => {
-            const { mode, text, valueEnum, fieldProps } = props
+            const { mode, text, emptyText, valueEnum, fieldProps } = props
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                return valueEnumParsingText(text, valueEnum)
+                const value = valueEnumParsingText(text, valueEnum)
+                return value ?? emptyText
             }
             if (mode === 'edit') {
                 const needFieldProps = {

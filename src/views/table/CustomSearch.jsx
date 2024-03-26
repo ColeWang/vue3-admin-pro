@@ -1,11 +1,16 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Checkbox, Radio, Select, Switch } from '@/components/form'
+import { Checkbox, Radio, Select, Slider, Switch } from '@/components/form'
 import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
 
 export default defineComponent({
     name: 'TableCustomSearch',
     setup () {
-        const model = ref({ age: '1', radio: '1', checkbox: ['1', '2', '3', '4', '5', '6'] })
+        const model = ref({
+            age: '1',
+            radio: '1',
+            checkbox: ['1', '2', '3', '4', '5', '6'],
+            slider: [10, 80]
+        })
 
         const columns = [
             {
@@ -95,13 +100,10 @@ export default defineComponent({
                                 <Switch
                                     label={'Switch'}
                                     name={'switch'}
-                                    required={true}
                                 />
                                 <Checkbox
                                     label={'Box'}
                                     name={'checkbox'}
-                                    required={true}
-                                    mode={'read'}
                                     valueEnum={{
                                         '1': '选项一',
                                         '2': '选项二',
@@ -110,6 +112,12 @@ export default defineComponent({
                                         '5': '选项一',
                                         '6': '选项二',
                                     }}
+                                />
+                                <Slider
+                                    label={'Slider'}
+                                    name={'slider'}
+                                    mode={'read'}
+                                    fieldProps={{ range: true }}
                                 />
                             </BaseSearch>
                         )

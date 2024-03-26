@@ -23,9 +23,9 @@ export default defineComponent({
                 const valueEndText = formatDate(endText, format)
                 return (
                     <Fragment>
-                        {valueStartText || emptyText}
+                        {valueStartText ?? emptyText}
                         {'~'}
-                        {valueEndText || emptyText}
+                        {valueEndText ?? emptyText}
                     </Fragment>
                 )
             }

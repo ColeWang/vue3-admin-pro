@@ -3,6 +3,7 @@ import { Input, Space } from 'ant-design-vue'
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import BaseFieldProps from '../BaseFieldProps'
+import { isEmpty } from '@/utils'
 import { isFunction } from 'lodash-es'
 
 export default defineComponent({
@@ -24,16 +25,16 @@ export default defineComponent({
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
-                if (text) {
-                    const eyeIcon = unref(visible) ? <EyeOutlined/> : <EyeInvisibleOutlined/>
-                    return (
-                        <Space>
-                            <span>{unref(visible) ? text : '＊＊＊＊＊'}</span>
-                            <a onClick={onVisibleClick}>{eyeIcon}</a>
-                        </Space>
-                    )
+                if (isEmpty(text)) {
+                    return <Fragment>{emptyText}</Fragment>
                 }
-                return <Fragment>{emptyText}</Fragment>
+                const eyeIcon = unref(visible) ? <EyeOutlined/> : <EyeInvisibleOutlined/>
+                return (
+                    <Space>
+                        <span>{unref(visible) ? text : '＊＊＊＊＊'}</span>
+                        <a onClick={onVisibleClick}>{eyeIcon}</a>
+                    </Space>
+                )
             }
             if (mode === 'edit') {
                 const needFieldProps = {
