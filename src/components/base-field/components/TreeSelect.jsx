@@ -13,6 +13,7 @@ export default defineComponent({
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
+            const { options, ...restFieldProps } = fieldProps
             const placeholder = fieldProps.placeholder || t('selectPlaceholder')
             const renderFormItem = props.renderFormItem || slots.renderFormItem
 
@@ -24,10 +25,10 @@ export default defineComponent({
             }
             if (mode === 'edit') {
                 const needFieldProps = {
-                    treeData: fieldProps.options,
+                    treeData: options,
                     placeholder: placeholder,
                     allowClear: true,
-                    ...fieldProps
+                    ...restFieldProps
                 }
                 const renderDom = (
                     <TreeSelect {...needFieldProps} v-slots={slots}/>
