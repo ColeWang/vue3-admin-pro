@@ -1,13 +1,13 @@
 import { defineComponent, Fragment } from 'vue'
 import { TimeRangePicker } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import BaseFieldProps from '../BaseFieldProps'
+import baseFieldProps from '../props'
 import { isArray, isFunction } from 'lodash-es'
 import { formatDate } from '../utils'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: { ...BaseFieldProps },
+    props: { ...baseFieldProps },
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('global')
 

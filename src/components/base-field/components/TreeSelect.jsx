@@ -1,13 +1,13 @@
 import { defineComponent } from 'vue'
 import { TreeSelect } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import BaseFieldProps from '../BaseFieldProps'
+import baseFieldProps from '../props'
 import { optionsToValueEnum, valueEnumToText } from '../utils/valueEnum'
 import { isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: { ...BaseFieldProps },
+    props: { ...baseFieldProps },
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('global')
 

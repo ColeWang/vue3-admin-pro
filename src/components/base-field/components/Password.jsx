@@ -2,13 +2,13 @@ import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Input, Space } from 'ant-design-vue'
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import BaseFieldProps from '../BaseFieldProps'
+import baseFieldProps from '../props'
 import { isEmpty } from '@/utils'
 import { isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: { ...BaseFieldProps },
+    props: { ...baseFieldProps },
     setup (props, { slots }) {
         const { t } = useLocaleReceiver('global')
 

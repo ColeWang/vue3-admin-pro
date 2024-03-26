@@ -1,6 +1,6 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Checkbox } from 'ant-design-vue'
-import BaseFieldProps from '../BaseFieldProps'
+import baseFieldProps from '../props'
 import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../utils/valueEnum'
 import { isFunction, isUndefined } from 'lodash-es'
 
@@ -11,7 +11,7 @@ import { isFunction, isUndefined } from 'lodash-es'
  */
 export default defineComponent({
     inheritAttrs: false,
-    props: { ...BaseFieldProps },
+    props: { ...baseFieldProps },
     setup (props, { slots }) {
         const options = computed(() => {
             if (isUndefined(props.valueEnum)) {

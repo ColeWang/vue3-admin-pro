@@ -1,4 +1,4 @@
-const BaseFieldProps = {
+const baseFieldProps = {
     text: {
         type: [String, Number, Boolean, Array, Object],
         default: undefined
@@ -37,4 +37,4 @@ const BaseFieldProps = {
     }
 }
 
-export default BaseFieldProps
+export default baseFieldProps

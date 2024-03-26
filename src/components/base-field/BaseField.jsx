@@ -1,5 +1,8 @@
 import { defineComponent, unref } from 'vue'
-import BaseFieldProps from './BaseFieldProps'
+import baseFieldProps from './props'
+import { useCustomFields } from './custom-fields'
+import { isFunction, isObject } from 'lodash-es'
+// ---
 import FieldDatePicker from './components/DatePicker'
 import FieldRangePicker from './components/RangePicker'
 import FieldTimePicker from './components/TimePicker'
@@ -15,8 +18,6 @@ import FieldNumber from './components/Number'
 import FieldTextArea from './components/TextArea'
 import FieldText from './components/Text'
 import FieldPassword from './components/Password'
-import { useCustomFields } from './custom-fields'
-import { isFunction, isObject } from 'lodash-es'
 
 function mergeFieldProps (props, extraFieldProps) {
     const fieldProps = { ...props.fieldProps, ...extraFieldProps }
@@ -157,7 +158,7 @@ function defaultRenderText (valueType, props, slots) {
 
 export default defineComponent({
     inheritAttrs: false,
-    props: { ...BaseFieldProps },
+    props: { ...baseFieldProps },
     setup (props, { slots, attrs }) {
         const { valueTypeMap } = useCustomFields()
 

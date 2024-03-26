@@ -1,16 +1,16 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Checkbox, Radio, Select, Slider, Switch } from '@/components/form'
+import { CustomFields } from '@/components/base-field'
+import { HocField, Radio, Select } from '@/components/form'
 import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
-import dayjs from 'dayjs'
+
+const Test = HocField('test')
 
 export default defineComponent({
     name: 'TableCustomSearch',
     setup () {
         const model = ref({
             age: '1',
-            radio: '1',
-            checkbox: ['1', '2', '3', '4', '5', '6'],
-            slider: [10, 80]
+            radio: '1'
         })
 
         const columns = [
@@ -76,53 +76,42 @@ export default defineComponent({
 
             return (
                 <div>
-                    <Table {...tableProps} v-slots={{
-                        search: (slotScope) => (
-                            <BaseSearch {...slotScope} span={12} model={unref(model)}>
-                                <Select
-                                    label={'Age'}
-                                    name={'age'}
-                                    required={true}
-                                    valueEnum={{
-                                        '1': '选项一',
-                                        '2': '选项二',
-                                    }}
-                                />
-                                <Radio
-                                    label={'Radio'}
-                                    name={'radio'}
-                                    required={true}
-                                    fieldProps={{ optionType: 'button' }}
-                                    valueEnum={{
-                                        '1': '选项一',
-                                        '2': '选项二',
-                                    }}
-                                />
-                                <Switch
-                                    label={'Switch'}
-                                    name={'switch'}
-                                />
-                                <Checkbox
-                                    label={'Box'}
-                                    name={'checkbox'}
-                                    valueEnum={{
-                                        '1': '选项一',
-                                        '2': '选项二',
-                                        '3': '选项一',
-                                        '4': '选项二',
-                                        '5': '选项一',
-                                        '6': '选项二',
-                                    }}
-                                />
-                                <Slider
-                                    label={'Slider'}
-                                    name={'slider'}
-                                    mode={'read'}
-                                    fieldProps={{ range: true }}
-                                />
-                            </BaseSearch>
-                        )
-                    }}/>
+                    <CustomFields valueTypeMap={{
+                        test: (text, props) => {
+                            console.log(typeof text, props)
+                            return '123'
+                        }
+                    }}>
+                        <Table {...tableProps} v-slots={{
+                            search: (slotScope) => (
+                                <BaseSearch {...slotScope} span={12} model={unref(model)}>
+                                    <Select
+                                        label={'Age'}
+                                        name={'age'}
+                                        required={true}
+                                        valueEnum={{
+                                            '1': '选项一',
+                                            '2': '选项二',
+                                        }}
+                                    />
+                                    <Radio
+                                        label={'Radio'}
+                                        name={'radio'}
+                                        required={true}
+                                        fieldProps={{ optionType: 'button' }}
+                                        valueEnum={{
+                                            '1': '选项一',
+                                            '2': '选项二',
+                                        }}
+                                    />
+                                    <Test
+                                        label={'Test'}
+                                        name={'test'}
+                                    />
+                                </BaseSearch>
+                            )
+                        }}/>
+                    </CustomFields>
                 </div>
             )
         }

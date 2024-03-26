@@ -1,11 +1,11 @@
 import { defineComponent, Fragment } from 'vue'
 import { Slider } from 'ant-design-vue'
-import BaseFieldProps from '../BaseFieldProps'
+import baseFieldProps from '../props'
 import { isArray, isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: { ...BaseFieldProps },
+    props: { ...baseFieldProps },
     setup (props, { slots }) {
         return () => {
             const { mode, text, emptyText, fieldProps } = props

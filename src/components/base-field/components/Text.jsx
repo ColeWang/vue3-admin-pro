@@ -1,13 +1,13 @@
 import { defineComponent, Fragment } from 'vue'
 import { Input } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import BaseFieldProps from '../BaseFieldProps'
+import baseFieldProps from '../props'
 import { isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        ...BaseFieldProps,
+        ...baseFieldProps,
         type: {
             type: String,
             default: 'text'
