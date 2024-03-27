@@ -46,10 +46,15 @@ export function filterEmptyElement (children) {
 
 export function getSlot (slots, props, name = 'default') {
     const result = props[name] || slots[name]
-    return isFunction(result) ? result : false
+    return isFunction(result) ? result : undefined
 }
 
 export function getSlotVNode (slots, props, name = 'default', slotScope) {
     const result = props[name] || slots[name]
-    return isFunction(result) ? result(slotScope) : false
+    return isFunction(result) ? result(slotScope) : undefined
+}
+
+export function getPropsSlot (slots, props, name = 'default', slotScope) {
+    const result = props[name] ?? slots[name]
+    return isFunction(result) ? result(slotScope) : result
 }
