@@ -48,7 +48,9 @@ export default defineComponent({
                             <div class={cx('alert-info-content')}>
                                 <Space size={8}>
                                     <span>{alertInfo}</span>
-                                    <Action onClick={onCleanSelected}>{t('clear')}</Action>
+                                    <Action onClick={onCleanSelected}>
+                                        {t('clear')}
+                                    </Action>
                                 </Space>
                             </div>
                             <div class={cx('alert-info-option')}>{children}</div>

@@ -1,10 +1,7 @@
 import { computed, ref, unref, watch } from 'vue'
 import useCustomRender from './useCustomRender'
-import { createSharedContext } from './useSharedContext'
 import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
 import { fromPairs, isBoolean, isObject, map } from 'lodash-es'
-
-const BaseTableSize = 'small'
 
 function genColumnsMap (columns) {
     const values = columns.map((column, index) => {
@@ -15,12 +12,10 @@ function genColumnsMap (columns) {
     return fromPairs(values)
 }
 
-function useTableContext (props) {
+function useTableColumns (props) {
     const { columns: baseColumns } = useCustomRender(props)
 
     const columnsMap = ref({})
-
-    const size = ref(props.size || BaseTableSize)
 
     const columns = computed(() => {
         const values = map(columnsMap.value, (column) => column)
@@ -30,10 +25,6 @@ function useTableContext (props) {
     const stopWatchColumns = watch(baseColumns, (columns) => {
         columnsMap.value = genColumnsMap(columns)
     }, { immediate: true })
-
-    function setSize (value) {
-        size.value = value
-    }
 
     function setColumnsMap (values) {
         const columns = unref(baseColumns)
@@ -48,17 +39,9 @@ function useTableContext (props) {
         stopWatchColumns && stopWatchColumns()
     }
 
-    const instance = {
-        columnsMap,
-        setColumnsMap,
-        size,
-        setSize,
-    }
-
-    createSharedContext(instance)
     tryOnScopeDispose(onStop)
 
-    return { size, columns }
+    return { columns, columnsMap, setColumnsMap }
 }
 
-export default useTableContext
+export default useTableColumns

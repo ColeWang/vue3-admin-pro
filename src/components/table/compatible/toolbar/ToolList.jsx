@@ -54,19 +54,13 @@ export default defineComponent({
                             <ReloadOutlined spin={loading}/>
                         </Button>
                     </Tooltip>
-                    {exportRender && (
-                        <Tooltip title={t('export')}>
-                            <Button onClick={onExportClick}>
-                                <VerticalAlignBottomOutlined/>
-                            </Button>
-                        </Tooltip>
-                    )}
-                    {densityRender && (
-                        <Density size={size}/>
-                    )}
-                    {settingRender && (
-                        <Setting columns={columns}/>
-                    )}
+                    <Tooltip title={t('export')}>
+                        <Button onClick={onExportClick}>
+                            <VerticalAlignBottomOutlined/>
+                        </Button>
+                    </Tooltip>
+                    <Density size={size}/>
+                    <Setting columns={columns}/>
                 </Space.Compact>
             )
         }

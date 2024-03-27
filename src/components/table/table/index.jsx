@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, toRefs, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import tableProps from './props'
 import Search from '../compatible/search'
@@ -6,8 +6,9 @@ import Extra from '../compatible/extra'
 import Toolbar from '../compatible/toolbar'
 import Alert from '../compatible/alert'
 import useFetchData from '../hooks/useFetchData'
+import useTableColumns from '../hooks/useTableColumns'
 import useRowSelection from '../hooks/useRowSelection'
-import useTableContext from '../hooks/useTableContext'
+import { createSharedContext } from '../hooks/useSharedContext'
 import { omitNil } from '@/utils'
 import { isArray, isFunction, pick } from 'lodash-es'
 import { tableToExcel } from '../excel'
@@ -16,6 +17,8 @@ import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
+const BaseTableSize = 'small'
+
 export default defineComponent({
     inheritAttrs: false,
     props: tableProps,
@@ -23,6 +26,8 @@ export default defineComponent({
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
         const tableRef = ref(null)
+
+        const tableSize = ref(props.size || BaseTableSize)
 
         const {
             context: requestProps,
@@ -36,7 +41,7 @@ export default defineComponent({
             onRequestError: (err) => emit('requestError', err)
         })
 
-        const { columns, size } = useTableContext(props)
+        const { columns, columnsMap, setColumnsMap } = useTableColumns(props)
         const { rowSelection, onCleanSelected } = useRowSelection(props)
 
         const tableColumns = computed(() => {
@@ -132,6 +137,21 @@ export default defineComponent({
             return plain ? (plain.$el || plain) : plain
         }
 
+        function setTableSize (value) {
+            tableSize.value = value
+        }
+
+        const instance = {
+            tableSize,
+            setTableSize,
+            columns,
+            columnsMap,
+            setColumnsMap,
+            ...toRefs(requestProps)
+        }
+
+        createSharedContext(instance)
+
         expose({
             reload: onReload,
             cleanSelected: onCleanSelected
@@ -169,11 +189,8 @@ export default defineComponent({
             }
 
             const renderExtra = () => {
-                const extraProps = {
-                    pageData: requestProps.dataSource,
-                }
                 return (
-                    <Extra {...extraProps}>123</Extra>
+                    <Extra>123</Extra>
                 )
             }
 
@@ -181,12 +198,8 @@ export default defineComponent({
                 const toolbarProps = {
                     ...propsToolbar,
                     title: propsTitle,
-                    loading: requestProps.loading,
-                    size: unref(size),
-                    columns: unref(columns),
-                    pageData: requestProps.dataSource,
                     onReload: onReload,
-                    onExport: onExport
+                    onExport: onExport,
                 }
                 const toolbarSlots = {
                     default: toolbarSlot,
@@ -220,7 +233,7 @@ export default defineComponent({
                 ...attrs,
                 ...pick(props, Object.keys(Table.props)),
                 ...requestProps,
-                size: unref(size),
+                size: unref(tableSize),
                 columns: unref(tableColumns),
                 rowSelection: propsRowSelection !== false ? rowSelection : undefined,
                 onChange: onChange

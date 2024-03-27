@@ -1,6 +1,7 @@
 import { defineComponent, ref, unref } from 'vue'
 import { ConfigProvider, Space } from 'ant-design-vue'
 import ToolList from './ToolList'
+import { useSharedContext } from '../../hooks/useSharedContext'
 import { getSlotVNode } from '@/utils/props-util'
 import { pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
@@ -18,9 +19,6 @@ const defaultOptions = {
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        toolbar: {
-
-        },
         title: {
             type: Function,
             default: undefined
@@ -36,14 +34,12 @@ export default defineComponent({
         options: {
             type: Object,
             default: () => (defaultOptions)
-        },
-        pageData: {
-            type: Array,
-            default: () => ([])
         }
     },
     setup (props, { slots, attrs }) {
         const popupContainer = ref(null)
+
+        const { loading, dataSource } = useSharedContext()
 
         function getPopupContainer () {
             const plain = unref(popupContainer)
@@ -51,9 +47,7 @@ export default defineComponent({
         }
 
         return () => {
-            const { loading, pageData } = props
-
-            const slotScope = { loading, pageData }
+            const slotScope = { loading: unref(loading), pageData: unref(dataSource) }
             const titleDom = getSlotVNode(slots, props, 'title', slotScope)
 
             const toolListProps = {
