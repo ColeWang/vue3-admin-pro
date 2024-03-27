@@ -1,5 +1,5 @@
-import { computed } from 'vue'
-import { Typography } from 'ant-design-vue'
+import { computed, h } from 'vue'
+import { TypographyText } from 'ant-design-vue'
 import { valueEnumToText } from '@/components/base-field/utils/valueEnum'
 import { isArray, isFunction, isObject } from 'lodash-es'
 import { isEmpty } from '@/utils'
@@ -33,9 +33,7 @@ function customRender (oldColumn, emptyText) {
         if ((oldColumn.copyable || oldColumn.ellipsis) && !isEmpty(text)) {
             const copyable = getCopyable(oldColumn, text)
             const ellipsis = getEllipsis(oldColumn)
-            return (
-                <Typography.Text copyable={copyable} ellipsis={ellipsis} content={text}/>
-            )
+            return h(TypographyText, { copyable, ellipsis, content: text })
         }
         return isEmpty(text) ? emptyText : text
     }

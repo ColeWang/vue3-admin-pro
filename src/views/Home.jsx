@@ -9,6 +9,7 @@ export default defineComponent({
                 {
                     title: 'Name',
                     search: true,
+                    copyable: true,
                     dataIndex: 'name'
                 },
                 {
