@@ -18,18 +18,6 @@ const toolListProps = {
         type: Array,
         default: () => ([])
     },
-    exportRender: {
-        type: Boolean,
-        default: true
-    },
-    densityRender: {
-        type: Boolean,
-        default: true
-    },
-    settingRender: {
-        type: Boolean,
-        default: true
-    },
     onReload: {
         type: Function,
         default: undefined

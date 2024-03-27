@@ -1,13 +1,14 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { default as BaseForm, Submitter } from '../../base-form'
-import { default as useFloatForm, FloatProps } from '../hooks/useFloatForm'
+import { default as useFloatForm, floatProps } from '../hooks/useFloatForm'
+import { getSlotVNode } from '@/utils/props-util'
 import { useLocaleReceiver } from '@/components/locale-provider'
-import { isFunction, pick } from 'lodash-es'
+import { isFunction, omit, pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: FloatProps,
+    props: floatProps,
     emits: ['update:open', 'open', 'cancel', 'afterClose', 'openChange', 'loadingChange'],
     setup (props, { emit, slots, attrs, expose }) {
         const baseFormRef = ref(null)
@@ -80,17 +81,12 @@ export default defineComponent({
                         onFinish: onFinish,
                         onSubmit: onFinish
                     }
+                    const needSlots = omit(slots, ['trigger'])
                     return (
-                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={slots}/>
+                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={needSlots}/>
                     )
                 }
             }
-
-            const triggerDom = slots.trigger && (
-                <div style={{ display: 'inline-block' }} onClick={onOpen}>
-                    {slots.trigger()}
-                </div>
-            )
 
             const needModalProps = {
                 ...pick(props, Object.keys(Modal.props)),
@@ -100,10 +96,16 @@ export default defineComponent({
                 onAfterClose: onAfterClose
             }
 
+            const triggerDom = getSlotVNode(slots, props, 'trigger')
+
             return (
                 <Fragment>
                     <Modal {...needModalProps} v-slots={modalSlots}/>
-                    {triggerDom}
+                    {triggerDom && (
+                        <div style={{ display: 'inline-block' }} onClick={onOpen}>
+                            {triggerDom}
+                        </div>
+                    )}
                 </Fragment>
             )
         }

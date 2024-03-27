@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, ref, unref } from 'vue'
+import { computed, defineComponent, Fragment, ref, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppMain from './AppMain'
 import AppContent from './AppContent'
@@ -22,6 +22,15 @@ export default defineComponent({
         const menus = getMenuList(routes, [])
         const { tags, onTagClick, onTagClose } = useTags(menus, HOME_NAME)
 
+        const include = computed(() => {
+            return unref(tags).filter((item) => {
+                const { meta } = item || {}
+                return meta && !(meta.notCache)
+            }).map((item) => {
+                return item.name
+            })
+        })
+
         function onSidebarChange (name) {
             router.push({ name: name })
         }
@@ -39,19 +48,17 @@ export default defineComponent({
         }
 
         return () => {
-            const mainSlots = {
-                sidebar: () => {
-                    return (
+            return (
+                <AppMain
+                    sidebar={() => (
                         <Sidebar
                             route={route}
                             menus={menus}
                             collapsed={unref(collapsed)}
                             onChange={onSidebarChange}
                         />
-                    )
-                },
-                navbar: () => {
-                    return (
+                    )}
+                    navbar={() => (
                         <Fragment>
                             <Navbar
                                 router={router}
@@ -68,22 +75,11 @@ export default defineComponent({
                                 onClose={onTagClose}
                             />
                         </Fragment>
-                    )
-                },
-                default: () => {
-                    const include = unref(tags).filter((item) => {
-                        const { meta } = item || {}
-                        return meta && !(meta.notCache)
-                    }).map((item) => {
-                        return item.name
-                    })
-                    return (
-                        <AppContent include={include}/>
-                    )
-                }
-            }
-
-            return <AppMain v-slots={mainSlots}/>
+                    )}
+                >
+                    <AppContent include={unref(include)}/>
+                </AppMain>
+            )
         }
     }
 })

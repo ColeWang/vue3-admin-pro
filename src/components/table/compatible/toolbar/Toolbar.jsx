@@ -1,19 +1,41 @@
 import { defineComponent, ref, unref } from 'vue'
 import { ConfigProvider, Space } from 'ant-design-vue'
 import ToolList from './ToolList'
+import { getSlotVNode } from '@/utils/props-util'
 import { pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
+const defaultOptions = {
+    reload: true,
+    density: true,
+    export: true,
+    setting: true
+}
+
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        ...ToolList.props,
+        toolbar: {
+
+        },
         title: {
             type: Function,
             default: undefined
+        },
+        actions: {
+            type: Function,
+            default: undefined
+        },
+        settings: {
+            type: Function,
+            default: undefined
+        },
+        options: {
+            type: Object,
+            default: () => (defaultOptions)
         },
         pageData: {
             type: Array,
@@ -29,10 +51,10 @@ export default defineComponent({
         }
 
         return () => {
-            const { title, loading, pageData } = props
+            const { loading, pageData } = props
 
-            const renderTitle = slots.title || title
             const slotScope = { loading, pageData }
+            const titleDom = getSlotVNode(slots, props, 'title', slotScope)
 
             const toolListProps = {
                 ...attrs,
@@ -44,7 +66,7 @@ export default defineComponent({
                     <div class={cx('popup-container')} ref={popupContainer}>
                         <div class={cx('toolbar')}>
                             <div class={cx('toolbar-title')}>
-                                {renderTitle && renderTitle(slotScope)}
+                                {titleDom}
                             </div>
                             <div class={cx('toolbar-action')}>
                                 <Space size={8} style={{ marginRight: '12px' }}>

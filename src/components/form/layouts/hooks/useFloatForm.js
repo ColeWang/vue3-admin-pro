@@ -3,9 +3,13 @@ import { default as BaseForm, Submitter } from '../../base-form'
 import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
 import { isFunction } from 'lodash-es'
 
-export const FloatProps = {
+export const floatProps = {
     ...BaseForm.props,
     ...Submitter.props,
+    trigger: {
+        type: Function,
+        default: undefined
+    },
     layout: {
         type: String,
         default: 'vertical'
