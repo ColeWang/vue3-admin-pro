@@ -19,13 +19,14 @@ export function optionsToValueEnum (options = [], fieldNames) {
     const traverseOptions = (values) => {
         const result = []
         if (isArray(values) && values.length !== 0) {
-            values.forEach((cur) => {
-                const key = cur[value], text = cur[label], _children = cur[children]
-                if (!isEmpty(key) && !isEmpty(text)) {
+            values.forEach((item) => {
+                const key = item[value], text = item[label]
+                const curChildren = item[children]
+                if (!(isEmpty(key) || isEmpty(text))) {
                     result.push([key, text])
                 }
-                if (isArray(_children) && _children.length !== 0) {
-                    result.push(...traverseOptions(_children))
+                if (isArray(curChildren) && curChildren.length !== 0) {
+                    result.push(...traverseOptions(curChildren))
                 }
             })
         }
