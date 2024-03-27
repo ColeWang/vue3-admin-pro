@@ -2,6 +2,8 @@ import { defineComponent, unref } from 'vue'
 import { Space } from 'ant-design-vue'
 import { useFormInstance } from '../base-form'
 import useMediaQuery from '@/utils/hooks/useMediaQuery'
+import { getPropsSlot } from '@/utils/props-util'
+import { omit } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -28,17 +30,20 @@ export default defineComponent({
         const formInstance = useFormInstance()
 
         return () => {
-            const { title, size, align } = props
+            const { size, align } = props
             const { formProps = {} } = formInstance
-            const { title: titleSlot, ...restSlots } = slots
             const layout = unref(formProps).layout || 'vertical'
 
-            const children = titleSlot && titleSlot()
+            const groupClassNames = cx('group', {
+                'group__inline': layout === 'inline',
+                'group__vertical': 'xs' === unref(className) || layout === 'vertical',
+            })
 
-            const titleDom = (children || title) && (
-                <div class={cx('group-title')}>{children || title}</div>
-            )
-
+            const spaceProps = {
+                wrap: true,
+                align: align,
+                size: layout === 'inline' ? 0 : size
+            }
             const spaceStyles = {
                 rowGap: 0,
                 marginBottom: 0,
@@ -46,21 +51,15 @@ export default defineComponent({
                 maxWidth: '100%'
             }
 
-            const spaceProps = {
-                wrap: true,
-                align: align,
-                size: layout === 'inline' ? 0 : size
-            }
-
-            const groupClassNames = cx('group', {
-                'group__inline': layout === 'inline',
-                'group__vertical': 'xs' === unref(className) || layout === 'vertical',
-            })
+            const titleDom = getPropsSlot(slots, props, 'title')
+            const needSlots = omit(slots, ['title'])
 
             return (
                 <div class={groupClassNames}>
-                    {titleDom}
-                    <Space {...spaceProps} style={spaceStyles} v-slots={restSlots}/>
+                    {titleDom && (
+                        <div class={cx('group-title')}>{titleDom}</div>
+                    )}
+                    <Space {...spaceProps} style={spaceStyles} v-slots={needSlots}/>
                 </div>
             )
         }
