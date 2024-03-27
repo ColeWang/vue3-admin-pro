@@ -1,5 +1,6 @@
 import { computed, ref, unref, watch } from 'vue'
-import { filterEmptyElement, isValidElement, tryOnScopeDispose } from '@/utils'
+import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
+import { filterEmptyElement, isValidElement } from '@/utils/props-util'
 import { map } from 'lodash-es'
 
 const breakpoints = {
@@ -29,7 +30,7 @@ function getOffset (length, span) {
 }
 
 function useQueryFilter (size, props) {
-    const { span: propsSpan, collapseRender } = props
+    const { span: propsSpan, showCollapse } = props
 
     const layout = ref('vertical')
     const span = ref(24)
@@ -58,7 +59,7 @@ function useQueryFilter (size, props) {
         const nodes = filterEmptyElement(children).map((child, index) => {
             const propsHidden = child.props && child.props.hidden || false
             const colHidden = propsHidden || unref(collapsed) && (index > unref(showNumber) - 1)
-            const hidden = collapseRender ? colHidden : propsHidden
+            const hidden = showCollapse ? colHidden : propsHidden
             const key = (isValidElement(child) && child.key) || index
             return { key: key, child: child, hidden: hidden }
         })

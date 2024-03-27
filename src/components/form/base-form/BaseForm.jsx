@@ -3,7 +3,7 @@ import { ConfigProvider, Form } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
 import { forIn, isObject, isString, pick } from 'lodash-es'
-import { cloneProxyToRaw } from '@/utils'
+import { cloneProxyToRaw } from '@/utils/props-util'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 

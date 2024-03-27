@@ -100,7 +100,7 @@ function writeSheet (sheetHead, sheetBody) {
     return nextTableSheet
 }
 
-function tableToExcel (tableDom) {
+export function tableToExcel (tableDom) {
     try {
         // Table
         const printTableHead = tableDom.querySelector('.ant-table-thead').cloneNode(true)
@@ -131,5 +131,3 @@ function tableToExcel (tableDom) {
         message.error('导出失败')
     }
 }
-
-export default tableToExcel

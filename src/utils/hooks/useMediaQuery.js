@@ -1,6 +1,6 @@
 import { ref, unref, watch } from 'vue'
 import { isNil, mapValues } from 'lodash-es'
-import { tryOnScopeDispose } from '@/utils'
+import tryOnScopeDispose from './tryOnScopeDispose'
 
 // const defaultValues = {
 //     xs: '(max-width: 575px)',

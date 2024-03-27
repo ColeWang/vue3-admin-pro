@@ -1,8 +1,8 @@
 import { computed, ref, unref, watch } from 'vue'
 import useCustomRender from './useCustomRender'
 import { createSharedContext } from './useSharedContext'
+import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
 import { fromPairs, isBoolean, isObject, map } from 'lodash-es'
-import { tryOnScopeDispose } from '@/utils'
 
 const BaseTableSize = 'small'
 

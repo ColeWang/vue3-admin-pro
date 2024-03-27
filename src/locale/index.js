@@ -1,6 +1,6 @@
 import { ref, unref } from 'vue'
 import { createI18n, useI18n } from 'vue-i18n'
-import { localCache, LOCALE__LOCAL } from '@/common/storage'
+import { localCache, LOCALE__LOCAL } from '@/utils/storage'
 import dayjs from 'dayjs'
 import zhCN from './lang/zh-CN'
 import enUS from './lang/en-US'

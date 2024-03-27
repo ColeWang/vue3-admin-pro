@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Dropdown, Menu, Space } from 'ant-design-vue'
-import { filterEmptyElement } from '@/utils'
+import { filterEmptyElement } from '@/utils/props-util'
 import { take, takeRight } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'

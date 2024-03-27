@@ -1,5 +1,5 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, unref } from 'vue'
-import { ExitFullscreenOutlined, FullscreenOutlined } from '@/icons'
+import { ExitFullscreenOutlined, FullscreenOutlined } from '@/components/icon'
 import native from './screenfull'
 import { off, on } from '@/utils/dom'
 import classNames from '@/utils/classNames/bind'

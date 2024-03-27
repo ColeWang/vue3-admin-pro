@@ -1,5 +1,5 @@
 import { computed, unref, watch } from 'vue'
-import { tryOnScopeDispose } from '@/utils'
+import tryOnScopeDispose from './tryOnScopeDispose'
 
 function useResizeObserver (target, callback, options) {
     let observer = undefined

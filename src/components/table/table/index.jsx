@@ -1,6 +1,8 @@
 import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
+import tableProps from './props'
 import Search from '../compatible/search'
+import Extra from '../compatible/extra'
 import Toolbar from '../compatible/toolbar'
 import Alert from '../compatible/alert'
 import useFetchData from '../hooks/useFetchData'
@@ -8,103 +10,11 @@ import useRowSelection from '../hooks/useRowSelection'
 import useTableContext from '../hooks/useTableContext'
 import { omitNil } from '@/utils'
 import { isArray, isFunction, pick } from 'lodash-es'
-import tableToExcel from '../tableToExcel'
+import { tableToExcel } from '../excel'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
-
-const tableProps = {
-    ...Table.props,
-    title: {
-        type: Function,
-        default: undefined
-    },
-    scroll: {
-        type: Object,
-        default: () => ({ x: 'max-content' })
-    },
-    columns: {
-        type: Array,
-        default: () => ([])
-    },
-    manualRequest: {
-        type: Boolean,
-        default: false
-    },
-    request: {
-        type: Function,
-        default: undefined
-    },
-    params: {
-        type: Object,
-        default: undefined
-    },
-    beforeSearchSubmit: {
-        type: Function,
-        default: undefined
-    },
-    postData: {
-        type: Function,
-        default: undefined
-    },
-    search: {
-        type: [Object, Boolean],
-        default: undefined
-    },
-    toolbar: {
-        type: [Object, Boolean],
-        default: undefined
-    },
-    rowSelection: {
-        type: [Object, Boolean],
-        default: false
-    },
-    emptyText: {
-        type: String,
-        default: '-'
-    },
-    onChange: {
-        type: Function,
-        default: undefined
-    },
-    onPaginateChange: {
-        type: Function,
-        default: undefined
-    },
-    onFilterChange: {
-        type: Function,
-        default: undefined
-    },
-    onSortChange: {
-        type: Function,
-        default: undefined
-    },
-    onLoadingChange: {
-        type: Function,
-        default: undefined
-    },
-    onColumnsChange: {
-        type: Function,
-        default: undefined
-    },
-    onLoad: {
-        type: Function,
-        default: undefined
-    },
-    onRequestError: {
-        type: Function,
-        default: undefined
-    },
-    onSubmit: {
-        type: Function,
-        default: undefined
-    },
-    onReset: {
-        type: Function,
-        default: undefined
-    }
-}
 
 export default defineComponent({
     inheritAttrs: false,
@@ -230,11 +140,14 @@ export default defineComponent({
         return () => {
             const { search: propsSearch, toolbar: propsToolbar, rowSelection: propsRowSelection } = props
             const { title: propsTitle, columns: propsColumns, manualRequest } = props
+            const { searchRender, toolbarRender, extraRender, alertRender, alertOptionRender } = props
             const {
+                title: titleSlot,
                 search: searchSlot,
                 toolbar: toolbarSlot,
-                title: titleSlot,
+                extra: extraSlot,
                 alert: alertSlot,
+                alertOption: alertOptionSlot,
                 ...restSlots
             } = slots
 
@@ -252,6 +165,15 @@ export default defineComponent({
                 }
                 return (
                     <Search {...searchProps}/>
+                )
+            }
+
+            const renderExtra = () => {
+                const extraProps = {
+                    pageData: requestProps.dataSource,
+                }
+                return (
+                    <Extra {...extraProps}>123</Extra>
                 )
             }
 
@@ -307,6 +229,7 @@ export default defineComponent({
             return (
                 <div class={cx('table')}>
                     {propsSearch !== false && renderSearch()}
+                    {renderExtra()}
                     <Card bodyStyle={cardBodyStyle}>
                         {propsToolbar !== false && renderToolbar()}
                         {propsRowSelection !== false && renderAlert()}

@@ -1,7 +1,8 @@
 import { ref, unref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { localCache, TAGS__LOCAL } from '@/common/storage'
-import { cloneProxyToRaw, tryOnScopeDispose } from '@/utils'
+import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
+import { localCache, TAGS__LOCAL } from '@/utils/storage'
+import { cloneProxyToRaw } from '@/utils/props-util'
 
 function useTags (menus, homeName) {
     const router = useRouter()

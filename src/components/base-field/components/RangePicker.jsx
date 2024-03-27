@@ -2,8 +2,8 @@ import { defineComponent, Fragment } from 'vue'
 import { RangePicker } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import baseFieldProps from '../props'
-import { isArray, isFunction } from 'lodash-es'
 import { formatDate } from '../utils'
+import { isArray, isFunction } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,

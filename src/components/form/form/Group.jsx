@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import { Space } from 'ant-design-vue'
 import { useFormInstance } from '../base-form'
-import useMediaQuery from '@/hooks/useMediaQuery'
+import useMediaQuery from '@/utils/hooks/useMediaQuery'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 

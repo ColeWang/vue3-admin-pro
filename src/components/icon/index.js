@@ -1,3 +1,5 @@
+import IconFont from './IconFont'
+// ---
 import ExitFullscreenOutlined from './ExitFullscreenOutlined'
 import FullscreenOutlined from './FullscreenOutlined'
 import HamburgerOutlined from './HamburgerOutlined'
@@ -11,3 +13,5 @@ export { HamburgerOutlined }
 export { MenuOutlined }
 export { PasswordFilled }
 export { UserFilled }
+
+export { IconFont as Icon }

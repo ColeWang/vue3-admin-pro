@@ -13,7 +13,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: {
         ...Submitter.props,
-        collapseRender: {
+        showCollapse: {
             type: Boolean,
             default: false
         },
@@ -35,9 +35,9 @@ export default defineComponent({
         }
 
         return () => {
-            const { collapseRender, collapsed } = props
+            const { showCollapse, collapsed } = props
 
-            const collapseDom = collapseRender && (
+            const collapseDom = showCollapse && (
                 <Button class={cx('collapse-button')} type={'link'} onClick={onCollapse}>
                     <span>{!collapsed ? t('expand') : t('collapsed')}</span>
                     {collapsed ? <DownOutlined/> : <UpOutlined/>}

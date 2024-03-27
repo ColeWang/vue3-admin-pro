@@ -63,7 +63,7 @@ export default defineComponent({
             }
 
             return (
-                <BaseSearch{...baseSearchProps} v-slots={baseSearchSlots}/>
+                <BaseSearch {...baseSearchProps} v-slots={baseSearchSlots}/>
             )
         }
     }

@@ -60,7 +60,7 @@ export default defineComponent({
                 columns: unref(columns),
                 request: request,
                 search: {
-                    collapseRender: true
+                    showCollapse: true
                 }
             }
 

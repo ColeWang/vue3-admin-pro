@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Modal } from 'ant-design-vue'
 import Loading from '@/components/loading'
-import { removeToken } from '@/utils/auth'
+import { removeToken } from './auth'
 // import { isDev } from '@/config'
 
 // function genBaseUrl (href) {

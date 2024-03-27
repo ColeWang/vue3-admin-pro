@@ -45,7 +45,7 @@ export default defineComponent({
 
             return (
                 <Card>
-                    <QueryFilter collapseRender={true} onSubmit={onSubmit} v-slots={queryFilterSlots}/>
+                    <QueryFilter showCollapse={true} onSubmit={onSubmit} v-slots={queryFilterSlots}/>
                 </Card>
             )
         }

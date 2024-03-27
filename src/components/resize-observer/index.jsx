@@ -1,5 +1,5 @@
 import { defineComponent, ref, unref } from 'vue'
-import useResizeObserver from '@/hooks/useResizeObserver'
+import useResizeObserver from '@/utils/hooks/useResizeObserver'
 import { head } from 'lodash-es'
 
 export default defineComponent({

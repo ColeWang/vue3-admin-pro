@@ -1,6 +1,5 @@
 import { defineComponent } from 'vue'
-import Icon from '@/components/icon'
-import { MenuOutlined } from '@/icons'
+import { Icon, MenuOutlined } from '@/components/icon'
 import { isFunction, isString } from 'lodash-es'
 
 export default defineComponent({

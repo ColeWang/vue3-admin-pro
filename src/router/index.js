@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import NProgress from 'nprogress'
 // import { canTurnTo } from '@/layout/utils'
-import { getToken } from '@/utils/auth'
+import { getToken } from '@/common/auth'
 import { LOGIN_NAME, HOME_NAME } from '@/config'
 import routes from './routes'
 
