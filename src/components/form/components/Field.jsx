@@ -56,9 +56,7 @@ export default defineComponent({
                         fieldProps: needFieldProps,
                         formItemProps: needFormItemProps
                     }
-                    return (
-                        <BaseField {...baseFieldProps} v-slots={fieldSlots}/>
-                    )
+                    return <BaseField {...baseFieldProps} v-slots={fieldSlots}/>
                 }
             }
 

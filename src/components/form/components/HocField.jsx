@@ -21,9 +21,7 @@ function HocField (valueType) {
                     fieldProps: fieldProps,
                     formItemProps: needFormItemProps
                 }
-                return (
-                    <Field {...needFieldProps} v-slots={slots}/>
-                )
+                return <Field {...needFieldProps} v-slots={slots}/>
             }
         }
     })

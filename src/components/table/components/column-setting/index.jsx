@@ -20,14 +20,10 @@ export default defineComponent({
         draggable: {
             type: Boolean,
             default: true
-        },
-        columns: {
-            type: Array,
-            default: () => ([])
         }
     },
     setup (props) {
-        const { columnsMap = {}, setColumnsMap } = useSharedContext()
+        const { columns, columnsMap, setColumnsMap } = useSharedContext()
 
         const { t } = useLocaleReceiver('Table.toolbar')
 
@@ -37,25 +33,25 @@ export default defineComponent({
                 const checked = column.disable ? column.checked : targetChecked
                 return [key, { ...column, checked: checked }]
             })
-            setColumnsMap && setColumnsMap(fromPairs(values))
+            setColumnsMap(fromPairs(values))
         }
 
         function onClearClick () {
-            setColumnsMap && setColumnsMap(false)
+            setColumnsMap(false)
         }
 
         function onFixedChange (key, column) {
             const values = { ...unref(columnsMap), [key]: column }
-            setColumnsMap && setColumnsMap(values)
+            setColumnsMap(values)
         }
 
         function onCheckChange (key, column) {
             const values = { ...unref(columnsMap), [key]: column }
-            setColumnsMap && setColumnsMap(values)
+            setColumnsMap(values)
         }
 
         function onDropChange (dragKey, dropKey, trueDropPosition, dropPosition) {
-            const keys = props.columns.map((column) => column.key)
+            const keys = unref(columns).map((column) => column.key)
             const dragIndex = keys.findIndex((key) => key === dragKey)
             const dropIndex = keys.findIndex((key) => key === dropKey)
             const target = keys[dragIndex]
@@ -69,20 +65,20 @@ export default defineComponent({
                 const column = unref(columnsMap)[key] || {}
                 return [key, { ...column, order }]
             })
-            setColumnsMap && setColumnsMap(fromPairs(values))
+            setColumnsMap(fromPairs(values))
         }
 
         return () => {
-            const { checkable, draggable, columns } = props
+            const { checkable, draggable } = props
 
             const popoverSlots = {
                 title: () => {
-                    const unCheckedColumns = columns.filter((item) => item.checked === false)
-                    const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== columns.length
-                    const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== columns.length
+                    const unCheckedColumns = unref(columns).filter((item) => item.checked === false)
+                    const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(columns).length
+                    const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(columns).length
 
                     return (
-                        <div class={cx('setting-title')}>
+                        <div class={cx('column-setting-title')}>
                             <Checkbox
                                 indeterminate={indeterminate}
                                 checked={checked}
@@ -101,9 +97,9 @@ export default defineComponent({
                     )
                 },
                 content: () => {
-                    const leftList = columns.filter((item) => item.fixed === 'left')
-                    const list = columns.filter((item) => item.fixed === undefined)
-                    const rightList = columns.filter((item) => item.fixed === 'right')
+                    const leftList = unref(columns).filter((item) => item.fixed === 'left')
+                    const list = unref(columns).filter((item) => item.fixed === undefined)
+                    const rightList = unref(columns).filter((item) => item.fixed === 'right')
 
                     const showTitle = leftList.length > 0 || rightList.length > 0
 

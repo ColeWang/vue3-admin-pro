@@ -9,9 +9,10 @@ import useFetchData from '../hooks/useFetchData'
 import useTableColumns from '../hooks/useTableColumns'
 import useRowSelection from '../hooks/useRowSelection'
 import { createSharedContext } from '../hooks/useSharedContext'
-import { omitNil } from '@/utils'
-import { isArray, isFunction, pick } from 'lodash-es'
 import { tableToExcel } from '../excel'
+import { getSlot, getSlotVNode } from '@/utils/props-util'
+import { omitNil } from '@/utils'
+import { isArray, isFunction, omit, pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -58,9 +59,8 @@ export default defineComponent({
 
         // 没搜索的时候 发起请求
         onMounted(() => {
-            if (props.manualRequest === false && props.search === false) {
-                onReload(false)
-            }
+            const isReload = props.manualRequest === false && props.search === false
+            isReload && onReload(true)
         })
 
         function onChange (paginate, filters, sorter, extra) {
@@ -125,20 +125,16 @@ export default defineComponent({
 
         function onExport () {
             const context = unref(tableRef)
-            if (props.toolbar && isFunction(props.toolbar.onExport)) {
-                props.toolbar.onExport(context, requestProps.dataSource)
-            } else {
-                context && tableToExcel(context)
-            }
+            context && tableToExcel(context)
+        }
+
+        function setTableSize (value) {
+            tableSize.value = value
         }
 
         function getPopupContainer () {
             const plain = unref(popupContainer)
             return plain ? (plain.$el || plain) : plain
-        }
-
-        function setTableSize (value) {
-            tableSize.value = value
         }
 
         const instance = {
@@ -147,6 +143,7 @@ export default defineComponent({
             columns,
             columnsMap,
             setColumnsMap,
+            reload: onReload,
             ...toRefs(requestProps)
         }
 
@@ -159,17 +156,7 @@ export default defineComponent({
 
         return () => {
             const { search: propsSearch, toolbar: propsToolbar, rowSelection: propsRowSelection } = props
-            const { title: propsTitle, columns: propsColumns, manualRequest } = props
-            const { searchRender, toolbarRender, extraRender, alertRender, alertOptionRender } = props
-            const {
-                title: titleSlot,
-                search: searchSlot,
-                toolbar: toolbarSlot,
-                extra: extraSlot,
-                alert: alertSlot,
-                alertOption: alertOptionSlot,
-                ...restSlots
-            } = slots
+            const { columns: propsColumns, manualRequest } = props
 
             const renderSearch = () => {
                 const searchProps = {
@@ -180,46 +167,33 @@ export default defineComponent({
                     onSubmit: onSubmit,
                     onReset: onReset
                 }
-                if (searchSlot && isFunction(searchSlot)) {
-                    return searchSlot(searchProps)
-                }
-                return (
-                    <Search {...searchProps}/>
-                )
-            }
-
-            const renderExtra = () => {
-                return (
-                    <Extra>123</Extra>
-                )
+                const customSearch = getSlotVNode(slots, {}, 'search', searchProps)
+                return customSearch || <Search {...searchProps}/>
             }
 
             const renderToolbar = () => {
+                const titleSlot = getSlot(slots, props, 'title')
+                const actionsSlot = getSlot(slots, props, 'actions')
+                const settingsSlot = getSlot(slots, props, 'settings')
+                const toolbarSlots = { title: titleSlot, actions: actionsSlot, settings: settingsSlot }
                 const toolbarProps = {
-                    ...propsToolbar,
-                    title: propsTitle,
+                    options: propsToolbar,
                     onReload: onReload,
-                    onExport: onExport,
+                    onExport: onExport
                 }
-                const toolbarSlots = {
-                    default: toolbarSlot,
-                    title: titleSlot
-                }
-                return (
-                    <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
-                )
+                return <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
             }
 
             const renderAlert = () => {
-                const alertSlots = { default: alertSlot }
+                const alertSlot = getSlot(slots, props, 'alert')
+                const alertOptionsSlot = getSlot(slots, props, 'alertOptions')
+                const alertSlots = { default: alertSlot, options: alertOptionsSlot }
                 const alertProps = {
                     selectedRowKeys: rowSelection.selectedRowKeys,
                     selectedRows: rowSelection.selectedRows,
                     onCleanSelected: onCleanSelected
                 }
-                return (
-                    <Alert {...alertProps} v-slots={alertSlots}/>
-                )
+                return <Alert {...alertProps} v-slots={alertSlots}/>
             }
 
             const cardBodyStyle = toolbar !== false ? ({
@@ -239,17 +213,26 @@ export default defineComponent({
                 onChange: onChange
             }
 
+            const needTableSlots = omit(slots, ['search', 'extra', 'title', 'actions', 'settings', 'alert', 'alertOptions'])
+
+            const extraSlotScope = {
+                loading: requestProps.loading,
+                pageData: requestProps.dataSource,
+                pagination: requestProps.pagination
+            }
+            const extraDom = getSlotVNode(slots, props, 'extra', extraSlotScope)
+
             return (
                 <div class={cx('table')}>
                     {propsSearch !== false && renderSearch()}
-                    {renderExtra()}
+                    {extraDom && <Extra>{extraDom}</Extra>}
                     <Card bodyStyle={cardBodyStyle}>
                         {propsToolbar !== false && renderToolbar()}
                         {propsRowSelection !== false && renderAlert()}
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>
                                 <div class={cx('table-wrapper')} ref={tableRef}>
-                                    <Table {...needTableProps} v-slots={restSlots}/>
+                                    <Table {...needTableProps} v-slots={needTableSlots}/>
                                 </div>
                             </div>
                         </ConfigProvider>

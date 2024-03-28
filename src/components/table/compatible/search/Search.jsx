@@ -49,9 +49,7 @@ export default defineComponent({
                             fieldProps: { ...fieldProps, style: { width: '100%' } },
                             formItemProps: needFormItemProps
                         }
-                        return (
-                            <Field {...needFieldProps} key={key}/>
-                        )
+                        return <Field {...needFieldProps} key={key}/>
                     })
                 }
             }

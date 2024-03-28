@@ -70,9 +70,7 @@ export default defineComponent({
                         onSubmit: onSubmit,
                         onReset: onCancel
                     }
-                    return (
-                        <Submitter {...submitterProps}/>
-                    )
+                    return <Submitter {...submitterProps}/>
                 },
                 default: () => {
                     const baseFormProps = {

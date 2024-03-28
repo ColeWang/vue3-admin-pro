@@ -3,19 +3,8 @@ import { Card } from 'ant-design-vue'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        pageData: {
-            type: Array,
-            default: () => ([])
-        }
-    },
     setup (props, { slots }) {
         return () => {
-            const { pageData } = props
-
-            const slotScope = { pageData }
-            const children = slots.default && slots.default(slotScope)
-
             const cardProps = {
                 bodyStyle: {
                     paddingBlock: '12px',
@@ -26,9 +15,9 @@ export default defineComponent({
                 }
             }
 
-            return (
-                <Card {...cardProps}>{children}</Card>
-            )
+            const children = slots.default && slots.default()
+
+            return <Card {...cardProps}>{children}</Card>
         }
     }
 })

@@ -15,10 +15,8 @@ export default defineComponent({
             const { grid, ...restProps } = props
             const children = slots.default && slots.default()
 
-            if (!grid) return (<Fragment>{children}</Fragment>)
-            return (
-                <Row {...restProps}>{children}</Row>
-            )
+            if (!grid) return <Fragment>{children}</Fragment>
+            return <Row {...restProps}>{children}</Row>
         }
     }
 })

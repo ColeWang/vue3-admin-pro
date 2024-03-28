@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, unref } from 'vue'
 import { Button, Dropdown, Menu, Tooltip } from 'ant-design-vue'
 import { ColumnHeightOutlined } from '@ant-design/icons-vue'
 import { useSharedContext } from '../../hooks/useSharedContext'
@@ -6,30 +6,22 @@ import { useLocaleReceiver } from '@/components/locale-provider'
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        size: {
-            type: String,
-            default: 'middle'
-        }
-    },
-    setup (props) {
-        const { setSize } = useSharedContext()
+    setup () {
+        const { tableSize, setTableSize } = useSharedContext()
         const { t } = useLocaleReceiver('Table.toolbar')
 
         function onChangeClick (params) {
-            if (props.size !== params.key) {
-                setSize && setSize(params.key)
+            if (unref(tableSize) !== params.key) {
+                setTableSize(params.key)
             }
         }
 
         return () => {
-            const { size } = props
-
             const dropdownSlots = {
                 overlay: () => {
                     const menuProps = {
                         style: { width: '88px' },
-                        selectedKeys: [size],
+                        selectedKeys: [unref(tableSize)],
                         onClick: onChangeClick
                     }
                     return (

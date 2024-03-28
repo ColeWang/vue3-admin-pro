@@ -1,3 +1,7 @@
+.popup-container {
+    position: relative;
+}
+
 .alert {
     margin-block-end: 16px;
     background-color: #FAFAFA;
@@ -10,17 +14,17 @@
     padding-inline: 24px;
 }
 
-.alert-info {
+.alert-info-wrap {
     @include flex(null, center);
     transition: all 0.3s;
     color: $text-secondary;
     white-space: nowrap;
 
-    .alert-info-content {
+    .alert-content {
         flex: 1;
     }
 
-    .alert-info-option {
+    .alert-options {
         min-width: 48px;
         padding-inline-start: 16px;
     }

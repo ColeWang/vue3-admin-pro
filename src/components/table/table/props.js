@@ -50,31 +50,27 @@ const tableProps = {
         type: [Object, Boolean],
         default: undefined
     },
-    searchRender: {
-        type: Function,
-        default: undefined
-    },
     toolbar: {
         type: [Object, Boolean],
         default: undefined
     },
-    toolbarRender: {
+    actions: {
         type: Function,
         default: undefined
     },
-    extraRender: {
+    settings: {
         type: Function,
         default: undefined
     },
-    alertRender: {
+    extra: {
         type: Function,
         default: undefined
     },
-    alertOptionRender: {
+    alert: {
         type: Function,
         default: undefined
     },
-    tableRender: {
+    alertOptions: {
         type: Function,
         default: undefined
     },
