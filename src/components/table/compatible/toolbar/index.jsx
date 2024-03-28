@@ -37,25 +37,17 @@ export default defineComponent({
             type: Function,
             default: undefined
         },
-        onReload: {
-            type: Function,
-            default: undefined
-        },
         onExport: {
             type: Function,
             default: undefined
         }
     },
-    emits: ['reload', 'export'],
+    emits: ['export'],
     setup (props, { emit, slots }) {
         const popupContainer = ref(null)
 
         const { t } = useLocaleReceiver('Table.toolbar')
-        const { loading, dataSource, pagination } = useSharedContext()
-
-        function onReloadClick () {
-            emit('reload')
-        }
+        const { loading, dataSource, pagination, onReload } = useSharedContext()
 
         function onExportClick () {
             emit('export')
@@ -72,7 +64,7 @@ export default defineComponent({
             const catalog = {
                 reload: (
                     <Tooltip title={t('reload')}>
-                        <Button onClick={onReloadClick}>
+                        <Button onClick={onReload}>
                             <ReloadOutlined spin={unref(loading)}/>
                         </Button>
                     </Tooltip>
@@ -91,8 +83,7 @@ export default defineComponent({
             const slotScope = {
                 loading: unref(loading),
                 pageData: unref(dataSource),
-                pagination: unref(pagination),
-                aaa: '123'
+                pagination: unref(pagination)
             }
             const titleDom = getSlotVNode(slots, props, 'title', slotScope)
             const actionsDom = getSlotVNode(slots, props, 'actions', slotScope)

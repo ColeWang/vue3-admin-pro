@@ -143,7 +143,7 @@ export default defineComponent({
             columns,
             columnsMap,
             setColumnsMap,
-            reload: onReload,
+            onReload: onReload,
             ...toRefs(requestProps)
         }
 
@@ -178,7 +178,6 @@ export default defineComponent({
                 const toolbarSlots = { title: titleSlot, actions: actionsSlot, settings: settingsSlot }
                 const toolbarProps = {
                     options: propsToolbar,
-                    onReload: onReload,
                     onExport: onExport
                 }
                 return <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
