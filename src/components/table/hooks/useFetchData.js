@@ -67,6 +67,11 @@ function useFetchData (request, props, options) {
         }
     }
 
+    const stopWatchDataSource = watch(() => props.dataSource, (value) => {
+        // 手动请求时 更新 dataSource
+        context.dataSource = value || []
+    }, { immediate: true })
+
     const stopWatchPagination = watch(() => context.pagination, (value, oldValue) => {
         if (value && oldValue && (value.current !== oldValue.current || value.pageSize !== oldValue.pageSize)) {
             oldValue.pageSize !== value.pageSize && setPaginate({ current: 1 })
@@ -103,6 +108,7 @@ function useFetchData (request, props, options) {
     }
 
     function onStop () {
+        stopWatchDataSource && stopWatchDataSource()
         stopWatchPagination && stopWatchPagination()
         stopWatchParams && stopWatchParams()
     }

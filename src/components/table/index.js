@@ -1,9 +1,9 @@
 import Table from './table'
-import EditTable from './edit-table'
+import EditableTable from './editable-table'
 import { BaseSearch } from './compatible/search'
 import { ActionGroup, default as Action } from './components/action'
 
 export { Table }
-export { EditTable }
+export { EditableTable }
 export { BaseSearch }
 export { Action, ActionGroup }
