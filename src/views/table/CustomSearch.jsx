@@ -74,7 +74,8 @@ export default defineComponent({
                 columns: columns,
                 request: request,
                 rowSelection: true,
-                toolbar: { export: false }
+                toolbar: { export: false },
+                options: false
             }
 
             return (

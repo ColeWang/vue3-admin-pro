@@ -54,6 +54,10 @@ const tableProps = {
         type: [Object, Boolean],
         default: undefined
     },
+    options: {
+        type: [Object, Boolean],
+        default: undefined
+    },
     actions: {
         type: Function,
         default: undefined

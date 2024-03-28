@@ -23,7 +23,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: {
         options: {
-            type: Object,
+            type: [Object, Boolean],
             default: () => ({})
         },
         title: {
@@ -62,30 +62,6 @@ export default defineComponent({
         return () => {
             const { options: propsOptions } = props
 
-            const needOptions = {
-                ...defaultOptions,
-                ...pick(propsOptions, Object.keys(defaultOptions))
-            }
-
-            const catalog = {
-                reload: (
-                    <Tooltip title={t('reload')}>
-                        <Button onClick={onReload}>
-                            <ReloadOutlined spin={unref(loading)}/>
-                        </Button>
-                    </Tooltip>
-                ),
-                export: (
-                    <Tooltip title={t('export')}>
-                        <Button onClick={onExportClick}>
-                            <VerticalAlignBottomOutlined/>
-                        </Button>
-                    </Tooltip>
-                ),
-                density: <Density/>,
-                setting: <ColumnSetting/>
-            }
-
             const slotScope = {
                 loading: unref(loading),
                 pageData: unref(dataSource),
@@ -94,10 +70,36 @@ export default defineComponent({
             const titleDom = getSlotVNode(slots, props, 'title', slotScope)
             const actionsDom = getSlotVNode(slots, props, 'actions', slotScope)
 
-            const defaultSettings = Object.keys(needOptions).filter((key) => {
-                return needOptions[key]
-            }).map((key) => catalog[key])
-            const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
+            const renderSettings = () => {
+                const catalog = {
+                    reload: (
+                        <Tooltip title={t('reload')}>
+                            <Button onClick={onReload}>
+                                <ReloadOutlined spin={unref(loading)}/>
+                            </Button>
+                        </Tooltip>
+                    ),
+                    export: (
+                        <Tooltip title={t('export')}>
+                            <Button onClick={onExportClick}>
+                                <VerticalAlignBottomOutlined/>
+                            </Button>
+                        </Tooltip>
+                    ),
+                    density: <Density/>,
+                    setting: <ColumnSetting/>
+                }
+                const options = pick({ ...defaultOptions, ...propsOptions }, Object.keys(defaultOptions))
+                const defaultSettings = Object.keys(options).filter((key) => {
+                    return options[key]
+                }).map((key) => catalog[key])
+                const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
+                return (
+                    <Space.Compact style={{ marginLeft: '12px' }}>
+                        {customSettings || defaultSettings}
+                    </Space.Compact>
+                )
+            }
 
             return (
                 <ConfigProvider getPopupContainer={getPopupContainer}>
@@ -105,12 +107,10 @@ export default defineComponent({
                         <div class={cx('toolbar')}>
                             <div class={cx('toolbar-title')}>{titleDom}</div>
                             <div class={cx('toolbar-actions')}>
-                                <Space size={8} style={{ marginRight: '12px' }}>
+                                <Space size={8}>
                                     {actionsDom}
                                 </Space>
-                                <Space.Compact>
-                                    {customSettings || defaultSettings}
-                                </Space.Compact>
+                                {propsOptions !== false && renderSettings()}
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ import { createSharedContext } from '../hooks/useSharedContext'
 import { tableToExcel } from '../excel'
 import { getSlot, getSlotVNode } from '@/utils/props-util'
 import { omitNil } from '@/utils'
-import { isArray, isFunction, omit, pick } from 'lodash-es'
+import { isArray, isFunction, isObject, omit, pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -125,7 +125,7 @@ export default defineComponent({
 
         function onExport () {
             const { toolbar } = props
-            if (toolbar.onExport && isFunction(toolbar.onExport)) {
+            if (isObject(toolbar) && isFunction(toolbar.onExport)) {
                 toolbar.onExport({ pageData: requestProps.dataSource })
             } else {
                 const context = unref(tableRef)
@@ -160,8 +160,8 @@ export default defineComponent({
         })
 
         return () => {
-            const { search: propsSearch, toolbar: propsToolbar, rowSelection: propsRowSelection } = props
-            const { columns: propsColumns, manualRequest } = props
+            const { search: propsSearch, columns: propsColumns, manualRequest } = props
+            const { toolbar: propsToolbar, options: propsOptions, rowSelection: propsRowSelection } = props
 
             const renderSearch = () => {
                 const searchProps = {
@@ -186,7 +186,7 @@ export default defineComponent({
                     settings: settingsSlot
                 }
                 const toolbarProps = {
-                    options: propsToolbar,
+                    options: propsOptions,
                     onExport: onExport
                 }
                 return <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
@@ -204,7 +204,7 @@ export default defineComponent({
                 return <Alert {...alertProps} v-slots={alertSlots}/>
             }
 
-            const cardBodyStyle = toolbar !== false ? ({
+            const cardBodyStyle = propsToolbar !== false ? ({
                 paddingBlock: '16px',
                 paddingBlockStart: '0'
             }) : ({
