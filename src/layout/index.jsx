@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, unref } from 'vue'
+import { computed, defineComponent, Fragment, ref, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppMain from './AppMain'
 import AppContent from './AppContent'
@@ -58,22 +58,24 @@ export default defineComponent({
                             onChange={onSidebarChange}
                         />
                     )}
-                    navbar={() => [
-                        <Navbar
-                            router={router}
-                            collapsed={unref(collapsed)}
-                            onChange={onCollapsedChange}
-                            onLocal={onLocalChange}
-                            onLogout={onLogout}
-                        />,
-                        <TagsNav
-                            homeName={HOME_NAME}
-                            route={route}
-                            tags={unref(tags)}
-                            onClick={onTagClick}
-                            onClose={onTagClose}
-                        />
-                    ]}
+                    navbar={() => (
+                        <Fragment>
+                            <Navbar
+                                router={router}
+                                collapsed={unref(collapsed)}
+                                onChange={onCollapsedChange}
+                                onLocal={onLocalChange}
+                                onLogout={onLogout}
+                            />
+                            <TagsNav
+                                homeName={HOME_NAME}
+                                route={route}
+                                tags={unref(tags)}
+                                onClick={onTagClick}
+                                onClose={onTagClose}
+                            />
+                        </Fragment>
+                    )}
                 >
                     <AppContent include={unref(include)}/>
                 </AppMain>
