@@ -7,7 +7,7 @@ export default defineComponent({
         return () => {
             const cardProps = {
                 bodyStyle: {
-                    paddingBlock: '12px',
+                    paddingBlock: '24px',
                     paddingInline: '24px'
                 },
                 style: {

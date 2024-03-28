@@ -15,17 +15,18 @@
 }
 
 .alert-info-wrap {
-    @include flex(null, center);
+    @include flex(null, space-between);
     transition: all 0.3s;
     color: $text-secondary;
     white-space: nowrap;
 
     .alert-content {
-        flex: 1;
+        @include flex(center, flex-start);
+        white-space: nowrap;
     }
 
     .alert-options {
-        min-width: 48px;
+        white-space: nowrap;
         padding-inline-start: 16px;
     }
 }
