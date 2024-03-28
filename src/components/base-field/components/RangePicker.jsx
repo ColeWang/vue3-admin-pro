@@ -3,7 +3,8 @@ import { RangePicker } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import baseFieldProps from '../props'
 import { formatDate } from '../utils'
-import { isArray, isFunction } from 'lodash-es'
+import { getSlotVNode } from '@/utils/props-util'
+import { isArray } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -14,7 +15,6 @@ export default defineComponent({
         return () => {
             const { mode, text, emptyText, fieldProps } = props
             const placeholder = fieldProps.placeholder || [t('selectPlaceholder'), t('selectPlaceholder')]
-            const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
                 const [startText, endText] = isArray(text) ? text : []
@@ -28,21 +28,15 @@ export default defineComponent({
                     </Fragment>
                 )
             }
-            if (mode === 'edit') {
-                const needFieldProps = {
-                    placeholder: placeholder,
-                    allowClear: true,
-                    ...fieldProps
-                }
-                const renderDom = (
-                    <RangePicker {...needFieldProps} v-slots={slots}/>
-                )
-                if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
-                }
-                return renderDom
+            const needFieldProps = {
+                placeholder: placeholder,
+                allowClear: true,
+                ...fieldProps
             }
-            return null
+            const dom = <RangePicker {...needFieldProps} v-slots={slots}/>
+            const slotScope = { text, props: { mode, ...fieldProps }, dom }
+            const renderDom = getSlotVNode(slots, props, 'renderField', slotScope)
+            return renderDom || dom
         }
     }
 })

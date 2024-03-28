@@ -12,7 +12,7 @@ export default defineComponent({
 
         function onChangeClick (params) {
             if (unref(tableSize) !== params.key) {
-                setTableSize(params.key)
+                setTableSize && setTableSize(params.key)
             }
         }
 

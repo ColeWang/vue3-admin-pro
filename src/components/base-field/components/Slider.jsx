@@ -1,7 +1,8 @@
 import { defineComponent, Fragment } from 'vue'
 import { Slider } from 'ant-design-vue'
 import baseFieldProps from '../props'
-import { isArray, isFunction } from 'lodash-es'
+import { getSlotVNode } from '@/utils/props-util'
+import { isArray } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -9,7 +10,6 @@ export default defineComponent({
     setup (props, { slots }) {
         return () => {
             const { mode, text, emptyText, fieldProps } = props
-            const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
                 if (isArray(text)) {
@@ -24,20 +24,14 @@ export default defineComponent({
                 }
                 return text ?? emptyText
             }
-            if (mode === 'edit') {
-                const needFieldProps = {
-                    style: { minWidth: 120, ...fieldProps.style },
-                    ...fieldProps
-                }
-                const renderDom = (
-                    <Slider {...needFieldProps} v-slots={slots}/>
-                )
-                if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
-                }
-                return renderDom
+            const needFieldProps = {
+                style: { minWidth: 120, ...fieldProps.style },
+                ...fieldProps
             }
-            return null
+            const dom = <Slider {...needFieldProps} v-slots={slots}/>
+            const slotScope = { text, props: { mode, ...fieldProps }, dom }
+            const renderDom = getSlotVNode(slots, props, 'renderField', slotScope)
+            return renderDom || dom
         }
     }
 })

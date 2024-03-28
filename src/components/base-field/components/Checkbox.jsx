@@ -2,7 +2,8 @@ import { computed, defineComponent, unref } from 'vue'
 import { Checkbox } from 'ant-design-vue'
 import baseFieldProps from '../props'
 import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../utils/valueEnum'
-import { isFunction, isUndefined } from 'lodash-es'
+import { getSlotVNode } from '@/utils/props-util'
+import { isUndefined } from 'lodash-es'
 
 /**
  * @todo 待优化
@@ -22,7 +23,6 @@ export default defineComponent({
 
         return () => {
             const { mode, text, emptyText, valueEnum, fieldProps } = props
-            const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
                 const { options: propsOptions, fieldNames } = fieldProps
@@ -30,20 +30,14 @@ export default defineComponent({
                 const valueText = valueEnumToText(text, valueEnum || optionsValueEnum)
                 return valueText ?? emptyText
             }
-            if (mode === 'edit') {
-                const needFieldProps = {
-                    options: unref(options),
-                    ...fieldProps
-                }
-                const renderDom = (
-                    <Checkbox.Group {...needFieldProps} v-slots={slots}/>
-                )
-                if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
-                }
-                return renderDom
+            const needFieldProps = {
+                options: unref(options),
+                ...fieldProps
             }
-            return null
+            const dom = <Checkbox.Group {...needFieldProps} v-slots={slots}/>
+            const slotScope = { text, props: { mode, ...fieldProps }, dom }
+            const renderDom = getSlotVNode(slots, props, 'renderField', slotScope)
+            return renderDom || dom
         }
     }
 })

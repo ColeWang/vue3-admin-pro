@@ -3,7 +3,8 @@ import { Select } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import baseFieldProps from '../props'
 import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../utils/valueEnum'
-import { isFunction, isUndefined } from 'lodash-es'
+import { getSlotVNode } from '@/utils/props-util'
+import { isUndefined } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -21,7 +22,6 @@ export default defineComponent({
         return () => {
             const { mode, text, emptyText, valueEnum, fieldProps } = props
             const placeholder = fieldProps.placeholder || t('selectPlaceholder')
-            const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
                 const { options: propsOptions, fieldNames } = fieldProps
@@ -29,22 +29,16 @@ export default defineComponent({
                 const valueText = valueEnumToText(text, valueEnum || optionsValueEnum)
                 return valueText ?? emptyText
             }
-            if (mode === 'edit') {
-                const needFieldProps = {
-                    options: unref(options),
-                    placeholder: placeholder,
-                    allowClear: true,
-                    ...fieldProps
-                }
-                const renderDom = (
-                    <Select {...needFieldProps} v-slots={slots}/>
-                )
-                if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
-                }
-                return renderDom
+            const needFieldProps = {
+                options: unref(options),
+                placeholder: placeholder,
+                allowClear: true,
+                ...fieldProps
             }
-            return null
+            const dom = <Select {...needFieldProps} v-slots={slots}/>
+            const slotScope = { text, props: { mode, ...fieldProps }, dom }
+            const renderDom = getSlotVNode(slots, props, 'renderField', slotScope)
+            return renderDom || dom
         }
     }
 })

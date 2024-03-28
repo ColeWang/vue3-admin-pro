@@ -193,9 +193,9 @@ export default defineComponent({
             const types = unref(valueTypeMap)
             const customRenderText = isObject(types) && types[valueType]
             if (customRenderText && isFunction(customRenderText)) {
-                // 与 renderFormItem 参数保持一致
-                // valueType: (text, props) => {}
-                return customRenderText(dataValue, { mode, ...needFieldProps })
+                // 与 renderField 参数保持一致
+                // valueType: ({ text, props, dom}) => {}
+                return customRenderText({ text: dataValue, props: { mode, ...needFieldProps } })
             }
             return defaultRenderText(valueType, fieldRenderProps, slots)
         }

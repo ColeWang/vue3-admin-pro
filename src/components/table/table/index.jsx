@@ -59,8 +59,8 @@ export default defineComponent({
 
         // 没搜索的时候 发起请求
         onMounted(() => {
-            const isReload = props.manualRequest === false && props.search === false
-            isReload && onReload(true)
+            const ifReload = props.manualRequest === false && props.search === false
+            ifReload && onReload(true)
         })
 
         function onChange (paginate, filters, sorter, extra) {
@@ -124,8 +124,13 @@ export default defineComponent({
         }
 
         function onExport () {
-            const context = unref(tableRef)
-            context && tableToExcel(context)
+            const { toolbar } = props
+            if (toolbar.onExport && isFunction(toolbar.onExport)) {
+                toolbar.onExport({ pageData: requestProps.dataSource })
+            } else {
+                const context = unref(tableRef)
+                context && tableToExcel(context)
+            }
         }
 
         function setTableSize (value) {
@@ -175,7 +180,11 @@ export default defineComponent({
                 const titleSlot = getSlot(slots, props, 'title')
                 const actionsSlot = getSlot(slots, props, 'actions')
                 const settingsSlot = getSlot(slots, props, 'settings')
-                const toolbarSlots = { title: titleSlot, actions: actionsSlot, settings: settingsSlot }
+                const toolbarSlots = {
+                    title: titleSlot,
+                    actions: actionsSlot,
+                    settings: settingsSlot
+                }
                 const toolbarProps = {
                     options: propsToolbar,
                     onExport: onExport

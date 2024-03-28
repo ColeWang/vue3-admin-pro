@@ -2,7 +2,7 @@ import { defineComponent, Fragment } from 'vue'
 import { Input } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import baseFieldProps from '../props'
-import { isFunction } from 'lodash-es'
+import { getSlotVNode } from '@/utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -19,7 +19,6 @@ export default defineComponent({
         return () => {
             const { type, mode, text, emptyText, fieldProps } = props
             const placeholder = fieldProps.placeholder || t('inputPlaceholder')
-            const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
                 return (
@@ -30,22 +29,16 @@ export default defineComponent({
                     </Fragment>
                 )
             }
-            if (mode === 'edit') {
-                const needFieldProps = {
-                    type: type,
-                    placeholder: placeholder,
-                    allowClear: true,
-                    ...fieldProps
-                }
-                const renderDom = (
-                    <Input {...needFieldProps} v-slots={slots}/>
-                )
-                if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
-                }
-                return renderDom
+            const needFieldProps = {
+                type: type,
+                placeholder: placeholder,
+                allowClear: true,
+                ...fieldProps
             }
-            return null
+            const dom = <Input {...needFieldProps} v-slots={slots}/>
+            const slotScope = { text, props: { mode, ...fieldProps }, dom }
+            const renderDom = getSlotVNode(slots, props, 'renderField', slotScope)
+            return renderDom || dom
         }
     }
 })

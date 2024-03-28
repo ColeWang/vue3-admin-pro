@@ -23,7 +23,7 @@ export default defineComponent({
         }
     },
     setup (props) {
-        const { columns, columnsMap, setColumnsMap } = useSharedContext()
+        const { columns = [], columnsMap = {}, setColumnsMap } = useSharedContext()
 
         const { t } = useLocaleReceiver('Table.toolbar')
 
@@ -33,21 +33,21 @@ export default defineComponent({
                 const checked = column.disable ? column.checked : targetChecked
                 return [key, { ...column, checked: checked }]
             })
-            setColumnsMap(fromPairs(values))
+            setColumnsMap && setColumnsMap(fromPairs(values))
         }
 
         function onClearClick () {
-            setColumnsMap(false)
+            setColumnsMap && setColumnsMap(false)
         }
 
         function onFixedChange (key, column) {
             const values = { ...unref(columnsMap), [key]: column }
-            setColumnsMap(values)
+            setColumnsMap && setColumnsMap(values)
         }
 
         function onCheckChange (key, column) {
             const values = { ...unref(columnsMap), [key]: column }
-            setColumnsMap(values)
+            setColumnsMap && setColumnsMap(values)
         }
 
         function onDropChange (dragKey, dropKey, trueDropPosition, dropPosition) {
@@ -65,7 +65,7 @@ export default defineComponent({
                 const column = unref(columnsMap)[key] || {}
                 return [key, { ...column, order }]
             })
-            setColumnsMap(fromPairs(values))
+            setColumnsMap && setColumnsMap(fromPairs(values))
         }
 
         return () => {

@@ -3,7 +3,7 @@ import { TreeSelect } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import baseFieldProps from '../props'
 import { optionsToValueEnum, valueEnumToText } from '../utils/valueEnum'
-import { isFunction } from 'lodash-es'
+import { getSlotVNode } from '@/utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -15,7 +15,6 @@ export default defineComponent({
             const { mode, text, emptyText, fieldProps } = props
             const { options, ...restFieldProps } = fieldProps
             const placeholder = fieldProps.placeholder || t('selectPlaceholder')
-            const renderFormItem = props.renderFormItem || slots.renderFormItem
 
             if (mode === 'read') {
                 const { options: propsOptions, fieldNames } = fieldProps
@@ -23,22 +22,16 @@ export default defineComponent({
                 const valueText = valueEnumToText(text, optionsValueEnum)
                 return valueText ?? emptyText
             }
-            if (mode === 'edit') {
-                const needFieldProps = {
-                    treeData: options,
-                    placeholder: placeholder,
-                    allowClear: true,
-                    ...restFieldProps
-                }
-                const renderDom = (
-                    <TreeSelect {...needFieldProps} v-slots={slots}/>
-                )
-                if (renderFormItem && isFunction(renderFormItem)) {
-                    return renderFormItem(text, { mode, ...fieldProps }, renderDom)
-                }
-                return renderDom
+            const needFieldProps = {
+                treeData: options,
+                placeholder: placeholder,
+                allowClear: true,
+                ...restFieldProps
             }
-            return null
+            const dom = <TreeSelect {...needFieldProps} v-slots={slots}/>
+            const slotScope = { text, props: { mode, ...fieldProps }, dom }
+            const renderDom = getSlotVNode(slots, props, 'renderField', slotScope)
+            return renderDom || dom
         }
     }
 })

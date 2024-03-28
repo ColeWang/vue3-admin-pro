@@ -53,10 +53,10 @@ export default defineComponent({
                 rows: selectedRows,
                 cleanSelected: onCleanSelected
             }
-            const alertText = `${t('selected')} ${selectedRowKeys.length} ${t('item')}`
+            const contentText = `${t('selected')} ${selectedRowKeys.length} ${t('item')}`
             const defaultContent = (
                 <Space size={8}>
-                    <Fragment>{alertText}</Fragment>
+                    <Fragment>{contentText}</Fragment>
                     <Action onClick={onCleanSelected}>{t('clear')}</Action>
                 </Space>
             )

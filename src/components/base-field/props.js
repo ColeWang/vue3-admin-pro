@@ -31,7 +31,7 @@ const baseFieldProps = {
         type: String,
         default: '-'
     },
-    renderFormItem: {
+    renderField: {
         type: Function,
         default: undefined
     }

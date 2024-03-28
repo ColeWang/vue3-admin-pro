@@ -6,6 +6,7 @@ import ColumnSetting from '../../components/column-setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import { getSlotVNode } from '@/utils/props-util'
+import { pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -23,7 +24,7 @@ export default defineComponent({
     props: {
         options: {
             type: Object,
-            default: () => defaultOptions
+            default: () => ({})
         },
         title: {
             type: Function,
@@ -59,7 +60,12 @@ export default defineComponent({
         }
 
         return () => {
-            const { options } = props
+            const { options: propsOptions } = props
+
+            const needOptions = {
+                ...defaultOptions,
+                ...pick(propsOptions, Object.keys(defaultOptions))
+            }
 
             const catalog = {
                 reload: (
@@ -88,8 +94,8 @@ export default defineComponent({
             const titleDom = getSlotVNode(slots, props, 'title', slotScope)
             const actionsDom = getSlotVNode(slots, props, 'actions', slotScope)
 
-            const defaultSettings = Object.keys(options).filter((key) => {
-                return options[key]
+            const defaultSettings = Object.keys(needOptions).filter((key) => {
+                return needOptions[key]
             }).map((key) => catalog[key])
             const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
 
