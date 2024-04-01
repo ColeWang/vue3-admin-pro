@@ -8,7 +8,7 @@ export function off (el, type, listener, options) {
 
 export function once (el, type, listener, options) {
     function handler (evt) {
-        listener.call(undefined, evt)
+        listener.call(null, evt)
         off(el, type, handler, options)
     }
 

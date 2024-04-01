@@ -21,6 +21,19 @@ export default defineConfig((config) => {
             vue(),
             vueJsx()
         ],
+        build: {
+            rollupOptions: {
+                output: {
+                    manualChunks: {
+                        vue: ['vue', 'vue-router', 'pinia'],
+                        plugins: ['dayjs', 'axios', 'js-cookie', 'lodash-es', 'crypto-js'],
+                        common: ['vue-i18n', 'nprogress'],
+                        xlsx: ['file-saver', 'xlsx'],
+                        library: ['ant-design-vue', '@ant-design/icons-vue']
+                    }
+                }
+            }
+        },
         css: {
             preprocessorOptions: {
                 scss: {

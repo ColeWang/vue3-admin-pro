@@ -1,10 +1,14 @@
 import { defineComponent, ref, unref } from 'vue'
 import useResizeObserver from '@/utils/hooks/useResizeObserver'
-import { head } from 'lodash-es'
+import { debounce, head } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
     props: {
+        wait: {
+            type: Number,
+            default: 100
+        },
         onResize: {
             type: Function,
             default: undefined
@@ -21,11 +25,13 @@ export default defineComponent({
             emit('resize', value)
         }
 
-        useResizeObserver(elRef, (entries) => {
+        const debounceCallback = debounce((entries) => {
             const entry = head(entries)
             const { width, height, ...restRect } = entry.contentRect
             setSize({ width, height, ...restRect })
-        })
+        }, props.wait)
+
+        useResizeObserver(elRef, debounceCallback)
 
         return () => {
             const slotScope = unref(size)
