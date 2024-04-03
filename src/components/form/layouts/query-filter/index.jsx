@@ -108,9 +108,9 @@ export default defineComponent({
             const children = slots.default ? slots.default(slotScope) : []
             const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
                 const { child, hidden, key } = item
-                const colClassNames = cx({ 'col-hidden': hidden })
+                const colClass = cx({ 'col-hidden': hidden })
                 return (
-                    <Col key={key} class={colClassNames} span={unref(span)}>{child}</Col>
+                    <Col key={key} class={colClass} span={unref(span)}>{child}</Col>
                 )
             })
 
@@ -129,7 +129,7 @@ export default defineComponent({
                 onCollapse: onCollapse
             }
 
-            const formItemClassNames = cx({
+            const formItemClass = cx({
                 'form-item__vertical': unref(layout) === 'vertical' && !haveRow
             })
 
@@ -139,7 +139,7 @@ export default defineComponent({
                         <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
                             {colNodes}
                             <Col key={'action'} class={cx('action-col')} span={unref(span)} offset={offset}>
-                                <Form.Item class={formItemClassNames} colon={false}>
+                                <Form.Item class={formItemClass} colon={false}>
                                     <Actions {...actionsProps}/>
                                 </Form.Item>
                             </Col>

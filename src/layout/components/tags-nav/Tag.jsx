@@ -39,7 +39,7 @@ export default defineComponent({
         return () => {
             const { closable, color } = props
 
-            const dotInnerClassNames = cx('dot-inner', {
+            const dotInnerClass = cx('dot-inner', {
                 'dot-inner__primary': color === 'primary'
             })
 
@@ -47,7 +47,7 @@ export default defineComponent({
 
             return (
                 <div class={cx('tag')} onClick={onClick}>
-                    <span class={dotInnerClassNames}/>
+                    <span class={dotInnerClass}/>
                     <span class={cx('tag_text')}>{children}</span>
                     {closable && (
                         <span class={cx('close')} onClick={withModifiers(onClose, ['stop'])}>

@@ -157,7 +157,7 @@ export default defineComponent({
         return () => {
             const { tags, route: currentRoute, homeName } = props
 
-            const scrollBodyStyles = {
+            const scrollBodyStyle = {
                 left: unref(bodyLeft) + 'px'
             }
 
@@ -212,7 +212,7 @@ export default defineComponent({
                             />
                         </div>
                         <div class={cx('scroll-outer')} ref={scrollOuterRef}>
-                            <div class={cx('scroll-body')} style={scrollBodyStyles} ref={scrollBodyRef}>
+                            <div class={cx('scroll-body')} style={scrollBodyStyle} ref={scrollBodyRef}>
                                 {tagNodes}
                             </div>
                         </div>

@@ -177,17 +177,17 @@ export default defineComponent({
                 }
             }
 
-            const sideStyles = {
+            const sideStyle = {
                 width: collapsed ? '80px' : '256px'
             }
 
             return (
-                <div class={cx('sidebar')} style={sideStyles}>
+                <div class={cx('sidebar')} style={sideStyle}>
                     <div class={cx('sidebar-content')}>
                         <div class={cx('sidebar-content__wrap')}>
                             <Logo collapsed={collapsed}/>
                             <Menu
-                                style={sideStyles}
+                                style={sideStyle}
                                 inlineCollapsed={collapsed}
                                 selectedKeys={unref(selectedKeys)}
                                 openKeys={unref(openKeys)}

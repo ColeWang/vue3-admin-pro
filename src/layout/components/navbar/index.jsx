@@ -44,7 +44,7 @@ export default defineComponent({
         return () => {
             const { router, collapsed } = props
 
-            const collapseClassNames = cx('collapse__icon', {
+            const collapseClass = cx('collapse__icon', {
                 'collapse__icon-down': !!collapsed
             })
 
@@ -52,7 +52,7 @@ export default defineComponent({
                 <div class={cx('navbar')}>
                     <div class={cx('navbar__left')}>
                         <div class={cx('collapse')} onClick={handleCollapseClick}>
-                            <HamburgerOutlined class={collapseClassNames}/>
+                            <HamburgerOutlined class={collapseClass}/>
                         </div>
                         <Breadcrumb router={router}/>
                     </div>

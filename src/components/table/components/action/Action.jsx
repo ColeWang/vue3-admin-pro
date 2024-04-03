@@ -23,14 +23,14 @@ export default defineComponent({
         }
 
         return () => {
-            const actionClassNames = cx('action', {
+            const actionClass = cx('action', {
                 'action__primary': props.type === 'primary',
                 'action__warning': props.type === 'warning',
                 'action__error': props.type === 'error'
             })
 
             return (
-                <a class={actionClassNames} onClick={onClick}>
+                <a class={actionClass} onClick={onClick}>
                     {slots.default && slots.default()}
                 </a>
             )

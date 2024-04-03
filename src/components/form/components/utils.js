@@ -15,11 +15,11 @@ export function unit (value) {
     return undefined
 }
 
-export function fieldStyles (style, fieldWidth) {
-    const { maxWidth, minWidth, width, ...restStyles } = style || {}
+export function fieldStyle (style, fieldWidth) {
+    const { maxWidth, minWidth, width, ...restStyle } = style || {}
     const fieldSize = isNumber(fieldWidth) ? unit(fieldWidth) : unit(sizeEnum[fieldWidth])
     return {
-        ...restStyles,
+        ...restStyle,
         maxWidth: maxWidth || '100%',
         minWidth: minWidth || unit(sizeEnum['xs']),
         width: width || fieldSize || '100%'

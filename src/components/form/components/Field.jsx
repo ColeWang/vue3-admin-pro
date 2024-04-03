@@ -4,7 +4,7 @@ import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form'
 import { isFunction, pick } from 'lodash-es'
-import { fieldStyles } from './utils'
+import { fieldStyle } from './utils'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -42,7 +42,7 @@ export default defineComponent({
                 default: () => {
                     const needFieldProps = {
                         ...fieldProps,
-                        style: fieldStyles(fieldProps.style, fieldWidth),
+                        style: fieldStyle(fieldProps.style, fieldWidth),
                         'onUpdate:value': onUpdateValue
                     }
                     const needFormItemProps = {

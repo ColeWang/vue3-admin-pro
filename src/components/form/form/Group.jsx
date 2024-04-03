@@ -34,7 +34,7 @@ export default defineComponent({
             const { formProps = {} } = formInstance
             const layout = unref(formProps).layout || 'vertical'
 
-            const groupClassNames = cx('group', {
+            const groupClass = cx('group', {
                 'group__inline': layout === 'inline',
                 'group__vertical': 'xs' === unref(className) || layout === 'vertical',
             })
@@ -44,7 +44,7 @@ export default defineComponent({
                 align: align,
                 size: layout === 'inline' ? 0 : size
             }
-            const spaceStyles = {
+            const spaceStyle = {
                 rowGap: 0,
                 marginBottom: 0,
                 flexWrap: 'wrap',
@@ -55,11 +55,11 @@ export default defineComponent({
             const needSlots = omit(slots, ['title'])
 
             return (
-                <div class={groupClassNames}>
+                <div class={groupClass}>
                     {titleDom && (
                         <div class={cx('group-title')}>{titleDom}</div>
                     )}
-                    <Space {...spaceProps} style={spaceStyles} v-slots={needSlots}/>
+                    <Space {...spaceProps} style={spaceStyle} v-slots={needSlots}/>
                 </div>
             )
         }
