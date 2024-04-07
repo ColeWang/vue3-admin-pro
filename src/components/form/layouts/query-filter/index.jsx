@@ -135,16 +135,15 @@ export default defineComponent({
 
             return (
                 <BaseForm {...baseFormProps} ref={baseFormRef}>
-                    <ResizeObserver onResize={onResize}>
-                        <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
-                            {colNodes}
-                            <Col key={'action'} class={cx('action-col')} span={unref(span)} offset={offset}>
-                                <Form.Item class={formItemClass} colon={false}>
-                                    <Actions {...actionsProps}/>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </ResizeObserver>
+                    <ResizeObserver onResize={onResize}/>
+                    <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
+                        {colNodes}
+                        <Col key={'action'} class={cx('action-col')} span={unref(span)} offset={offset}>
+                            <Form.Item class={formItemClass} colon={false}>
+                                <Actions {...actionsProps}/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
                 </BaseForm>
             )
         }

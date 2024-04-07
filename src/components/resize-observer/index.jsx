@@ -29,7 +29,7 @@ export default defineComponent({
             const entry = head(entries)
             const { width, height, ...restRect } = entry.contentRect
             setSize({ width, height, ...restRect })
-        }, props.wait)
+        }, props.wait, { leading: true })
 
         useResizeObserver(elRef, debounceCallback)
 
