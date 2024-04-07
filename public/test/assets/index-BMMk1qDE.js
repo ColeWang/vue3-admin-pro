@@ -1,1 +1,0 @@
-import{L as e}from"./index-DLfVr0bV.js";import"./index-mDHzngDI.js";import{d as t,j as r,G as o}from"./vue-DS5iLM9r.js";import"./library-DpjK_rHT.js";import"./plugins-BvTQrPWK.js";const p=t({inheritAttrs:!1,setup(){return()=>r(e,{toolbar:!1},{default:()=>[o("Share")]})}});export{p as default};

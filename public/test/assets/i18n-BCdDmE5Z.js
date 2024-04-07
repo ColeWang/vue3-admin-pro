@@ -1,0 +1,1 @@
+import{b as e}from"./index-DI9z9zKm.js";import{c as s}from"./library-DpjK_rHT.js";import"./vue-DS5iLM9r.js";import"./plugins-BvTQrPWK.js";const t={login:"login",signup:"sign up"},i={"en-US":t},g=e(({app:o})=>{const n=s({locale:"en-US",legacy:!1,globalInjection:!0,messages:i});o.use(n)});export{g as default};
