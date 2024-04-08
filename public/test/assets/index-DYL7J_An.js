@@ -1,1 +1,0 @@
-import{L as t}from"./index-BS-dHkdO.js";import"./index-DI9z9zKm.js";import{d as e,j as o,G as r}from"./vue-DS5iLM9r.js";import"./library-DpjK_rHT.js";import"./plugins-BvTQrPWK.js";const n=e({inheritAttrs:!1,setup(){return()=>o(t,{toolbar:!1},{default:()=>[r("Deposit")]})}});export{n as default};
