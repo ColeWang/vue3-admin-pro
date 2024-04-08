@@ -5,7 +5,7 @@ import { debounce, head } from 'lodash-es'
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        wait: {
+        debounce: {
             type: Number,
             default: 100
         },
@@ -29,7 +29,7 @@ export default defineComponent({
             const entry = head(entries)
             const { width, height, ...restRect } = entry.contentRect
             setSize({ width, height, ...restRect })
-        }, props.wait, { leading: true })
+        }, props.debounce, { leading: true })
 
         useResizeObserver(elRef, debounceCallback)
 
