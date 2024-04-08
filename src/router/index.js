@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import NProgress from 'nprogress'
 // import { canTurnTo } from '@/layout/utils'
 import { getToken } from '@/common/auth'
-import { LOGIN_NAME, HOME_NAME } from '@/config'
+import { HOME_NAME, LOGIN_NAME } from '@/config'
 import routes from './routes'
 
 // function turnTo (to, next, access) {
@@ -15,41 +15,41 @@ import routes from './routes'
 // }
 
 const router = createRouter({
-  history: createWebHistory('/vue3-admin-pro/'),
-  scrollBehavior () {
-    const container = document.getElementById('viewContainer')
-    if (container) {
-      return { top: 0, left: 0, el: container }
-    }
-    return { top: 0, left: 0 }
-  },
-  routes: routes
+    history: createWebHashHistory('/vue3-admin-pro/'),
+    scrollBehavior () {
+        const container = document.getElementById('viewContainer')
+        if (container) {
+            return { top: 0, left: 0, el: container }
+        }
+        return { top: 0, left: 0 }
+    },
+    routes: routes
 })
 
 router.beforeEach((to, from, next) => {
-  NProgress.start()
-  // ---
-  message.destroy()
-  Modal.destroyAll()
-  const token = getToken()
-  if (!token && to.name !== LOGIN_NAME) {
-    next({ name: LOGIN_NAME })
-  } else if (token && to.name === LOGIN_NAME) {
-    next({ name: HOME_NAME })
-  } else if (!token && to.name === LOGIN_NAME) {
-    next()
-  } else {
-    // if (userinfo.hasGetInfo) {
-    //   turnTo(to, next, userinfo.access)
-    // } else {
-    //   next()
-    // }
-    next()
-  }
+    NProgress.start()
+    // ---
+    message.destroy()
+    Modal.destroyAll()
+    const token = getToken()
+    if (!token && to.name !== LOGIN_NAME) {
+        next({ name: LOGIN_NAME })
+    } else if (token && to.name === LOGIN_NAME) {
+        next({ name: HOME_NAME })
+    } else if (!token && to.name === LOGIN_NAME) {
+        next()
+    } else {
+        // if (userinfo.hasGetInfo) {
+        //   turnTo(to, next, userinfo.access)
+        // } else {
+        //   next()
+        // }
+        next()
+    }
 })
 
 router.afterEach(() => {
-  NProgress.done()
+    NProgress.done()
 })
 
 export default router
