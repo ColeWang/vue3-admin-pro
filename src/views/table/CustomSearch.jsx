@@ -1,5 +1,4 @@
-import { defineComponent, Fragment, ref, unref } from 'vue'
-import { Button, Card, Descriptions } from 'ant-design-vue'
+import { defineComponent, ref, unref } from 'vue'
 import { CustomFields } from '@/components/base-field'
 import { HocField, Radio, Select } from '@/components/form'
 import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
@@ -113,36 +112,6 @@ export default defineComponent({
                                         name={'test'}
                                     />
                                 </BaseSearch>
-                            ),
-                            actions: () => (
-                                <Fragment>
-                                    <Button>123</Button>
-                                    <Button>321</Button>
-                                </Fragment>
-                            ),
-                            title: () => 'Title',
-                            alertOptions: () => (
-                                <Fragment>
-                                    <Action>批量下载</Action>
-                                    <Action>批量编辑</Action>
-                                </Fragment>
-                            ),
-                            extra: () => (
-                                <Card bodyStyle={{ padding: '24px 24px 17px' }}>
-                                    <Descriptions size={'small'} column={3}>
-                                        <Descriptions.Item label={'Row'}>10</Descriptions.Item>
-                                        <Descriptions.Item label={'Created'}>Cole</Descriptions.Item>
-                                        <Descriptions.Item label={'Association'}>
-                                            <a>421421</a>
-                                        </Descriptions.Item>
-                                        <Descriptions.Item label={'Creation Time'}>
-                                            2017-01-10
-                                        </Descriptions.Item>
-                                        <Descriptions.Item label={'Effective Time'}>
-                                            2017-10-10
-                                        </Descriptions.Item>
-                                    </Descriptions>
-                                </Card>
                             )
                         }}/>
                     </CustomFields>
