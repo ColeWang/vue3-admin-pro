@@ -35,9 +35,9 @@ export default defineComponent({
             }
             const needFieldProps = {
                 rows: 3,
-                placeholder: placeholder,
                 onKeyPress: onKeyPress,
-                ...fieldProps
+                ...fieldProps,
+                placeholder: placeholder
             }
             const dom = <Input.TextArea {...needFieldProps} v-slots={slots}/>
             const slotScope = { text, props: { mode, ...fieldProps }, dom }

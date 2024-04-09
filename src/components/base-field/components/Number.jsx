@@ -24,9 +24,9 @@ export default defineComponent({
                 )
             }
             const needFieldProps = {
-                placeholder: placeholder,
                 min: 0,
-                ...fieldProps
+                ...fieldProps,
+                placeholder: placeholder
             }
             const dom = <InputNumber {...needFieldProps} v-slots={slots}/>
             const slotScope = { text, props: { mode, ...fieldProps }, dom }

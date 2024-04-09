@@ -29,9 +29,9 @@ export default defineComponent({
                 )
             }
             const needFieldProps = {
-                placeholder: placeholder,
                 allowClear: true,
-                ...fieldProps
+                ...fieldProps,
+                placeholder: placeholder
             }
             const dom = <TimeRangePicker {...needFieldProps} v-slots={slots}/>
             const slotScope = { text, props: { mode, ...fieldProps }, dom }

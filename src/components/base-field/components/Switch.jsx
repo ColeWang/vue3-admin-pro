@@ -28,9 +28,9 @@ export default defineComponent({
                 return text ? open : close
             }
             const needFieldProps = {
+                ...restFieldProps,
                 checked: checked || value,
-                'onUpdate:checked': onUpdateChecked,
-                ...restFieldProps
+                'onUpdate:checked': onUpdateChecked
             }
             const dom = (
                 <div style={style}>

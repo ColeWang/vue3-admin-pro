@@ -31,9 +31,9 @@ export default defineComponent({
             }
             const needFieldProps = {
                 options: unref(options),
-                placeholder: placeholder,
                 allowClear: true,
-                ...fieldProps
+                ...fieldProps,
+                placeholder: placeholder
             }
             const dom = <Select {...needFieldProps} v-slots={slots}/>
             const slotScope = { text, props: { mode, ...fieldProps }, dom }

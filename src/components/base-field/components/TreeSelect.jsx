@@ -24,9 +24,9 @@ export default defineComponent({
             }
             const needFieldProps = {
                 treeData: options,
-                placeholder: placeholder,
                 allowClear: true,
-                ...restFieldProps
+                ...restFieldProps,
+                placeholder: placeholder
             }
             const dom = <TreeSelect {...needFieldProps} v-slots={slots}/>
             const slotScope = { text, props: { mode, ...fieldProps }, dom }
