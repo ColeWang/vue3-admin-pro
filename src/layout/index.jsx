@@ -1,7 +1,7 @@
 import { computed, defineComponent, Fragment, ref, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import AppMain from './AppMain'
-import AppContent from './AppContent'
+import Layout from './Layout'
+import Container from './components/container'
 import Navbar from './components/navbar'
 import Sidebar from './components/sidebar'
 import TagsNav from './components/tags-nav'
@@ -48,38 +48,39 @@ export default defineComponent({
         }
 
         return () => {
-            return (
-                <AppMain
-                    sidebar={() => (
-                        <Sidebar
-                            route={route}
-                            menus={menus}
+            const layoutSlots = {
+                navbar: () => (
+                    <Fragment>
+                        <Navbar
+                            router={router}
                             collapsed={unref(collapsed)}
-                            onChange={onSidebarChange}
+                            onChange={onCollapsedChange}
+                            onLocal={onLocalChange}
+                            onLogout={onLogout}
                         />
-                    )}
-                    navbar={() => (
-                        <Fragment>
-                            <Navbar
-                                router={router}
-                                collapsed={unref(collapsed)}
-                                onChange={onCollapsedChange}
-                                onLocal={onLocalChange}
-                                onLogout={onLogout}
-                            />
-                            <TagsNav
-                                homeName={HOME_NAME}
-                                route={route}
-                                tags={unref(tags)}
-                                onClick={onTagClick}
-                                onClose={onTagClose}
-                            />
-                        </Fragment>
-                    )}
-                >
-                    <AppContent include={unref(include)}/>
-                </AppMain>
-            )
+                        <TagsNav
+                            homeName={HOME_NAME}
+                            route={route}
+                            tags={unref(tags)}
+                            onClick={onTagClick}
+                            onClose={onTagClose}
+                        />
+                    </Fragment>
+                ),
+                sidebar: () => (
+                    <Sidebar
+                        route={route}
+                        menus={menus}
+                        collapsed={unref(collapsed)}
+                        onChange={onSidebarChange}
+                    />
+                ),
+                default: () => (
+                    <Container include={unref(include)}/>
+                )
+            }
+
+            return <Layout v-slots={layoutSlots}/>
         }
     }
 })

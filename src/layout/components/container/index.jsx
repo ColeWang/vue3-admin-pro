@@ -2,7 +2,7 @@ import { defineComponent, KeepAlive, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
 import { BackTop } from 'ant-design-vue'
 import classNames from '@/utils/classNames/bind'
-import styles from './style/app-content.module.scss'
+import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -30,7 +30,7 @@ export default defineComponent({
             }
 
             return (
-                <div class={cx('app-content')}>
+                <div class={cx('container')}>
                     <div class={cx('content-space')} ref={spaceRef}>
                         <div id={'viewContainer'} class={cx('view-container')}>
                             <div class={cx('content__fill')}/>

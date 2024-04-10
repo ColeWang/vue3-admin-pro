@@ -53,11 +53,3 @@ body, html {
 * {
     box-sizing: border-box;
 }
-
-.clear {
-    clear: both
-}
-
-.shield-event {
-    pointer-events: none;
-}
