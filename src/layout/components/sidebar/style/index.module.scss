@@ -2,6 +2,7 @@
     background: #001529;
     user-select: none;
     transition: width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    position: relative;
     overflow: hidden;
 }
 
@@ -10,10 +11,14 @@
     padding-top: 0.1px;
     margin-top: -0.1px;
     overflow-y: scroll;
-    margin-right: -18px;
+    will-change: scroll-position;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar {
-        width: 17px;
+        @include size(0, 0);
+        display: none;
     }
 }
 
