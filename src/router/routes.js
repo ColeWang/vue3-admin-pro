@@ -109,6 +109,14 @@ const routes = [
                 meta: {
                     title: '自定义搜索'
                 }
+            },
+            {
+                path: 'editable-table',
+                name: 'TableEditableTable',
+                component: () => import('@/views/table/EditableTable'),
+                meta: {
+                    title: '可编辑表格'
+                }
             }
         ]
     },
