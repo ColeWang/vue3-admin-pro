@@ -88,7 +88,7 @@ export default defineComponent({
             if (context && context.validate) {
                 return context.validate(names)
             }
-            const error = new Event('Error: context is not defined')
+            const error = new Error('Error: context is not defined')
             return Promise.reject(error)
         }
 
