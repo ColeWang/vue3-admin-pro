@@ -18,6 +18,7 @@ export default defineComponent({
     },
     emits: ['change'],
     setup (props, { emit }) {
+        // @todo 需要修改为不需要依赖 useI18n 的方式
         const { t, locale } = useI18n()
 
         const selectedKeys = ref([unref(locale)])

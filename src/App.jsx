@@ -5,6 +5,8 @@ import LocaleProvider from '@/components/locale-provider'
 // import { useLocale } from '@/locale'
 // import { createAppInstance } from './useAppInstance'
 
+// @todo 多语言
+
 export default defineComponent({
     setup () {
         // const { ant, comps, setLocale } = useLocale()
