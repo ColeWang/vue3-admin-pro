@@ -1,32 +1,24 @@
-import { unref } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { getCurrentInstance } from 'vue'
 
 function useShowTitle () {
-    const { locale, getLocaleMessage } = useI18n()
+    /**
+     * 判断有没有安装 i18n
+     * 即使不使用 i18n ,也不用修改这部分代码了
+     */
+    const { appContext } = getCurrentInstance()
+    const { globalProperties } = appContext ? appContext.config : {}
 
     function showTitle (route) {
+        const { $t, $te } = globalProperties || {}
         const { title } = route.meta || {}
-        const { routes } = getLocaleMessage(unref(locale))
-        // 对应 i18n routes
-        if (title && routes[route.name]) {
-            return routes[route.name]
+        if (title && $t && $te) {
+            const key = 'routes.' + route.name
+            return $te(key) ? $t(key) : title
         }
         return title || route.name
     }
 
     return { showTitle }
 }
-
-/**
- * 不需要多语言的话 去掉 i18n 就好
- */
-// function useShowTitle () {
-//     function showTitle (route) {
-//         const { title } = route.meta || {}
-//         return title || route.name
-//     }
-//
-//     return { showTitle }
-// }
 
 export default useShowTitle
