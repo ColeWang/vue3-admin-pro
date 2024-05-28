@@ -6,27 +6,15 @@ import { getCookie, TOKEN_KEY } from '@/utils/cookie'
 import { HOME_NAME, LOGIN_NAME } from '@/config'
 import routes from './routes'
 
-// function turnTo (to, next, access) {
-//   if (canTurnTo(to.name, routes, access)) {
-//     next()
-//   } else {
-//     next({ replace: true, name: 'error-401' })
-//   }
-// }
+function scrollBehavior () {
+    const container = document.getElementById('viewContainer')
+    if (container) {
+        return { top: 0, left: 0, el: container }
+    }
+    return { top: 0, left: 0 }
+}
 
-const router = createRouter({
-    history: createWebHashHistory('/vue3-admin-pro/'),
-    scrollBehavior () {
-        const container = document.getElementById('viewContainer')
-        if (container) {
-            return { top: 0, left: 0, el: container }
-        }
-        return { top: 0, left: 0 }
-    },
-    routes: routes
-})
-
-router.beforeEach((to, from, next) => {
+function onBeforeGuard (to, from, next) {
     NProgress.start()
     // ---
     message.destroy()
@@ -39,6 +27,14 @@ router.beforeEach((to, from, next) => {
     } else if (!token && to.name === LOGIN_NAME) {
         next()
     } else {
+        // function turnTo (to, next, access) {
+        //   if (canTurnTo(to.name, routes, access)) {
+        //     next()
+        //   } else {
+        //     next({ replace: true, name: 'error-401' })
+        //   }
+        // }
+
         // if (userinfo.hasGetInfo) {
         //   turnTo(to, next, userinfo.access)
         // } else {
@@ -46,10 +42,22 @@ router.beforeEach((to, from, next) => {
         // }
         next()
     }
-})
+}
 
-router.afterEach(() => {
+function onAfterGuard () {
     NProgress.done()
-})
+}
 
-export default router
+export default () => {
+    const router = createRouter({
+        history: createWebHashHistory('/vue3-admin-pro/'),
+        scrollBehavior: scrollBehavior,
+        routes: routes
+    })
+
+    router.beforeEach(onBeforeGuard)
+
+    router.afterEach(onAfterGuard)
+
+    return router
+}

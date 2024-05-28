@@ -21,12 +21,11 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use((res) => {
     return res
 }, (err) => {
-    // const data = err.response && err.response.data
-    // if (data && (data.message || data.code)) {
-    //     err.message = data.message
-    //     err.code = data.code
-    // }
     return Promise.reject(err)
 })
 
-export default instance
+function boot () {
+    return instance
+}
+
+export default boot

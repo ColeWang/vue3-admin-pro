@@ -1,5 +1,10 @@
 import { createPinia } from 'pinia'
 
-const pinia = createPinia()
+export default () => {
+    const pinia = createPinia()
 
-export default pinia
+    // You can add Pinia plugins here
+    // pinia.use(SomePiniaPlugin)
+
+    return pinia
+}
