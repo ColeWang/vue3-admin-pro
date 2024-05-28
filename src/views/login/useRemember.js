@@ -1,6 +1,6 @@
 import { ref, unref } from 'vue'
 import { localCache, PASSWORD__LOCAL, USERNAME__LOCAL } from '@/utils/storage'
-import { AesDecode, AesEncode } from '@/common/ase'
+import { AesDecode, AesEncode } from './ase'
 
 function useRemember (options) {
     const { setState } = options

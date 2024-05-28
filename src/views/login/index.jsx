@@ -6,7 +6,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { HOME_NAME } from '@/config'
 import useRemember from './useRemember'
 import bubbly from './bubbly'
-import { setToken } from '@/common/auth'
+import { setCookie, TOKEN_KEY } from '@/utils/cookie'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 import BACKGROUND from './images/background.svg'
@@ -77,7 +77,7 @@ export default defineComponent({
             }
             loading.value = true
             setTimeout(() => {
-                setToken('token')
+                setCookie(TOKEN_KEY, 'token')
                 const { redirect } = route.query || {}
                 localRemember(model)
                 const name = redirect && String(redirect)

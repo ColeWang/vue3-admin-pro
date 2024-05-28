@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import NProgress from 'nprogress'
 // import { canTurnTo } from '@/layout/utils'
-import { getToken } from '@/common/auth'
+import { getCookie, TOKEN_KEY } from '@/utils/cookie'
 import { HOME_NAME, LOGIN_NAME } from '@/config'
 import routes from './routes'
 
@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
     // ---
     message.destroy()
     Modal.destroyAll()
-    const token = getToken()
+    const token = getCookie(TOKEN_KEY)
     if (!token && to.name !== LOGIN_NAME) {
         next({ name: LOGIN_NAME })
     } else if (token && to.name === LOGIN_NAME) {
