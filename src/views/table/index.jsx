@@ -1,12 +1,9 @@
 import { defineComponent, computed, unref } from 'vue'
 import { Table, Action } from '@/components/table'
-import { useLocaleReceiver } from '@/components/locale-provider'
 
 export default defineComponent({
     name: 'TableIndex',
     setup () {
-        const { t } = useLocaleReceiver('Form')
-
         function onColumnsChange (values) {
             console.log(values)
         }
@@ -14,7 +11,7 @@ export default defineComponent({
         const columns = computed(() => {
             return [
                 {
-                    title: t('collapsed'),
+                    title: 'collapsed',
                     search: true,
                     initialValue: '123',
                     dataIndex: 'name',

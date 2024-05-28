@@ -26,9 +26,8 @@ export default defineConfig((config) => {
                 output: {
                     manualChunks: {
                         vue: ['vue', 'vue-router', 'pinia'],
-                        plugins: ['dayjs', 'axios', 'js-cookie', 'lodash-es', 'crypto-js'],
+                        plugins: ['dayjs', 'axios', 'js-cookie', 'lodash-es'],
                         common: ['vue-i18n', 'nprogress'],
-                        xlsx: ['file-saver', 'xlsx'],
                         library: ['ant-design-vue', '@ant-design/icons-vue']
                     }
                 }

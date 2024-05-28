@@ -24,8 +24,9 @@ instance.interceptors.response.use((res) => {
     return Promise.reject(err)
 })
 
-function boot () {
-    return instance
+// 这将允许您使用 this.$axios (Vue Options API形式)
+export default ({ app }) => {
+    app.config.globalProperties.$axios = instance
 }
 
-export default boot
+export { instance as request }

@@ -3,33 +3,46 @@ import Root from '@/App'
 // ----
 import createStores from '@/stores'
 import createRouter from '@/router'
-import i18n from '@/locale'
+import createBoots from '@/boot'
 // CSS
 import 'ant-design-vue/es/style/reset.css'
 import '@/css/base.css'
 import '@/css/transition.scss'
 import '@/css/nprogress.scss'
 
-const app = createApp(Root)
+async function createRunApp () {
+    const app = createApp(Root)
 
-const stores = typeof createStores === 'function'
-    ? await createStores()
-    : createStores
-app.use(stores)
+    const stores = typeof createStores === 'function'
+        ? await createStores()
+        : createStores
+    app.use(stores)
 
-const router = typeof createRouter === 'function'
-    ? await createRouter()
-    : createRouter
-app.use(router)
+    const router = typeof createRouter === 'function'
+        ? await createRouter()
+        : createRouter
 
-// make router instance available in stores
-stores.use(() => ({ router: router }))
+    // make router instance available in stores
+    stores.use(() => ({ router: router }))
 
-/**
- * @todo 迁移到 boot
- * @todo i18n 注入和修改语言逻辑重写
- * boot(app, router, stores)
- */
-app.use(i18n)
+    return { app, router, stores }
+}
 
-app.mount('#app')
+async function start ({ app, router, stores }) {
+    const urlPath = window.location.href.replace(window.location.origin, '')
+    const publicPath = '/'
+
+    /**
+     * 处理一些杂项
+     * 比如 boot 中需要重定向
+     * (创建一个 redirect 函数) 供 boot 调用
+     */
+
+    await createBoots({ app, router, stores, urlPath, publicPath })
+
+    // use router
+    app.use(router)
+    app.mount('#app')
+}
+
+createRunApp().then(start)

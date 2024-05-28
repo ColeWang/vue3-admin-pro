@@ -1,25 +1,25 @@
-import { defineComponent, unref } from 'vue'
+import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
 import { ConfigProvider } from 'ant-design-vue'
 import LocaleProvider from '@/components/locale-provider'
-import { useLocale } from '@/locale'
-import { createAppInstance } from './useAppInstance'
+// import { useLocale } from '@/locale'
+// import { createAppInstance } from './useAppInstance'
 
 export default defineComponent({
     setup () {
-        const { ant, provider, setLocale } = useLocale()
-
-        createAppInstance({
-            setLocale: setLocale
-        })
+        // const { ant, comps, setLocale } = useLocale()
+        //
+        // createAppInstance({
+        //     setLocale: setLocale
+        // })
 
         return () => {
-            const configProviderProps = {
-                locale: unref(ant)
-            }
+            // const configProviderProps = {
+            //     locale: unref(ant)
+            // }
             return (
-                <ConfigProvider {...configProviderProps}>
-                    <LocaleProvider locale={unref(provider)}>
+                <ConfigProvider>
+                    <LocaleProvider>
                         <RouterView/>
                     </LocaleProvider>
                 </ConfigProvider>
