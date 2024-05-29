@@ -1,4 +1,5 @@
 import { getCurrentInstance } from 'vue'
+import { isFunction } from 'lodash-es'
 
 function useShowTitle () {
     /**
@@ -7,13 +8,15 @@ function useShowTitle () {
      */
     const { appContext } = getCurrentInstance()
     const { globalProperties } = appContext ? appContext.config : {}
+    const { $t, $te } = globalProperties || {}
+
+    const prefix = 'routes.'
 
     function showTitle (route) {
-        const { $t, $te } = globalProperties || {}
         const { title } = route.meta || {}
-        if (title && $t && $te) {
-            const key = 'routes.' + route.name
-            return $te(key) ? $t(key) : title
+        if (isFunction($t) && isFunction($te) && route.name) {
+            const key = prefix + route.name
+            return $te(key) ? $t(key) : (title || route.name)
         }
         return title || route.name
     }
