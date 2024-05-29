@@ -11,7 +11,10 @@ export default defineComponent({
                 {
                     title: 'Name',
                     search: true,
-                    dataIndex: 'name'
+                    dataIndex: 'name',
+                    formItemProps: {
+                        tooltip: 'Name'
+                    }
                 },
                 {
                     title: 'Tel',

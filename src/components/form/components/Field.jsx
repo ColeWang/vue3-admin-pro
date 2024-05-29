@@ -38,7 +38,6 @@ export default defineComponent({
             const { fieldProps, formItemProps, width: fieldWidth, hidden, colProps } = props
             const { model = {}, formProps = {} } = formInstance
 
-            // @todo 支持 Form.Item 本身的 slots ? 例如 label
             const formItemSlots = {
                 default: () => {
                     const needFieldProps = {
