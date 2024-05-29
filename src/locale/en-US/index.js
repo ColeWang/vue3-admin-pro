@@ -5,7 +5,6 @@ import routes from './routes'
 
 export default {
     locale: 'en-US',
-    lang: 'Lang',
     ant: ant,
     dayjs: dayjs,
     comps: comps,

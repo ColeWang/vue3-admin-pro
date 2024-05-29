@@ -5,7 +5,6 @@ import routes from './routes'
 
 export default {
     locale: 'zh-CN',
-    lang: '语言',
     ant: ant,
     dayjs: dayjs,
     comps: comps,

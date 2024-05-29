@@ -1,8 +1,7 @@
-import { defineComponent, ref, unref } from 'vue'
+import { computed, defineComponent, getCurrentInstance, unref } from 'vue'
 import { Dropdown, Menu } from 'ant-design-vue'
 import { CaretDownOutlined } from '@ant-design/icons-vue'
-import { useI18n } from 'vue-i18n'
-import { map } from 'lodash-es'
+import { head, map } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -18,18 +17,33 @@ export default defineComponent({
     },
     emits: ['change'],
     setup (props, { emit }) {
-        // @todo 需要修改为不需要依赖 useI18n 的方式
-        const { t, locale } = useI18n()
+        // 需要修改为不需要依赖 useI18n 的方式
+        const { appContext } = getCurrentInstance()
+        const { globalProperties } = appContext ? appContext.config : {}
+        const { $i18n } = globalProperties || {}
 
-        const selectedKeys = ref([unref(locale)])
-
-        const localList = {
-            'zh-CN': '中文简体',
-            'en-US': 'English'
+        const messages = {
+            'zh-CN': {
+                lang: '语言',
+                value: '中文简体',
+            },
+            'en-US': {
+                lang: 'Lang',
+                value: 'English'
+            }
         }
 
+        const selectedKeys = computed(() => {
+            return $i18n ? [$i18n.locale] : ['zh-CN']
+        })
+
+        const localeLang = computed(() => {
+            const locale = head(unref(selectedKeys))
+            const option = messages[locale] || {}
+            return option.lang || '语言'
+        })
+
         function onChange (local) {
-            selectedKeys.value = [local]
             emit('change', local)
         }
 
@@ -42,7 +56,7 @@ export default defineComponent({
                 default: () => {
                     return (
                         <div class={cx('language-center')}>
-                            <span>{t('lang')}</span>
+                            <span>{unref(localeLang)}</span>
                             <div class={cx('language-center__icon-down')}>
                                 <CaretDownOutlined/>
                             </div>
@@ -50,16 +64,17 @@ export default defineComponent({
                     )
                 },
                 overlay: () => {
-                    const nodes = map(localList, (value, key) => {
-                        return (
-                            <Menu.Item key={key} onClick={onChange.bind(null, key)}>
-                                {value}
-                            </Menu.Item>
-                        )
-                    })
                     return (
                         <Menu class={cx('language-menu')} selectedKeys={unref(selectedKeys)}>
-                            {nodes}
+                            {
+                                map(messages, (option, key) => {
+                                    return (
+                                        <Menu.Item key={key} onClick={onChange.bind(null, key)}>
+                                            {option.value}
+                                        </Menu.Item>
+                                    )
+                                })
+                            }
                         </Menu>
                     )
                 }
