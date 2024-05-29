@@ -1,27 +1,41 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
 import { ConfigProvider } from 'ant-design-vue'
 import LocaleProvider from '@/components/locale-provider'
-// import { useLocale } from '@/locale'
-// import { createAppInstance } from './useAppInstance'
-
-// @todo 多语言
+import { useI18n } from 'vue-i18n'
+import dayjs from 'dayjs'
+import { createAppInstance } from './useAppInstance'
 
 export default defineComponent({
     setup () {
-        // const { ant, comps, setLocale } = useLocale()
-        //
-        // createAppInstance({
-        //     setLocale: setLocale
-        // })
+        const { locale, getLocaleMessage } = useI18n()
+
+        const localeMessage = ref({})
+
+        function setLocale (value) {
+            if (locale && getLocaleMessage) {
+                const message = getLocaleMessage(value)
+                locale.value = value
+                localeMessage.value = message
+                dayjs.locale(message.dayjs)
+            }
+        }
+
+        function onLogout () {
+            console.log('退出登录')
+        }
+
+        createAppInstance({
+            setLocale: setLocale,
+            onLogout: onLogout
+        })
 
         return () => {
-            // const configProviderProps = {
-            //     locale: unref(ant)
-            // }
+            const { antd, comps } = unref(localeMessage)
+
             return (
-                <ConfigProvider>
-                    <LocaleProvider>
+                <ConfigProvider locale={antd}>
+                    <LocaleProvider locale={comps}>
                         <RouterView/>
                     </LocaleProvider>
                 </ConfigProvider>

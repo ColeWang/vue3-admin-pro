@@ -1,11 +1,11 @@
-import ant from 'ant-design-vue/es/locale/en_US'
+import antd from 'ant-design-vue/es/locale/en_US'
 import dayjs from 'dayjs/locale/en'
 import comps from '@/components/locale-provider/lang/en-US'
 import routes from './routes'
 
 export default {
     locale: 'en-US',
-    ant: ant,
+    antd: antd,
     dayjs: dayjs,
     comps: comps,
     routes: routes
