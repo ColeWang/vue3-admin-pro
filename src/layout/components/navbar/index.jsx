@@ -3,7 +3,6 @@ import { Space } from 'ant-design-vue'
 import Breadcrumb from '../breadcrumb'
 import Fullscreen from '../fullscreen'
 import Avatar from '../avatar'
-// 不需要多语言的话 去掉 Language 就好
 import Language from '../language'
 import { HamburgerOutlined } from '@/components/icon'
 import classNames from '@/utils/classNames/bind'
@@ -25,20 +24,12 @@ export default defineComponent({
         onChange: {
             type: Function,
             default: undefined
-        },
-        onLocal: {
-            type: Function,
-            default: undefined
         }
     },
-    emits: ['change', 'local'],
-    setup (props, { emit, attrs }) {
+    emits: ['change'],
+    setup (props, { emit }) {
         function handleCollapseClick () {
             emit('change', !props.collapsed)
-        }
-
-        function onLanguageChange (local) {
-            emit('local', local)
         }
 
         return () => {
@@ -59,8 +50,8 @@ export default defineComponent({
                     <div class={cx('navbar__right')}>
                         <Space size={20}>
                             <Fullscreen/>
-                            <Language onChange={onLanguageChange}/>
-                            <Avatar {...attrs}/>
+                            <Language/>
+                            <Avatar/>
                         </Space>
                     </div>
                 </div>

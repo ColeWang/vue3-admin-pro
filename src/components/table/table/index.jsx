@@ -124,6 +124,11 @@ export default defineComponent({
         }
 
         function onExport () {
+            /**
+             * excel.js 倒是可以随便修改！！！
+             * 项目中不需要的话可以删掉
+             * 别忘了 src/components/table/compatible/toolbar/index.jsx
+             */
             const { toolbar } = props
             if (isObject(toolbar) && isFunction(toolbar.onExport)) {
                 toolbar.onExport({ pageData: requestProps.dataSource })

@@ -9,15 +9,9 @@ const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        onChange: {
-            type: Function,
-            default: undefined
-        }
-    },
-    emits: ['change'],
-    setup (props, { emit }) {
+    setup () {
         // 需要修改为不需要依赖 useI18n 的方式
+        // 并且不干涉 layout 的逻辑
         const { appContext } = getCurrentInstance()
         const { globalProperties } = appContext ? appContext.config : {}
         const { $i18n } = globalProperties || {}
@@ -44,7 +38,7 @@ export default defineComponent({
         })
 
         function onChange (local) {
-            emit('change', local)
+            $i18n.locale = local
         }
 
         function getPopupContainer (trigger) {

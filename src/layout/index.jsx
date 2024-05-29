@@ -9,12 +9,10 @@ import useTags from './hooks/useTags'
 import { getMenuList } from './utils'
 import routes from '@/router/routes'
 import { HOME_NAME } from '@/config'
-import { useAppInstance } from '@/useAppInstance'
 
 export default defineComponent({
     inheritAttrs: false,
     setup () {
-        const { setLocale } = useAppInstance()
         const route = useRoute()
         const router = useRouter()
         // --
@@ -43,14 +41,6 @@ export default defineComponent({
             collapsed.value = value
         }
 
-        function onLocalChange (value) {
-            setLocale && setLocale(value)
-        }
-
-        function onLogout () {
-            console.log('onLogOut')
-        }
-
         return () => {
             const layoutSlots = {
                 navbar: () => (
@@ -59,8 +49,6 @@ export default defineComponent({
                             router={router}
                             collapsed={unref(collapsed)}
                             onChange={onCollapsedChange}
-                            onLocal={onLocalChange}
-                            onLogout={onLogout}
                         />
                         <TagsNav
                             homeName={HOME_NAME}
