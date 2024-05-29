@@ -19,6 +19,10 @@ export default defineComponent({
         const router = useRouter()
         // --
         const collapsed = ref(false)
+        /**
+         * 过滤没有权限的路由
+         * access 权限数组, 一般是在后台请求过来放在 store 里面
+         */
         const menus = getMenuList(routes, [])
         const { tags, onTagClick, onTagClose } = useTags(menus, HOME_NAME)
 
