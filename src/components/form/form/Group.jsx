@@ -9,6 +9,7 @@ import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
+// @todo 栅格支持
 export default defineComponent({
     inheritAttrs: false,
     props: {
