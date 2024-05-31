@@ -2,11 +2,12 @@ import Layout from '@/layout'
 
 /**
  * meta: {
- *  title: (string) 导航栏title
- *  icon: (string|function) 导航栏icon
- *  hideInMenu: (boolean=false) 设为true后在左侧菜单不会显示该页面选项
- *  hltInName: (string) 高亮的路由name active
+ *  title: (string) 导航栏 title
+ *  icon: (string|function) 导航栏 icon
+ *  hideInMenu: (boolean=false) 设为 true 后在左侧菜单不会显示该页面选项
+ *  hltInName: (string) 高亮的路由 name active
  *  access: (null) 可访问该页面的权限数组 当前路由设置的权限会影响子路由
+ *  notCache: (boolean=false) 设为 true 后 KeepAlive 混缓存页面
  * }
  */
 const routes = [

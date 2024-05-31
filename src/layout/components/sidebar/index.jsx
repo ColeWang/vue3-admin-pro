@@ -36,13 +36,13 @@ function createMenuItem (item, showTitle) {
         const soleItem = head(item.children) || {}
         const menuItemSlots = {
             icon: () => <OutIcon type={soleItem.icon || item.icon}/>,
-            default: () => <span>{showTitle(soleItem)}</span>
+            default: () => <span>{showTitle && showTitle(soleItem)}</span>
         }
         return <Menu.Item key={soleItem.name} v-slots={menuItemSlots}/>
     } else {
         const menuItemSlots = {
             icon: () => <OutIcon type={item.icon}/>,
-            default: () => <span>{showTitle(item)}</span>
+            default: () => <span>{showTitle && showTitle(item)}</span>
         }
         return showChildren(item) ? (
             <XSubMenu option={item} key={item.name}/>
@@ -72,7 +72,7 @@ const XSubMenu = defineComponent({
                     return (
                         <Fragment>
                             <OutIcon type={option.icon}/>
-                            <span>{showTitle(option)}</span>
+                            <span>{showTitle && showTitle(option)}</span>
                         </Fragment>
                     )
                 },

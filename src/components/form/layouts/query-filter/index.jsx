@@ -69,7 +69,7 @@ export default defineComponent({
         }
 
         function onCollapse (value) {
-            setCollapse(value)
+            setCollapse && setCollapse(value)
             emit('collapse', value)
         }
 

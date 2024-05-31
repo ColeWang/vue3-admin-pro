@@ -89,11 +89,14 @@ export default defineComponent({
                     density: <Density/>,
                     setting: <ColumnSetting/>
                 }
+
                 const options = pick({ ...defaultOptions, ...propsOptions }, Object.keys(defaultOptions))
-                const defaultSettings = Object.keys(options).filter((key) => {
-                    return options[key]
-                }).map((key) => catalog[key])
+                const defaultSettings = Object.keys(options)
+                    .filter((key) => options[key])
+                    .map((key) => catalog[key])
+
                 const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
+
                 return (
                     <Space.Compact style={{ marginLeft: '12px' }}>
                         {customSettings || defaultSettings}

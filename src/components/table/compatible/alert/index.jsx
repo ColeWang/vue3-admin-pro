@@ -48,11 +48,6 @@ export default defineComponent({
 
             const { selectedRowKeys, selectedRows } = props
 
-            const slotScope = {
-                keys: selectedRowKeys,
-                rows: selectedRows,
-                cleanSelected: onCleanSelected
-            }
             const contentText = `${t('selected')} ${selectedRowKeys.length} ${t('item')}`
             const defaultContent = (
                 <Space size={8}>
@@ -60,8 +55,14 @@ export default defineComponent({
                     <Action onClick={onCleanSelected}>{t('clear')}</Action>
                 </Space>
             )
-            const customContent = getSlotVNode(slots, props, 'default', slotScope)
 
+            const slotScope = {
+                keys: selectedRowKeys,
+                rows: selectedRows,
+                cleanSelected: onCleanSelected
+            }
+
+            const customContent = getSlotVNode(slots, props, 'default', slotScope)
             const optionsDom = getSlotVNode(slots, props, 'options', slotScope)
 
             return (

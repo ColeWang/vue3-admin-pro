@@ -39,6 +39,7 @@ export default defineComponent({
                     return unref(searchColumns).map((column) => {
                         const { fieldProps, formItemProps } = column
                         const key = column.key || column.dataIndex
+
                         const needFormItemProps = {
                             ...formItemProps,
                             name: key,

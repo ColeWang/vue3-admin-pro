@@ -92,19 +92,19 @@ export default defineComponent({
 
         function onPaginateChange (paginate) {
             const nextPaginate = pick(paginate, ['current', 'pageSize'])
-            setPaginate(nextPaginate)
+            setPaginate && setPaginate(nextPaginate)
             emit('paginateChange', nextPaginate)
         }
 
         function onFilterChange (filter) {
             const nextFilter = omitNil(filter)
-            setFilter(nextFilter)
+            setFilter && setFilter(nextFilter)
             emit('filterChange', nextFilter)
         }
 
         function onSortChange (sort) {
             const nextSort = omitNil(sort)
-            setSort(nextSort)
+            setSort && setSort(nextSort)
             emit('sortChange', nextSort)
         }
 
@@ -112,9 +112,9 @@ export default defineComponent({
             const nextValues = omitNil(values)
             if (isFunction(props.beforeSearchSubmit)) {
                 const result = props.beforeSearchSubmit(nextValues)
-                setQueryParams(result || {})
+                setQueryParams && setQueryParams(result || {})
             } else {
-                setQueryParams(nextValues)
+                setQueryParams && setQueryParams(nextValues)
             }
             emit('submit', nextValues)
         }

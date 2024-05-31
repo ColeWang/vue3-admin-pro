@@ -28,7 +28,9 @@ export default defineComponent({
                 default: () => {
                     return unref(levels).map((item) => {
                         return (
-                            <Breadcrumb.Item>{showTitle(item)}</Breadcrumb.Item>
+                            <Breadcrumb.Item>
+                                {showTitle && showTitle(item)}
+                            </Breadcrumb.Item>
                         )
                     })
                 }

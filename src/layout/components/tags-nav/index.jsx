@@ -171,7 +171,7 @@ export default defineComponent({
                 }
                 return (
                     <Tag {...tagProps} class={cx('tag')} key={key} ref={onTagRefs.bind(null, key)}>
-                        {showTitle(item)}
+                        {showTitle && showTitle(item)}
                     </Tag>
                 )
             })
