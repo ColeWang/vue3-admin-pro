@@ -10,7 +10,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
     setup (props, { slots }) {
-        const { t } = useLocaleReceiver('global')
+        const { t } = useLocaleReceiver(['global'])
 
         const options = computed(() => {
             if (isUndefined(props.valueEnum)) {

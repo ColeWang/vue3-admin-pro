@@ -28,7 +28,7 @@ function validatePaginate (paginate) {
 }
 
 function useFetchData (request, props, options) {
-    const { t } = useLocaleReceiver('Table.pagination')
+    const { t } = useLocaleReceiver(['Table', 'pagination'])
     const { onLoad, onRequestError } = options || {}
 
     const context = shallowReactive({

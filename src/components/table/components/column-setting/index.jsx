@@ -25,7 +25,7 @@ export default defineComponent({
     setup (props) {
         const { columns = [], columnsMap = {}, setColumnsMap } = useSharedContext()
 
-        const { t } = useLocaleReceiver('Table.toolbar')
+        const { t } = useLocaleReceiver(['Table', 'toolbar'])
 
         function onCheckClick (evt) {
             const { checked: targetChecked } = evt.target

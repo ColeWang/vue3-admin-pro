@@ -9,7 +9,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
     setup (props, { slots }) {
-        const { t } = useLocaleReceiver('global')
+        const { t } = useLocaleReceiver(['global'])
 
         function onUpdateChecked (value) {
             const { fieldProps } = props

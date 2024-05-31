@@ -28,7 +28,7 @@ export default defineComponent({
     },
     emits: ['collapse'],
     setup (props, { emit, attrs }) {
-        const { t } = useLocaleReceiver('Form')
+        const { t } = useLocaleReceiver(['Form'])
 
         function onCollapse () {
             emit('collapse', !props.collapsed)

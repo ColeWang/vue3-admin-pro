@@ -50,7 +50,7 @@ export default defineComponent({
 
         const size = ref({ width: 0, height: 0 })
 
-        const { t } = useLocaleReceiver('Form')
+        const { t } = useLocaleReceiver(['Form'])
         const { layout, span, collapsed, setCollapse, genColNodes } = useQueryFilter(size, props)
 
         function onResize (value) {

@@ -47,7 +47,7 @@ export default defineComponent({
     props: submitterProps,
     emits: ['submit', 'reset', 'keyPress'],
     setup (props, { emit }) {
-        const { t } = useLocaleReceiver('Form')
+        const { t } = useLocaleReceiver(['Form'])
 
         function onReset (evt) {
             preventDefault(evt)

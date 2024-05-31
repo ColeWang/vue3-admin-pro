@@ -32,7 +32,7 @@ export default defineComponent({
     setup (props, { emit, slots }) {
         const popupContainer = ref(null)
 
-        const { t } = useLocaleReceiver('Table.alert')
+        const { t } = useLocaleReceiver(['Table', 'alert'])
 
         function onCleanSelected () {
             emit('cleanSelected')

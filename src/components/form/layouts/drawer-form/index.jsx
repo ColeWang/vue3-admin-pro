@@ -13,7 +13,7 @@ export default defineComponent({
     setup (props, { emit, slots, attrs, expose }) {
         const baseFormRef = ref(null)
 
-        const { t } = useLocaleReceiver('Form')
+        const { t } = useLocaleReceiver(['Form'])
 
         const { open, loading, onOpen, onCancel, onFinish } = useFloatForm(props, {
             onOpen: () => emit('open'),

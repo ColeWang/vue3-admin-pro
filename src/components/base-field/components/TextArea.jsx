@@ -9,7 +9,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
     setup (props, { slots }) {
-        const { t } = useLocaleReceiver('global')
+        const { t } = useLocaleReceiver(['global'])
 
         function onKeyPress (evt) {
             if (evt.key === 'Enter') {

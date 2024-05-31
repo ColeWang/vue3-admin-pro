@@ -8,7 +8,7 @@ export default defineComponent({
     inheritAttrs: false,
     setup () {
         const { tableSize, setTableSize } = useSharedContext()
-        const { t } = useLocaleReceiver('Table.toolbar')
+        const { t } = useLocaleReceiver(['Table', 'toolbar'])
 
         function onChangeClick (params) {
             if (unref(tableSize) !== params.key) {

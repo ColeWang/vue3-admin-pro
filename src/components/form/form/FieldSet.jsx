@@ -1,13 +1,19 @@
 import { defineComponent } from 'vue'
+import { useFormInstance } from '../base-form'
 
-// @todo 拦截 field 的变化, 整合成一个新的对象
 export default defineComponent({
     inheritAttrs: false,
-    setup () {
+    props: {
+        name: {
+            type: [String, Number, Array],
+            default: undefined
+        }
+    },
+    setup (props, { slots }) {
+        const { model = {} } = useFormInstance()
+
         return () => {
-            return (
-                <div></div>
-            )
+            return slots.default && slots.default()
         }
     }
 })

@@ -1,32 +1,20 @@
 import { computed, defineComponent, inject, provide, reactive, unref, watch } from 'vue'
-import defaultLocaleData from './lang/zh-CN'
+import { get } from 'lodash-es'
+import zhCN from './lang/zh-CN'
 
 const BaseKey = Symbol('LocaleData')
 
-export function useLocaleReceiver (name, defaultLocale, propsLocale) {
+export function useLocaleReceiver (path, defaultLocale, propsLocale) {
     const state = inject(BaseKey, {})
 
     const locale = computed(() => {
-        const locale = unref(defaultLocale) || getValue(defaultLocaleData, name || 'global', {})
-        const localeContext = (name && state.locale) ? getValue(state.locale, name, {}) : {}
-        return {
-            ...(locale || {}),
-            ...localeContext,
-            ...(unref(propsLocale) || {})
-        }
+        const locale = unref(defaultLocale) || get(zhCN, (path || ['global']), {})
+        const localeContext = (path && state.locale) ? get(state.locale, path, {}) : {}
+        return { ...locale, ...localeContext, ...(unref(propsLocale) || {}) }
     })
 
-    function getValue (value, field = '', defaultValue) {
-        const fields = field.split('.')
-        const result = fields.reduce((pre, curr) => {
-            return pre ? pre[curr] : null
-        }, value)
-        return result || defaultValue
-    }
-
     function translate (path) {
-        const result = getValue(unref(locale), path)
-        return result || path
+        return get(unref(locale), path, path)
     }
 
     return { locale, t: translate }

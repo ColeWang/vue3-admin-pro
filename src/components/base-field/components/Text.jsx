@@ -14,7 +14,7 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
-        const { t } = useLocaleReceiver('global')
+        const { t } = useLocaleReceiver(['global'])
 
         return () => {
             const { type, mode, text, emptyText, fieldProps } = props
