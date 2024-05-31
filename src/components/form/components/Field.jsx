@@ -41,8 +41,9 @@ export default defineComponent({
         return () => {
             const { fieldProps, formItemProps, width: fieldWidth, labelWidth, hidden, colProps } = props
             const { model = {}, formProps = {} } = formInstance
+            const { layout = 'vertical', grid } = unref(formProps)
 
-            const extraFormItemProps = genFormItemFixStyle(labelWidth, unref(formProps).layout)
+            const extraFormItemProps = genFormItemFixStyle(labelWidth, layout)
 
             const needFieldProps = {
                 ...fieldProps,
@@ -65,7 +66,7 @@ export default defineComponent({
             const colWrapProps = {
                 ...colProps,
                 hidden: hidden,
-                grid: !!(unref(formProps).grid),
+                grid: !!grid,
             }
 
             // 暂不支持 Form.Item 本身的插槽 够用

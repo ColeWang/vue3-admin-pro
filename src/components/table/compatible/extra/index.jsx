@@ -8,9 +8,11 @@ export default defineComponent({
     inheritAttrs: false,
     setup (props, { slots }) {
         return () => {
-            const children = slots.default && slots.default()
-
-            return <div class={cx('extra')}>{children}</div>
+            return (
+                <div class={cx('extra')}>
+                    {slots.default && slots.default()}
+                </div>
+            )
         }
     }
 })

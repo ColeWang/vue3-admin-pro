@@ -41,6 +41,12 @@ export default defineComponent({
                             <Number label={'数字'} colProps={{ span: unref(span) }}/>
                             <Text label={'文本'} colProps={{ span: unref(span) }}/>
                             <Number label={'数字'} colProps={{ span: unref(span) }}/>
+                            <Form.Group title={'表单组'}>
+                                <Text label={'文本'} colProps={{ span: unref(span) }}/>
+                                <Number label={'数字'} colProps={{ span: unref(span) }}/>
+                                <Text label={'文本'} colProps={{ span: unref(span) }}/>
+                                <Number label={'数字'} colProps={{ span: unref(span) }}/>
+                            </Form.Group>
                         </Form>
                     </Card>
                 </Fragment>

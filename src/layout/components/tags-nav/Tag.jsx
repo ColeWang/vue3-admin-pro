@@ -43,12 +43,10 @@ export default defineComponent({
                 'dot-inner__primary': color === 'primary'
             })
 
-            const children = slots.default && slots.default()
-
             return (
                 <div class={cx('tag')} onClick={onClick}>
                     <span class={dotInnerClass}/>
-                    <span class={cx('tag_text')}>{children}</span>
+                    <span class={cx('tag_text')}>{slots.default && slots.default()}</span>
                     {closable && (
                         <span class={cx('close')} onClick={withModifiers(onClose, ['stop'])}>
                             <CloseOutlined/>

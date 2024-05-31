@@ -1,67 +1,62 @@
 import { defineComponent, unref } from 'vue'
-import { Space } from 'ant-design-vue'
+import { Col } from 'ant-design-vue'
+import RowWrap from '../helpers/RowWrap'
+import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
-import useMediaQuery from '@/utils/hooks/useMediaQuery'
 import { getPropsSlot } from '@/utils/props-util'
-import { omit } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
 
-const cx = classNames.bind(styles)
+function genTitleStyle (layout) {
+    if (layout === 'inline') {
+        return {
+            marginBlock: '12px',
+            fontWeight: 'bold'
+        }
+    }
+    return {
+        marginBottom: '24px',
+        fontWeight: 'bold'
+    }
+}
 
-// @todo 栅格支持
 export default defineComponent({
     inheritAttrs: false,
     props: {
         title: {
-            type: String,
+            type: [String, Function],
             default: undefined
-        },
-        size: {
-            type: Number,
-            default: 32
-        },
-        align: {
-            type: String,
-            default: 'start'
         }
     },
     setup (props, { slots }) {
-        const { className } = useMediaQuery()
         const formInstance = useFormInstance()
 
         return () => {
-            const { size, align } = props
             const { formProps = {} } = formInstance
-            const layout = unref(formProps).layout || 'vertical'
-
-            const groupClass = cx('group', {
-                'group__inline': layout === 'inline',
-                'group__vertical': 'xs' === unref(className) || layout === 'vertical',
-            })
-
-            const spaceProps = {
-                wrap: true,
-                align: align,
-                size: layout === 'inline' ? 0 : size
-            }
-            const spaceStyle = {
-                rowGap: 0,
-                marginBottom: 0,
-                flexWrap: 'wrap',
-                maxWidth: '100%'
-            }
+            const { layout = 'vertical', grid, rowProps = {} } = unref(formProps)
 
             const titleDom = getPropsSlot(slots, props, 'title')
-            const needSlots = omit(slots, ['title'])
+            const titleStyle = genTitleStyle(layout)
 
+            const colWrapProps = {
+                span: 24,
+                grid: !!grid
+            }
+            const rowWrapProps = {
+                ...rowProps,
+                grid: !!grid
+            }
             return (
-                <div class={groupClass}>
-                    {titleDom && (
-                        <div class={cx('group-title')}>{titleDom}</div>
-                    )}
-                    <Space {...spaceProps} style={spaceStyle} v-slots={needSlots}/>
-                </div>
+                <ColWrap {...colWrapProps}>
+                    <RowWrap {...rowWrapProps}>
+                        {titleDom && (
+                            <Col span={24}>
+                                <div style={titleStyle}>
+                                    {titleDom}
+                                </div>
+                            </Col>
+                        )}
+                        {slots.default && slots.default()}
+                    </RowWrap>
+                </ColWrap>
             )
         }
     }
