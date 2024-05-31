@@ -37,7 +37,7 @@ export default defineComponent({
                             </Radio.Group>
                         </div>
                         <Form grid={true} layout={unref(layout)}>
-                            <Text label={'文本'} colProps={{ span: unref(span) }}/>
+                            <Text label={'文本'} name={'text'} colProps={{ span: unref(span) }}/>
                             <Number label={'数字'} colProps={{ span: unref(span) }}/>
                             <Text label={'文本'} colProps={{ span: unref(span) }}/>
                             <Number label={'数字'} colProps={{ span: unref(span) }}/>
@@ -46,6 +46,11 @@ export default defineComponent({
                                 <Number label={'数字'} colProps={{ span: unref(span) }}/>
                                 <Text label={'文本'} colProps={{ span: unref(span) }}/>
                                 <Number label={'数字'} colProps={{ span: unref(span) }}/>
+                                <Form.Dependency label={'数字'} name={['text']} v-slots={{
+                                    default: (slotScope) => {
+                                        return slotScope.text
+                                    }
+                                }}/>
                             </Form.Group>
                         </Form>
                     </Card>

@@ -13,7 +13,7 @@ function genTitleStyle (layout) {
         }
     }
     return {
-        marginBottom: '24px',
+        marginBottom: '18px',
         fontWeight: 'bold'
     }
 }
@@ -27,10 +27,9 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
-        const formInstance = useFormInstance()
+        const { formProps = {} } = useFormInstance()
 
         return () => {
-            const { formProps = {} } = formInstance
             const { layout = 'vertical', grid, rowProps = {} } = unref(formProps)
 
             const titleDom = getPropsSlot(slots, props, 'title')
