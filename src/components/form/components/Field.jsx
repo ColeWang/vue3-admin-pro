@@ -3,7 +3,7 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form'
-import { pick } from 'lodash-es'
+import { has, pick, toString } from 'lodash-es'
 import { fieldStyle, genFormItemFixStyle } from '../utils'
 
 export default defineComponent({
@@ -30,11 +30,13 @@ export default defineComponent({
     setup (props, { slots: fieldSlots, attrs }) {
         const { model = {}, formProps = {}, setModelValue } = useFormInstance()
 
-        function onUpdateValue (value) {
-            const { formItemProps: { name } } = props
-            if (name && setModelValue) {
-                setModelValue(value, name)
-            }
+        // 初始化值 防止 form 报错
+        const { formItemProps } = props
+        const hasValue = has(unref(model), formItemProps.name)
+        !hasValue && onUpdateValue(formItemProps.name, undefined)
+
+        function onUpdateValue (namePath, value) {
+            setModelValue && setModelValue(namePath, value)
         }
 
         return () => {
@@ -46,7 +48,7 @@ export default defineComponent({
             const needFieldProps = {
                 ...fieldProps,
                 style: fieldStyle(fieldProps.style, fieldWidth),
-                'onUpdate:value': onUpdateValue
+                'onUpdate:value': onUpdateValue.bind(null, formItemProps.name)
             }
             const needFormItemProps = {
                 ...formItemProps,
@@ -68,8 +70,9 @@ export default defineComponent({
             }
 
             // 暂不支持 Form.Item 本身的插槽 够用
+            const key = toString(needFormItemProps.name)
             return (
-                <ColWrap {...colWrapProps} key={needFormItemProps.name}>
+                <ColWrap {...colWrapProps} key={key}>
                     <Form.Item {...needFormItemProps}>
                         <BaseField {...baseFieldProps} v-slots={fieldSlots}/>
                     </Form.Item>

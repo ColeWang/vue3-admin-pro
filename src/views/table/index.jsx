@@ -1,5 +1,5 @@
-import { defineComponent, computed, unref } from 'vue'
-import { Table, Action } from '@/components/table'
+import { computed, defineComponent, unref } from 'vue'
+import { Action, Table } from '@/components/table'
 
 export default defineComponent({
     name: 'TableIndex',
@@ -11,7 +11,14 @@ export default defineComponent({
         const columns = computed(() => {
             return [
                 {
-                    title: 'collapsed',
+                    title: 'Test',
+                    search: true,
+                    initialValue: '123',
+                    dataIndex: ['data', 'test'],
+                    hideInTable: true
+                },
+                {
+                    title: 'Name',
                     search: true,
                     initialValue: '123',
                     dataIndex: 'name',
@@ -52,7 +59,7 @@ export default defineComponent({
 
         function request (params, paginate, filter, sort) {
             return new Promise((resolve) => {
-                // console.log(params)
+                console.log(params)
 
                 const data = [
                     {

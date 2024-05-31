@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import baseFieldProps from './props'
 import { useCustomFields } from './custom-fields'
-import { isFunction, isObject } from 'lodash-es'
+import { get, isFunction, isObject } from 'lodash-es'
 // ---
 import FieldDatePicker from './components/DatePicker'
 import FieldRangePicker from './components/RangePicker'
@@ -172,9 +172,9 @@ export default defineComponent({
         return () => {
             const { mode, text, valueType, fieldProps, formItemProps } = props
             const placeholder = fieldProps.placeholder || props.placeholder
-            const { model = {}, name } = formItemProps
+            const { model = {}, name: namePath } = formItemProps
 
-            const inputValue = model[name]
+            const inputValue = get(model, namePath, undefined)
             const dataValue = mode === 'edit' ? (inputValue ?? text ?? '') : (text ?? inputValue ?? '')
 
             const needFieldProps = {

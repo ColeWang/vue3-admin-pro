@@ -9,7 +9,6 @@ export default defineComponent({
     name: 'TableCustomSearch',
     setup () {
         const model = ref({
-            age: '1',
             radio: '1'
         })
 
@@ -90,7 +89,7 @@ export default defineComponent({
                                 <BaseSearch {...slotScope} span={12} model={unref(model)}>
                                     <Select
                                         label={'Age'}
-                                        name={'age'}
+                                        name={['data', 'age']}
                                         required={true}
                                         valueEnum={{
                                             '1': '选项一',

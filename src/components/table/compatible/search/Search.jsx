@@ -1,18 +1,18 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Field } from '@/components/form'
 import BaseSearch from './BaseSearch'
-import { fromPairs, pick } from 'lodash-es'
+import { pick, set, toString } from 'lodash-es'
 import { isEmpty } from '@/utils'
 
 function genInitialValues (columns) {
-    const values = columns.filter((column) => {
-        const key = column.key || column.dataIndex
-        return key && !isEmpty(column.initialValue)
-    }).map((column) => {
-        const key = column.key || column.dataIndex
-        return [key, column.initialValue]
+    const result = {}
+    columns.forEach((column) => {
+        const namePath = column.key || column.dataIndex
+        if (namePath && !isEmpty(column.initialValue)) {
+            set(result, namePath, column.initialValue)
+        }
     })
-    return fromPairs(values)
+    return result
 }
 
 function filterSearchColumns (columns) {
@@ -38,11 +38,11 @@ export default defineComponent({
                 default: () => {
                     return unref(searchColumns).map((column) => {
                         const { fieldProps, formItemProps } = column
-                        const key = column.key || column.dataIndex
+                        const namePath = column.key || column.dataIndex
 
                         const needFormItemProps = {
                             ...formItemProps,
-                            name: key,
+                            name: namePath,
                             label: column.title
                         }
                         const needFieldProps = {
@@ -50,6 +50,7 @@ export default defineComponent({
                             fieldProps: { ...fieldProps, style: { width: '100%' } },
                             formItemProps: needFormItemProps
                         }
+                        const key = toString(namePath)
                         return <Field {...needFieldProps} key={key}/>
                     })
                 }

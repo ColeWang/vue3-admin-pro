@@ -2,7 +2,7 @@ import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { ConfigProvider, Form } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
-import { forIn, isObject, isString, pick } from 'lodash-es'
+import { get, pick, set } from 'lodash-es'
 import { cloneProxyToRaw } from '@/utils/props-util'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -72,22 +72,12 @@ export default defineComponent({
             emit('valuesChange', curr)
         }, { immediate: true, deep: true })
 
-        function setModelValue (value, name) {
-            if (name && isString(name)) {
-                model.value[name] = value
-            } else if (isObject(value)) {
-                const copyModel = cloneProxyToRaw(unref(model))
-                const newModel = cloneProxyToRaw(value)
-                forIn(copyModel, (value, name) => {
-                    setModelValue(name, newModel[name])
-                })
-            }
+        function setModelValue (namePath, value) {
+            return set(model.value, namePath, value)
         }
 
-        function getModelValue (name) {
-            if (name && isString(name)) {
-                return unref(model)[name]
-            }
+        function getModelValue (namePath) {
+            return get(model.value, namePath, undefined)
         }
 
         async function validate (names) {

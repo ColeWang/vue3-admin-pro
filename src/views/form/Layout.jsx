@@ -47,6 +47,11 @@ export default defineComponent({
                                 <Text label={'文本'} colProps={{ span: unref(span) }}/>
                                 <Number label={'数字'} colProps={{ span: unref(span) }}/>
                             </Form.Group>
+                            <Form.Dependency name={['text']} v-slots={{
+                                default: ({ text }) => {
+                                    return text
+                                }
+                            }}/>
                         </Form>
                     </Card>
                 </Fragment>
