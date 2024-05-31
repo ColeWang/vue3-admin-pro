@@ -1,5 +1,5 @@
-import { defineComponent, ref, unref, Fragment } from 'vue'
-import { Radio, Card } from 'ant-design-vue'
+import { defineComponent, Fragment, ref, unref } from 'vue'
+import { Card, Radio } from 'ant-design-vue'
 import { Form, Number, Text } from '@/components/form'
 
 export default defineComponent({
@@ -20,7 +20,7 @@ export default defineComponent({
                             </Radio.Group>
                         </div>
                         <Form layout={unref(layout)}>
-                            <Text width={'sm'} label={'文本'}/>
+                            <Text width={'sm'} label={'文本'} labelWidth={100}/>
                             <Number width={'sm'} label={'数字'}/>
                             <Form.Group title={'表单组'}>
                                 <Text width={'xs'} label={'文本'}/>
@@ -36,7 +36,7 @@ export default defineComponent({
                                 <Radio.Button value={24}>24</Radio.Button>
                             </Radio.Group>
                         </div>
-                        <Form grid={true}>
+                        <Form grid={true} layout={unref(layout)}>
                             <Text label={'文本'} colProps={{ span: unref(span) }}/>
                             <Number label={'数字'} colProps={{ span: unref(span) }}/>
                             <Text label={'文本'} colProps={{ span: unref(span) }}/>

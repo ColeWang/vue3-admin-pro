@@ -32,6 +32,7 @@ function getOffset (length, span) {
 function useQueryFilter (size, props) {
     const { span: propsSpan, showCollapse } = props
 
+    // vertical horizontal 只有两种
     const layout = ref('vertical')
     const span = ref(24)
 

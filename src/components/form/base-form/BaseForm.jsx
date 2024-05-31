@@ -45,6 +45,12 @@ const baseFormProps = {
     }
 }
 
+function resetLayoutOfGrid (props) {
+    // 当 grid = true 时 layout 不支持 inline
+    const { layout, grid } = props || {}
+    return (grid && layout === 'inline') ? 'vertical' : layout
+}
+
 export default defineComponent({
     inheritAttrs: false,
     props: baseFormProps,
@@ -58,7 +64,8 @@ export default defineComponent({
         const model = ref(props.model || defaultValues)
 
         const formProps = computed(() => {
-            return { ...props, ...attrs }
+            const layout = resetLayoutOfGrid(props)
+            return { ...attrs, ...props, layout }
         })
 
         watch(model, (curr) => {
@@ -134,6 +141,7 @@ export default defineComponent({
             const formProps = {
                 ...attrs,
                 ...pick(props, Object.keys(Form.props)),
+                layout: resetLayoutOfGrid(props),
                 model: unref(model)
             }
 

@@ -4,7 +4,7 @@ import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form'
 import { isFunction, pick } from 'lodash-es'
-import { fieldStyle } from './utils'
+import { fieldStyle, genFormItemFixStyle } from '../utils'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -13,6 +13,10 @@ export default defineComponent({
         width: {
             type: [String, Number],
             default: undefined
+        },
+        labelWidth: {
+            type: [String, Number],
+            default: 'auto'
         },
         hidden: {
             type: Boolean,
@@ -35,29 +39,27 @@ export default defineComponent({
         }
 
         return () => {
-            const { fieldProps, formItemProps, width: fieldWidth, hidden, colProps } = props
+            const { fieldProps, formItemProps, width: fieldWidth, labelWidth, hidden, colProps } = props
             const { model = {}, formProps = {} } = formInstance
 
-            const formItemSlots = {
-                default: () => {
-                    const needFieldProps = {
-                        ...fieldProps,
-                        style: fieldStyle(fieldProps.style, fieldWidth),
-                        'onUpdate:value': onUpdateValue
-                    }
-                    const needFormItemProps = {
-                        ...formItemProps,
-                        key: formItemProps.name,
-                        model: unref(model)
-                    }
-                    const baseFieldProps = {
-                        ...attrs,
-                        ...pick(props, Object.keys(BaseField.props)),
-                        fieldProps: needFieldProps,
-                        formItemProps: needFormItemProps
-                    }
-                    return <BaseField {...baseFieldProps} v-slots={fieldSlots}/>
-                }
+            const extraFormItemProps = genFormItemFixStyle(labelWidth, unref(formProps).layout)
+
+            const needFieldProps = {
+                ...fieldProps,
+                style: fieldStyle(fieldProps.style, fieldWidth),
+                'onUpdate:value': onUpdateValue
+            }
+            const needFormItemProps = {
+                ...formItemProps,
+                ...extraFormItemProps,
+                key: formItemProps.name,
+                model: unref(model)
+            }
+            const baseFieldProps = {
+                ...attrs,
+                ...pick(props, Object.keys(BaseField.props)),
+                fieldProps: needFieldProps,
+                formItemProps: needFormItemProps
             }
 
             const colWrapProps = {
@@ -66,9 +68,12 @@ export default defineComponent({
                 grid: !!(unref(formProps).grid),
             }
 
+            // 暂不支持 Form.Item 本身的插槽 够用
             return (
-                <ColWrap {...colWrapProps} key={formItemProps.name}>
-                    <Form.Item {...formItemProps} v-slots={formItemSlots}/>
+                <ColWrap {...colWrapProps} key={needFormItemProps.name}>
+                    <Form.Item {...needFormItemProps}>
+                        <BaseField {...baseFieldProps} v-slots={fieldSlots}/>
+                    </Form.Item>
                 </ColWrap>
             )
         }

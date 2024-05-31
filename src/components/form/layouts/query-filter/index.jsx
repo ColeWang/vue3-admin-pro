@@ -5,30 +5,12 @@ import BaseForm from '../../base-form'
 import Actions from './Actions'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import useQueryFilter from './hooks/useQueryFilter'
+import { genFormItemFixStyle } from '../../utils'
 import { pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
-
-function genFormItemFixStyle (labelWidth, layout) {
-    if (labelWidth && layout !== 'vertical' && labelWidth !== 'auto') {
-        return {
-            labelCol: {
-                flex: `0 0 ${labelWidth}px`,
-            },
-            wrapperCol: {
-                style: {
-                    maxWidth: `calc(100% - ${labelWidth}px)`,
-                }
-            },
-            style: {
-                flexWrap: 'nowrap'
-            }
-        }
-    }
-    return undefined
-}
 
 const queryFilterProps = {
     ...BaseForm.props,
