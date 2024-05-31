@@ -1,14 +1,8 @@
 import { defineComponent } from 'vue'
 
-// @todo 列表支持
+// @todo 拦截 field 的变化, 整合成一个新的对象
 export default defineComponent({
     inheritAttrs: false,
-    props: {
-        name: {
-            type: String,
-            default: undefined
-        }
-    },
     setup () {
         return () => {
             return (
