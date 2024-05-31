@@ -18,16 +18,7 @@ export default defineComponent({
         const spaceRef = ref(null)
 
         return () => {
-            const viewSlots = {
-                default: (slotScope) => {
-                    const { Component } = slotScope
-                    return (
-                        <KeepAlive max={10} include={props.include}>
-                            {Component}
-                        </KeepAlive>
-                    )
-                }
-            }
+            const { include } = props
 
             return (
                 <div class={cx('container')}>
@@ -35,7 +26,17 @@ export default defineComponent({
                         <div id={'viewContainer'} class={cx('view-container')}>
                             <div class={cx('content__fill')}/>
                             <div class={cx('content__view')}>
-                                <RouterView v-slots={viewSlots}/>
+                                <RouterView>
+                                    {
+                                        ({ Component }) => {
+                                            return (
+                                                <KeepAlive max={10} include={include}>
+                                                    {Component}
+                                                </KeepAlive>
+                                            )
+                                        }
+                                    }
+                                </RouterView>
                             </div>
                             <div class={cx('content__fill')}/>
                         </div>

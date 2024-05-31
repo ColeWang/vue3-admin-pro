@@ -28,22 +28,6 @@ export default defineComponent({
         }
 
         return () => {
-            const queryFilterSlots = {
-                default: (slotScope) => {
-                    const children = slots.default ? slots.default() : []
-                    return children.map((vNode) => {
-                        if (!isValidElement(vNode)) {
-                            return vNode
-                        }
-                        const { fieldProps, formItemProps } = vNode.props
-                        return cloneVNode(vNode, {
-                            fieldProps: { ...fieldProps, style: { width: '100%' } },
-                            formItemProps: { ...formItemProps, ...slotScope.props }
-                        })
-                    })
-                }
-            }
-
             const queryFilterProps = { ...attrs, ...props }
 
             const cardProps = {
@@ -57,11 +41,24 @@ export default defineComponent({
 
             return (
                 <Card {...cardProps}>
-                    <QueryFilter
-                        {...queryFilterProps}
-                        ref={queryFilterRef}
-                        v-slots={queryFilterSlots}
-                    />
+                    <QueryFilter{...queryFilterProps} ref={queryFilterRef}>
+                        {
+                            (slotScope) => {
+                                const children = slots.default ? slots.default() : []
+                                return children.map((vNode) => {
+                                    if (!isValidElement(vNode)) {
+                                        return vNode
+                                    }
+                                    const { fieldProps, formItemProps } = vNode.props
+                                    const extraProps = {
+                                        fieldProps: { ...fieldProps, style: { width: '100%' } },
+                                        formItemProps: { ...formItemProps, ...slotScope.props }
+                                    }
+                                    return cloneVNode(vNode, extraProps)
+                                })
+                            }
+                        }
+                    </QueryFilter>
                 </Card>
             )
         }

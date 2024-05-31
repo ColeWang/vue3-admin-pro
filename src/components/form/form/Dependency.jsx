@@ -2,6 +2,7 @@ import { defineComponent, unref } from 'vue'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
 import { isFunction, set } from 'lodash-es'
+import { cloneProxyToRaw } from '@/utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -23,7 +24,7 @@ export default defineComponent({
             namePathList.forEach((namePath) => {
                 if (getModelValue && isFunction(getModelValue)) {
                     const value = getModelValue(namePath)
-                    set(result, namePath, value)
+                    set(result, namePath, cloneProxyToRaw(value))
                 }
             })
             return result

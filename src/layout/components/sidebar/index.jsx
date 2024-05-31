@@ -169,16 +169,19 @@ export default defineComponent({
         return () => {
             const { menus, collapsed } = props
 
-            const menuSlots = {
-                default: () => {
-                    return menus.map((item) => {
-                        return createMenuItem(item, showTitle)
-                    })
-                }
-            }
-
             const sideStyle = {
                 width: collapsed ? '80px' : '256px'
+            }
+
+            const menuProps = {
+                style: sideStyle,
+                inlineCollapsed: collapsed,
+                selectedKeys: unref(selectedKeys),
+                openKeys: unref(openKeys),
+                onSelect: onSelectMenu,
+                onOpenChange: onOpenChange,
+                theme: 'dark',
+                mode: 'inline'
             }
 
             return (
@@ -186,17 +189,15 @@ export default defineComponent({
                     <div class={cx('sidebar-content')}>
                         <div class={cx('sidebar-content__wrap')}>
                             <Logo collapsed={collapsed}/>
-                            <Menu
-                                style={sideStyle}
-                                inlineCollapsed={collapsed}
-                                selectedKeys={unref(selectedKeys)}
-                                openKeys={unref(openKeys)}
-                                onSelect={onSelectMenu}
-                                onOpenChange={onOpenChange}
-                                theme={'dark'}
-                                mode={'inline'}
-                                v-slots={menuSlots}
-                            />
+                            <Menu {...menuProps}>
+                                {
+                                    () => {
+                                        return menus.map((item) => {
+                                            return createMenuItem(item, showTitle)
+                                        })
+                                    }
+                                }
+                            </Menu>
                         </div>
                     </div>
                 </div>

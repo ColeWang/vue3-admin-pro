@@ -24,20 +24,20 @@ export default defineComponent({
         })
 
         return () => {
-            const breadcrumbSlots = {
-                default: () => {
-                    return unref(levels).map((item) => {
-                        return (
-                            <Breadcrumb.Item>
-                                {showTitle && showTitle(item)}
-                            </Breadcrumb.Item>
-                        )
-                    })
-                }
-            }
-
             return (
-                <Breadcrumb style={{ marginLeft: '30px' }} v-slots={breadcrumbSlots}/>
+                <Breadcrumb style={{ marginLeft: '30px' }}>
+                    {
+                        () => {
+                            return unref(levels).map((item) => {
+                                return (
+                                    <Breadcrumb.Item>
+                                        {showTitle && showTitle(item)}
+                                    </Breadcrumb.Item>
+                                )
+                            })
+                        }
+                    }
+                </Breadcrumb>
             )
         }
     }

@@ -34,28 +34,6 @@ export default defineComponent({
         const searchColumns = computed(() => filterSearchColumns(props.columns))
 
         return () => {
-            const baseSearchSlots = {
-                default: () => {
-                    return unref(searchColumns).map((column) => {
-                        const { fieldProps, formItemProps } = column
-                        const namePath = column.key || column.dataIndex
-
-                        const needFormItemProps = {
-                            ...formItemProps,
-                            name: namePath,
-                            label: column.title
-                        }
-                        const needFieldProps = {
-                            ...column,
-                            fieldProps: { ...fieldProps, style: { width: '100%' } },
-                            formItemProps: needFormItemProps
-                        }
-                        const key = toString(namePath)
-                        return <Field {...needFieldProps} key={key}/>
-                    })
-                }
-            }
-
             const baseSearchProps = {
                 ...attrs,
                 ...pick(props, Object.keys(BaseSearch.props)),
@@ -63,7 +41,29 @@ export default defineComponent({
             }
 
             return (
-                <BaseSearch {...baseSearchProps} v-slots={baseSearchSlots}/>
+                <BaseSearch {...baseSearchProps}>
+                    {
+                        () => {
+                            return unref(searchColumns).map((column) => {
+                                const { fieldProps, formItemProps } = column
+                                const namePath = column.key || column.dataIndex
+
+                                const needFormItemProps = {
+                                    ...formItemProps,
+                                    name: namePath,
+                                    label: column.title
+                                }
+                                const needFieldProps = {
+                                    ...column,
+                                    fieldProps: { ...fieldProps, style: { width: '100%' } },
+                                    formItemProps: needFormItemProps
+                                }
+                                const key = toString(namePath)
+                                return <Field {...needFieldProps} key={key}/>
+                            })
+                        }
+                    }
+                </BaseSearch>
             )
         }
     }
