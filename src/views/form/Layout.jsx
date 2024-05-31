@@ -20,7 +20,7 @@ export default defineComponent({
                             </Radio.Group>
                         </div>
                         <Form layout={unref(layout)}>
-                            <Text width={'sm'} label={'文本'} labelWidth={100}/>
+                            <Text width={'sm'} label={'文本'}/>
                             <Number width={'sm'} label={'数字'}/>
                             <Form.Group title={'表单组'}>
                                 <Text width={'xs'} label={'文本'}/>

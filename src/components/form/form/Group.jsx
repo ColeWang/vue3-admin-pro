@@ -8,12 +8,12 @@ import { getPropsSlot } from '@/utils/props-util'
 function genTitleStyle (layout) {
     if (layout === 'inline') {
         return {
-            marginBlock: '12px',
+            paddingBlock: '8px',
             fontWeight: 'bold'
         }
     }
     return {
-        marginBottom: '18px',
+        paddingBottom: '12px',
         fontWeight: 'bold'
     }
 }
