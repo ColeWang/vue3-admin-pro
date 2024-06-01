@@ -177,15 +177,6 @@ export default defineComponent({
             })
 
             const dropdownSlots = {
-                default: () => {
-                    return (
-                        <Button
-                            class={cx('button')}
-                            type={'text'}
-                            v-slots={{ icon: () => <CloseCircleOutlined/> }}
-                        />
-                    )
-                },
                 overlay: () => {
                     return (
                         <Menu selectedKeys={[]}>
@@ -225,7 +216,13 @@ export default defineComponent({
                             />
                         </div>
                         <div class={cx('close-wrap')}>
-                            <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}/>
+                            <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
+                                <Button
+                                    class={cx('button')}
+                                    type={'text'}
+                                    v-slots={{ icon: () => <CloseCircleOutlined/> }}
+                                />
+                            </Dropdown>
                         </div>
                     </div>
                 </div>

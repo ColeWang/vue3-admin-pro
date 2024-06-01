@@ -27,15 +27,13 @@ export default defineComponent({
                             <div class={cx('content__fill')}/>
                             <div class={cx('content__view')}>
                                 <RouterView>
-                                    {
-                                        ({ Component }) => {
-                                            return (
-                                                <KeepAlive max={10} include={include}>
-                                                    {Component}
-                                                </KeepAlive>
-                                            )
-                                        }
-                                    }
+                                    {({ Component }) => {
+                                        return (
+                                            <KeepAlive max={10} include={include}>
+                                                {Component}
+                                            </KeepAlive>
+                                        )
+                                    }}
                                 </RouterView>
                             </div>
                             <div class={cx('content__fill')}/>

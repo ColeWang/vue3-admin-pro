@@ -15,13 +15,13 @@ export default defineComponent({
 
         const { t } = useLocaleReceiver(['Form'])
 
-        const { open, loading, onOpen, onCancel, onFinish } = useFloatForm(props, {
+        const { sOpen, loading, onOpen, onCancel, onFinish } = useFloatForm(props, {
             onOpen: () => emit('open'),
             onCancel: () => emit('cancel'),
             onUpdateOpen: (value) => emit('update:open', value)
         })
 
-        watch(open, (value) => {
+        watch(sOpen, (value) => {
             emit('openChange', value)
         })
 
@@ -60,6 +60,22 @@ export default defineComponent({
         return () => {
             const { extraProps, submitText, resetText } = props
 
+            const baseFormProps = {
+                ...attrs,
+                ...pick(props, Object.keys(BaseForm.props)),
+                onFinish: onFinish,
+                onSubmit: onFinish
+            }
+            const baseFormSlots = omit(slots, ['trigger'])
+
+            const needDrawerProps = {
+                ...pick(props, Object.keys(Drawer.props)),
+                ...extraProps,
+                headerStyle: { paddingBlock: '14px' },
+                open: unref(sOpen),
+                onClose: onCancel,
+                onAfterOpenChange: onAfterClose
+            }
             const drawerSlots = {
                 extra: () => {
                     const submitterProps = {
@@ -71,35 +87,16 @@ export default defineComponent({
                         onReset: onCancel
                     }
                     return <Submitter {...submitterProps}/>
-                },
-                default: () => {
-                    const baseFormProps = {
-                        ...attrs,
-                        ...pick(props, Object.keys(BaseForm.props)),
-                        onFinish: onFinish,
-                        onSubmit: onFinish
-                    }
-                    const needSlots = omit(slots, ['trigger'])
-                    return (
-                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={needSlots}/>
-                    )
                 }
-            }
-
-            const needDrawerProps = {
-                ...pick(props, Object.keys(Drawer.props)),
-                ...extraProps,
-                headerStyle: { paddingBlock: '14px' },
-                open: unref(open),
-                onClose: onCancel,
-                onAfterOpenChange: onAfterClose
             }
 
             const triggerDom = getSlotVNode(slots, props, 'trigger')
 
             return (
                 <Fragment>
-                    <Drawer {...needDrawerProps} v-slots={drawerSlots}/>
+                    <Drawer {...needDrawerProps} v-slots={drawerSlots}>
+                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={baseFormSlots}/>
+                    </Drawer>
                     {triggerDom && (
                         <div style={{ display: 'inline-block' }} onClick={onOpen}>
                             {triggerDom}

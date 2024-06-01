@@ -61,15 +61,15 @@ export const floatProps = {
 }
 
 function useFloatForm (props, options) {
-    const open = ref(props.open)
+    const sOpen = ref(props.open)
     const loading = ref(false)
 
     const stopWatchOpen = watch(() => props.open, (value) => {
-        open.value = value
+        sOpen.value = value
     }, { immediate: true })
 
     function setOpenValue (value) {
-        open.value = value
+        sOpen.value = value
         options.onUpdateOpen && options.onUpdateOpen(value)
     }
 
@@ -106,7 +106,7 @@ function useFloatForm (props, options) {
 
     tryOnScopeDispose(onStop)
 
-    return { open, loading, onOpen, onCancel, onFinish }
+    return { sOpen, loading, onOpen, onCancel, onFinish }
 }
 
 export default useFloatForm

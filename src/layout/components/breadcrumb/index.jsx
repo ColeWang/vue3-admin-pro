@@ -26,17 +26,13 @@ export default defineComponent({
         return () => {
             return (
                 <Breadcrumb style={{ marginLeft: '30px' }}>
-                    {
-                        () => {
-                            return unref(levels).map((item) => {
-                                return (
-                                    <Breadcrumb.Item>
-                                        {showTitle && showTitle(item)}
-                                    </Breadcrumb.Item>
-                                )
-                            })
-                        }
-                    }
+                    {unref(levels).map((item) => {
+                        return (
+                            <Breadcrumb.Item>
+                                {showTitle && showTitle(item)}
+                            </Breadcrumb.Item>
+                        )
+                    })}
                 </Breadcrumb>
             )
         }

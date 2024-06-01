@@ -30,18 +30,22 @@ export default defineComponent({
                 const secondNodes = takeRight(nodes, nodes.length - max)
 
                 const dropdownSlots = {
-                    default: () => (<a class={cx('action', 'action__primary')}>...</a>),
-                    overlay: () => {
-                        const children = secondNodes.map((item) => {
-                            return <Menu.Item>{item}</Menu.Item>
-                        })
-                        return <Menu selectedKeys={[]}>{children}</Menu>
-                    }
+                    overlay: () => (
+                        <Menu selectedKeys={[]}>
+                            {secondNodes.map((item) => {
+                                return (
+                                    <Menu.Item>{item}</Menu.Item>
+                                )
+                            })}
+                        </Menu>
+                    )
                 }
                 return (
                     <Space {...restProps}>
                         {firstNodes}
-                        <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}/>
+                        <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
+                            <a class={cx('action', 'action__primary')}>...</a>
+                        </Dropdown>
                     </Space>
                 )
             }

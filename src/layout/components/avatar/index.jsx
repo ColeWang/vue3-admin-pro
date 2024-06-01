@@ -22,32 +22,29 @@ export default defineComponent({
 
         return () => {
             const dropdownSlots = {
-                default: () => {
-                    return (
-                        <div class={cx('avatar-center')}>
-                            <Avatar size={28} v-slots={{ icon: () => <UserOutlined/> }}/>
-                            <div class={cx('avatar-center__icon-down')}>
-                                <CaretDownOutlined/>
-                            </div>
-                        </div>
-                    )
-                },
                 overlay: () => {
                     return (
                         <Menu class={cx('avatar-menu')} selectedKeys={[]}>
-                            <Menu.Item key={'center'} v-slots={{
-                                default: () => '个人中心',
-                                icon: () => <UserOutlined/>
-                            }}/>
-                            <Menu.Item key={'settings'} v-slots={{
-                                default: () => '个人设置',
-                                icon: () => <SettingOutlined/>
-                            }}/>
+                            <Menu.Item
+                                key={'center'}
+                                v-slots={{ icon: () => <UserOutlined/> }}
+                            >
+                                个人中心
+                            </Menu.Item>
+                            <Menu.Item
+                                key={'settings'}
+                                v-slots={{ icon: () => <SettingOutlined/> }}
+                            >
+                                个人设置
+                            </Menu.Item>
                             <Menu.Divider/>
-                            <Menu.Item key={'logout'} onClick={handleLogout} v-slots={{
-                                default: () => '退出登录',
-                                icon: () => <LoginOutlined/>
-                            }}/>
+                            <Menu.Item
+                                key={'logout'}
+                                onClick={handleLogout}
+                                v-slots={{ icon: () => <LoginOutlined/> }}
+                            >
+                                退出登录
+                            </Menu.Item>
                         </Menu>
                     )
                 }
@@ -56,10 +53,17 @@ export default defineComponent({
             return (
                 <div class={cx('avatar-wrap')}>
                     <Dropdown
-                        placement={'bottomRight'}
                         getPopupContainer={getPopupContainer}
+                        placement={'bottomRight'}
                         v-slots={dropdownSlots}
-                    />
+                    >
+                        <div class={cx('avatar-center')}>
+                            <Avatar size={28} v-slots={{ icon: () => <UserOutlined/> }}/>
+                            <div class={cx('avatar-center__icon-down')}>
+                                <CaretDownOutlined/>
+                            </div>
+                        </div>
+                    </Dropdown>
                 </div>
             )
         }

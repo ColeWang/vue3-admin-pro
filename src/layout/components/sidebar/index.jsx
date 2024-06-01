@@ -34,20 +34,22 @@ function createFlatMenus (menus) {
 function createMenuItem (item, showTitle) {
     if (item.children && item.children.length === 1) {
         const soleItem = head(item.children) || {}
-        const menuItemSlots = {
-            icon: () => <OutIcon type={soleItem.icon || item.icon}/>,
-            default: () => <span>{showTitle && showTitle(soleItem)}</span>
-        }
-        return <Menu.Item key={soleItem.name} v-slots={menuItemSlots}/>
+        return (
+            <Menu.Item key={soleItem.name} v-slots={{
+                icon: () => <OutIcon type={soleItem.icon || item.icon}/>
+            }}>
+                <span>{showTitle && showTitle(soleItem)}</span>
+            </Menu.Item>
+        )
     } else {
-        const menuItemSlots = {
-            icon: () => <OutIcon type={item.icon}/>,
-            default: () => <span>{showTitle && showTitle(item)}</span>
-        }
         return showChildren(item) ? (
             <XSubMenu option={item} key={item.name}/>
         ) : (
-            <Menu.Item key={item.name} v-slots={menuItemSlots}/>
+            <Menu.Item key={item.name} v-slots={{
+                icon: () => <OutIcon type={item.icon}/>
+            }}>
+                <span>{showTitle && showTitle(item)}</span>
+            </Menu.Item>
         )
     }
 }
@@ -75,11 +77,6 @@ const XSubMenu = defineComponent({
                             <span>{showTitle && showTitle(option)}</span>
                         </Fragment>
                     )
-                },
-                default: () => {
-                    return option.children.map((item) => {
-                        return createMenuItem(item, showTitle)
-                    })
                 }
             }
             return (
@@ -87,7 +84,11 @@ const XSubMenu = defineComponent({
                     {...restProps}
                     key={option.name}
                     v-slots={subMenuSlots}
-                />
+                >
+                    {option.children.map((item) => {
+                        return createMenuItem(item, showTitle)
+                    })}
+                </Menu.SubMenu>
             )
         }
     }
@@ -184,19 +185,17 @@ export default defineComponent({
                 mode: 'inline'
             }
 
+            const children = menus.map((item) => {
+                return createMenuItem(item, showTitle)
+            })
+
             return (
                 <div class={cx('sidebar')} style={sideStyle}>
                     <div class={cx('sidebar-content')}>
                         <div class={cx('sidebar-content__wrap')}>
                             <Logo collapsed={collapsed}/>
                             <Menu {...menuProps}>
-                                {
-                                    () => {
-                                        return menus.map((item) => {
-                                            return createMenuItem(item, showTitle)
-                                        })
-                                    }
-                                }
+                                {children}
                             </Menu>
                         </div>
                     </div>

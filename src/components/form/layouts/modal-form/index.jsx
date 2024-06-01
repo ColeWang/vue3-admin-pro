@@ -15,13 +15,13 @@ export default defineComponent({
 
         const { t } = useLocaleReceiver(['Form'])
 
-        const { open, loading, onOpen, onCancel, onFinish } = useFloatForm(props, {
+        const { sOpen, loading, onOpen, onCancel, onFinish } = useFloatForm(props, {
             onOpen: () => emit('open'),
             onCancel: () => emit('cancel'),
             onUpdateOpen: (value) => emit('update:open', value)
         })
 
-        watch(open, (value) => {
+        watch(sOpen, (value) => {
             emit('openChange', value)
         })
 
@@ -60,6 +60,21 @@ export default defineComponent({
         return () => {
             const { extraProps, submitText, resetText } = props
 
+            const baseFormProps = {
+                ...attrs,
+                ...pick(props, Object.keys(BaseForm.props)),
+                onFinish: onFinish,
+                onSubmit: onFinish
+            }
+            const baseFormSlots = omit(slots, ['trigger'])
+
+            const needModalProps = {
+                ...pick(props, Object.keys(Modal.props)),
+                ...extraProps,
+                open: unref(sOpen),
+                onCancel: onCancel,
+                onAfterClose: onAfterClose
+            }
             const modalSlots = {
                 footer: () => {
                     const submitterProps = {
@@ -71,34 +86,16 @@ export default defineComponent({
                         onReset: onCancel
                     }
                     return <Submitter {...submitterProps}/>
-                },
-                default: () => {
-                    const baseFormProps = {
-                        ...attrs,
-                        ...pick(props, Object.keys(BaseForm.props)),
-                        onFinish: onFinish,
-                        onSubmit: onFinish
-                    }
-                    const needSlots = omit(slots, ['trigger'])
-                    return (
-                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={needSlots}/>
-                    )
                 }
-            }
-
-            const needModalProps = {
-                ...pick(props, Object.keys(Modal.props)),
-                ...extraProps,
-                open: unref(open),
-                onCancel: onCancel,
-                onAfterClose: onAfterClose
             }
 
             const triggerDom = getSlotVNode(slots, props, 'trigger')
 
             return (
                 <Fragment>
-                    <Modal {...needModalProps} v-slots={modalSlots}/>
+                    <Modal {...needModalProps} v-slots={modalSlots}>
+                        <BaseForm {...baseFormProps} ref={baseFormRef} v-slots={baseFormSlots}/>
+                    </Modal>
                     {triggerDom && (
                         <div style={{ display: 'inline-block' }} onClick={onOpen}>
                             {triggerDom}

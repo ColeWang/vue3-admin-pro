@@ -66,13 +66,14 @@ export default defineComponent({
                         collapsed={unref(collapsed)}
                         onChange={onSidebarChange}
                     />
-                ),
-                default: () => (
-                    <Container include={unref(include)}/>
                 )
             }
 
-            return <Layout v-slots={layoutSlots}/>
+            return (
+                <Layout v-slots={layoutSlots}>
+                    <Container include={unref(include)}/>
+                </Layout>
+            )
         }
     }
 })

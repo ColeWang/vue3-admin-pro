@@ -51,28 +51,16 @@ export default defineComponent({
 
         return () => {
             const dropdownSlots = {
-                default: () => {
-                    return (
-                        <div class={cx('language-center')}>
-                            <span>{unref(title)}</span>
-                            <div class={cx('language-center__icon-down')}>
-                                <CaretDownOutlined/>
-                            </div>
-                        </div>
-                    )
-                },
                 overlay: () => {
                     return (
                         <Menu class={cx('language-menu')} selectedKeys={[$i18n.locale]}>
-                            {
-                                map(localeList, (value, key) => {
-                                    return (
-                                        <Menu.Item key={key} onClick={onLocaleChange.bind(null, key)}>
-                                            {value}
-                                        </Menu.Item>
-                                    )
-                                })
-                            }
+                            {map(localeList, (value, key) => {
+                                return (
+                                    <Menu.Item key={key} onClick={onLocaleChange.bind(null, key)}>
+                                        {value}
+                                    </Menu.Item>
+                                )
+                            })}
                         </Menu>
                     )
                 }
@@ -84,7 +72,14 @@ export default defineComponent({
                         placement={'bottom'}
                         getPopupContainer={getPopupContainer}
                         v-slots={dropdownSlots}
-                    />
+                    >
+                        <div class={cx('language-center')}>
+                            <span>{unref(title)}</span>
+                            <div class={cx('language-center__icon-down')}>
+                                <CaretDownOutlined/>
+                            </div>
+                        </div>
+                    </Dropdown>
                 </div>
             )
         }

@@ -43,27 +43,23 @@ export default defineComponent({
 
             return (
                 <BaseSearch {...baseSearchProps}>
-                    {
-                        () => {
-                            return unref(searchColumns).map((column) => {
-                                const { fieldProps, formItemProps } = column
-                                const namePath = column.key || column.dataIndex
+                    {unref(searchColumns).map((column) => {
+                        const { fieldProps, formItemProps } = column
+                        const namePath = column.key || column.dataIndex
 
-                                const needFormItemProps = {
-                                    ...formItemProps,
-                                    name: namePath,
-                                    label: column.title
-                                }
-                                const needFieldProps = {
-                                    ...column,
-                                    fieldProps: { ...fieldProps, style: { width: '100%' } },
-                                    formItemProps: needFormItemProps
-                                }
-                                const key = namePathToString(namePath)
-                                return <Field {...needFieldProps} key={key}/>
-                            })
+                        const needFormItemProps = {
+                            ...formItemProps,
+                            name: namePath,
+                            label: column.title
                         }
-                    }
+                        const needFieldProps = {
+                            ...column,
+                            fieldProps: { ...fieldProps, style: { width: '100%' } },
+                            formItemProps: needFormItemProps
+                        }
+                        const key = namePathToString(namePath)
+                        return <Field {...needFieldProps} key={key}/>
+                    })}
                 </BaseSearch>
             )
         }

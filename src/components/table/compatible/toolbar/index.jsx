@@ -110,9 +110,7 @@ export default defineComponent({
                         <div class={cx('toolbar')}>
                             <div class={cx('toolbar-title')}>{titleDom}</div>
                             <div class={cx('toolbar-actions')}>
-                                <Space size={8}>
-                                    {actionsDom}
-                                </Space>
+                                <Space size={8}>{actionsDom}</Space>
                                 {propsOptions !== false && renderSettings()}
                             </div>
                         </div>
