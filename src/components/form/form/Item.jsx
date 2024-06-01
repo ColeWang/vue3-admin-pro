@@ -6,7 +6,7 @@ import { useFormInstance } from '../base-form'
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        ...Form.Item,
+        ...Form.Item.props,
         colProps: {
             type: Object,
             default: () => ({})

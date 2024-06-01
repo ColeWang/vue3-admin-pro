@@ -6,6 +6,7 @@ import Actions from './Actions'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import useQueryFilter from './hooks/useQueryFilter'
 import { genFormItemFixStyle } from '../../utils'
+import { filterEmptyElement } from '@/utils/props-util'
 import { pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -87,7 +88,7 @@ export default defineComponent({
                 props: genFormItemFixStyle(labelWidth, unref(layout))
             }
 
-            const children = slots.default ? slots.default(slotScope) : []
+            const children = filterEmptyElement(slots.default ? slots.default(slotScope) : [])
             const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
                 const { child, hidden, key } = item
                 const colClass = cx({ 'col-hidden': hidden })
