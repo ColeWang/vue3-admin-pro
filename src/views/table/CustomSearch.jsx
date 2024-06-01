@@ -79,8 +79,7 @@ export default defineComponent({
             return (
                 <div>
                     <CustomFields valueTypeMap={{
-                        test: (text, props) => {
-                            console.log(typeof text, props)
+                        test: ({ props, slots }) => {
                             return '123'
                         }
                     }}>

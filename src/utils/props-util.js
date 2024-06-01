@@ -1,5 +1,5 @@
 import { Comment, Fragment, isProxy, toRaw } from 'vue'
-import { cloneDeep, cloneWith, isArray, isFunction } from 'lodash-es'
+import { cloneDeep, cloneWith, isArray, isFunction, isSymbol } from 'lodash-es'
 
 export function cloneProxyToRaw (proxy) {
     return cloneWith(proxy, (value) => {
@@ -13,7 +13,7 @@ export function cloneProxyToRaw (proxy) {
 }
 
 export function isValidElement (c) {
-    return c && c.__v_isVNode && typeof c.type !== 'symbol'
+    return c && c.__v_isVNode && !isSymbol(c.type)
 }
 
 export function isEmptyText (c) {

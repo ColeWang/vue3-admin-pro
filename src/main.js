@@ -4,6 +4,8 @@ import Root from '@/App'
 import createStores from '@/stores'
 import createRouter from '@/router'
 import createBoots from '@/boot'
+// ----
+import { isFunction } from 'lodash-es'
 // CSS
 import 'ant-design-vue/es/style/reset.css'
 import '@/css/base.css'
@@ -13,12 +15,12 @@ import '@/css/nprogress.scss'
 async function createRunApp () {
     const app = createApp(Root)
 
-    const stores = typeof createStores === 'function'
+    const stores = isFunction(createStores)
         ? await createStores()
         : createStores
     app.use(stores)
 
-    const router = typeof createRouter === 'function'
+    const router = isFunction(createRouter)
         ? await createRouter()
         : createRouter
 

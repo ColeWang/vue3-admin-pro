@@ -1,9 +1,11 @@
+import { isBoolean } from 'lodash-es'
+
 export function stopPropagation (event) {
     event.stopPropagation()
 }
 
 export function preventDefault (event, isStopPropagation) {
-    if (typeof event.cancelable !== 'boolean' || event.cancelable) {
+    if (!isBoolean(event.cancelable) || event.cancelable) {
         event.preventDefault()
     }
     if (isStopPropagation) {
