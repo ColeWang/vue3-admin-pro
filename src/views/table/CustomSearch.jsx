@@ -107,6 +107,7 @@ export default defineComponent({
                                     />
                                     <Test
                                         label={'Test'}
+                                        labelWidth={150}
                                         name={'test'}
                                     />
                                 </BaseSearch>

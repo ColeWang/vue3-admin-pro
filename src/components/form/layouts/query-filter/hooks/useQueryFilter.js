@@ -33,7 +33,7 @@ function useQueryFilter (size, props) {
     const { span: propsSpan, showCollapse } = props
 
     // vertical horizontal 只有两种
-    const layout = ref('vertical')
+    const layout = ref('horizontal')
     const span = ref(24)
 
     const collapsed = ref(props.collapsed)

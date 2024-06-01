@@ -1,7 +1,7 @@
 import { cloneVNode, defineComponent, onMounted, ref, unref } from 'vue'
 import { QueryFilter } from '@/components/form'
 import { Card } from 'ant-design-vue'
-import { isValidElement } from '@/utils/props-util'
+import { filterEmptyElement, isValidElement } from '@/utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -38,7 +38,7 @@ export default defineComponent({
                 }
             }
 
-            const children = slots.default ? slots.default() : []
+            const children = filterEmptyElement(slots.default ? slots.default() : [])
 
             return (
                 <Card {...cardProps}>
