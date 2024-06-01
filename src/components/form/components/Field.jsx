@@ -3,8 +3,8 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form'
-import { has, pick, toString } from 'lodash-es'
-import { fieldStyle, genFormItemFixStyle } from '../utils'
+import { has, pick } from 'lodash-es'
+import { fieldStyle, genFormItemFixStyle, namePathToString } from '../utils'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -31,9 +31,12 @@ export default defineComponent({
         const { model = {}, formProps = {}, setModelValue } = useFormInstance()
 
         // 初始化值 防止 form 报错
-        const { formItemProps } = props
-        const hasValue = has(unref(model), formItemProps.name)
-        !hasValue && onUpdateValue(formItemProps.name, undefined)
+        setDefaultValue(props.formItemProps.name)
+
+        function setDefaultValue (namePath) {
+            const hasValue = has(unref(model), namePath)
+            !hasValue && onUpdateValue(namePath, undefined)
+        }
 
         function onUpdateValue (namePath, value) {
             setModelValue && setModelValue(namePath, value)
@@ -44,6 +47,7 @@ export default defineComponent({
             const { layout = 'vertical', grid } = unref(formProps)
 
             const extraFormItemProps = genFormItemFixStyle(labelWidth, layout)
+            const key = namePathToString(formItemProps.name)
 
             const needFieldProps = {
                 ...fieldProps,
@@ -53,7 +57,7 @@ export default defineComponent({
             const needFormItemProps = {
                 ...formItemProps,
                 ...extraFormItemProps,
-                key: formItemProps.name,
+                key: key,
                 model: unref(model)
             }
             const baseFieldProps = {
@@ -70,7 +74,6 @@ export default defineComponent({
             }
 
             // 暂不支持 Form.Item 本身的插槽 够用
-            const key = toString(needFormItemProps.name)
             return (
                 <ColWrap {...colWrapProps} key={key}>
                     <Form.Item {...needFormItemProps}>

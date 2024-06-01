@@ -74,18 +74,21 @@ export default defineComponent({
                 onKeyPress: onKeyPress
             }
 
+            const resetButtonDom = resetButtonProps !== false && (
+                <Button {...resetButtonProps} onClick={onReset}>
+                    {resetText || t('reset')}
+                </Button>
+            )
+
+            const submitButtonDom = submitButtonProps !== false && (
+                <Button {...needSubmitButtonProps} html-type={'submit'}>
+                    {submitText || t('submit')}
+                </Button>
+            )
+
             return (
                 <Space size={space}>
-                    {resetButtonProps !== false && (
-                        <Button {...resetButtonProps} onClick={onReset}>
-                            {resetText || t('reset')}
-                        </Button>
-                    )}
-                    {submitButtonProps !== false && (
-                        <Button {...needSubmitButtonProps} html-type={'submit'}>
-                            {submitText || t('submit')}
-                        </Button>
-                    )}
+                    {[resetButtonDom, submitButtonDom]}
                 </Space>
             )
         }

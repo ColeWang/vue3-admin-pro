@@ -1,4 +1,4 @@
-import { isNumber } from 'lodash-es'
+import { isArray, isNumber, reduce, toString } from 'lodash-es'
 
 const sizeEnum = {
     xs: 104,
@@ -43,5 +43,16 @@ export function genFormItemFixStyle (labelWidth, layout) {
         }
     }
     return undefined
+}
+
+export function namePathToString (namePath) {
+    if (namePath && isArray(namePath)) {
+        const pathString = reduce(namePath, (result, value, index) => {
+            const nextValue = isNumber(value) && index > 0 ? `[${value}]` : `.${value}`
+            return result + nextValue
+        }, '')
+        return pathString.replace(/^\./, '')
+    }
+    return toString(namePath)
 }
 

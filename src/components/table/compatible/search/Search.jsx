@@ -1,7 +1,8 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Field } from '@/components/form'
 import BaseSearch from './BaseSearch'
-import { pick, set, toString } from 'lodash-es'
+import { namePathToString } from '@/components/form/utils'
+import { pick, set } from 'lodash-es'
 import { isEmpty } from '@/utils'
 
 function genInitialValues (columns) {
@@ -58,7 +59,7 @@ export default defineComponent({
                                     fieldProps: { ...fieldProps, style: { width: '100%' } },
                                     formItemProps: needFormItemProps
                                 }
-                                const key = toString(namePath)
+                                const key = namePathToString(namePath)
                                 return <Field {...needFieldProps} key={key}/>
                             })
                         }
