@@ -31,11 +31,15 @@ const baseFormProps = {
         type: Function,
         default: undefined
     },
+    onSubmit: {
+        type: Function,
+        default: undefined
+    },
     onFinish: {
         type: Function,
         default: undefined
     },
-    onSubmit: {
+    onFinishFailed: {
         type: Function,
         default: undefined
     },
@@ -58,7 +62,7 @@ function resetLayoutOfGrid (props) {
 export default defineComponent({
     inheritAttrs: false,
     props: baseFormProps,
-    emits: ['finish', 'submit', 'reset', 'valuesChange'],
+    emits: ['submit', 'finish', 'finishFailed', 'reset', 'valuesChange'],
     setup (props, { emit, slots, attrs, expose }) {
         const popupContainer = ref(null)
         const formInstanceRef = ref(null)
@@ -97,15 +101,16 @@ export default defineComponent({
             validate().then((res) => {
                 const values = cloneProxyToRaw(res)
                 if (props.transform && isFunction(props.transform)) {
-                    const nextValues = props.transform(values)
-                    emit('finish', nextValues)
+                    const nextValues = props.transform(values) || {}
                     emit('submit', nextValues)
+                    emit('finish', nextValues)
                 } else {
-                    emit('finish', values)
                     emit('submit', values)
+                    emit('finish', values)
                 }
             }, (err) => {
-                console.warn(err)
+                emit('finishFailed', err)
+                console.warn('Validate Failed:', err)
             })
         }
 
