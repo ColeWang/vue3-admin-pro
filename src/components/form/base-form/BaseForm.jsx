@@ -2,7 +2,7 @@ import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { ConfigProvider, Form } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
-import { get, pick, set } from 'lodash-es'
+import { get, isFunction, pick, set } from 'lodash-es'
 import { cloneProxyToRaw } from '@/utils/props-util'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -26,6 +26,10 @@ const baseFormProps = {
     rowProps: {
         type: Object,
         default: () => ({ gutter: [32, 0] })
+    },
+    transform: {
+        type: Function,
+        default: undefined
     },
     onFinish: {
         type: Function,
@@ -92,8 +96,14 @@ export default defineComponent({
         function submit () {
             validate().then((res) => {
                 const values = cloneProxyToRaw(res)
-                emit('finish', values)
-                emit('submit', values)
+                if (props.transform && isFunction(props.transform)) {
+                    const nextValues = props.transform(values)
+                    emit('finish', nextValues)
+                    emit('submit', nextValues)
+                } else {
+                    emit('finish', values)
+                    emit('submit', values)
+                }
             }, (err) => {
                 console.warn(err)
             })

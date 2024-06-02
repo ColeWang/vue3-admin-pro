@@ -3,13 +3,7 @@ import { default as BaseForm, Submitter } from '../../base-form'
 import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
 import { isFunction } from 'lodash-es'
 
-export const floatProps = {
-    ...BaseForm.props,
-    ...Submitter.props,
-    trigger: {
-        type: Function,
-        default: undefined
-    },
+const extraProps = {
     layout: {
         type: String,
         default: 'vertical'
@@ -33,10 +27,20 @@ export const floatProps = {
     destroyOnClose: {
         type: Boolean,
         default: true
-    },
+    }
+}
+
+export const floatProps = {
+    ...BaseForm.props,
+    ...Submitter.props,
+    ...extraProps,
     extraProps: {
         type: Object,
         default: () => ({})
+    },
+    trigger: {
+        type: Function,
+        default: undefined
     },
     onOpen: {
         type: Function,
