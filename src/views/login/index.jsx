@@ -1,7 +1,7 @@
 import { defineComponent, onUnmounted, reactive, ref, unref } from 'vue'
 import { Button, Card, Checkbox } from 'ant-design-vue'
 import { Form, Password, Text } from '@/components/form'
-import { UserFilled, PasswordFilled } from '@/components/icon'
+import { PasswordFilled, UserFilled } from '@/components/icon'
 import { useRoute, useRouter } from 'vue-router'
 import { HOME_NAME } from '@/config'
 import useRemember from './useRemember'
@@ -31,6 +31,8 @@ function loadImage (src) {
 export default defineComponent({
     setup () {
         const canvasRef = ref(null)
+        const formRef = ref(null)
+
         const router = useRouter()
         const route = useRoute()
 
@@ -70,6 +72,14 @@ export default defineComponent({
         })
 
         function onSubmit () {
+            const context = unref(formRef)
+            if (context && context.getFormInstance) {
+                const formInstance = context.getFormInstance()
+                formInstance && formInstance.submit()
+            }
+        }
+
+        function onFinish () {
             errorType.value = undefined
             const data = {
                 phone: Number(model.username),
@@ -111,7 +121,7 @@ export default defineComponent({
                         <canvas class={cx('login-bg__canvas')} ref={canvasRef}/>
                     </div>
                     <Card class={cx('login-form')} {...cardProps}>
-                        <Form model={model} rules={rules} onFinish={onSubmit}>
+                        <Form model={model} rules={rules} onFinish={onFinish} ref={formRef}>
                             <Text
                                 name={'username'}
                                 placeholder={'请输入账号'}
@@ -131,7 +141,7 @@ export default defineComponent({
                                 <a href={'javaScript: void 0'}>忘记密码</a>
                             </div>
                             <Form.Item class={cx('login-form__error')} validateStatus={'error'} help={unref(errorType)}>
-                                <Button type={'primary'} html-type={'submit'} block={true} loading={unref(loading)}>
+                                <Button type={'primary'} block={true} loading={unref(loading)} onClick={onSubmit}>
                                     登录
                                 </Button>
                             </Form.Item>

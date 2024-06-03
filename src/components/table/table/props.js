@@ -110,7 +110,7 @@ const tableProps = {
         type: Function,
         default: undefined
     },
-    onSubmit: {
+    onFinish: {
         type: Function,
         default: undefined
     },

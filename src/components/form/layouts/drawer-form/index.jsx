@@ -63,8 +63,7 @@ export default defineComponent({
             const baseFormProps = {
                 ...attrs,
                 ...pick(props, Object.keys(BaseForm.props)),
-                onFinish: onFinish,
-                onSubmit: onFinish
+                onFinish: onFinish
             }
             const baseFormSlots = omit(slots, ['trigger'])
 

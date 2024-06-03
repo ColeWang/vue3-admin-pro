@@ -91,11 +91,10 @@ function useFloatForm (props, options) {
     }
 
     async function onFinish (values) {
-        const request = props.onFinish || props.onSubmit
-        if (!isFunction(request) || unref(loading)) return
+        if (!isFunction(props.onFinish) || unref(loading)) return
         loading.value = true
         try {
-            const result = await request(values)
+            const result = await props.onFinish(values)
             loading.value = false
             result && onCancel()
         } catch (err) {

@@ -23,7 +23,7 @@ const BaseTableSize = 'small'
 export default defineComponent({
     inheritAttrs: false,
     props: tableProps,
-    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'columnsChange', 'load', 'requestError', 'submit', 'reset'],
+    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'columnsChange', 'load', 'requestError', 'finish', 'reset'],
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
         const tableRef = ref(null)
@@ -108,7 +108,7 @@ export default defineComponent({
             emit('sortChange', nextSort)
         }
 
-        function onSubmit (values) {
+        function onFinish (values) {
             const nextValues = omitNil(values)
             if (isFunction(props.beforeSearchSubmit)) {
                 const result = props.beforeSearchSubmit(nextValues)
@@ -116,7 +116,7 @@ export default defineComponent({
             } else {
                 setQueryParams && setQueryParams(nextValues)
             }
-            emit('submit', nextValues)
+            emit('finish', nextValues)
         }
 
         function onReset (params) {
@@ -174,7 +174,7 @@ export default defineComponent({
                     loading: requestProps.loading,
                     columns: propsColumns,
                     manualRequest: manualRequest,
-                    onSubmit: onSubmit,
+                    onFinish: onFinish,
                     onReset: onReset
                 }
                 const customSearch = getSlotVNode(slots, {}, 'search', searchProps)
