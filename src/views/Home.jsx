@@ -1,7 +1,8 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Action, Table } from '@/components/table'
 import { ModalForm, Number, Text } from '@/components/form'
-import { Button, Card, Descriptions } from 'ant-design-vue'
+import Desc from '@/components/desc'
+import { Button, Card } from 'ant-design-vue'
 
 export default defineComponent({
     name: 'HomeIndex',
@@ -139,19 +140,21 @@ export default defineComponent({
                 ),
                 extra: ({ pageData }) => (
                     <Card bodyStyle={{ padding: '24px 24px 17px' }}>
-                        <Descriptions size={'small'} column={3}>
-                            <Descriptions.Item label={'Row'}>{pageData.length}</Descriptions.Item>
-                            <Descriptions.Item label={'Created'}>Cole</Descriptions.Item>
-                            <Descriptions.Item label={'Association'}>
+                        <Desc size={'small'} column={3} model={pageData}>
+                            <Desc.Item label={'Row'}>
+                                <Desc.Field name={['length']}/>
+                            </Desc.Item>
+                            <Desc.Item label={'Created'}>Cole</Desc.Item>
+                            <Desc.Item label={'Association'}>
                                 <a>Dublin No. 2 Lake Park</a>
-                            </Descriptions.Item>
-                            <Descriptions.Item label={'Creation Time'}>
+                            </Desc.Item>
+                            <Desc.Item label={'Creation Time'}>
                                 2024-04-09
-                            </Descriptions.Item>
-                            <Descriptions.Item label={'Effective Time'}>
+                            </Desc.Item>
+                            <Desc.Item label={'Effective Time'}>
                                 2024-04-09
-                            </Descriptions.Item>
-                        </Descriptions>
+                            </Desc.Item>
+                        </Desc>
                     </Card>
                 )
             }
