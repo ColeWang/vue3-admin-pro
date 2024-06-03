@@ -47,9 +47,9 @@ export function genFormItemFixStyle (labelWidth, layout) {
 
 export function namePathToString (namePath) {
     if (namePath && isArray(namePath)) {
-        const pathString = reduce(namePath, (result, value, index) => {
-            const nextValue = isNumber(value) && index > 0 ? `[${value}]` : `.${value}`
-            return result + nextValue
+        const pathString = reduce(namePath, (total, value, index) => {
+            const result = isNumber(value) && index > 0 ? `[${value}]` : `.${value}`
+            return total + result
         }, '')
         return pathString.replace(/^\./, '')
     }

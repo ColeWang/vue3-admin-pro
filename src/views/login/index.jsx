@@ -51,24 +51,8 @@ export default defineComponent({
             }
         })
 
-        const rules = {
-            username: [{
-                required: true,
-                message: '账号不能为空'
-            }],
-            password: [{
-                required: true,
-                message: '密码不能为空'
-            }]
-        }
-
         loadImage(BACKGROUND).then((image) => {
             destroy = bubbly(unref(canvasRef), image)
-        })
-
-        onUnmounted(() => {
-            destroy && destroy()
-            destroy = null
         })
 
         function onSubmit () {
@@ -106,6 +90,11 @@ export default defineComponent({
             //     })
         }
 
+        onUnmounted(() => {
+            destroy && destroy()
+            destroy = null
+        })
+
         return () => {
             const cardProps = {
                 title: '欢迎登陆',
@@ -121,17 +110,19 @@ export default defineComponent({
                         <canvas class={cx('login-bg__canvas')} ref={canvasRef}/>
                     </div>
                     <Card class={cx('login-form')} {...cardProps}>
-                        <Form model={model} rules={rules} onFinish={onFinish} ref={formRef}>
+                        <Form model={model} onFinish={onFinish} ref={formRef}>
                             <Text
                                 name={'username'}
                                 placeholder={'请输入账号'}
                                 fieldProps={{ allowClear: false }}
+                                formItemProps={{ rules: { required: true, message: '账号不能为空' } }}
                                 v-slots={{ addonBefore: () => <UserFilled/> }}
                             />
                             <Password
                                 name={'password'}
                                 placeholder={'请输入密码'}
                                 fieldProps={{ allowClear: false }}
+                                formItemProps={{ rules: { required: true, message: '密码不能为空' } }}
                                 v-slots={{ addonBefore: () => <PasswordFilled/> }}
                             />
                             <div class={cx('checked-wrap')}>
