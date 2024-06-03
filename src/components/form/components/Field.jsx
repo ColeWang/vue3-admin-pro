@@ -3,7 +3,7 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '@/components/base-field'
 import { useFormInstance } from '../base-form'
-import { has, pick } from 'lodash-es'
+import { has, isArray, isString, pick } from 'lodash-es'
 import { fieldStyle, genFormItemFixStyle, namePathToString } from '../utils'
 
 export default defineComponent({
@@ -39,7 +39,9 @@ export default defineComponent({
         }
 
         function onUpdateValue (namePath, value) {
-            setModelValue && setModelValue(namePath, value)
+            if (isString(namePath) || isArray(namePath)) {
+                setModelValue && setModelValue(namePath, value)
+            }
         }
 
         return () => {
