@@ -122,6 +122,25 @@ const routes = [
         ]
     },
     {
+        path: '/desc',
+        name: 'Desc',
+        redirect: { name: 'DescIndex' },
+        meta: {
+            title: '描述列表'
+        },
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: 'DescIndex',
+                component: () => import('@/views/desc'),
+                meta: {
+                    title: '描述列表'
+                }
+            }
+        ]
+    },
+    {
         path: '/test',
         name: 'Test',
         redirect: { name: 'TestIndex' },
