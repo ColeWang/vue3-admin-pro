@@ -55,7 +55,7 @@ npm run build
 
 ## TODO LIST
 
-- [-] 描述列表 Descriptions
+- [X] 描述列表 Descriptions
 - [ ] 表单列表 FormList
 - [ ] 可编辑表格 EditableTable
 - [ ] 拖动排序表格 DragSortTable
