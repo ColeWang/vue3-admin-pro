@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
-import { isFunction, set } from 'lodash-es'
+import { isFunction, set, transform } from 'lodash-es'
 import { cloneProxyToRaw } from '@/utils/props-util'
 
 export default defineComponent({
@@ -19,26 +19,22 @@ export default defineComponent({
     setup (props, { slots }) {
         const { formProps = {}, getModelValue } = useFormInstance()
 
-        function genNamePathValues (namePathList) {
-            const result = {}
-            namePathList.forEach((namePath) => {
-                if (getModelValue && isFunction(getModelValue)) {
-                    const value = getModelValue(namePath)
-                    set(result, namePath, cloneProxyToRaw(value))
-                }
-            })
-            return result
-        }
-
         return () => {
             const { grid } = unref(formProps)
-            const { name: namePaths, colProps } = props
+            const { name: namePathList, colProps } = props
+
+            const slotScope = transform(namePathList, (result, namePath) => {
+                if (namePath && getModelValue && isFunction(getModelValue)) {
+                    const value = getModelValue(namePath)
+                    return set(result, namePath, cloneProxyToRaw(value))
+                }
+                return result
+            }, {})
 
             const colWrapProps = {
                 ...colProps,
                 grid: !!grid
             }
-            const slotScope = genNamePathValues(namePaths)
             return (
                 <ColWrap {...colWrapProps}>
                     {slots.default && slots.default(slotScope)}

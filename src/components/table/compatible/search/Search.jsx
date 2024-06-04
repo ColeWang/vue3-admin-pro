@@ -2,19 +2,8 @@ import { computed, defineComponent, unref } from 'vue'
 import { Field } from '@/components/form'
 import BaseSearch from './BaseSearch'
 import { namePathToString } from '@/components/form/utils'
-import { pick, set } from 'lodash-es'
+import { pick, set, transform } from 'lodash-es'
 import { isEmpty } from '@/utils'
-
-function genInitialValues (columns) {
-    const result = {}
-    columns.forEach((column) => {
-        const namePath = column.key || column.dataIndex
-        if (namePath && !isEmpty(column.initialValue)) {
-            set(result, namePath, column.initialValue)
-        }
-    })
-    return result
-}
 
 function filterSearchColumns (columns) {
     return columns.filter((column) => column.search)
@@ -30,8 +19,15 @@ export default defineComponent({
         }
     },
     setup (props, { attrs }) {
-        const defaultSearchColumns = filterSearchColumns(props.columns)
-        const initialValues = genInitialValues(defaultSearchColumns)
+        const defaultColumns = filterSearchColumns(props.columns)
+        const initialValues = transform(defaultColumns, (result, column) => {
+            const namePath = column.key || column.dataIndex
+            if (namePath && !isEmpty(column.initialValue)) {
+                return set(result, namePath, column.initialValue)
+            }
+            return result
+        }, {})
+
         const searchColumns = computed(() => filterSearchColumns(props.columns))
 
         return () => {
