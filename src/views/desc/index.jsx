@@ -63,7 +63,7 @@ export default defineComponent({
         return () => {
             return (
                 <Card>
-                    <Desc title={'Descriptions'} model={model}>
+                    <Desc title={'Descriptions'} bordered={true} model={model} size={'small'}>
                         <Desc.Item label={'select'}>
                             <Desc.Field
                                 name={['deep', 'select']}

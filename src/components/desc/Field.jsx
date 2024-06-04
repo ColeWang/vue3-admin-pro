@@ -4,6 +4,8 @@ import BaseField from '@/components/base-field'
 import { useDescContext } from './hooks/useDescContext'
 import { pick } from 'lodash-es'
 
+const MODE = 'read'
+
 export default defineComponent({
     inheritAttrs: false,
     props: { ...BaseField.props, ...Form.Item.props },
@@ -19,15 +21,15 @@ export default defineComponent({
                 model: unref(model)
             }
 
-            const baseFieldProps = {
+            const needFieldProps = {
                 ...attrs,
                 ...props,
-                mode: 'read',
+                mode: MODE,
                 fieldProps: fieldProps,
                 formItemProps: needFormItemProps
             }
             return (
-                <BaseField {...baseFieldProps} v-slots={slots}/>
+                <BaseField {...needFieldProps} v-slots={slots}/>
             )
         }
     }
