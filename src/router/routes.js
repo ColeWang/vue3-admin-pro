@@ -122,9 +122,9 @@ const routes = [
         ]
     },
     {
-        path: '/desc',
-        name: 'Desc',
-        redirect: { name: 'DescIndex' },
+        path: '/descriptions',
+        name: 'Descriptions',
+        redirect: { name: 'DescriptionsIndex' },
         meta: {
             title: '描述列表'
         },
@@ -132,8 +132,8 @@ const routes = [
         children: [
             {
                 path: 'index',
-                name: 'DescIndex',
-                component: () => import('@/views/desc'),
+                name: 'DescriptionsIndex',
+                component: () => import('@/views/descriptions'),
                 meta: {
                     title: '描述列表'
                 }

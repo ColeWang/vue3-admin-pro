@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Card } from 'ant-design-vue'
-import Desc from '@/components/desc'
+import { default as Descs } from '@/components/descriptions'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -63,91 +63,91 @@ export default defineComponent({
         return () => {
             return (
                 <Card>
-                    <Desc title={'Descriptions'} bordered={true} model={model} size={'small'}>
-                        <Desc.Item label={'select'}>
-                            <Desc.Field
+                    <Descs title={'Descriptions'} bordered={true} model={model} size={'small'}>
+                        <Descs.Item label={'select'}>
+                            <Descs.Field
                                 name={['deep', 'select']}
                                 valueType={'select'}
                                 valueEnum={valueEnum}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'treeSelect'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'treeSelect'}>
+                            <Descs.Field
                                 name={'treeSelect'}
                                 valueType={'treeSelect'}
                                 fieldProps={{ options }}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'cascader'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'cascader'}>
+                            <Descs.Field
                                 name={'cascader'}
                                 valueType={'cascader'}
                                 fieldProps={{ options }}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'radio'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'radio'}>
+                            <Descs.Field
                                 name={'radio'}
                                 valueType={'radio'}
                                 valueEnum={valueEnum}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'checkbox'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'checkbox'}>
+                            <Descs.Field
                                 name={'checkbox'}
                                 valueType={'checkbox'}
                                 valueEnum={valueEnum}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'switch'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'switch'}>
+                            <Descs.Field
                                 name={'switch'}
                                 valueType={'switch'}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'slider'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'slider'}>
+                            <Descs.Field
                                 name={'slider'}
                                 valueType={'slider'}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'number'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'number'}>
+                            <Descs.Field
                                 name={'number'}
                                 valueType={'number'}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'textarea'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'textarea'}>
+                            <Descs.Field
                                 name={'textarea'}
                                 valueType={'textarea'}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'password'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'password'}>
+                            <Descs.Field
                                 name={'password'}
                                 valueType={'password'}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'text'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'text'}>
+                            <Descs.Field
                                 name={'text'}
                                 valueType={'text'}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'date'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'date'}>
+                            <Descs.Field
                                 name={'date'}
                                 valueType={'date'}
                             />
-                        </Desc.Item>
-                        <Desc.Item label={'dateRange'}>
-                            <Desc.Field
+                        </Descs.Item>
+                        <Descs.Item label={'dateRange'}>
+                            <Descs.Field
                                 name={'dateRange'}
                                 valueType={'dateRange'}
                             />
-                        </Desc.Item>
-                    </Desc>
+                        </Descs.Item>
+                    </Descs>
                 </Card>
             )
         }

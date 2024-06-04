@@ -55,11 +55,11 @@ npm run build
 
 ## TODO LIST
 
+- [-] 描述列表 Descriptions
+- [ ] 表单列表 FormList
 - [ ] 可编辑表格 EditableTable
 - [ ] 拖动排序表格 DragSortTable
-- [ ] 表单列表 FormList
 - [ ] 分步表单 StepsForm
-- [ ] 高级列表 Descriptions
 - [ ] Select、Cascader、TreeSelect 添加 request 支持
 - [ ] 文档补全
 - [ ] 更多的语言支持

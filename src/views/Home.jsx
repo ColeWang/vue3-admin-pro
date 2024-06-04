@@ -1,7 +1,7 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Action, Table } from '@/components/table'
 import { ModalForm, Number, Text } from '@/components/form'
-import Desc from '@/components/desc'
+import { default as Descs } from '@/components/descriptions'
 import { Button, Card } from 'ant-design-vue'
 
 export default defineComponent({
@@ -140,21 +140,21 @@ export default defineComponent({
                 ),
                 extra: ({ pageData }) => (
                     <Card bodyStyle={{ padding: '24px 24px 17px' }}>
-                        <Desc size={'small'} column={3} model={pageData}>
-                            <Desc.Item label={'Row'}>
-                                <Desc.Field name={['length']}/>
-                            </Desc.Item>
-                            <Desc.Item label={'Created'}>Cole</Desc.Item>
-                            <Desc.Item label={'Association'}>
+                        <Descs size={'small'} column={3} model={pageData}>
+                            <Descs.Item label={'Row'}>
+                                <Descs.Field name={['length']}/>
+                            </Descs.Item>
+                            <Descs.Item label={'Created'}>Cole</Descs.Item>
+                            <Descs.Item label={'Association'}>
                                 <a>Dublin No. 2 Lake Park</a>
-                            </Desc.Item>
-                            <Desc.Item label={'Creation Time'}>
+                            </Descs.Item>
+                            <Descs.Item label={'Creation Time'}>
                                 2024-04-09
-                            </Desc.Item>
-                            <Desc.Item label={'Effective Time'}>
+                            </Descs.Item>
+                            <Descs.Item label={'Effective Time'}>
                                 2024-04-09
-                            </Desc.Item>
-                        </Desc>
+                            </Descs.Item>
+                        </Descs>
                     </Card>
                 )
             }

@@ -31,7 +31,6 @@ function loadImage (src) {
 export default defineComponent({
     setup () {
         const canvasRef = ref(null)
-        const formRef = ref(null)
 
         const router = useRouter()
         const route = useRoute()
@@ -54,14 +53,6 @@ export default defineComponent({
         loadImage(BACKGROUND).then((image) => {
             destroy = bubbly(unref(canvasRef), image)
         })
-
-        function onSubmit () {
-            const context = unref(formRef)
-            if (context && context.getFormInstance) {
-                const formInstance = context.getFormInstance()
-                formInstance && formInstance.submit()
-            }
-        }
 
         function onFinish () {
             errorType.value = undefined
@@ -110,7 +101,7 @@ export default defineComponent({
                         <canvas class={cx('login-bg__canvas')} ref={canvasRef}/>
                     </div>
                     <Card class={cx('login-form')} {...cardProps}>
-                        <Form model={model} onFinish={onFinish} ref={formRef}>
+                        <Form model={model} onFinish={onFinish}>
                             <Text
                                 name={'username'}
                                 placeholder={'请输入账号'}
@@ -132,7 +123,7 @@ export default defineComponent({
                                 <a href={'javaScript: void 0'}>忘记密码</a>
                             </div>
                             <Form.Item class={cx('login-form__error')} validateStatus={'error'} help={unref(errorType)}>
-                                <Button type={'primary'} block={true} loading={unref(loading)} onClick={onSubmit}>
+                                <Button type={'primary'} html-type={'submit'} block={true} loading={unref(loading)}>
                                     登录
                                 </Button>
                             </Form.Item>

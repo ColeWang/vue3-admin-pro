@@ -47,11 +47,11 @@ export default defineComponent({
                                 <Text label={'文本'} colProps={{ span: unref(span) }}/>
                                 <Number label={'数字'} colProps={{ span: unref(span) }}/>
                             </Form.Group>
-                            <Form.Deps name={[['test', 'abc']]}>
+                            <Form.Dependency name={[['test', 'abc']]}>
                                 {(slotScope) => {
                                     return slotScope.test.abc
                                 }}
-                            </Form.Deps>
+                            </Form.Dependency>
                         </Form>
                     </Card>
                 </Fragment>

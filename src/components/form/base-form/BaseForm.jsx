@@ -2,7 +2,7 @@ import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { ConfigProvider, Form } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
-import { get, isFunction, pick, set } from 'lodash-es'
+import { get, isFunction, pick, set, unset, update } from 'lodash-es'
 import { cloneProxyToRaw } from '@/utils/props-util'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -88,6 +88,14 @@ export default defineComponent({
             return get(model.value, namePath, undefined)
         }
 
+        function updateModelValue (namePath, updater) {
+            return update(model.value, namePath, updater)
+        }
+
+        function deleteModelValue (namePath) {
+            return unset(model.value, namePath)
+        }
+
         async function validate (names) {
             const context = unref(formInstanceRef)
             if (context && context.validate) {
@@ -98,6 +106,11 @@ export default defineComponent({
         }
 
         function submit () {
+            /**
+             * 值得注意的是 本函数 html-type=submit 点击不会执行
+             * 想关联的话呢, 应拦截 form 的 submit 事件
+             * 暂不支持 感觉没必要
+             */
             validate().then((res) => {
                 const values = cloneProxyToRaw(res)
                 if (props.transform && isFunction(props.transform)) {
@@ -132,6 +145,8 @@ export default defineComponent({
             formProps,
             setModelValue,
             getModelValue,
+            updateModelValue,
+            deleteModelValue,
             submit,
             validate,
             resetFields
