@@ -49,7 +49,7 @@ export default defineComponent({
                             label: column.title
                         }
                         const needFieldProps = {
-                            ...column,
+                            ...pick(column, Object.keys(Field.props)),
                             fieldProps: { ...fieldProps, style: { width: '100%' } },
                             formItemProps: needFormItemProps
                         }

@@ -1,9 +1,26 @@
-import { Descriptions } from 'ant-design-vue'
+import { defineComponent } from 'vue'
+import { Descriptions, Form } from 'ant-design-vue'
+import BaseField from '@/components/base-field'
 
-/**
- * Descriptions.Item 源码直接执行了 slots.default() 导致 render 并不会执行。
- * 没办法和 Field 结合起来, 只能单独用
- */
-const Item = Descriptions.Item
-
-export default Item
+export default defineComponent({
+    inheritAttrs: false,
+    name: 'DescriptionsItem',
+    props: {
+        ...BaseField.props,
+        ...Form.Item.props,
+        ...Descriptions.Item.props,
+        hide: {
+            type: Boolean,
+            default: false
+        },
+        order: {
+            type: Number,
+            default: undefined
+        }
+    },
+    setup (_, { slots }) {
+        return () => {
+            return slots.default && slots.default()
+        }
+    }
+})

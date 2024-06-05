@@ -1,0 +1,20 @@
+.popup-container {
+    position: relative;
+}
+
+.descriptions-header {
+    @include flex(center);
+    margin-bottom: 16px;
+
+    .descriptions-title {
+        flex: auto;
+        @include text(16px, $text, 24px);
+        @include text-weight(600);
+        @include ellipsis-overflow;
+    }
+
+    .descriptions-extra {
+        @include text(14px, $text);
+        margin-inline-start: auto;
+    }
+}

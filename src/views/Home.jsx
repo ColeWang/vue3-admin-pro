@@ -140,10 +140,8 @@ export default defineComponent({
                 ),
                 extra: ({ pageData }) => (
                     <Card bodyStyle={{ padding: '24px 24px 17px' }}>
-                        <Descs size={'small'} column={3} model={pageData}>
-                            <Descs.Item label={'Row'}>
-                                <Descs.Field name={['length']}/>
-                            </Descs.Item>
+                        <Descs size={'small'} column={3}>
+                            <Descs.Item label={'Row'}>{pageData.length}</Descs.Item>
                             <Descs.Item label={'Created'}>Cole</Descs.Item>
                             <Descs.Item label={'Association'}>
                                 <a>Dublin No. 2 Lake Park</a>

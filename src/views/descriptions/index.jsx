@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { Card } from 'ant-design-vue'
+import { Button, Card } from 'ant-design-vue'
 import { default as Descs } from '@/components/descriptions'
 
 export default defineComponent({
@@ -44,7 +44,8 @@ export default defineComponent({
             }
         ]
 
-        const model = {
+        const dataSource = {
+            column: 'text',
             deep: { select: '2' }, // name path
             treeSelect: ['1', '1-1'],
             cascader: ['1'],
@@ -63,90 +64,100 @@ export default defineComponent({
         return () => {
             return (
                 <Card>
-                    <Descs title={'Descriptions'} bordered={true} model={model} size={'small'}>
-                        <Descs.Item label={'select'}>
-                            <Descs.Field
-                                name={['deep', 'select']}
-                                valueType={'select'}
-                                valueEnum={valueEnum}
-                            />
+                    <Descs
+                        title={'Descriptions'}
+                        dataSource={dataSource}
+                        size={'small'}
+                        columns={[
+                            {
+                                title: 'column',
+                                dataIndex: 'column',
+                                valueType: 'text',
+                                order: 9
+                            }
+                        ]}
+                        v-slots={{
+                            extra: () => {
+                                return [<Button>链接</Button>, <Button>链接</Button>]
+                            }
+                        }}
+                    >
+                        <Descs.Item
+                            label={'select'}
+                            name={['deep', 'select']}
+                            valueType={'select'}
+                            valueEnum={valueEnum}
+                            order={10}
+                        />
+                        <Descs.Item
+                            label={'treeSelect'}
+                            name={'treeSelect'}
+                            valueType={'treeSelect'}
+                            fieldProps={{ options }}
+                        />
+                        <Descs.Item
+                            label={'cascader'}
+                            name={'cascader'}
+                            valueType={'cascader'}
+                            fieldProps={{ options }}
+                        />
+                        <Descs.Item
+                            label={'radio'}
+                            name={'radio'}
+                            valueType={'radio'}
+                            valueEnum={valueEnum}
+                        />
+                        <Descs.Item
+                            label={'checkbox'}
+                            name={'checkbox'}
+                            valueType={'checkbox'}
+                            valueEnum={valueEnum}
+                        />
+                        <Descs.Item
+                            label={'switch'}
+                            name={'switch'}
+                            valueType={'switch'}
+                        />
+                        <Descs.Item
+                            label={'slider'}
+                            name={'slider'}
+                            valueType={'slider'}
+                        />
+                        <Descs.Item
+                            label={'number'}
+                            name={'number'}
+                            valueType={'number'}
+                        />
+                        <Descs.Item
+                            label={'textarea'}
+                            name={'textarea'}
+                            valueType={'textarea'}
+                        />
+                        <Descs.Item
+                            label={'password'}
+                            name={'password'}
+                            valueType={'password'}
+                        />
+                        <Descs.Item
+                            label={'text'}
+                            name={'text'}
+                            valueType={'text'}
+                            v-slots={{ a: () => '111' }}
+                        />
+                        <Descs.Item label={'test'}>
+                            123
                         </Descs.Item>
-                        <Descs.Item label={'treeSelect'}>
-                            <Descs.Field
-                                name={'treeSelect'}
-                                valueType={'treeSelect'}
-                                fieldProps={{ options }}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'cascader'}>
-                            <Descs.Field
-                                name={'cascader'}
-                                valueType={'cascader'}
-                                fieldProps={{ options }}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'radio'}>
-                            <Descs.Field
-                                name={'radio'}
-                                valueType={'radio'}
-                                valueEnum={valueEnum}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'checkbox'}>
-                            <Descs.Field
-                                name={'checkbox'}
-                                valueType={'checkbox'}
-                                valueEnum={valueEnum}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'switch'}>
-                            <Descs.Field
-                                name={'switch'}
-                                valueType={'switch'}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'slider'}>
-                            <Descs.Field
-                                name={'slider'}
-                                valueType={'slider'}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'number'}>
-                            <Descs.Field
-                                name={'number'}
-                                valueType={'number'}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'textarea'}>
-                            <Descs.Field
-                                name={'textarea'}
-                                valueType={'textarea'}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'password'}>
-                            <Descs.Field
-                                name={'password'}
-                                valueType={'password'}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'text'}>
-                            <Descs.Field
-                                name={'text'}
-                                valueType={'text'}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'date'}>
-                            <Descs.Field
-                                name={'date'}
-                                valueType={'date'}
-                            />
-                        </Descs.Item>
-                        <Descs.Item label={'dateRange'}>
-                            <Descs.Field
-                                name={'dateRange'}
-                                valueType={'dateRange'}
-                            />
-                        </Descs.Item>
+                        <Descs.Item
+                            label={'date'}
+                            name={'date'}
+                            valueType={'date'}
+                        />
+                        <Descs.Item
+                            label={'dateRange'}
+                            hide={true}
+                            name={'dateRange'}
+                            valueType={'dateRange'}
+                        />
                     </Descs>
                 </Card>
             )

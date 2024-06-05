@@ -2,7 +2,7 @@ import { defineComponent, Fragment } from 'vue'
 import { Input } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import baseFieldProps from '../props'
-import { getSlotVNode } from '@/utils/props-util'
+import { getPropsSlot, getSlotVNode } from '@/utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -21,11 +21,13 @@ export default defineComponent({
             const placeholder = fieldProps.placeholder || t('inputPlaceholder')
 
             if (mode === 'read') {
+                const prefixDom = getPropsSlot(slots, fieldProps, 'prefix')
+                const suffixDom = getPropsSlot(slots, fieldProps, 'suffix')
                 return (
                     <Fragment>
-                        {slots.prefix && slots.prefix()}
+                        {prefixDom}
                         {text ?? emptyText}
-                        {slots.suffix && slots.suffix()}
+                        {suffixDom}
                     </Fragment>
                 )
             }
