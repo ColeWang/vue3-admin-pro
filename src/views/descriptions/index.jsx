@@ -44,21 +44,28 @@ export default defineComponent({
             }
         ]
 
-        const dataSource = {
-            column: 'text',
-            deep: { select: '2' }, // name path
-            treeSelect: ['1', '1-1'],
-            cascader: ['1'],
-            radio: '1',
-            checkbox: '1',
-            switch: true,
-            slider: [10, 90],
-            number: 9010,
-            textarea: '这是一段很长很长很长很长的长长的文本',
-            password: '19203',
-            text: '文本',
-            date: Date.now(),
-            dateRange: [Date.now(), Date.now()]
+        function request () {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const data = {
+                        column: 'text',
+                        deep: { select: '2' }, // name path
+                        treeSelect: ['1', '1-1'],
+                        cascader: ['1'],
+                        radio: '1',
+                        checkbox: '1',
+                        switch: true,
+                        slider: [10, 90],
+                        number: 9010,
+                        textarea: '这是一段很长很长很长很长的长长的文本',
+                        password: '19203',
+                        text: '文本',
+                        date: Date.now(),
+                        dateRange: [Date.now(), Date.now()]
+                    }
+                    resolve({ data })
+                }, 1000)
+            })
         }
 
         return () => {
@@ -66,7 +73,7 @@ export default defineComponent({
                 <Card>
                     <Descs
                         title={'Descriptions'}
-                        dataSource={dataSource}
+                        request={request}
                         bordered={true}
                         size={'small'}
                         columns={[
