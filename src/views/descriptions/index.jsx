@@ -67,6 +67,7 @@ export default defineComponent({
                     <Descs
                         title={'Descriptions'}
                         dataSource={dataSource}
+                        bordered={true}
                         size={'small'}
                         columns={[
                             {
@@ -158,6 +159,11 @@ export default defineComponent({
                             name={'dateRange'}
                             valueType={'dateRange'}
                         />
+                        <Descs.Item label={'slotScope'}>
+                            {(slotScope) => {
+                                return slotScope.column
+                            }}
+                        </Descs.Item>
                     </Descs>
                 </Card>
             )
