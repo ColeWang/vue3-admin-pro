@@ -76,7 +76,7 @@ export default defineComponent({
                     const children = itemSlots.default && itemSlots.default(requestProps.dataSource)
                     return (
                         <Descriptions.Item {...descsItemProps} v-slots={needItemSlots}>
-                            {children}
+                            {children ?? emptyText}
                         </Descriptions.Item>
                     )
                 }
