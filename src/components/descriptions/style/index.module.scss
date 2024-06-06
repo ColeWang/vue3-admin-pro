@@ -2,6 +2,12 @@
     position: relative;
 }
 
+.descriptions {
+    :global(.field-textarea__read) {
+        padding: 0 !important;
+    }
+}
+
 .descriptions-header {
     @include flex(center);
     margin-bottom: 16px;

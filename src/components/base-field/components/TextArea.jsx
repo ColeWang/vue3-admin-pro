@@ -30,7 +30,9 @@ export default defineComponent({
                     whiteSpace: 'pre-wrap',
                 }
                 return (
-                    <span style={styles}>{text ?? emptyText}</span>
+                    <span class={'field-textarea__read'} style={styles}>
+                        {text ?? emptyText}
+                    </span>
                 )
             }
             const needFieldProps = {
