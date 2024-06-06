@@ -30,16 +30,20 @@ export default defineComponent({
         })
 
         function onAfterClose () {
+            const { extraProps } = props
+
             const drawerProps = {
                 ...pick(props, Object.keys(Drawer.props)),
-                ...props.extraProps
+                ...extraProps
             }
             if (drawerProps.destroyOnClose) {
                 const context = unref(baseFormRef)
                 context && context.resetFields()
             }
-            props.onAfterClose && emit('afterClose')
-            isFunction(props.extraProps.onAfterClose) && props.extraProps.onAfterClose()
+            if (extraProps.onAfterClose && isFunction(extraProps.onAfterClose)) {
+                extraProps.onAfterClose()
+            }
+            emit('afterClose')
         }
 
         function onSubmit () {

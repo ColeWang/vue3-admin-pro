@@ -30,16 +30,20 @@ export default defineComponent({
         })
 
         function onAfterClose () {
+            const { extraProps } = props
+
             const modalProps = {
                 ...pick(props, Object.keys(Modal.props)),
-                ...props.extraProps
+                ...extraProps
             }
             if (modalProps.destroyOnClose) {
                 const context = unref(baseFormRef)
                 context && context.resetFields()
             }
-            props.onAfterClose && emit('afterClose')
-            isFunction(props.extraProps.onAfterClose) && props.extraProps.onAfterClose()
+            if (extraProps.onAfterClose && isFunction(extraProps.onAfterClose)) {
+                extraProps.onAfterClose()
+            }
+            emit('afterClose')
         }
 
         function onSubmit () {

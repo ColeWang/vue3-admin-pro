@@ -9,10 +9,9 @@ import useFetchData from '../hooks/useFetchData'
 import useTableColumns from '../hooks/useTableColumns'
 import useRowSelection from '../hooks/useRowSelection'
 import { createSharedContext } from '../hooks/useSharedContext'
-import { tableToExcel } from '../excel'
 import { getSlot, getSlotVNode } from '@/utils/props-util'
 import { omitNil } from '@/utils'
-import { isArray, isFunction, isObject, omit, pick } from 'lodash-es'
+import { isArray, isFunction, omit, pick } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -23,7 +22,7 @@ const BaseTableSize = 'small'
 export default defineComponent({
     inheritAttrs: false,
     props: tableProps,
-    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'columnsChange', 'load', 'requestError', 'finish', 'reset'],
+    emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'export', 'sizeChange', 'columnsChange', 'load', 'requestError', 'finish', 'reset'],
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
         const tableRef = ref(null)
@@ -33,6 +32,7 @@ export default defineComponent({
         const {
             context: requestProps,
             onReload,
+            getRequestData,
             setQueryParams,
             setPaginate,
             setFilter,
@@ -124,22 +124,19 @@ export default defineComponent({
         }
 
         function onExport () {
-            /**
-             * excel.js 倒是可以随便修改！！！
-             * 项目中不需要的话可以删掉
-             * 别忘了 src/components/table/compatible/toolbar/index.jsx
-             */
-            const { toolbar } = props
-            if (isObject(toolbar) && isFunction(toolbar.onExport)) {
-                toolbar.onExport({ pageData: requestProps.dataSource })
-            } else {
-                const context = unref(tableRef)
-                context && tableToExcel(context)
-            }
+            // 当点击查询后 表单数据才会同步到这里, 否则返回的是旧的数据
+            // 实时数据需要 Search 传入 model , 此时 model 会响应的更新
+            const requestData = getRequestData && getRequestData()
+            emit('export', {
+                requestData: requestData || {},
+                pageData: requestProps.dataSource,
+                tableElement: unref(tableRef)
+            })
         }
 
         function setTableSize (value) {
             tableSize.value = value
+            emit('sizeChange', value)
         }
 
         function getPopupContainer () {
@@ -160,7 +157,10 @@ export default defineComponent({
         createSharedContext(instance)
 
         expose({
+            size: tableSize,
+            columns: tableColumns,
             reload: onReload,
+            getRequestData: getRequestData,
             cleanSelected: onCleanSelected
         })
 

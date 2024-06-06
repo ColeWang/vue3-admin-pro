@@ -41,6 +41,10 @@ export default defineComponent({
             ]
         })
 
+        function onExport (value) {
+            console.log(value)
+        }
+
         function onAlertClick (rows, keys) {
             console.log(rows, keys)
         }
@@ -106,7 +110,9 @@ export default defineComponent({
                 columns: unref(columns),
                 request: request,
                 search: { showCollapse: true },
-                rowSelection: true
+                options: { export: true },
+                rowSelection: true,
+                onExport: onExport
             }
 
             const tableSlots = {

@@ -14,7 +14,7 @@ const cx = classNames.bind(styles)
 
 const defaultOptions = {
     reload: true,
-    export: true,
+    export: false,
     density: true,
     setting: true
 }

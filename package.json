@@ -23,15 +23,13 @@
     "axios": "^1.6.7",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.10",
-    "file-saver": "^2.0.5",
     "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-i18n": "^9.10.1",
-    "vue-router": "^4.3.0",
-    "xlsx": "^0.18.5"
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

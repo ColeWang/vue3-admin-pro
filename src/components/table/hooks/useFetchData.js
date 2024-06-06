@@ -41,13 +41,19 @@ function useFetchData (request, props, options) {
     const filterParams = shallowRef({})
     const sortParams = shallowRef({})
 
+    function getRequestData () {
+        const params = { ...unref(queryParams), ...props.params }
+        const paginate = pick(context.pagination, ['current', 'pageSize'])
+        const filter = { ...unref(filterParams) }
+        const sort = { ...unref(sortParams) }
+        return { params, paginate, filter, sort }
+    }
+
     async function fetchData () {
         if (!isFunction(request) || context.loading) return
         context.loading = true
         try {
-            const params = { ...unref(queryParams), ...props.params }
-            const paginate = pick(context.pagination, ['current', 'pageSize'])
-            const filter = { ...unref(filterParams) }, sort = { ...unref(sortParams) }
+            const { params, paginate, filter, sort } = getRequestData()
             const { success, data, total } = await request(params, paginate, filter, sort)
             if (success !== false) {
                 if (props.postData && isFunction(props.postData)) {
@@ -115,7 +121,7 @@ function useFetchData (request, props, options) {
 
     tryOnScopeDispose(onStop)
 
-    return { context, onReload, setQueryParams, setPaginate, setFilter, setSort }
+    return { context, onReload, getRequestData, setQueryParams, setPaginate, setFilter, setSort }
 }
 
 export default useFetchData

@@ -98,6 +98,14 @@ const tableProps = {
         type: Function,
         default: undefined
     },
+    onExport: {
+        type: Function,
+        default: undefined
+    },
+    onSizeChange: {
+        type: Function,
+        default: undefined
+    },
     onColumnsChange: {
         type: Function,
         default: undefined
