@@ -108,13 +108,12 @@ export default defineComponent({
                 const slots = omit((item.children || {}), ['_ctx'])
                 return { ...item.props, __SLOTS__: slots }
             })
-            return [...columns, ...childrenColumns]
-                .filter((item) => {
-                    return !item.hide || !item.hideInDescriptions
-                })
-                .sort((a, b) => {
-                    return (a.order || 0) - (b.order || 0)
-                })
+            const needColumns = [...columns, ...childrenColumns].filter((item) => {
+                return !item.hide || !item.hideInDescriptions
+            })
+            return needColumns.sort((a, b) => {
+                return (a.order || 0) - (b.order || 0)
+            })
         }
 
         function getPopupContainer () {
@@ -125,34 +124,40 @@ export default defineComponent({
         expose({ reload: onReload })
 
         return () => {
-            const { columns, emptyText, title, extra, ...restProps } = props
+            const { columns, emptyText } = props
 
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
 
             const schemaColumns = getColumns(nodes, columns)
             const children = schemaToDescsItem(schemaColumns, emptyText)
 
-            const renderHeader = () => {
-                const titleDom = getPropsSlot(slots, props, 'title')
-                const extraDom = getPropsSlot(slots, props, 'extra')
-                return (
-                    <div class={cx('descriptions-header')}>
-                        <div class={cx('descriptions-title')}>
-                            {titleDom}
-                        </div>
-                        <div class={cx('descriptions-extra')}>
-                            <Space size={8}>{extraDom}</Space>
-                        </div>
-                    </div>
-                )
+            const slotScope = {
+                loading: requestProps.loading,
+                dataSource: requestProps.dataSource
+            }
+            const titleDom = getPropsSlot(slots, props, 'title', slotScope)
+            const extraDom = getPropsSlot(slots, props, 'extra', slotScope)
+
+            const restProps = omit(props, ['title', 'extra'])
+            const needDescsProps = {
+                ...pick(restProps, Object.keys(Descriptions.props)),
+                ...attrs
             }
 
-            const needDescsProps = { ...attrs, ...pick(restProps, Object.keys(Descriptions.props)) }
             return (
                 <div class={cx('descriptions')}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
                         <div class={cx('popup-container')} ref={popupContainer}>
-                            {(title || extra) && renderHeader()}
+                            {(titleDom || extraDom) && (
+                                <div class={cx('descriptions-header')}>
+                                    <div class={cx('descriptions-title')}>
+                                        {titleDom}
+                                    </div>
+                                    <div class={cx('descriptions-extra')}>
+                                        <Space size={8}>{extraDom}</Space>
+                                    </div>
+                                </div>
+                            )}
                             <Spin spinning={requestProps.loading}>
                                 <Descriptions {...needDescsProps}>
                                     {children}
