@@ -1,5 +1,5 @@
 import { defineComponent, ref, unref } from 'vue'
-import { ConfigProvider, Descriptions, Form, Spin } from 'ant-design-vue'
+import { ConfigProvider, Descriptions, Form, Space, Spin } from 'ant-design-vue'
 import BaseField from '@/components/base-field'
 import useFetchData from './hooks/useFetchData'
 import { isFunction, omit, pick } from 'lodash-es'
@@ -141,7 +141,7 @@ export default defineComponent({
                             {titleDom}
                         </div>
                         <div class={cx('descriptions-extra')}>
-                            {extraDom}
+                            <Space size={8}>{extraDom}</Space>
                         </div>
                     </div>
                 )
