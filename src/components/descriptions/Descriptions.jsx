@@ -131,7 +131,10 @@ export default defineComponent({
             const schemaColumns = getColumns(nodes, columns)
             const children = schemaToDescsItem(schemaColumns, emptyText)
 
-            const slotScope = { ...requestProps }
+            const slotScope = {
+                loading: requestProps.loading,
+                data: requestProps.dataSource
+            }
             const titleDom = getPropsSlot(slots, props, 'title', slotScope)
             const extraDom = getPropsSlot(slots, props, 'extra', slotScope)
 
