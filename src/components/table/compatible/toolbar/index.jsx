@@ -62,7 +62,11 @@ export default defineComponent({
         return () => {
             const { options: propsOptions } = props
 
-            const slotScope = { ...requestProps }
+            const slotScope = {
+                loading: requestProps.loading,
+                pageData: requestProps.dataSource,
+                pagination: requestProps.pagination
+            }
             const titleDom = getSlotVNode(slots, props, 'title', slotScope)
             const actionsDom = getSlotVNode(slots, props, 'actions', slotScope)
 
