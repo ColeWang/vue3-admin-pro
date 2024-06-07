@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, ref, toRefs, unref, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table } from 'ant-design-vue'
 import tableProps from './props'
 import Search from '../compatible/search'
@@ -144,17 +144,15 @@ export default defineComponent({
             return plain ? (plain.$el || plain) : plain
         }
 
-        const instance = {
+        createSharedContext({
+            requestProps,
             tableSize,
             setTableSize,
             columns,
             columnsMap,
             setColumnsMap,
-            onReload: onReload,
-            ...toRefs(requestProps)
-        }
-
-        createSharedContext(instance)
+            onReload: onReload
+        })
 
         expose({
             size: tableSize,

@@ -34,7 +34,7 @@ export default defineComponent({
         useResizeObserver(elRef, debounceCallback)
 
         return () => {
-            const slotScope = unref(size)
+            const slotScope = { size: unref(size) }
             const children = slots.default && slots.default(slotScope)
 
             return (

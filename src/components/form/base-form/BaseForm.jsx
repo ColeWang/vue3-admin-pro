@@ -2,7 +2,7 @@ import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { ConfigProvider, Form } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
-import { get, isFunction, pick, set, unset, update } from 'lodash-es'
+import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
 import { cloneProxyToRaw } from '@/utils/props-util'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
@@ -105,25 +105,39 @@ export default defineComponent({
             return Promise.reject(error)
         }
 
+        function onFinish (values) {
+            // 支持 form 的 submit 事件, html-type="submit"
+            const nextValues = cloneProxyToRaw(values)
+            if (props.transform && isFunction(props.transform)) {
+                const resultValues = props.transform(nextValues) || {}
+                emit('finish', resultValues)
+            } else {
+                emit('finish', nextValues)
+            }
+        }
+
+        function onScrollToField (namePath, options) {
+            const context = unref(formInstanceRef)
+            context && context.scrollToField(namePath, options)
+        }
+
+        function onFinishFailed (error) {
+            const { scrollToFirstError } = props
+            if (scrollToFirstError && error.errorFields.length) {
+                const headField = head(error.errorFields)
+                const options = isObject(scrollToFirstError) ? scrollToFirstError : {}
+                onScrollToField(headField.name, options)
+            }
+            emit('finishFailed', error)
+        }
+
         function submit () {
-            /**
-             * 值得注意的是 本函数 html-type=submit 点击不会执行
-             * 想关联的话呢, 应拦截 form 的 submit 事件
-             * 暂不支持 感觉没必要
-             */
-            validate().then((res) => {
-                const values = cloneProxyToRaw(res)
-                if (props.transform && isFunction(props.transform)) {
-                    const nextValues = props.transform(values) || {}
-                    emit('submit', nextValues)
-                    emit('finish', nextValues)
-                } else {
-                    emit('submit', values)
-                    emit('finish', values)
-                }
-            }, (err) => {
-                emit('finishFailed', err)
-                console.warn('Validate Failed:', err)
+            emit('submit', { __MARK__: 'submit' })
+            validate().then((values) => {
+                onFinish(values)
+            }, (error) => {
+                console.warn('Validate Failed:', error)
+                onFinishFailed(error)
             })
         }
 
@@ -139,7 +153,7 @@ export default defineComponent({
             return plain ? (plain.$el || plain) : plain
         }
 
-        const instance = {
+        const fromInstance = {
             formInstanceRef,
             model,
             formProps,
@@ -152,8 +166,8 @@ export default defineComponent({
             resetFields
         }
 
-        expose(instance)
-        createFromInstance(instance)
+        createFromInstance(fromInstance)
+        expose(fromInstance)
 
         return () => {
             const { grid, rowProps } = props
@@ -162,7 +176,8 @@ export default defineComponent({
                 ...attrs,
                 ...pick(props, Object.keys(Form.props)),
                 layout: resetLayoutOfGrid(props),
-                model: unref(model)
+                model: unref(model),
+                onFinish: onFinish
             }
 
             const rowWrapProps = { ...rowProps, grid }
