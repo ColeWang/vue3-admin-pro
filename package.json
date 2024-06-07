@@ -1,6 +1,6 @@
 {
   "name": "vue3-admin-pro",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "基于Vue3、Vite、Antd 的后台管理模版 + 内置重装组件， Jsx + Css Module 编写，支持 Template。",
   "repository": {
     "type": "git",
