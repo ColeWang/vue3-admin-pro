@@ -17,7 +17,7 @@ export default defineComponent({
         // 并且不干涉 layout 的逻辑
         const { appContext } = getCurrentInstance()
         const { globalProperties } = appContext ? appContext.config : {}
-        const { $i18n } = globalProperties || { locale: 'zh-CN' }
+        const { $i18n = { locale: 'zh-CN' } } = globalProperties || {}
 
         const language = navigator.language
         const localeLang = (language === 'zh-CN' || language === 'en-US') ? language : false

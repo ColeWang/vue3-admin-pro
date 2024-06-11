@@ -10,22 +10,38 @@ const __dirname = dirname(__filename)
 export default defineConfig({
     plugins: [vue(), vueJsx()],
     build: {
+        outDir: resolve(__dirname, './packages'),
+        minify: false,
+        rollupOptions: {
+            exports: 'named',
+            external: [
+                'vue',
+                'ant-design-vue',
+                '@ant-design/icons-vue',
+                'dayjs',
+                'lodash-es'
+            ],
+            // output: [
+            //     {
+            //         format: 'es',
+            //         entryFileNames: '[name].mjs',
+            //         preserveModules: true,
+            //         exports: 'named',
+            //         dir: './packages/components',
+            //     }
+            // ]
+        },
         lib: {
             entry: resolve(__dirname, './entry.packages.js'),
             name: 'packages',
-            fileName: 'index'
-        },
-        outDir: resolve(__dirname, './packages'),
-        rollupOptions: {
-            exports: 'named',
-            external: ['vue', 'dayjs'],
-            globals: { vue: 'Vue', dayjs: 'dayjs' }
+            fileName: 'index',
+            formats: ['es']
         }
     },
     css: {
         preprocessorOptions: {
             scss: {
-                additionalData: '@import \'@/styles/mixin.scss\';'
+                additionalData: '@import \'@/css/mixin.scss\';'
             }
         }
     },
