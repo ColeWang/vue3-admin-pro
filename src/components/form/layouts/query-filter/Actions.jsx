@@ -68,8 +68,8 @@ export default defineComponent({
             )
             const submitterProps = {
                 ...pick(submitter, Object.keys(Submitter.props)),
-                loading: loading,
                 submitText: submitter.submitText || t('search'),
+                loading: loading,
                 onSubmit: onSubmit,
                 onReset: onReset,
             }
