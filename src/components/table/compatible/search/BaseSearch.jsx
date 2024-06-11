@@ -42,7 +42,7 @@ export default defineComponent({
 
             return (
                 <Card {...cardProps}>
-                    <QueryFilter{...queryFilterProps} ref={queryFilterRef}>
+                    <QueryFilter {...queryFilterProps} ref={queryFilterRef}>
                         {(slotScope) => {
                             return children.map((vNode) => {
                                 if (!isValidElement(vNode)) return vNode

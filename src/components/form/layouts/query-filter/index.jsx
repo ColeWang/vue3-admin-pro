@@ -3,7 +3,6 @@ import { Col, Form, Row } from 'ant-design-vue'
 import ResizeObserver from '@/components/resize-observer'
 import BaseForm from '../../base-form'
 import Actions from './Actions'
-import { useLocaleReceiver } from '@/components/locale-provider'
 import useQueryFilter from './hooks/useQueryFilter'
 import { genFormItemFixStyle } from '../../utils'
 import { filterEmptyElement } from '@/utils/props-util'
@@ -51,7 +50,6 @@ export default defineComponent({
 
         const size = ref({ width: 0, height: 0 })
 
-        const { t } = useLocaleReceiver(['Form'])
         const { layout, span, collapsed, setCollapse, genColNodes } = useQueryFilter(size, props)
 
         function onResize (value) {
@@ -81,7 +79,7 @@ export default defineComponent({
         expose({ getFormInstance })
 
         return () => {
-            const { labelWidth, gutter, submitText } = props
+            const { labelWidth, gutter } = props
 
             const slotScope = {
                 layout: unref(layout),
@@ -105,7 +103,6 @@ export default defineComponent({
 
             const actionsProps = {
                 ...pick(props, Object.keys(Actions.props)),
-                submitText: submitText || t('search'),
                 collapsed: unref(collapsed),
                 onSubmit: onSubmit,
                 onReset: onReset,

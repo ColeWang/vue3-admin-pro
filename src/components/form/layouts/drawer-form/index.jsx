@@ -62,7 +62,7 @@ export default defineComponent({
         })
 
         return () => {
-            const { extraProps, submitText, resetText } = props
+            const { extraProps, submitter } = props
 
             const baseFormProps = {
                 ...attrs,
@@ -82,9 +82,9 @@ export default defineComponent({
             const drawerSlots = {
                 extra: () => {
                     const submitterProps = {
-                        ...pick(props, Object.keys(Submitter.props)),
-                        submitText: submitText || t('okText'),
-                        resetText: resetText || t('cancelText'),
+                        ...pick(submitter, Object.keys(Submitter.props)),
+                        submitText: submitter.submitText || t('okText'),
+                        resetText: submitter.resetText || t('cancelText'),
                         loading: unref(loading),
                         onSubmit: onSubmit,
                         onReset: onCancel

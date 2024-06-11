@@ -1,5 +1,5 @@
 import { ref, unref, watch } from 'vue'
-import { default as BaseForm, Submitter } from '../../base-form'
+import { default as BaseForm } from '../../base-form'
 import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
 import { isFunction } from 'lodash-es'
 
@@ -32,9 +32,12 @@ const extraProps = {
 
 export const floatProps = {
     ...BaseForm.props,
-    ...Submitter.props,
     ...extraProps,
     extraProps: {
+        type: Object,
+        default: () => ({})
+    },
+    submitter: {
         type: Object,
         default: () => ({})
     },
