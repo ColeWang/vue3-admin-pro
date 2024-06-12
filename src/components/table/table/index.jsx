@@ -119,19 +119,20 @@ export default defineComponent({
             emit('finish', nextValues)
         }
 
-        function onReset (params) {
-            emit('reset', params)
+        function onReset (value) {
+            emit('reset', value)
         }
 
         function onExport () {
             // 当点击查询后 表单数据才会同步到这里, 否则返回的是旧的数据
             // 实时数据需要 Search 传入 model , 此时 model 会响应的更新
-            const requestData = getRequestData && getRequestData()
-            emit('export', {
-                requestData: requestData || {},
+            const data = getRequestData && getRequestData()
+            const exportParams = {
                 pageData: requestProps.dataSource,
-                tableElement: unref(tableRef)
-            })
+                tableElement: unref(tableRef),
+                requestData: data || {},
+            }
+            emit('export', exportParams)
         }
 
         function setTableSize (value) {

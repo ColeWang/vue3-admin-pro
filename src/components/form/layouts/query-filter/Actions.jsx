@@ -41,24 +41,16 @@ export default defineComponent({
             default: undefined
         }
     },
-    emits: ['submit', 'reset', 'collapse'],
-    setup (props, { emit }) {
+    emits: ['collapse'],
+    setup (props, { emit, attrs }) {
         const { t } = useLocaleReceiver(['Form'])
-
-        function onSubmit (evt) {
-            emit('submit', evt)
-        }
-
-        function onReset (evt) {
-            emit('reset', evt)
-        }
 
         function onCollapse () {
             emit('collapse', !props.collapsed)
         }
 
         return () => {
-            const { loading, collapsed, showCollapse, submitter } = props
+            const { collapsed, showCollapse, submitter } = props
 
             const collapseDom = showCollapse && (
                 <Button class={cx('collapse-button')} type={'link'} onClick={onCollapse}>
@@ -67,14 +59,12 @@ export default defineComponent({
                 </Button>
             )
             const submitterProps = {
+                ...pick(props, Object.keys(Submitter.props)),
                 ...pick(submitter, Object.keys(Submitter.props)),
-                submitText: submitter.submitText || t('search'),
-                loading: loading,
-                onSubmit: onSubmit,
-                onReset: onReset,
+                submitText: submitter.submitText || t('search')
             }
             return (
-                <Space size={10}>
+                <Space size={10} {...attrs}>
                     <Submitter {...submitterProps}/>
                     {collapseDom}
                 </Space>
