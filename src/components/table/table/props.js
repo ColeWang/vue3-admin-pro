@@ -26,6 +26,10 @@ const extraProps = {
 const tableProps = {
     ...Table.props,
     ...extraProps,
+    search: {
+        type: [Object, Boolean],
+        default: undefined
+    },
     manualRequest: {
         type: Boolean,
         default: false
@@ -46,13 +50,9 @@ const tableProps = {
         type: Function,
         default: undefined
     },
-    search: {
-        type: [Object, Boolean],
-        default: undefined
-    },
     toolbar: {
-        type: [Object, Boolean],
-        default: undefined
+        type: Boolean,
+        default: true
     },
     options: {
         type: [Object, Boolean],

@@ -208,7 +208,7 @@ export default defineComponent({
                 return <Alert {...alertProps} v-slots={alertSlots}/>
             }
 
-            const cardBodyStyle = propsToolbar !== false ? ({
+            const cardBodyStyle = propsToolbar ? ({
                 paddingBlock: '16px',
                 paddingBlockStart: '0'
             }) : ({
@@ -239,7 +239,7 @@ export default defineComponent({
                     {propsSearch !== false && renderSearch()}
                     {extraDom && <Extra>{extraDom}</Extra>}
                     <Card bodyStyle={cardBodyStyle}>
-                        {propsToolbar !== false && renderToolbar()}
+                        {propsToolbar && renderToolbar()}
                         {propsRowSelection !== false && renderAlert()}
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>
