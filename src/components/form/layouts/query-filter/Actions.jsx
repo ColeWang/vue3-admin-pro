@@ -41,7 +41,7 @@ export default defineComponent({
             default: undefined
         }
     },
-    emits: ['collapse'],
+    emits: ['submit', 'reset', 'collapse'],
     setup (props, { emit, attrs }) {
         const { t } = useLocaleReceiver(['Form'])
 
