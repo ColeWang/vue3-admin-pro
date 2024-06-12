@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import { preventDefault } from '@/utils/event'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -19,6 +20,7 @@ export default defineComponent({
     emits: ['click'],
     setup (props, { emit, slots }) {
         function onClick (evt) {
+            preventDefault(evt)
             emit('click', evt)
         }
 

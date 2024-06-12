@@ -4,6 +4,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import baseFieldProps from '../props'
 import { getSlotVNode } from '@/utils/props-util'
+import { preventDefault } from '@/utils/event'
 import { isEmpty } from '@/utils'
 
 export default defineComponent({
@@ -15,7 +16,8 @@ export default defineComponent({
         const { fieldProps } = props
         const visible = ref(fieldProps.visible || false)
 
-        function onVisibleClick () {
+        function onVisibleClick (evt) {
+            preventDefault(evt)
             visible.value = !unref(visible)
         }
 
