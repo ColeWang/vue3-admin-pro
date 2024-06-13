@@ -15,7 +15,8 @@ export default defineComponent({
                     dataIndex: 'name',
                     formItemProps: {
                         tooltip: 'Name'
-                    }
+                    },
+                    sorter: true
                 },
                 {
                     title: 'Tel',
@@ -55,6 +56,7 @@ export default defineComponent({
         }
 
         function request (params, paginate, filter, sort) {
+            console.log(params, paginate, filter, sort)
             return new Promise((resolve) => {
                 const data = [
                     {

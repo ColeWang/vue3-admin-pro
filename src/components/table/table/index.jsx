@@ -32,8 +32,8 @@ export default defineComponent({
         const {
             context: requestProps,
             onReload,
-            getRequestData,
-            setQueryParams,
+            getQueryData,
+            setParams,
             setPaginate,
             setFilter,
             setSort
@@ -112,9 +112,9 @@ export default defineComponent({
             const nextValues = omitNil(values)
             if (isFunction(props.beforeSearchSubmit)) {
                 const result = props.beforeSearchSubmit(nextValues)
-                setQueryParams && setQueryParams(result || {})
+                setParams && setParams(result || {})
             } else {
-                setQueryParams && setQueryParams(nextValues)
+                setParams && setParams(nextValues)
             }
             emit('finish', nextValues)
         }
@@ -126,11 +126,11 @@ export default defineComponent({
         function onExport () {
             // 当点击查询后 表单数据才会同步到这里, 否则返回的是旧的数据
             // 实时数据需要 Search 传入 model , 此时 model 会响应的更新
-            const data = getRequestData && getRequestData()
+            const data = getQueryData && getQueryData()
             const exportParams = {
                 pageData: requestProps.dataSource,
                 tableElement: unref(tableRef),
-                requestData: data || {},
+                queryData: data || {}
             }
             emit('export', exportParams)
         }
@@ -159,7 +159,7 @@ export default defineComponent({
             size: tableSize,
             columns: tableColumns,
             reload: onReload,
-            getRequestData: getRequestData,
+            getQueryData: getQueryData,
             cleanSelected: onCleanSelected
         })
 

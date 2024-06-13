@@ -1,4 +1,4 @@
-import { shallowReactive, shallowRef, unref, watch } from 'vue'
+import { shallowReactive, watch } from 'vue'
 import { useLocaleReceiver } from '@/components/locale-provider'
 import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
 import { isFunction, pick } from 'lodash-es'
@@ -37,16 +37,14 @@ function useFetchData (request, props, options) {
         pagination: mergePagination(props.pagination, t)
     })
 
-    const queryParams = shallowRef({})
-    const filterParams = shallowRef({})
-    const sortParams = shallowRef({})
+    const query = shallowReactive({ params: {}, filter: {}, sort: {} })
 
     const stopWatchDataSource = watch(() => props.dataSource, (value) => {
         // 手动请求时 更新 dataSource
         context.dataSource = value || []
     }, { immediate: true })
 
-    const stopWatchParams = watch([() => props.params, queryParams], () => {
+    const stopWatchParams = watch([() => query.params, () => props.params], () => {
         setPaginate({ current: 1 })
         fetchData()
     })
@@ -58,19 +56,18 @@ function useFetchData (request, props, options) {
         }
     })
 
-    function getRequestData () {
-        const params = { ...unref(queryParams), ...props.params }
+    function getQueryData () {
+        const { params, filter, sort } = query
+        const nextParams = { ...props.params, ...params }
         const paginate = pick(context.pagination, ['current', 'pageSize'])
-        const filter = { ...unref(filterParams) }
-        const sort = { ...unref(sortParams) }
-        return { params, paginate, filter, sort }
+        return { params: nextParams, paginate, filter, sort }
     }
 
     async function fetchData () {
         if (!isFunction(request) || context.loading) return
         context.loading = true
         try {
-            const { params, paginate, filter, sort } = getRequestData()
+            const { params, paginate, filter, sort } = getQueryData()
             const { success, data, total } = await request(params, paginate, filter, sort)
             if (success !== false) {
                 // postData 不应导致 data 的长度变化, total
@@ -92,22 +89,22 @@ function useFetchData (request, props, options) {
         }
     }
 
-    function setQueryParams (params) {
-        queryParams.value = params
-    }
-
     function setPaginate (paginate) {
         if (context.pagination === false) return
         const needPaginate = { ...context.pagination, ...paginate }
         context.pagination = validatePaginate(needPaginate)
     }
 
+    function setParams (params) {
+        query.params = params
+    }
+
     function setFilter (filter) {
-        filterParams.value = filter
+        query.filter = filter
     }
 
     function setSort (sort) {
-        sortParams.value = sort
+        query.sort = sort
     }
 
     function onReload (resetCurrent = false) {
@@ -123,7 +120,7 @@ function useFetchData (request, props, options) {
 
     tryOnScopeDispose(onStop)
 
-    return { context, onReload, getRequestData, setQueryParams, setPaginate, setFilter, setSort }
+    return { context, onReload, getQueryData, setParams, setPaginate, setFilter, setSort }
 }
 
 export default useFetchData
