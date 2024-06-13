@@ -1,6 +1,6 @@
 import { defineComponent, onUnmounted, reactive, ref, unref } from 'vue'
 import { Button, Card, Checkbox } from 'ant-design-vue'
-import { Form, Password, Text } from '@/components/form'
+import { Form, Password, Text } from '@/packages/form'
 import { PasswordFilled, UserFilled } from '@/components/icon'
 import { useRoute, useRouter } from 'vue-router'
 import { HOME_NAME } from '@/config'

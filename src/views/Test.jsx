@@ -16,7 +16,7 @@ import {
     Time,
     TimeRange,
     Radio
-} from '@/components/form'
+} from '@/packages/form'
 
 export default defineComponent({
     name: 'TestIndex',

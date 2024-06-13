@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Button, Card } from 'ant-design-vue'
-import { DrawerForm, Number, Text } from '@/components/form'
+import { DrawerForm, Number, Text } from '@/packages/form'
 
 export default defineComponent({
     name: 'FormDrawer',

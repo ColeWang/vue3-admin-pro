@@ -1,7 +1,7 @@
 import { defineComponent, ref, unref } from 'vue'
-import { CustomFields } from '@/components/base-field'
-import { HocField, Radio, Select } from '@/components/form'
-import { Action, ActionGroup, BaseSearch, Table } from '@/components/table'
+import { CustomFields } from '@/packages/base-field'
+import { HocField, Radio, Select } from '@/packages/form'
+import { Action, ActionGroup, BaseSearch, Table } from '@/packages/table'
 
 const Test = HocField('test')
 
