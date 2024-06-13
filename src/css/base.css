@@ -34,11 +34,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-    color: #666;
-    text-decoration: none;
-}
-
 body, html {
     width: 100%;
     height: 100%;
@@ -48,6 +43,15 @@ body, html {
 #app {
     width: 100%;
     height: 100%;
+}
+
+a {
+    color: #1677ff;
+    text-decoration: none;
+}
+
+a:active {
+    color: #0958d9;
 }
 
 * {
