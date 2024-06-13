@@ -108,12 +108,9 @@ export default defineComponent({
                 const slots = omit((item.children || {}), ['_ctx'])
                 return { ...item.props, __SLOTS__: slots }
             })
-            const needColumns = [...columns, ...childrenColumns].filter((item) => {
-                return !item.hide || !item.hideInDescriptions
-            })
-            return needColumns.sort((a, b) => {
-                return (a.order || 0) - (b.order || 0)
-            })
+            return [...columns, ...childrenColumns]
+                .filter((item) => !item.hide && !item.hideInDescriptions)
+                .sort((a, b) => (a.order || 0) - (b.order || 0))
         }
 
         function getPopupContainer () {
