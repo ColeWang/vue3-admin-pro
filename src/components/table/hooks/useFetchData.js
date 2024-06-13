@@ -41,6 +41,23 @@ function useFetchData (request, props, options) {
     const filterParams = shallowRef({})
     const sortParams = shallowRef({})
 
+    const stopWatchDataSource = watch(() => props.dataSource, (value) => {
+        // 手动请求时 更新 dataSource
+        context.dataSource = value || []
+    }, { immediate: true })
+
+    const stopWatchParams = watch([() => props.params, queryParams], () => {
+        setPaginate({ current: 1 })
+        fetchData()
+    })
+
+    const stopWatchPagination = watch(() => context.pagination, (value, oldValue) => {
+        if (value && oldValue && (value.current !== oldValue.current || value.pageSize !== oldValue.pageSize)) {
+            oldValue.pageSize !== value.pageSize && setPaginate({ current: 1 })
+            fetchData()
+        }
+    })
+
     function getRequestData () {
         const params = { ...unref(queryParams), ...props.params }
         const paginate = pick(context.pagination, ['current', 'pageSize'])
@@ -56,13 +73,15 @@ function useFetchData (request, props, options) {
             const { params, paginate, filter, sort } = getRequestData()
             const { success, data, total } = await request(params, paginate, filter, sort)
             if (success !== false) {
+                // postData 不应导致 data 的长度变化, total
                 if (props.postData && isFunction(props.postData)) {
                     const nextData = props.postData(data, params, paginate, filter, sort)
                     context.dataSource = nextData || []
+                    onLoad && onLoad(nextData)
                 } else {
                     context.dataSource = data || []
+                    onLoad && onLoad(data)
                 }
-                onLoad && onLoad(data)
                 setPaginate({ total: total || data.length })
             }
         } catch (err) {
@@ -72,23 +91,6 @@ function useFetchData (request, props, options) {
             context.loading = false
         }
     }
-
-    const stopWatchDataSource = watch(() => props.dataSource, (value) => {
-        // 手动请求时 更新 dataSource
-        context.dataSource = value || []
-    }, { immediate: true })
-
-    const stopWatchPagination = watch(() => context.pagination, (value, oldValue) => {
-        if (value && oldValue && (value.current !== oldValue.current || value.pageSize !== oldValue.pageSize)) {
-            oldValue.pageSize !== value.pageSize && setPaginate({ current: 1 })
-            fetchData()
-        }
-    })
-
-    const stopWatchParams = watch([() => props.params, queryParams], () => {
-        setPaginate({ current: 1 })
-        fetchData()
-    })
 
     function setQueryParams (params) {
         queryParams.value = params

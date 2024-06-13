@@ -1,4 +1,5 @@
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
+import { Form } from '@/components/form'
 import Table from '../table'
 
 const editable = {
@@ -26,13 +27,17 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
+        const modelRef = reactive(props.dataSource || [])
+
         return () => {
             return (
-                <Table
-                    search={false}
-                    options={false}
-                    pagination={false}
-                />
+                <Form layout={'vertical'}>
+                    <Table
+                        search={false}
+                        options={false}
+                        pagination={false}
+                    />
+                </Form>
             )
         }
     }
