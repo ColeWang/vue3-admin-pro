@@ -45,15 +45,16 @@ body, html {
     height: 100%;
 }
 
-a {
+#app a {
     color: #1677ff;
     text-decoration: none;
 }
 
-a:active {
+#app a:active {
     color: #0958d9;
+    text-decoration: none;
 }
 
-* {
+*, *::after, *::before {
     box-sizing: border-box;
 }
