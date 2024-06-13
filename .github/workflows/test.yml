@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: npm coverage
+        run: npm run coverage
       - name: Upload Vitest coverage
         uses: actions/upload-artifact@v4
         if: success()
