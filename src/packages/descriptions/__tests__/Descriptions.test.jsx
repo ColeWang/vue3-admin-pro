@@ -19,9 +19,6 @@ describe('Descriptions', () => {
                 },
                 onLoad: (value) => {
                     console.log(value)
-                },
-                onRequestError: (error) => {
-                    console.log(error)
                 }
             },
             slots: {
@@ -40,6 +37,10 @@ describe('Descriptions', () => {
             }
         })
         expect(wrapper.exists()).toBeTruthy()
+        // onReload
+        wrapper.vm.reload && wrapper.vm.reload()
+        // tryOnScopeDispose
+        wrapper.unmount()
     })
 
     it('props columns', async () => {
