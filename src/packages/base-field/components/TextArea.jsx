@@ -2,7 +2,6 @@ import { defineComponent } from 'vue'
 import { Input } from 'ant-design-vue'
 import { useLocaleReceiver } from '@/packages/locale-provider'
 import baseFieldProps from '../props'
-import { stopPropagation } from '@/utils/event'
 import { getSlotVNode } from '@/utils/props-util'
 
 export default defineComponent({
@@ -10,12 +9,6 @@ export default defineComponent({
     props: { ...baseFieldProps },
     setup (props, { slots }) {
         const { t } = useLocaleReceiver(['global'])
-
-        function onKeyPress (evt) {
-            if (evt.key === 'Enter') {
-                stopPropagation(evt)
-            }
-        }
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
@@ -37,7 +30,6 @@ export default defineComponent({
             }
             const needFieldProps = {
                 rows: 3,
-                onKeyPress: onKeyPress,
                 ...fieldProps,
                 placeholder: placeholder
             }

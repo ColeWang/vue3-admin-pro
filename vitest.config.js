@@ -8,6 +8,9 @@ export default defineConfig((configEnv) => {
             include: ['**/*.{test,spec,type-test}.{js,mjs,cjs,ts,tsx,jsx}'],
             coverage: {
                 exclude: [
+                    '.eslintrc.cjs',
+                    'entry.packages.js',
+                    'vite.packages.config.js',
                     'src/assets/**',
                     'src/boot/**',
                     'src/components/**',
