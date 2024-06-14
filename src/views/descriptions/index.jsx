@@ -56,7 +56,7 @@ export default defineComponent({
                         checkbox: '1',
                         switch: true,
                         slider: [10, 90],
-                        number: 9010,
+                        number: 0,
                         textarea: '这是一段很长很长很长很长的长长的文本',
                         password: '19203',
                         text: '文本',

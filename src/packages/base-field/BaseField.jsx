@@ -175,7 +175,6 @@ export default defineComponent({
             const { model = {}, name: namePath } = formItemProps
 
             const inputValue = get(model, namePath, undefined)
-            const dataValue = mode === 'edit' ? (inputValue ?? text ?? '') : (text ?? inputValue ?? '')
 
             const needFieldProps = {
                 ...fieldProps,
@@ -186,7 +185,7 @@ export default defineComponent({
             const fieldRenderProps = {
                 ...props,
                 ...attrs,
-                text: dataValue,
+                text: mode === 'edit' ? (inputValue ?? text) : (text ?? inputValue),
                 fieldProps: needFieldProps
             }
 

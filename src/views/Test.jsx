@@ -30,20 +30,20 @@ export default defineComponent({
         return () => {
             return (
                 <Form layout={'inline'}>
-                    <Date width={'md'}/>
-                    <DateRange width={'md'}/>
-                    <DateWeek width={'md'}/>
-                    <DateWeekRange width={'md'}/>
-                    <DateMonth width={'md'}/>
-                    <DateMonthRange width={'md'}/>
-                    <DateQuarter width={'md'}/>
-                    <DateQuarterRange width={'md'}/>
-                    <DateYear width={'md'}/>
-                    <DateYearRange width={'md'}/>
-                    <DateTime width={'md'}/>
-                    <DateTimeRange width={'md'}/>
-                    <Time width={'md'}/>
-                    <TimeRange width={'md'}/>
+                    <Date mode={'read'} width={'md'}/>
+                    {/*<DateRange width={'md'}/>*/}
+                    {/*<DateWeek width={'md'}/>*/}
+                    {/*<DateWeekRange width={'md'}/>*/}
+                    {/*<DateMonth width={'md'}/>*/}
+                    {/*<DateMonthRange width={'md'}/>*/}
+                    {/*<DateQuarter width={'md'}/>*/}
+                    {/*<DateQuarterRange width={'md'}/>*/}
+                    {/*<DateYear width={'md'}/>*/}
+                    {/*<DateYearRange width={'md'}/>*/}
+                    {/*<DateTime width={'md'}/>*/}
+                    {/*<DateTimeRange width={'md'}/>*/}
+                    {/*<Time width={'md'}/>*/}
+                    {/*<TimeRange width={'md'}/>*/}
                 </Form>
             )
         }
