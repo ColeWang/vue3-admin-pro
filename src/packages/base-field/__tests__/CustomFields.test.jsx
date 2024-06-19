@@ -1,27 +1,31 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import BaseField, { CustomFields } from '../index'
+import mountTest from '../../../../tests/shared/mountTest'
 
 describe('CustomFields', () => {
-    it('render', async () => {
-        const valueTypeMap = {
-            test: ({ props, slots }) => {
-                // console.log('cole', props, slots)
-                return '123'
-            }
+    mountTest(CustomFields)
+
+    const valueTypeMap = {
+        test: ({ props, slots }) => {
+            return 'test'
         }
+    }
+
+    it('props valueTypeMap and slots', async () => {
+        const testSpy = vi.spyOn(valueTypeMap, 'test')
+
         const wrapper = mount(CustomFields, {
+            props: { valueTypeMap },
             slots: {
                 default: () => <BaseField valueType={'test'}/>
             }
         })
-        // 自定义的值
-        const testSpy = vi.spyOn(valueTypeMap, 'test')
-        await wrapper.setProps({ valueTypeMap: valueTypeMap })
-        expect(wrapper.exists()).toBeTruthy()
 
-        const baseField = wrapper.findComponent(BaseField)
+        // run
         expect(testSpy).toHaveBeenCalled()
-        expect(baseField.text()).toBe('123')
+        // render
+        const baseField = wrapper.findComponent(BaseField)
+        expect(baseField.text()).toBe('test')
     })
 })
