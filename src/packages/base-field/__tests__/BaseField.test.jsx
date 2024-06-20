@@ -1,681 +1,458 @@
-import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
+// --
 import BaseField from '../index'
-import {
-    Cascader,
-    Checkbox,
-    DatePicker,
-    Input,
-    InputNumber,
-    Radio,
-    RangePicker,
-    Select,
-    Slider,
-    Switch,
-    TimePicker,
-    TimeRangePicker,
-    TreeSelect
-} from 'ant-design-vue'
+import FieldDatePicker from '../components/DatePicker'
+import FieldRangePicker from '../components/RangePicker'
+import FieldTimePicker from '../components/TimePicker'
+import FieldTimeRangePicker from '../components/TimeRangePicker'
+import FieldSelect from '../components/Select'
+import FieldTreeSelect from '../components/TreeSelect'
+import FieldCascader from '../components/Cascader'
+import FieldRadio from '../components/Radio'
+import FieldCheckbox from '../components/Checkbox'
+import FieldSwitch from '../components/Switch'
+import FieldSlider from '../components/Slider'
+import FieldNumber from '../components/Number'
+import FieldTextArea from '../components/TextArea'
+import FieldText from '../components/Text'
+import FieldPassword from '../components/Password'
+import mountTest from '../../../../tests/shared/mountTest'
 import { formatDate } from '../utils'
 import dayjs from 'dayjs'
 
+function mountFieldTest (valueType, Component, props) {
+    it(`${valueType}`, async () => {
+        const needProps = { valueType, ...props }
+        const wrapper = mount(BaseField, { props: needProps })
+        const target = wrapper.findComponent(Component)
+        expect(target.exists()).toBe(true)
+    })
+}
+
+function mountFieldReadTest (valueType, text, props, emptyValue, expectValue) {
+    it(`${valueType}`, async () => {
+        const needProps = { mode: 'read', valueType, ...props }
+        const wrapper = mount(BaseField, { props: needProps })
+
+        // 空数据
+        const emptyText = wrapper.props('emptyText')
+        const resultEmpty = typeof emptyValue === 'function' ? emptyValue(emptyText) : emptyValue
+        expect(wrapper.text()).toBe(resultEmpty)
+
+        // 预期值
+        await wrapper.setProps({ text: text })
+        const resultExpect = typeof expectValue === 'function' ? expectValue(text, emptyText) : expectValue
+        expect(wrapper.text()).toBe(resultExpect)
+    })
+}
+
 describe('BaseField', () => {
-    it('render', () => {
-        const fieldProps = {
-            'onUpdate:value': (value) => {
-                console.log(value)
-            }
+    mountTest(BaseField)
+    // ---
+    mountTest(FieldDatePicker)
+    mountTest(FieldRangePicker)
+    mountTest(FieldTimePicker)
+    mountTest(FieldTimeRangePicker)
+    mountTest(FieldSelect)
+    mountTest(FieldTreeSelect)
+    mountTest(FieldCascader)
+    mountTest(FieldRadio)
+    mountTest(FieldCheckbox)
+    mountTest(FieldSwitch)
+    mountTest(FieldSlider)
+    mountTest(FieldNumber)
+    mountTest(FieldTextArea)
+    mountTest(FieldText)
+    mountTest(FieldPassword)
+
+    const mockValueEnum = {
+        '1': '选项一',
+        '2': {
+            color: '#FF6F1D',
+            text: '选项二'
+        },
+        '3': undefined,
+    }
+    const mockOptions = [
+        {
+            label: '选项一',
+            value: 1
+        },
+        {
+            label: '选项二',
+            value: 2
+        },
+        {
+            value: 3
         }
-
-        const wrapper = mount(BaseField, {
-            props: {
-                fieldProps: fieldProps
-            }
-        })
-        expect(wrapper.exists()).toBeTruthy()
-        // update
-        const updateValueSpy = vi.spyOn(fieldProps, 'onUpdate:value')
-        const input = wrapper.findComponent(Input)
-        const func = input.props('onUpdate:value')
-        func && func('test')
-
-        expect(updateValueSpy).toHaveBeenCalled()
-    })
-
-    it('props valueType date', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'date'
-            }
-        })
-        const datePicker = wrapper.findComponent(DatePicker)
-        expect(datePicker.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        // text
-        const text = dayjs()
-        await wrapper.setProps({ mode: 'read', text: text })
-        expect(wrapper.text()).toBe(formatDate(text))
-    })
-
-    it('props valueType dateRange', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateRange'
-            }
-        })
-        const dateRange = wrapper.findComponent(RangePicker)
-        expect(dateRange.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText + '~' + emptyText)
-        // text
-        const text = [dayjs(), dayjs()]
-        await wrapper.setProps({ mode: 'read', text: text })
-        expect(wrapper.text()).toBe(formatDate(text[0]) + '~' + formatDate(text[1]))
-    })
-
-    it('props valueType time', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'time'
-            }
-        })
-        const timePicker = wrapper.findComponent(TimePicker)
-        expect(timePicker.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        // text
-        const text = dayjs()
-        await wrapper.setProps({ mode: 'read', text: text })
-        expect(wrapper.text()).toBe(formatDate(text, 'HH:mm:ss'))
-    })
-
-    it('props valueType timeRange', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'timeRange'
-            }
-        })
-        const timeRange = wrapper.findComponent(TimeRangePicker)
-        expect(timeRange.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText + '~' + emptyText)
-        // text
-        const text = [dayjs(), dayjs()]
-        await wrapper.setProps({ mode: 'read', text: text })
-        expect(wrapper.text()).toBe(formatDate(text[0], 'HH:mm:ss') + '~' + formatDate(text[1], 'HH:mm:ss'))
-    })
-
-    it('props valueType select', async () => {
-        const valueEnum = {
-            '1': '选项一',
-            '2': {
-                color: '#FF6F1D',
-                text: '选项二'
-            },
-            '3': undefined,
+    ]
+    const mockOptionsChildren = [
+        {
+            label: '选项1',
+            value: '1',
+            children: [
+                {
+                    label: '子项1-1',
+                    value: '1-1',
+                }
+            ]
+        },
+        {
+            label: '选项2',
+            value: '2'
+        },
+        {
+            value: 3
         }
-        const options = [
-            {
-                label: '选项一',
-                value: 1
-            },
-            {
-                label: '选项二',
-                value: 2
-            },
-            {
-                value: 3
-            }
-        ]
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'select'
-            }
-        })
-        const select = wrapper.findComponent(Select)
-        expect(select.exists()).toBe(true)
+    ]
 
-        await wrapper.setProps({
-            valueEnum: {}
+    describe('render field types', () => {
+        // Date
+        mountFieldTest('date', FieldDatePicker)
+        mountFieldTest('dateRange', FieldRangePicker)
+        // Week
+        mountFieldTest('dateWeek', FieldDatePicker)
+        mountFieldTest('dateWeekRange', FieldRangePicker)
+        // Month
+        mountFieldTest('dateMonth', FieldDatePicker)
+        mountFieldTest('dateMonthRange', FieldRangePicker)
+        // Quarter
+        mountFieldTest('dateQuarter', FieldDatePicker)
+        mountFieldTest('dateQuarterRange', FieldRangePicker)
+        // Year
+        mountFieldTest('dateYear', FieldDatePicker)
+        mountFieldTest('dateYearRange', FieldRangePicker)
+        // DateTime
+        mountFieldTest('dateTime', FieldDatePicker)
+        mountFieldTest('dateTimeRange', FieldRangePicker)
+        // Time
+        mountFieldTest('time', FieldTimePicker)
+        mountFieldTest('timeRange', FieldTimeRangePicker)
+        // Select
+        mountFieldTest('select', FieldSelect)
+        it(`select options`, async () => {
+            const needProps = { valueType: 'select', fieldProps: { options: mockOptions } }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        expect(select.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: undefined,
-            fieldProps: { options }
+        it(`select valueEnum`, async () => {
+            const needProps = { valueType: 'select', valueEnum: mockValueEnum }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        expect(select.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: valueEnum,
-            fieldProps: {}
+        // TreeSelect
+        mountFieldTest('treeSelect', FieldTreeSelect)
+        it(`treeSelect options`, async () => {
+            const needProps = { valueType: 'treeSelect', fieldProps: { options: mockOptionsChildren } }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        expect(select.exists()).toBe(true)
-
-        // 只读
-        await wrapper.setProps({
-            mode: 'read',
-            valueEnum: undefined,
-            fieldProps: {}
+        // Cascader
+        mountFieldTest('cascader', FieldCascader)
+        it(`cascader options`, async () => {
+            const needProps = { valueType: 'cascader', fieldProps: { options: mockOptionsChildren } }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: '1',
-            valueEnum: undefined,
-            fieldProps: { options }
+        // Radio
+        mountFieldTest('radio', FieldRadio)
+        it(`radio options`, async () => {
+            const needProps = { valueType: 'radio', fieldProps: { options: mockOptions } }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        expect(wrapper.text()).toBe('选项一')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: 2,
-            valueEnum: valueEnum,
-            fieldProps: {}
+        it(`radio valueEnum`, async () => {
+            const needProps = { valueType: 'radio', valueEnum: mockValueEnum }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        expect(wrapper.text()).toBe('选项二')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: '3',
-            valueEnum: valueEnum,
-            fieldProps: {}
+        // Checkbox
+        mountFieldTest('checkbox', FieldCheckbox)
+        it(`checkbox options`, async () => {
+            const needProps = { valueType: 'checkbox', fieldProps: { options: mockOptions } }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        expect(wrapper.text()).toBe('3')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: { label: '3' },
-            valueEnum: undefined,
-            fieldProps: { options }
+        it(`checkbox valueEnum`, async () => {
+            const needProps = { valueType: 'checkbox', valueEnum: mockValueEnum }
+            const wrapper = mount(BaseField, { props: needProps })
+            expect(wrapper.exists()).toBe(true)
         })
-        expect(wrapper.text()).toBe('3')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: { value: '3' },
-            valueEnum: undefined,
-            fieldProps: { options }
+        // Switch
+        mountFieldTest('switch', FieldSwitch)
+        it(`emits update:value event when switch changes`, async () => {
+            const updateValue = vi.fn()
+            const wrapper = mount(BaseField, {
+                props: { valueType: 'switch', fieldProps: { 'onUpdate:value': updateValue } }
+            })
+            await wrapper.find('button').trigger('click')
+            expect(updateValue).toHaveBeenCalledWith(true)
         })
-        expect(wrapper.text()).toBe(emptyText)
+        // Slider
+        mountFieldTest('slider', FieldSlider)
+        // Number
+        mountFieldTest('number', FieldNumber)
+        // Textarea
+        mountFieldTest('textarea', FieldTextArea)
+        // Password
+        mountFieldTest('password', FieldPassword)
+        // Text
+        mountFieldTest('text', FieldText)
     })
 
-    it('props valueType treeSelect', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'treeSelect'
-            }
+    describe('render read only mode field types', () => {
+        const mockDate = dayjs()
+        // Date
+        mountFieldReadTest(
+            'date',
+            mockDate,
+            {},
+            (empty) => empty,
+            formatDate(mockDate, 'YYYY-MM-DD')
+        )
+        mountFieldReadTest(
+            'dateRange',
+            [mockDate, mockDate],
+            {},
+            (empty) => `${empty}~${empty}`,
+            () => `${formatDate(mockDate, 'YYYY-MM-DD')}~${formatDate(mockDate, 'YYYY-MM-DD')}`
+        )
+        // Week
+        mountFieldReadTest(
+            'dateWeek',
+            mockDate,
+            {},
+            (empty) => empty,
+            formatDate(mockDate, 'YYYY-wo')
+        )
+        mountFieldReadTest(
+            'dateWeekRange',
+            [mockDate, mockDate],
+            {},
+            (empty) => `${empty}~${empty}`,
+            () => `${formatDate(mockDate, 'YYYY-wo')}~${formatDate(mockDate, 'YYYY-wo')}`
+        )
+        // Month
+        mountFieldReadTest(
+            'dateMonth',
+            mockDate,
+            {},
+            (empty) => empty,
+            formatDate(mockDate, 'YYYY-MM')
+        )
+        mountFieldReadTest(
+            'dateMonthRange',
+            [mockDate, mockDate],
+            {},
+            (empty) => `${empty}~${empty}`,
+            () => `${formatDate(mockDate, 'YYYY-MM')}~${formatDate(mockDate, 'YYYY-MM')}`
+        )
+        // Quarter
+        mountFieldReadTest(
+            'dateQuarter',
+            mockDate,
+            {},
+            (empty) => empty,
+            formatDate(mockDate, 'YYYY-[Q]Q')
+        )
+        mountFieldReadTest(
+            'dateQuarterRange',
+            [mockDate, mockDate],
+            {},
+            (empty) => `${empty}~${empty}`,
+            () => `${formatDate(mockDate, 'YYYY-[Q]Q')}~${formatDate(mockDate, 'YYYY-[Q]Q')}`
+        )
+        // Year
+        mountFieldReadTest(
+            'dateYear',
+            mockDate,
+            {},
+            (empty) => empty,
+            formatDate(mockDate, 'YYYY')
+        )
+        mountFieldReadTest(
+            'dateYearRange',
+            [mockDate, mockDate],
+            {},
+            (empty) => `${empty}~${empty}`,
+            () => `${formatDate(mockDate, 'YYYY')}~${formatDate(mockDate, 'YYYY')}`
+        )
+        // DateTime
+        mountFieldReadTest(
+            'dateTime',
+            mockDate,
+            {},
+            (empty) => empty,
+            formatDate(mockDate, 'YYYY-MM-DD HH:mm:ss')
+        )
+        mountFieldReadTest(
+            'dateTimeRange',
+            [mockDate, mockDate],
+            {},
+            (empty) => `${empty}~${empty}`,
+            () => `${formatDate(mockDate, 'YYYY-MM-DD HH:mm:ss')}~${formatDate(mockDate, 'YYYY-MM-DD HH:mm:ss')}`
+        )
+        // Time
+        mountFieldReadTest(
+            'time',
+            mockDate,
+            {},
+            (empty) => empty,
+            formatDate(mockDate, 'HH:mm:ss')
+        )
+        mountFieldReadTest(
+            'timeRange',
+            [mockDate, mockDate],
+            {},
+            (empty) => `${empty}~${empty}`,
+            () => `${formatDate(mockDate, 'HH:mm:ss')}~${formatDate(mockDate, 'HH:mm:ss')}`
+        )
+        // Select
+        mountFieldReadTest(
+            'select',
+            '1',
+            { valueEnum: mockValueEnum },
+            (empty) => empty,
+            '选项一'
+        )
+        mountFieldReadTest(
+            'select',
+            '1',
+            { fieldProps: { options: mockOptions } },
+            (empty) => empty,
+            '选项一'
+        )
+        mountFieldReadTest(
+            'select',
+            '2',
+            { valueEnum: mockValueEnum },
+            (empty) => empty,
+            '选项二'
+        )
+        mountFieldReadTest(
+            'select',
+            3,
+            { valueEnum: mockValueEnum },
+            (empty) => empty,
+            '3'
+        )
+        // TreeSelect
+        mountFieldReadTest(
+            'treeSelect',
+            ['1', '1-1'],
+            { fieldProps: { options: mockOptionsChildren } },
+            (empty) => empty,
+            '选项1,子项1-1'
+        )
+        // Cascader
+        mountFieldReadTest(
+            'cascader',
+            ['1', '1-1'],
+            { fieldProps: { options: mockOptionsChildren } },
+            (empty) => empty,
+            '选项1,子项1-1'
+        )
+        // Radio
+        mountFieldReadTest(
+            'radio',
+            '1',
+            { valueEnum: mockValueEnum },
+            (empty) => empty,
+            '选项一'
+        )
+        // Checkbox
+        mountFieldReadTest(
+            'checkbox',
+            '1',
+            { valueEnum: mockValueEnum },
+            (empty) => empty,
+            '选项一'
+        )
+        // Switch
+        mountFieldReadTest(
+            'switch',
+            true,
+            {},
+            () => '关闭',
+            '打开'
+        )
+        // Slider
+        mountFieldReadTest(
+            'slider',
+            [1, 90],
+            {},
+            (empty) => empty,
+            '1~90'
+        )
+        mountFieldReadTest(
+            'slider',
+            90,
+            {},
+            (empty) => empty,
+            '90'
+        )
+        mountFieldReadTest(
+            'slider',
+            [],
+            {},
+            (empty) => empty,
+            (value, empty) => `${empty}~${empty}`
+        )
+        // Number
+        mountFieldReadTest(
+            'number',
+            1,
+            {},
+            (empty) => empty,
+            '1'
+        )
+        // TextArea
+        mountFieldReadTest(
+            'textarea',
+            '一段长文本',
+            {},
+            (empty) => empty,
+            '一段长文本'
+        )
+        // Password
+        mountFieldReadTest(
+            'password',
+            '123456',
+            {},
+            (empty) => empty,
+            '＊＊＊＊＊'
+        )
+        mountFieldReadTest(
+            'password',
+            '123456',
+            { fieldProps: { visible: true } },
+            (empty) => empty,
+            '123456'
+        )
+        it(`password visibleClick`, async () => {
+            const needProps = { valueType: 'password', mode: 'read', text: '123456' }
+            const wrapper = mount(BaseField, { props: needProps })
+            await wrapper.find('a').trigger('click')
+            expect(wrapper.text()).toBe('123456')
         })
-        const treeSelect = wrapper.findComponent(TreeSelect)
-        expect(treeSelect.exists()).toBe(true)
-
-        const options = [
-            {
-                label: '选项1',
-                value: '1',
-                children: [
-                    {
-                        label: '子项1-1',
-                        value: '1-1',
-                    }
-                ]
-            },
-            {
-                label: '选项2',
-                value: '2'
-            },
-        ]
-        await wrapper.setProps({
-            fieldProps: { options }
-        })
-        expect(treeSelect.exists()).toBe(true)
-
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        // text
-        const text = ['1', '1-1']
-        await wrapper.setProps({ mode: 'read', text: text })
-        expect(wrapper.text()).toBe('选项1,子项1-1')
+        // Text
+        mountFieldReadTest(
+            'text',
+            '文本',
+            {},
+            (empty) => empty,
+            '文本'
+        )
     })
 
-    it('props valueType cascader', async () => {
+    it(`emits update:value event when input changes`, async () => {
+        const updateValue = vi.fn()
         const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'cascader'
-            }
+            props: { fieldProps: { 'onUpdate:value': updateValue } }
         })
-        const cascader = wrapper.findComponent(Cascader)
-        expect(cascader.exists()).toBe(true)
-
-        const options = [
-            {
-                label: '选项1',
-                value: '1',
-                children: [
-                    {
-                        label: '子项1-1',
-                        value: '1-1',
-                    }
-                ]
-            },
-            {
-                label: '选项2',
-                value: '2'
-            },
-        ]
-        await wrapper.setProps({
-            fieldProps: { options }
-        })
-        expect(cascader.exists()).toBe(true)
-
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        // text
-        const text = ['1', '1-1']
-        await wrapper.setProps({ mode: 'read', text: text })
-        expect(wrapper.text()).toBe('选项1,子项1-1')
-    })
-
-    it('props valueType radio', async () => {
-        const valueEnum = {
-            '1': '选项一',
-            '2': {
-                color: '#FF6F1D',
-                text: '选项二'
-            },
-            '3': undefined,
-        }
-        const options = [
-            {
-                label: '选项一',
-                value: 1
-            },
-            {
-                label: '选项二',
-                value: 2
-            },
-            {
-                value: 3
-            }
-        ]
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'radio'
-            }
-        })
-        const radio = wrapper.findComponent(Radio.Group)
-        expect(radio.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: {}
-        })
-        expect(radio.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(radio.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: valueEnum,
-            fieldProps: {}
-        })
-        expect(radio.exists()).toBe(true)
-
-        // 只读
-        await wrapper.setProps({
-            mode: 'read',
-            valueEnum: undefined,
-            fieldProps: {}
-        })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: '1',
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(wrapper.text()).toBe('选项一')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: 2,
-            valueEnum: valueEnum,
-            fieldProps: {}
-        })
-        expect(wrapper.text()).toBe('选项二')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: '3',
-            valueEnum: valueEnum,
-            fieldProps: {}
-        })
-        expect(wrapper.text()).toBe('3')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: { label: '3' },
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(wrapper.text()).toBe('3')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: { value: '3' },
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(wrapper.text()).toBe(emptyText)
-    })
-
-    it('props valueType checkbox', async () => {
-        const valueEnum = {
-            '1': '选项一',
-            '2': {
-                color: '#FF6F1D',
-                text: '选项二'
-            },
-            '3': undefined,
-        }
-        const options = [
-            {
-                label: '选项一',
-                value: 1
-            },
-            {
-                label: '选项二',
-                value: 2
-            },
-            {
-                value: 3
-            }
-        ]
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'checkbox'
-            }
-        })
-        const checkbox = wrapper.findComponent(Checkbox.Group)
-        expect(checkbox.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: {}
-        })
-        expect(checkbox.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(checkbox.exists()).toBe(true)
-
-        await wrapper.setProps({
-            valueEnum: valueEnum,
-            fieldProps: {}
-        })
-        expect(checkbox.exists()).toBe(true)
-
-        // 只读
-        await wrapper.setProps({
-            mode: 'read',
-            valueEnum: undefined,
-            fieldProps: {}
-        })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: '1',
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(wrapper.text()).toBe('选项一')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: 2,
-            valueEnum: valueEnum,
-            fieldProps: {}
-        })
-        expect(wrapper.text()).toBe('选项二')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: '3',
-            valueEnum: valueEnum,
-            fieldProps: {}
-        })
-        expect(wrapper.text()).toBe('3')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: { label: '3' },
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(wrapper.text()).toBe('3')
-
-        await wrapper.setProps({
-            mode: 'read',
-            text: { value: '3' },
-            valueEnum: undefined,
-            fieldProps: { options }
-        })
-        expect(wrapper.text()).toBe(emptyText)
-    })
-
-    it('props valueType switch', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'switch'
-            }
-        })
-        const switchCom = wrapper.findComponent(Switch)
-        expect(switchCom.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        expect(wrapper.text()).toBe('关闭')
-        await wrapper.setProps({ mode: 'read', text: true })
-        expect(wrapper.text()).toBe('打开')
-        // update
-        const func = switchCom.props('onUpdate:checked')
-        func && func()
-    })
-
-    it('props valueType slider', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'slider'
-            }
-        })
-        const slider = wrapper.findComponent(Slider)
-        expect(slider.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        await wrapper.setProps({ mode: 'read', text: [] })
-        expect(wrapper.text()).toBe(emptyText + '~' + emptyText)
-        await wrapper.setProps({ mode: 'read', text: [0, 90] })
-        expect(wrapper.text()).toBe('0~90')
-    })
-
-    it('props valueType number', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'number'
-            }
-        })
-        const inputNumber = wrapper.findComponent(InputNumber)
-        expect(inputNumber.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        await wrapper.setProps({ mode: 'read', text: 1 })
-        expect(wrapper.text()).toBe('1')
-    })
-
-    it('props valueType textarea', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'textarea'
-            }
-        })
-        const inputTextArea = wrapper.findComponent(Input.TextArea)
-        expect(inputTextArea.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        await wrapper.setProps({ mode: 'read', text: '长文本' })
-        expect(wrapper.text()).toBe('长文本')
-    })
-
-    it('props valueType password', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'password'
-            }
-        })
-        const inputPassword = wrapper.findComponent(Input.Password)
-        expect(inputPassword.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        // click
-        await wrapper.setProps({ mode: 'read', text: '123456' })
-        const tagA = wrapper.find('a')
-        await tagA.trigger('click')
-        expect(wrapper.text()).toBe('123456')
-    })
-
-    it('props valueType text', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'text'
-            }
-        })
-        const input = wrapper.findComponent(Input)
-        expect(input.exists()).toBe(true)
-        // 只读
-        await wrapper.setProps({ mode: 'read' })
-        const emptyText = wrapper.props('emptyText')
-        expect(wrapper.text()).toBe(emptyText)
-        await wrapper.setProps({ mode: 'read', text: '文本' })
-        expect(wrapper.text()).toBe('文本')
-    })
-
-    // -------
-    it('props valueType dateWeek', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateWeek'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateWeekRange', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateWeekRange'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateMonth', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateMonth'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateMonthRange', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateMonthRange'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateQuarter', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateQuarter'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateQuarterRange', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateQuarterRange'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateYear', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateYear'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateYearRange', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateYearRange'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateTime', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateTime'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
-    })
-
-    it('props valueType dateTimeRange', async () => {
-        const wrapper = mount(BaseField, {
-            props: {
-                valueType: 'dateTimeRange'
-            }
-        })
-        expect(wrapper.exists()).toBe(true)
+        await wrapper.find('input').setValue('new value')
+        expect(wrapper.find('input').element.value).toBe('new value')
+        expect(updateValue).toHaveBeenCalledWith('new value')
     })
 })

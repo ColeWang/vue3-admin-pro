@@ -5,7 +5,7 @@ import ColumnSetting from '../components/column-setting'
 import { Tooltip } from 'ant-design-vue'
 
 describe('Table', () => {
-    it('render', async () => {
+    it(`render`, async () => {
         const wrapper = mount(Table, {
             props: {
                 columns: [
@@ -33,7 +33,7 @@ describe('Table', () => {
         button.trigger('click')
     })
 
-    it('render slots', async () => {
+    it(`render slots`, async () => {
         const wrapper = mount(Table, {
             props: {
                 columns: [

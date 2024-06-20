@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-function mountTest (Component) {
+function mountTest (Component, ) {
     describe(`mount and unmount`, () => {
         it(`component could be updated and unmounted without errors`, () => {
             const wrapper = mount(() => <Component/>, {

@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import ResizeObserver from '../index'
 
 describe('ResizeObserver', () => {
-    it('render', async () => {
+    it(`render`, async () => {
         const wrapper = mount(ResizeObserver, {
             slots: {
                 default: () => {

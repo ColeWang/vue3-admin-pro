@@ -4,12 +4,12 @@ import Descriptions from '../index'
 import { Tooltip } from 'ant-design-vue'
 
 describe('Descriptions', () => {
-    it('render', async () => {
+    it(`render`, async () => {
         const wrapper = mount(Descriptions)
         expect(wrapper.exists()).toBeTruthy()
     })
 
-    it('props', async () => {
+    it(`props`, async () => {
         const wrapper = mount(Descriptions, {
             props: {
                 title: 'Test',
@@ -43,7 +43,7 @@ describe('Descriptions', () => {
         wrapper.unmount()
     })
 
-    it('props columns', async () => {
+    it(`props columns`, async () => {
         const wrapper = mount(Descriptions, {
             props: {
                 title: () => 'Test',

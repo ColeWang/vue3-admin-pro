@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { Form, Text } from '../index'
 
 describe('Form', () => {
-    it('render', async () => {
+    it(`render`, async () => {
         const wrapper = mount(Form, {
             slots: {
                 default: () => {

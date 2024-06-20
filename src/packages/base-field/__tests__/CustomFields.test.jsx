@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
 import BaseField, { CustomFields } from '../index'
 import mountTest from '../../../../tests/shared/mountTest'
 
@@ -12,7 +12,7 @@ describe('CustomFields', () => {
         }
     }
 
-    it('props valueTypeMap and slots', async () => {
+    it(`props valueTypeMap and slots`, async () => {
         const testSpy = vi.spyOn(valueTypeMap, 'test')
 
         const wrapper = mount(CustomFields, {

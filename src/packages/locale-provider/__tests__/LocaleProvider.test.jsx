@@ -4,7 +4,7 @@ import LocaleProvider, { useLocaleReceiver } from '../index'
 import enUS from '../lang/en-US'
 
 describe('LocaleProvider', () => {
-    it('render', async () => {
+    it(`render`, async () => {
         const wrapper = mount(LocaleProvider, {
             slots: {
                 default: () => {
@@ -19,7 +19,7 @@ describe('LocaleProvider', () => {
         expect(wrapper.exists()).toBeTruthy()
     })
 
-    it('translate path', () => {
+    it(`translate path`, () => {
         const wrapper = mount(LocaleProvider, {
             slots: {
                 default: () => {
