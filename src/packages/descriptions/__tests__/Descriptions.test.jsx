@@ -1,14 +1,34 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import Descriptions from '../index'
 import { Tooltip } from 'ant-design-vue'
+import Descriptions from '../index'
+import mountTest from '../../../../tests/shared/mountTest'
 
 describe('Descriptions', () => {
-    it(`render`, async () => {
-        const wrapper = mount(Descriptions)
-        expect(wrapper.exists()).toBeTruthy()
-    })
+    mountTest(Descriptions)
 
+    const columns = [
+        {
+            title: () => 'label',
+            valueType: 'text',
+            dataIndex: 'text',
+            index: '1'
+        },
+        {
+            title: 'number',
+            valueType: 'number',
+            dataIndex: 'number',
+            index: '2'
+        },
+    ]
+
+    const children = [
+        <Descriptions.Item label={'label'}/>,
+        <Descriptions.Item label={'label'}>
+            123
+        </Descriptions.Item>,
+        <Descriptions.Item valueType={'text'} label={'label'}/>
+    ]
     it(`props`, async () => {
         const wrapper = mount(Descriptions, {
             props: {
@@ -23,13 +43,7 @@ describe('Descriptions', () => {
             },
             slots: {
                 default: () => {
-                    return [
-                        <Descriptions.Item label={'label'}/>,
-                        <Descriptions.Item label={'label'}>
-                            123
-                        </Descriptions.Item>,
-                        <Descriptions.Item valueType={'text'} label={'label'}/>
-                    ]
+                    return []
                 },
                 extra: () => {
                     return (<Tooltip>123</Tooltip>)

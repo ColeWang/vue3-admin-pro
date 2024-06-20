@@ -2,7 +2,7 @@ import { computed, defineComponent, unref } from 'vue'
 import { Field } from '@/packages/form'
 import BaseSearch from './BaseSearch'
 import { namePathToString } from '@/packages/form/utils'
-import { pick, set, transform } from 'lodash-es'
+import { pick, reduce, set } from 'lodash-es'
 import { isEmpty } from '@/utils'
 
 function filterSearchColumns (columns) {
@@ -20,7 +20,7 @@ export default defineComponent({
     },
     setup (props, { attrs }) {
         const defaultColumns = filterSearchColumns(props.columns)
-        const initialValues = transform(defaultColumns, (result, column) => {
+        const initialValues = reduce(defaultColumns, (result, column) => {
             const namePath = column.key || column.dataIndex
             if (namePath && !isEmpty(column.initialValue)) {
                 return set(result, namePath, column.initialValue)

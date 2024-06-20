@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
-import { isFunction, set, transform } from 'lodash-es'
+import { isFunction, reduce, set } from 'lodash-es'
 import { cloneProxyToRaw } from '@/utils/props-util'
 
 export default defineComponent({
@@ -23,7 +23,7 @@ export default defineComponent({
             const { grid } = unref(formProps)
             const { name: namePathList, colProps } = props
 
-            const slotScope = transform(namePathList, (result, namePath) => {
+            const slotScope = reduce(namePathList, (result, namePath) => {
                 if (namePath && getModelValue && isFunction(getModelValue)) {
                     const value = getModelValue(namePath)
                     return set(result, namePath, cloneProxyToRaw(value))

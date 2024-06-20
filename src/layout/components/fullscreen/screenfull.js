@@ -1,4 +1,4 @@
-import { fromPairs, head } from 'lodash-es'
+import { head, reduce, set } from 'lodash-es'
 
 const methodMap = [
     ['requestFullscreen', 'exitFullscreen', 'fullscreenElement', 'fullscreenEnabled', 'fullscreenchange', 'fullscreenerror',],
@@ -14,10 +14,8 @@ const methods = methodMap.find((list) => {
 })
 
 const defaultMethod = head(methodMap)
-const result = (methods || []).map((method, index) => {
-    return [defaultMethod[index], method]
-})
-
-const native = fromPairs(result)
+const native = reduce(methods || [], (result, method, key) => {
+    return set(result, defaultMethod[key], method)
+}, {})
 
 export default native

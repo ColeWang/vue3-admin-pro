@@ -4,7 +4,7 @@ import { SettingOutlined } from '@ant-design/icons-vue'
 import TreeList from './TreeList'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '@/packages/locale-provider'
-import { fromPairs, map } from 'lodash-es'
+import { reduce, set } from 'lodash-es'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
@@ -29,11 +29,11 @@ export default defineComponent({
 
         function onCheckClick (evt) {
             const { checked: targetChecked } = evt.target
-            const values = map(unref(columnsMap), (column, key) => {
+            const values = reduce(unref(columnsMap), (result, column, key) => {
                 const checked = column.disable ? column.checked : targetChecked
-                return [key, { ...column, checked: checked }]
-            })
-            setColumnsMap && setColumnsMap(fromPairs(values))
+                return set(result, key, { ...column, checked: checked })
+            }, {})
+            setColumnsMap && setColumnsMap(values)
         }
 
         function onClearClick () {
@@ -61,11 +61,11 @@ export default defineComponent({
             } else {
                 keys.splice(dropIndex + 1, 0, target)
             }
-            const values = keys.map((key, order) => {
+            const values = reduce(keys, (result, key, order) => {
                 const column = unref(columnsMap)[key] || {}
-                return [key, { ...column, order }]
-            })
-            setColumnsMap && setColumnsMap(fromPairs(values))
+                return set(result, key, { ...column, order })
+            }, {})
+            setColumnsMap && setColumnsMap(values)
         }
 
         return () => {

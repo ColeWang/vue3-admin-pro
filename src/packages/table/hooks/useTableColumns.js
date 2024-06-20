@@ -1,15 +1,15 @@
 import { computed, ref, unref, watch } from 'vue'
 import useCustomRender from './useCustomRender'
 import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
-import { fromPairs, isBoolean, isObject, map } from 'lodash-es'
+import { isBoolean, isObject, map, reduce, set } from 'lodash-es'
 
 function genColumnsMap (columns) {
-    const values = columns.map((column, index) => {
+    return reduce(columns, (result, column, index) => {
         const checked = isBoolean(column.checked) ? column.checked : true
         const disable = (column.filters || column.sorter) ? true : column.disable
-        return [column.key, { ...column, checked, disable, order: index }]
-    })
-    return fromPairs(values)
+        const value = { ...column, checked, disable, order: index }
+        return set(result, column.key, value)
+    }, {})
 }
 
 function useTableColumns (props) {
