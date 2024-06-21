@@ -203,6 +203,10 @@ describe('BaseField', () => {
 
     describe('render read only mode field types', () => {
         const mockDate = dayjs()
+        it(`formatDate`, () => {
+            expect(formatDate(mockDate)).toBe(mockDate.format('YYYY-MM-DD'))
+            expect(formatDate(mockDate, (time) => time.format('YYYY'))).toBe(mockDate.format('YYYY'))
+        })
         // Date
         mountFieldReadTest(
             'date',
@@ -361,11 +365,25 @@ describe('BaseField', () => {
             (empty) => empty,
             '选项一'
         )
+        mountFieldReadTest(
+            'radio',
+            '1',
+            { fieldProps: { options: mockOptions } },
+            (empty) => empty,
+            '选项一'
+        )
         // Checkbox
         mountFieldReadTest(
             'checkbox',
             '1',
             { valueEnum: mockValueEnum },
+            (empty) => empty,
+            '选项一'
+        )
+        mountFieldReadTest(
+            'checkbox',
+            '1',
+            { fieldProps: { options: mockOptions } },
             (empty) => empty,
             '选项一'
         )
