@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import ResizeObserver from '../index'
 import mountTest from '../../../../tests/shared/mountTest'
 import MockResizeObserver from '../../../../tests/__mocks__/resize-observer'

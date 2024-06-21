@@ -1,33 +1,30 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { defineComponent } from 'vue'
 import LocaleProvider, { useLocaleReceiver } from '../index'
+import mountTest from '../../../../tests/shared/mountTest'
 import enUS from '../lang/en-US'
 
 describe('LocaleProvider', () => {
-    it(`render`, async () => {
-        const wrapper = mount(LocaleProvider, {
-            slots: {
-                default: () => {
-                    const { t } = useLocaleReceiver()
-                    return (<div>{t('open')}</div>)
-                }
-            }
-        })
-        expect(wrapper.exists()).toBeTruthy()
-        // 切换语言
-        await wrapper.setProps({ locale: enUS })
-        expect(wrapper.exists()).toBeTruthy()
-    })
+    mountTest(LocaleProvider)
 
-    it(`translate path`, () => {
-        const wrapper = mount(LocaleProvider, {
-            slots: {
-                default: () => {
-                    const { t } = useLocaleReceiver('Table')
-                    return (<div>{t(['toolbar', 'reload'])}</div>)
+    it(`test locale change`, async () => {
+        const Demo = defineComponent({
+            setup () {
+                const { t } = useLocaleReceiver(['Table', 'toolbar'])
+                return () => {
+                    return (
+                        <div>{t('reload')}</div>
+                    )
                 }
             }
         })
-        expect(wrapper.exists()).toBeTruthy()
+
+        const wrapper = mount(LocaleProvider, {
+            slots: { default: () => <Demo/> }
+        })
+        expect(wrapper.text()).toBe('刷新')
+        await wrapper.setProps({ locale: enUS })
+        expect(wrapper.text()).toBe('Refresh')
     })
 })
