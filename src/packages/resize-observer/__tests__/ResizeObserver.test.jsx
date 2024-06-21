@@ -1,18 +1,17 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import ResizeObserver from '../index'
+import mountTest from '../../../../tests/shared/mountTest'
+import MockResizeObserver from '../../../../tests/__mocks__/resize-observer'
 
 describe('ResizeObserver', () => {
-    it(`render`, async () => {
-        const wrapper = mount(ResizeObserver, {
-            slots: {
-                default: () => {
-                    return (
-                        <div style={{ height: '200px' }}/>
-                    )
-                }
-            }
-        })
-        expect(wrapper.exists()).toBeTruthy()
+    beforeEach(() => {
+        window.ResizeObserver = MockResizeObserver
+    })
+
+    mountTest(ResizeObserver)
+    it(`emits resize`, async () => {
+        const wrapper = mount(ResizeObserver)
+        expect(wrapper.emitted()).toHaveProperty('resize')
     })
 })

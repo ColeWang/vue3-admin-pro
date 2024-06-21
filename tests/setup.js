@@ -1,6 +1,5 @@
 import { vi } from 'vitest'
 import { config } from '@vue/test-utils'
-import ResizeObserverPolyfill from 'resize-observer-polyfill'
 import { TextDecoder, TextEncoder } from 'node:util'
 
 // config
@@ -53,7 +52,6 @@ window.getComputedStyle = (ele) => {
 }
 
 // Mock requestAnimationFrame
-global.ResizeObserver = ResizeObserverPolyfill
 global.requestAnimationFrame = (callback) => {
     return setTimeout(callback, 0)
 }
