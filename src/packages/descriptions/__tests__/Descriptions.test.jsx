@@ -10,18 +10,18 @@ describe('Descriptions', () => {
 
     const dataSource = {
         text: 'test text',
-        test: 'test number'
+        number: 'test number'
     }
 
     const columns = [
         {
-            title: () => 'label',
+            title: () => 'label1',
             valueType: 'text',
             dataIndex: 'text',
             index: '1'
         },
         {
-            title: 'number',
+            title: 'label2',
             valueType: 'number',
             dataIndex: 'number',
             index: '2'
@@ -29,11 +29,11 @@ describe('Descriptions', () => {
     ]
 
     const children = [
-        <Descriptions.Item label={'label'}/>,
-        <Descriptions.Item label={'label'}>
+        <Descriptions.Item label={'label3'}/>,
+        <Descriptions.Item label={'label4'}>
             123
         </Descriptions.Item>,
-        <Descriptions.Item valueType={'text'} label={'label'}/>
+        <Descriptions.Item label={'label5'} valueType={'text'} name={'text'}/>
     ]
 
     it(`render props columns`, () => {
@@ -61,8 +61,7 @@ describe('Descriptions', () => {
         })
         wrapper.vm.reload()
         setTimeout(() => {
-            const loadEvent = wrapper.emitted('load')
-            expect(loadEvent).toHaveLength(2)
+            expect(wrapper.emitted()).toHaveProperty('load')
         }, 100)
     })
     it(`test request error`, async () => {

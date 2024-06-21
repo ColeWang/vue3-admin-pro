@@ -1,18 +1,18 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
-import { Form, Text } from '../index'
+import { describe } from 'vitest'
+import { BaseForm, DrawerForm, Field, Form, ModalForm, QueryFilter, Submitter } from '../index'
+import mountTest from '../../../../tests/shared/mountTest'
 
 describe('Form', () => {
-    it(`render`, async () => {
-        const wrapper = mount(Form, {
-            slots: {
-                default: () => {
-                    return [
-                        <Text name={'text'}/>
-                    ]
-                }
-            }
-        })
-        expect(wrapper.exists()).toBeTruthy()
-    })
+    mount(BaseForm)
+    mount(Submitter)
+    mount(Field)
+    // --
+    mountTest(Form)
+    mountTest(Form.Item)
+    mountTest(Form.Group)
+    mountTest(Form.Dependency)
+    mountTest(QueryFilter)
+    mountTest(ModalForm)
+    mountTest(DrawerForm)
 })
