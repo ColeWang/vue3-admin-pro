@@ -60,9 +60,9 @@ describe('Descriptions', () => {
             slots: { default: () => children }
         })
         wrapper.vm.reload()
-        setTimeout(() => {
-            expect(wrapper.emitted()).toHaveProperty('load')
-        }, 100)
+        await new Promise(resolve => setTimeout(resolve, 100))
+        const loadEvent = wrapper.emitted('load')
+        expect(loadEvent).toHaveLength(2)
     })
     it(`test request error`, async () => {
         const request = () => Promise.reject('error')
@@ -70,8 +70,7 @@ describe('Descriptions', () => {
             props: { columns, request },
             slots: { default: () => children }
         })
-        setTimeout(() => {
-            expect(wrapper.emitted()).toHaveProperty('requestError')
-        }, 100)
+        await new Promise(resolve => setTimeout(resolve, 100))
+        expect(wrapper.emitted()).toHaveProperty('requestError')
     })
 })
