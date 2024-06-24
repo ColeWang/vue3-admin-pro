@@ -28,15 +28,11 @@ const submitterProps = {
         type: [Object, Boolean],
         default: undefined
     },
-    onSubmit: {
-        type: Function,
-        default: undefined
-    },
     onReset: {
         type: Function,
         default: undefined
     },
-    onKeyPress: {
+    onSubmit: {
         type: Function,
         default: undefined
     }
@@ -45,17 +41,13 @@ const submitterProps = {
 export default defineComponent({
     inheritAttrs: false,
     props: submitterProps,
-    emits: ['submit', 'reset', 'keyPress'],
+    emits: ['reset', 'submit'],
     setup (props, { emit }) {
         const { t } = useLocaleReceiver(['Form'])
 
         function onReset (evt) {
             preventDefault(evt)
             emit('reset', evt)
-        }
-
-        function onKeyPress (evt) {
-            emit('keyPress', evt)
         }
 
         function onSubmit (evt) {
@@ -70,8 +62,7 @@ export default defineComponent({
                 ...submitButtonProps,
                 type: 'primary',
                 loading: loading,
-                onClick: onSubmit,
-                onKeyPress: onKeyPress
+                onClick: onSubmit
             }
 
             const resetButtonDom = resetButtonProps !== false && (

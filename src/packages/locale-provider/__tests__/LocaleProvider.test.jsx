@@ -13,9 +13,7 @@ describe('LocaleProvider', () => {
             setup () {
                 const { t } = useLocaleReceiver(['Table', 'toolbar'])
                 return () => {
-                    return (
-                        <div>{t('reload')}</div>
-                    )
+                    return <div>{t('reload')}</div>
                 }
             }
         })
