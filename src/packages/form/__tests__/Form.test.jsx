@@ -1,12 +1,11 @@
-import { mount } from '@vue/test-utils'
 import { describe } from 'vitest'
 import { BaseForm, DrawerForm, Field, Form, ModalForm, QueryFilter, Submitter } from '../index'
 import mountTest from '../../../../tests/shared/mountTest'
 
 describe('Form', () => {
-    mount(BaseForm)
-    mount(Submitter)
-    mount(Field)
+    mountTest(BaseForm)
+    mountTest(Submitter)
+    mountTest(Field)
     // --
     mountTest(Form)
     mountTest(Form.Item)

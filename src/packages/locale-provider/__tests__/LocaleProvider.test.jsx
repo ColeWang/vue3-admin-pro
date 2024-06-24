@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
 import { defineComponent } from 'vue'
 import LocaleProvider, { useLocaleReceiver } from '../index'
 import mountTest from '../../../../tests/shared/mountTest'

@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { mount } from '@vue/test-utils'
 import { Tooltip } from 'ant-design-vue'
 import Descriptions from '../index'
 import mountTest from '../../../../tests/shared/mountTest'
@@ -59,8 +59,9 @@ describe('Descriptions', () => {
             props: { columns, request },
             slots: { default: () => children }
         })
+        await new Promise((resolve) => setTimeout(resolve, 100))
         wrapper.vm.reload()
-        await new Promise(resolve => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 100))
         const loadEvent = wrapper.emitted('load')
         expect(loadEvent).toHaveLength(2)
     })
@@ -70,7 +71,7 @@ describe('Descriptions', () => {
             props: { columns, request },
             slots: { default: () => children }
         })
-        await new Promise(resolve => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 100))
         expect(wrapper.emitted()).toHaveProperty('requestError')
     })
 })
