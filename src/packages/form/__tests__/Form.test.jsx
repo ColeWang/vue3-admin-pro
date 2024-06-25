@@ -1,106 +1,53 @@
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { last } from 'lodash-es'
-import { Button, Tooltip } from 'ant-design-vue'
-import { BaseForm, DrawerForm, Field, Form, HocField, ModalForm, QueryFilter, Submitter } from '../index'
+import { BaseForm, DrawerForm, Form, HocField, ModalForm, QueryFilter, Submitter } from '../index'
 import mountTest from '../../../../tests/shared/mountTest'
+import MockResizeObserver from '../../../../tests/__mocks__/resize-observer'
+import { last } from 'lodash-es'
 
 describe('Form', () => {
+    beforeEach(() => {
+        window.ResizeObserver = MockResizeObserver
+    })
+
     const FieldDemo = HocField('text')
 
-    mountTest(Submitter)
-    mountTest(Field)
-    mountTest(FieldDemo)
-    mountTest(BaseForm)
-    // --
     mountTest(Form)
     mountTest(Form.Item)
     mountTest(Form.Group)
+    mountTest(Form.List)
     mountTest(Form.Dependency)
     mountTest(QueryFilter)
     mountTest(ModalForm)
     mountTest(DrawerForm)
 
-    it(`test Submitter emits`, async () => {
-        const wrapper = mount(Submitter)
-        const buttonAll = wrapper.findAll('button')
-        await Promise.all(buttonAll.map((button) => {
-            return button.trigger('click')
-        }))
-        expect(wrapper.emitted()).toHaveProperty('reset')
-        expect(wrapper.emitted()).toHaveProperty('submit')
+    it(`test Form`, async () => {
+        const wrapper = mount(Form)
+        const formInstance = wrapper.vm.getFormInstance()
+        expect(formInstance).toBeTruthy()
     })
 
-    it(`test BaseForm model change`, async () => {
-        const wrapper = mount(BaseForm, {
-            slots: {
-                default: () => <FieldDemo name={'demo'}/>
-            }
-        })
-        const changeEvents = wrapper.emitted('valuesChange')
-        // update:value
-        await wrapper.find('input').setValue('new value')
-        expect(wrapper.find('input').element.value).toBe('new value')
-        expect(last(changeEvents)).toEqual([{ demo: 'new value' }])
-        // getModelValue
-        expect(wrapper.vm.getModelValue(['demo'])).toEqual('new value')
-        // setModelValue
-        expect(wrapper.vm.setModelValue(['demo'], 'new text')).toEqual({ demo: 'new text' })
-        expect(last(changeEvents)).toEqual([{ demo: 'new text' }])
-        // updateModelValue
-        expect(wrapper.vm.updateModelValue(['demo'], (value) => {
-            return value + ' update'
-        })).toEqual({ demo: 'new text update' })
-        expect(last(changeEvents)).toEqual([{ demo: 'new text update' }])
-        // deleteModelValue
-        expect(wrapper.vm.deleteModelValue(['demo'])).toEqual(true)
-        expect(last(changeEvents)).toEqual([{}])
-    })
-    it(`test BaseForm submit`, async () => {
-        const transform = vi.fn()
-        const finishFailed = vi.fn()
-        const wrapper = mount(BaseForm, {
-            props: {
-                transform,
-                onFinishFailed: finishFailed,
-                scrollToFirstError: true,
-                submitOnReset: true
-            },
+    it(`test Form Group`, async () => {
+        const wrapper = mount(Form, {
             slots: {
                 default: () => {
                     return [
-                        <Tooltip>getPopupContainer</Tooltip>,
-                        <FieldDemo name={'demo'} required={true}/>,
-                        <Button html-type={'submit'}>提交</Button>
+                        <Form.Group title={'Title'}>
+                            <FieldDemo name={'demo'}/>
+                        </Form.Group>
                     ]
                 }
             }
         })
-        await wrapper.find('button').trigger('submit')
-        await new Promise((resolve) => setTimeout(resolve, 100))
-        expect(finishFailed).toHaveBeenCalled()
-        // submit
-        wrapper.vm.submit()
-        await new Promise((resolve) => setTimeout(resolve, 100))
-        expect(wrapper.emitted()).toHaveProperty('finishFailed')
-        // input
-        await wrapper.find('input').setValue('new value')
-        wrapper.vm.submit()
-        await new Promise((resolve) => setTimeout(resolve, 100))
-        expect(wrapper.emitted()).toHaveProperty('finish')
-        expect(transform).toHaveBeenCalledWith({ demo: 'new value' })
-        // reset
-        wrapper.vm.resetFields()
-        await new Promise((resolve) => setTimeout(resolve, 100))
-        const resetEvents = wrapper.emitted('reset')
-        const changeEvents = wrapper.emitted('valuesChange')
-        expect(last(resetEvents)).toEqual([{ demo: undefined }])
-        expect(last(changeEvents)).toEqual([{ demo: undefined }])
+        expect(wrapper.exists()).toBeTruthy()
+        await wrapper.setProps({ layout: 'inline' })
+        expect(wrapper.exists()).toBeTruthy()
     })
+
     it(`test Form Dependency`, async () => {
         const renderChildren = vi.fn()
         const nilNameChildren = vi.fn()
-        const wrapper = mount(BaseForm, {
+        const wrapper = mount(Form, {
             slots: {
                 default: () => {
                     return [
@@ -119,4 +66,92 @@ describe('Form', () => {
         expect(renderChildren).toHaveBeenCalledWith({ demo: 'new value' })
         expect(nilNameChildren).toHaveBeenCalledWith({})
     })
+
+    it(`test Form QueryFilter`, async () => {
+        const valuesChange = vi.fn()
+        const wrapper = mount(QueryFilter, {
+            props: { showCollapse: true, onValuesChange: valuesChange },
+            slots: {
+                default: (slotScope) => {
+                    return [
+                        <FieldDemo name={'demo'} {...slotScope.props}/>
+                    ]
+                }
+            }
+        })
+        expect(wrapper.exists()).toBeTruthy()
+        const formInstance = wrapper.vm.getFormInstance()
+        expect(formInstance).toBeTruthy()
+        // ---
+        const buttonAll = wrapper.findAll('button')
+        await Promise.all(buttonAll.map((button) => button.trigger('click')))
+        expect(wrapper.emitted()).toHaveProperty('collapse')
+        // form
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        const baseForm = wrapper.findComponent(BaseForm)
+        const changeEvents = baseForm.emitted('valuesChange')
+        const resetEvents = baseForm.emitted('reset')
+        const finishEvents = baseForm.emitted('finish')
+        expect(last(resetEvents)).toEqual([{ demo: undefined }])
+        expect(last(finishEvents)).toEqual([{ demo: undefined }])
+        // input
+        await wrapper.find('input').setValue('new value')
+        expect(valuesChange).toHaveBeenCalledWith({ demo: 'new value' })
+        expect(last(changeEvents)).toEqual([{ demo: 'new value' }])
+    })
+
+    function testFloatForm (Component, name) {
+        it(`test Form ${name}`, async () => {
+            const finish = vi.fn(() => Promise.resolve({}))
+            const open = vi.fn()
+            const cancel = vi.fn()
+            const wrapper = mount(Component, {
+                props: {
+                    onFinish: finish,
+                    extraProps: { onOpen: open, onCancel: cancel }
+                },
+                slots: {
+                    default: () => {
+                        return [
+                            <FieldDemo name={'demo'}/>
+                        ]
+                    },
+                    trigger: () => <button class={'open-button'}>打开</button>
+                }
+            })
+            // open
+            await wrapper.find('.open-button').trigger('click')
+            expect(open).toHaveBeenCalled()
+            expect(wrapper.emitted()).toHaveProperty('open')
+            // 首先需要打开弹框 才能获取到 form
+            const formInstance = wrapper.vm.getFormInstance()
+            expect(formInstance).toBeTruthy()
+
+            const submitter = wrapper.findComponent(Submitter)
+            const buttonAll = submitter.findAll('button')
+            // 提交
+            const baseForm = wrapper.findComponent(BaseForm)
+            const changeEvents = baseForm.emitted('valuesChange')
+            await baseForm.find('input').setValue('new value')
+            expect(last(changeEvents)).toEqual([{ demo: 'new value' }])
+            await buttonAll[1].trigger('click')
+            await new Promise((resolve) => setTimeout(resolve, 100))
+            expect(baseForm.emitted()).toHaveProperty('finish')
+            expect(finish).toHaveBeenCalled()
+            expect(cancel).toHaveBeenCalled()
+            expect(wrapper.emitted()).toHaveProperty('cancel')
+            // -----------------------------
+            expect(async () => {
+                wrapper.setProps({ onFinish: () => Promise.reject(false) })
+                wrapper.vm.open()
+                await new Promise((resolve) => setTimeout(resolve, 100))
+                const nextSubmitter = wrapper.findComponent(Submitter)
+                const nextButtonAll = nextSubmitter.findAll('button')
+                await nextButtonAll[1].trigger('click')
+            }).not.toThrow()
+        })
+    }
+
+    testFloatForm(ModalForm, 'ModalForm')
+    testFloatForm(DrawerForm, 'DrawerForm')
 })

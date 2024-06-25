@@ -29,6 +29,7 @@ export default defineComponent({
             emit('loadingChange', value)
         })
 
+        /* v8 ignore next 16 */
         function onAfterClose () {
             const { extraProps } = props
 

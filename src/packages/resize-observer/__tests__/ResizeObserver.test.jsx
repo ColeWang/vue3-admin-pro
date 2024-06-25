@@ -10,6 +10,7 @@ describe('ResizeObserver', () => {
     })
 
     mountTest(ResizeObserver)
+
     it(`emits resize`, async () => {
         const wrapper = mount(ResizeObserver)
         expect(wrapper.emitted()).toHaveProperty('resize')

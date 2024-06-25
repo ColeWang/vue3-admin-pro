@@ -42,6 +42,7 @@ describe('Descriptions', () => {
         })
         expect(wrapper.exists()).toBeTruthy()
     })
+
     it(`render slots`, async () => {
         const wrapper = mount(Descriptions, {
             props: { dataSource },
@@ -53,6 +54,7 @@ describe('Descriptions', () => {
         })
         expect(wrapper.exists()).toBeTruthy()
     })
+
     it(`test request`, async () => {
         const request = () => Promise.resolve({ data: dataSource })
         const wrapper = mount(Descriptions, {
@@ -65,6 +67,7 @@ describe('Descriptions', () => {
         const loadEvent = wrapper.emitted('load')
         expect(loadEvent).toHaveLength(2)
     })
+
     it(`test request error`, async () => {
         const request = () => Promise.reject('error')
         const wrapper = mount(Descriptions, {
