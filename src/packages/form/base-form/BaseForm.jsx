@@ -101,6 +101,7 @@ export default defineComponent({
             if (context && context.validate) {
                 return context.validate(names)
             }
+            /* v8 ignore next 3 */
             const error = new Error('Error: context is not defined')
             return Promise.reject(error)
         }
@@ -128,6 +129,7 @@ export default defineComponent({
                 const options = isObject(scrollToFirstError) ? scrollToFirstError : {}
                 onScrollToField(headField.name, options)
             }
+            console.log('finishFailed')
             emit('finishFailed', error)
         }
 

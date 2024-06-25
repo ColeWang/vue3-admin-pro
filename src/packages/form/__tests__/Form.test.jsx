@@ -1,12 +1,16 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { last } from 'lodash-es'
-import { BaseForm, DrawerForm, Field, Form, ModalForm, QueryFilter, Submitter } from '../index'
+import { Button, Tooltip } from 'ant-design-vue'
+import { BaseForm, DrawerForm, Field, Form, HocField, ModalForm, QueryFilter, Submitter } from '../index'
 import mountTest from '../../../../tests/shared/mountTest'
 
 describe('Form', () => {
+    const FieldDemo = HocField('text')
+
     mountTest(Submitter)
     mountTest(Field)
+    mountTest(FieldDemo)
     mountTest(BaseForm)
     // --
     mountTest(Form)
@@ -30,32 +34,67 @@ describe('Form', () => {
     it(`test BaseForm model change`, async () => {
         const wrapper = mount(BaseForm, {
             slots: {
-                default: () => (
-                    <Field
-                        valueType={'text'}
-                        formItemProps={{
-                            name: 'text'
-                        }}
-                    />
-                )
+                default: () => <FieldDemo name={'demo'}/>
             }
         })
+        const changeEvents = wrapper.emitted('valuesChange')
         // update:value
         await wrapper.find('input').setValue('new value')
         expect(wrapper.find('input').element.value).toBe('new value')
-        expect(last(wrapper.emitted('valuesChange'))).toEqual([{ text: 'new value' }])
+        expect(last(changeEvents)).toEqual([{ demo: 'new value' }])
         // getModelValue
-        expect(wrapper.vm.getModelValue(['text'])).toEqual('new value')
+        expect(wrapper.vm.getModelValue(['demo'])).toEqual('new value')
         // setModelValue
-        expect(wrapper.vm.setModelValue(['text'], 'new text')).toEqual({ text: 'new text' })
-        expect(last(wrapper.emitted('valuesChange'))).toEqual([{ text: 'new text' }])
+        expect(wrapper.vm.setModelValue(['demo'], 'new text')).toEqual({ demo: 'new text' })
+        expect(last(changeEvents)).toEqual([{ demo: 'new text' }])
         // updateModelValue
-        expect(wrapper.vm.updateModelValue(['text'], (value) => {
+        expect(wrapper.vm.updateModelValue(['demo'], (value) => {
             return value + ' update'
-        })).toEqual({ text: 'new text update' })
-        expect(last(wrapper.emitted('valuesChange'))).toEqual([{ text: 'new text update' }])
+        })).toEqual({ demo: 'new text update' })
+        expect(last(changeEvents)).toEqual([{ demo: 'new text update' }])
         // deleteModelValue
-        expect(wrapper.vm.deleteModelValue(['text'])).toEqual(true)
-        expect(last(wrapper.emitted('valuesChange'))).toEqual([{}])
+        expect(wrapper.vm.deleteModelValue(['demo'])).toEqual(true)
+        expect(last(changeEvents)).toEqual([{}])
+    })
+    it(`test BaseForm submit`, async () => {
+        const transform = vi.fn()
+        const finishFailed = vi.fn()
+        const wrapper = mount(BaseForm, {
+            props: {
+                transform,
+                onFinishFailed: finishFailed,
+                scrollToFirstError: true,
+                submitOnReset: true
+            },
+            slots: {
+                default: () => {
+                    return [
+                        <Tooltip>getPopupContainer</Tooltip>,
+                        <FieldDemo name={'demo'} required={true}/>,
+                        <Button html-type={'submit'}>提交</Button>
+                    ]
+                }
+            }
+        })
+        await wrapper.find('button').trigger('submit')
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        expect(finishFailed).toHaveBeenCalled()
+        // submit
+        wrapper.vm.submit()
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        expect(wrapper.emitted()).toHaveProperty('finishFailed')
+        // input
+        await wrapper.find('input').setValue('new value')
+        wrapper.vm.submit()
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        expect(wrapper.emitted()).toHaveProperty('finish')
+        expect(transform).toHaveBeenCalledWith({ demo: 'new value' })
+        // reset
+        wrapper.vm.resetFields()
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        const resetEvents = wrapper.emitted('reset')
+        const changeEvents = wrapper.emitted('valuesChange')
+        expect(last(resetEvents)).toEqual([{ demo: undefined }])
+        expect(last(changeEvents)).toEqual([{ demo: undefined }])
     })
 })
