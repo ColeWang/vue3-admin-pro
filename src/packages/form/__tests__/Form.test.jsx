@@ -97,4 +97,26 @@ describe('Form', () => {
         expect(last(resetEvents)).toEqual([{ demo: undefined }])
         expect(last(changeEvents)).toEqual([{ demo: undefined }])
     })
+    it(`test Form Dependency`, async () => {
+        const renderChildren = vi.fn()
+        const nilNameChildren = vi.fn()
+        const wrapper = mount(BaseForm, {
+            slots: {
+                default: () => {
+                    return [
+                        <FieldDemo name={'demo'}/>,
+                        <Form.Dependency name={['demo']} v-slots={{
+                            default: renderChildren
+                        }}/>,
+                        <Form.Dependency name={[null]} v-slots={{
+                            default: nilNameChildren
+                        }}/>
+                    ]
+                }
+            }
+        })
+        await wrapper.find('input').setValue('new value')
+        expect(renderChildren).toHaveBeenCalledWith({ demo: 'new value' })
+        expect(nilNameChildren).toHaveBeenCalledWith({})
+    })
 })
