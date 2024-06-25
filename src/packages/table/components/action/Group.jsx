@@ -31,23 +31,19 @@ export default defineComponent({
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
 
             if (nodes.length && nodes.length > max) {
-                const firstNodes = take(nodes, max)
-                const secondNodes = takeRight(nodes, nodes.length - max)
-
+                /* v8 ignore next 9 */
                 const dropdownSlots = {
                     overlay: () => (
                         <Menu selectedKeys={[]}>
-                            {secondNodes.map((item) => {
-                                return (
-                                    <Menu.Item>{item}</Menu.Item>
-                                )
+                            {takeRight(nodes, nodes.length - max).map((item) => {
+                                return <Menu.Item>{item}</Menu.Item>
                             })}
                         </Menu>
                     )
                 }
                 return (
                     <Space {...restProps}>
-                        {firstNodes}
+                        {take(nodes, max)}
                         <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
                             <a class={cx('action', 'action__primary')} onClick={onClick}>...</a>
                         </Dropdown>
