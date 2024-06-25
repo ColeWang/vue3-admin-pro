@@ -48,7 +48,7 @@ export default defineComponent({
         const popupContainer = ref(null)
 
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
-        const { requestProps, onReload } = useSharedContext()
+        const { requestProps = {}, onReload } = useSharedContext()
 
         function onExportClick () {
             emit('export')
