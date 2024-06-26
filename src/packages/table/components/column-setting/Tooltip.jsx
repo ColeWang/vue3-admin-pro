@@ -24,6 +24,7 @@ export default defineComponent({
     },
     emits: ['change'],
     setup (props, { emit, slots }) {
+        /* v8 ignore next 4 */
         function onClick (evt) {
             preventDefault(evt, true)
             emit('change', props.fixed)

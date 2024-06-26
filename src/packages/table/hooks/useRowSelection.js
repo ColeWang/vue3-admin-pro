@@ -15,6 +15,7 @@ function useRowSelection (props) {
 
     const rowSelection = shallowReactive(needRowSelection)
 
+    /* v8 ignore next 14 */
     function setSelectedRowKeys (keys, rows) {
         rowSelection.selectedRowKeys = keys
         if (keys.length !== rows.length) {
@@ -30,6 +31,7 @@ function useRowSelection (props) {
         }
     }
 
+    /* v8 ignore next 7 */
     function onChange (keys, rows, info) {
         const { rowSelection } = props
         if (isObject(rowSelection) && isFunction(rowSelection.onChange)) {

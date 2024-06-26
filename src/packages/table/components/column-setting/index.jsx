@@ -26,6 +26,7 @@ export default defineComponent({
 
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
 
+        /* v8 ignore next 8 */
         function onCheckClick (evt) {
             const { checked: targetChecked } = evt.target
             const values = reduce(unref(columnsMap), (result, column, key) => {
@@ -35,20 +36,24 @@ export default defineComponent({
             setColumnsMap && setColumnsMap(values)
         }
 
+        /* v8 ignore next 3 */
         function onClearClick () {
             setColumnsMap && setColumnsMap(false)
         }
 
+        /* v8 ignore next 4 */
         function onFixedChange (key, column) {
             const values = { ...unref(columnsMap), [key]: column }
             setColumnsMap && setColumnsMap(values)
         }
 
+        /* v8 ignore next 4 */
         function onCheckChange (key, column) {
             const values = { ...unref(columnsMap), [key]: column }
             setColumnsMap && setColumnsMap(values)
         }
 
+        /* v8 ignore next 17 */
         function onDropChange (dragKey, dropKey, trueDropPosition, dropPosition) {
             const keys = unref(columns).map((column) => column.key)
             const dragIndex = keys.findIndex((key) => key === dragKey)

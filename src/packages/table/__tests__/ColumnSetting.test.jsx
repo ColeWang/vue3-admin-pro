@@ -10,4 +10,16 @@ describe('ColumnSetting', () => {
     mountTest(TreeList)
     mountTest(TreeNode)
     mountTest(Tooltip)
+
+    mountTest(() => {
+        const columns = [
+            {
+                title: 'demo 1',
+                dataIndex: 'demo1'
+            }
+        ]
+        return (
+            <TreeList columns={columns} title={'Title'} fixed={'left'}/>
+        )
+    })
 })

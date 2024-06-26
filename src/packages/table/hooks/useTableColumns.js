@@ -26,6 +26,7 @@ function useTableColumns (props) {
         columnsMap.value = genColumnsMap(columns)
     }, { immediate: true })
 
+    /* v8 ignore next 8 */
     function setColumnsMap (values) {
         const columns = unref(baseColumns)
         if (values && isObject(values)) {

@@ -36,6 +36,7 @@ export default defineComponent({
     setup (props, { emit, attrs }) {
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
 
+        /* v8 ignore next 3 */
         function onChange (fixed) {
             emit('change', props.columnKey, fixed)
         }

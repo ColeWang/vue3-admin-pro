@@ -35,6 +35,7 @@ describe('Table', () => {
         const onValuesChange = vi.fn()
         const wrapper = mount(Table, {
             props: {
+                toolbar: false,
                 search: { onValuesChange: onValuesChange },
                 columns: [
                     {
@@ -77,6 +78,7 @@ describe('Table', () => {
         const toolbar = wrapper.findComponent(Toolbar)
         const buttonAll = toolbar.findAll('button')
         await Promise.all(buttonAll.map((button) => button.trigger('click')))
+        await new Promise((resolve) => setTimeout(resolve, 100))
         expect(wrapper.emitted()).toHaveProperty('export')
     })
 
@@ -131,9 +133,13 @@ describe('Table', () => {
                 data: [demo]
             })
         })
+        const beforeSearchSubmit = vi.fn((data) => data)
+        const postData = vi.fn((data) => data)
         const wrapper = mount(Table, {
             props: {
                 request: request,
+                beforeSearchSubmit: beforeSearchSubmit,
+                postData: postData,
                 columns: [
                     {
                         title: 'Title 1',
@@ -179,6 +185,8 @@ describe('Table', () => {
         await new Promise((resolve) => setTimeout(resolve, 100))
         expect(wrapper.emitted()).toHaveProperty('loadingChange')
         expect(wrapper.emitted()).toHaveProperty('load')
+        expect(beforeSearchSubmit).toHaveBeenCalled()
+        expect(postData).toHaveBeenCalled()
     })
 
     it(`test Table request error`, async () => {
@@ -189,5 +197,45 @@ describe('Table', () => {
         await new Promise((resolve) => setTimeout(resolve, 100))
         expect(wrapper.emitted()).toHaveProperty('loadingChange')
         expect(wrapper.emitted()).toHaveProperty('requestError')
+    })
+
+    it(`test Table pagination`, async () => {
+        const dataSource = Array.apply(null, Array(20)).map((_, index) => {
+            return { demo: `demo${index}`, key: `key-${index}` }
+        })
+        const wrapper = mount(Table, {
+            props: {
+                search: false,
+                dataSource: dataSource,
+                columns: [
+                    {
+                        title: 'Title 1',
+                        dataIndex: 'demo',
+                        search: true,
+                        initialValue: 'demo value'
+                    }
+                ]
+            }
+        })
+        await wrapper.find('.ant-pagination-next').trigger('click')
+        expect(wrapper.emitted()).toHaveProperty('paginateChange')
+    })
+
+    it(`test Table sorter`, async () => {
+        const wrapper = mount(Table, {
+            props: {
+                search: false,
+                dataSource: [{ demo1: 'demo1', key: 'key-1' }],
+                columns: [
+                    {
+                        title: 'Title 1',
+                        dataIndex: 'demo1',
+                        sorter: true
+                    }
+                ]
+            }
+        })
+        await wrapper.find('.ant-table-column-sorter').trigger('click')
+        expect(wrapper.emitted()).toHaveProperty('sortChange')
     })
 })

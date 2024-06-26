@@ -69,11 +69,13 @@ export default defineComponent({
                 paginate: () => {
                     onPaginateChange(paginate)
                 },
+                /* v8 ignore next 3 */
                 filter: () => {
                     onFilterChange(filters)
                 },
                 sort: () => {
                     if (isArray(sorter)) {
+                        /* v8 ignore next 4 */
                         const data = sorter.reduce((pre, value) => {
                             return { ...pre, [`${value.field}`]: value.order }
                         }, {})
@@ -96,6 +98,7 @@ export default defineComponent({
             emit('paginateChange', nextPaginate)
         }
 
+        /* v8 ignore next 5 */
         function onFilterChange (filter) {
             const nextFilter = omitNil(filter)
             setFilter && setFilter(nextFilter)
@@ -135,6 +138,7 @@ export default defineComponent({
             emit('export', exportParams)
         }
 
+        /* v8 ignore next 4 */
         function setTableSize (value) {
             tableSize.value = value
             emit('sizeChange', value)

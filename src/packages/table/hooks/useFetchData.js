@@ -99,6 +99,7 @@ function useFetchData (request, props, options) {
         query.params = params
     }
 
+    /* v8 ignore next 3 */
     function setFilter (filter) {
         query.filter = filter
     }

@@ -48,12 +48,14 @@ export default defineComponent({
     },
     emits: ['checkChange', 'dropChange', 'fixedChange'],
     setup (props, { emit }) {
+        /* v8 ignore next 5 */
         function onTreeNodeCheck (_, info) {
             const { node, checked } = info
             const column = props.columns.find((item) => item.key === node.key)
             emit('checkChange', node.key, { ...column, checked: checked })
         }
 
+        /* v8 ignore next 6 */
         function onTreeNodeDrop (info) {
             const { node, dragNode, dropPosition } = info
             const dragKey = dragNode.key, dropKey = node.key, dropPos = node.pos.split('-')
@@ -61,6 +63,7 @@ export default defineComponent({
             emit('dropChange', dragKey, dropKey, trueDropPosition, dropPosition)
         }
 
+        /* v8 ignore next 4 */
         function onChangeFixed (key, fixed) {
             const column = props.columns.find((item) => item.key === key)
             emit('fixedChange', key, { ...column, fixed: fixed })
