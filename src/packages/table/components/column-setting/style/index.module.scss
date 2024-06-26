@@ -1,5 +1,10 @@
+.column-setting {
+    position: relative;
+}
+
 .column-setting-title {
     @include flex(center, space-between);
+    @include text-weight(600);
     height: 32px;
 }
 

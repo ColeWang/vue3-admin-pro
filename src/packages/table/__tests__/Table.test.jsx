@@ -2,26 +2,21 @@ import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { last } from 'lodash-es'
 import { Tooltip } from 'ant-design-vue'
-import { Action, BaseSearch, Table } from '../index'
+import { BaseSearch, EditableTable, Table } from '../index'
 import Search from '../compatible/search'
 import Toolbar from '../compatible/toolbar'
 import Alert from '../compatible/alert'
-import Density from '../components/density'
-import ColumnSetting from '../components/column-setting'
 import { BaseForm, Text } from '../../form'
 import mountTest from '../../../../tests/shared/mountTest'
 
 describe('Table', () => {
     mountTest(Table)
+    mountTest(EditableTable)
     mountTest(BaseSearch)
-    mountTest(Action)
-    mountTest(Action.Group)
     // ---
     mountTest(Search)
     mountTest(Toolbar)
     mountTest(Alert)
-    mountTest(Density)
-    mountTest(ColumnSetting)
 
     it(`test BaseSearch`, async () => {
         const wrapper = mount(BaseSearch, {
@@ -34,25 +29,6 @@ describe('Table', () => {
             }
         })
         expect(wrapper.exists()).toBeTruthy()
-    })
-
-    it(`test Action`, async () => {
-        const onClick = vi.fn()
-        const wrapper = mount(Action.Group, {
-            slots: {
-                default: () => {
-                    return [
-                        <Action onClick={onClick}>操作一</Action>,
-                        <Action>操作二</Action>,
-                        <Action>操作三</Action>,
-                        <Action>操作四</Action>
-                    ]
-                }
-            }
-        })
-        const linkAll = wrapper.findAll('a')
-        await Promise.all(linkAll.map((button) => button.trigger('click')))
-        expect(onClick).toHaveBeenCalled()
     })
 
     it(`test Table Search`, async () => {
@@ -139,5 +115,79 @@ describe('Table', () => {
         const alert = wrapper.findComponent(Alert)
         await alert.find('a').trigger('click')
         expect(alert.emitted()).toHaveProperty('cleanSelected')
+    })
+
+    it(`test Table request`, async () => {
+        const request = vi.fn(() => {
+            const demo = {
+                demo1: 'demo1',
+                demo2: 'demo2',
+                demo3: 'demo3',
+                demo4: 'demo4',
+                demo5: 'demo5',
+                demo6: 'demo6'
+            }
+            return Promise.resolve({
+                data: [demo]
+            })
+        })
+        const wrapper = mount(Table, {
+            props: {
+                request: request,
+                columns: [
+                    {
+                        title: 'Title 1',
+                        dataIndex: 'demo1',
+                        search: true,
+                        valueEnum: {},
+                        initialValue: 'demo 1 value'
+                    },
+                    {
+                        title: 'Title 2',
+                        dataIndex: 'demo2',
+                        copyable: true
+                    },
+                    {
+                        title: 'Title 3',
+                        dataIndex: 'demo3',
+                        copyable: { tooltip: true }
+                    },
+                    {
+                        title: 'Title 4',
+                        dataIndex: 'demo4',
+                        ellipsis: true
+                    },
+                    {
+                        title: 'Title 5',
+                        dataIndex: 'demo5',
+                        ellipsis: { showTitle: false }
+                    },
+                    {
+                        title: 'Title 6',
+                        children: [
+                            {
+                                title: 'Title 6-1',
+                                customRender: (value, row) => {
+                                    return row.demo6
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        })
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        expect(wrapper.emitted()).toHaveProperty('loadingChange')
+        expect(wrapper.emitted()).toHaveProperty('load')
+    })
+
+    it(`test Table request error`, async () => {
+        const request = vi.fn(() => Promise.reject(false))
+        const wrapper = mount(Table, {
+            props: { request: request }
+        })
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        expect(wrapper.emitted()).toHaveProperty('loadingChange')
+        expect(wrapper.emitted()).toHaveProperty('requestError')
     })
 })

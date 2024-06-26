@@ -1,6 +1,11 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Button, ConfigProvider, Space, Tooltip } from 'ant-design-vue'
-import { ReloadOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons-vue'
+import { Button, ConfigProvider, Dropdown, Popover, Space, Tooltip } from 'ant-design-vue'
+import {
+    ColumnHeightOutlined,
+    ReloadOutlined,
+    SettingOutlined,
+    VerticalAlignBottomOutlined
+} from '@ant-design/icons-vue'
 import Density from '../../components/density'
 import ColumnSetting from '../../components/column-setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
@@ -71,7 +76,7 @@ export default defineComponent({
             const actionsDom = getSlotVNode(slots, props, 'actions', slotScope)
 
             const renderSettings = () => {
-                const catalog = {
+                const vNodeCatalog = {
                     reload: (
                         <Tooltip title={t('reload')}>
                             <Button onClick={onReload}>
@@ -86,14 +91,34 @@ export default defineComponent({
                             </Button>
                         </Tooltip>
                     ),
-                    density: <Density/>,
-                    setting: <ColumnSetting/>
+                    density: (
+                        <Tooltip title={t('density')}>
+                            <Dropdown trigger={['click']} placement={'bottomRight'} v-slots={{
+                                overlay: () => <Density/>
+                            }}>
+                                <Button>
+                                    <ColumnHeightOutlined/>
+                                </Button>
+                            </Dropdown>
+                        </Tooltip>
+                    ),
+                    setting: (
+                        <Tooltip title={t('columnSetting')}>
+                            <Popover trigger={'click'} placement={'bottomRight'} v-slots={{
+                                content: () => <ColumnSetting/>
+                            }}>
+                                <Button>
+                                    <SettingOutlined/>
+                                </Button>
+                            </Popover>
+                        </Tooltip>
+                    )
                 }
 
                 const options = pick({ ...defaultOptions, ...propsOptions }, Object.keys(defaultOptions))
                 const defaultSettings = Object.keys(options)
                     .filter((key) => options[key])
-                    .map((key) => catalog[key])
+                    .map((key) => vNodeCatalog[key])
 
                 const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
 

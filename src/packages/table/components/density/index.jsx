@@ -1,46 +1,36 @@
 import { defineComponent, unref } from 'vue'
-import { Button, Dropdown, Menu, Tooltip } from 'ant-design-vue'
-import { ColumnHeightOutlined } from '@ant-design/icons-vue'
+import { Menu } from 'ant-design-vue'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '@/packages/locale-provider'
 
 export default defineComponent({
     inheritAttrs: false,
-    setup () {
+    props: { ...Menu.props },
+    setup (props, { attrs }) {
         const { tableSize, setTableSize } = useSharedContext()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
 
-        function onChangeClick (params) {
+        function onMenuClick (params) {
+            props.onClick && props.onClick(params)
             if (unref(tableSize) !== params.key) {
                 setTableSize && setTableSize(params.key)
             }
         }
 
         return () => {
-            const dropdownSlots = {
-                overlay: () => {
-                    const menuProps = {
-                        style: { width: '88px' },
-                        selectedKeys: [unref(tableSize)],
-                        onClick: onChangeClick
-                    }
-                    return (
-                        <Menu {...menuProps}>
-                            <Menu.Item key={'large'}>{t('densityLarger')}</Menu.Item>
-                            <Menu.Item key={'middle'}>{t('densityMiddle')}</Menu.Item>
-                            <Menu.Item key={'small'}>{t('densitySmall')}</Menu.Item>
-                        </Menu>
-                    )
-                }
+            const menuProps = {
+                ...attrs,
+                ...props,
+                style: { width: '88px' },
+                selectedKeys: [unref(tableSize)],
+                onClick: onMenuClick
             }
             return (
-                <Dropdown trigger={'click'} placement={'bottomRight'} v-slots={dropdownSlots}>
-                    <Tooltip title={t('density')}>
-                        <Button>
-                            <ColumnHeightOutlined/>
-                        </Button>
-                    </Tooltip>
-                </Dropdown>
+                <Menu {...menuProps}>
+                    <Menu.Item key={'large'}>{t('densityLarger')}</Menu.Item>
+                    <Menu.Item key={'middle'}>{t('densityMiddle')}</Menu.Item>
+                    <Menu.Item key={'small'}>{t('densitySmall')}</Menu.Item>
+                </Menu>
             )
         }
     }

@@ -1,4 +1,6 @@
 .tree-list {
+    padding-top: 8px;
+
     .tree-list-title {
         @include text(12px, $text-secondary);
         margin: 6px 0;

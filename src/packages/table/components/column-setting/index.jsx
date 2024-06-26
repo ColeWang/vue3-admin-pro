@@ -1,6 +1,5 @@
 import { defineComponent, unref } from 'vue'
-import { Button, Checkbox, Popover, Tooltip } from 'ant-design-vue'
-import { SettingOutlined } from '@ant-design/icons-vue'
+import { Button, Checkbox } from 'ant-design-vue'
 import TreeList from './TreeList'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '@/packages/locale-provider'
@@ -71,78 +70,62 @@ export default defineComponent({
         return () => {
             const { checkable, draggable } = props
 
-            const popoverSlots = {
-                title: () => {
-                    const unCheckedColumns = unref(columns).filter((item) => item.checked === false)
-                    const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(columns).length
-                    const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(columns).length
+            const unCheckedColumns = unref(columns).filter((item) => item.checked === false)
+            const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(columns).length
+            const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(columns).length
 
-                    return (
-                        <div class={cx('column-setting-title')}>
-                            <Checkbox
-                                indeterminate={indeterminate}
-                                checked={checked}
-                                onChange={onCheckClick}
-                            >
-                                {t('columnDisplay')}
-                            </Checkbox>
-                            <Button
-                                style={{ padding: '4px' }}
-                                type={'link'}
-                                onClick={onClearClick}
-                            >
-                                {t('reset')}
-                            </Button>
-                        </div>
-                    )
-                },
-                content: () => {
-                    const leftList = unref(columns).filter((item) => item.fixed === 'left')
-                    const list = unref(columns).filter((item) => item.fixed === undefined)
-                    const rightList = unref(columns).filter((item) => item.fixed === 'right')
+            const leftList = unref(columns).filter((item) => item.fixed === 'left')
+            const list = unref(columns).filter((item) => item.fixed === undefined)
+            const rightList = unref(columns).filter((item) => item.fixed === 'right')
 
-                    const showTitle = leftList.length > 0 || rightList.length > 0
+            const showTitle = leftList.length > 0 || rightList.length > 0
 
-                    const treeListProps = {
-                        checkable: checkable,
-                        draggable: draggable,
-                        onCheckChange: onCheckChange,
-                        onFixedChange: onFixedChange,
-                        onDropChange: onDropChange
-                    }
-
-                    return (
-                        <div class={cx('tree-list-group')}>
-                            <TreeList
-                                fixed={'left'}
-                                title={t('leftPin')}
-                                columns={leftList}
-                                {...treeListProps}
-                            />
-                            <TreeList
-                                title={t('noPin')}
-                                showTitle={showTitle}
-                                columns={list}
-                                {...treeListProps}
-                            />
-                            <TreeList
-                                fixed={'right'}
-                                title={t('rightPin')}
-                                columns={rightList}
-                                {...treeListProps}
-                            />
-                        </div>
-                    )
-                }
+            const treeListProps = {
+                checkable: checkable,
+                draggable: draggable,
+                onCheckChange: onCheckChange,
+                onFixedChange: onFixedChange,
+                onDropChange: onDropChange
             }
             return (
-                <Popover trigger={'click'} placement={'bottomRight'} v-slots={popoverSlots}>
-                    <Tooltip title={t('columnSetting')}>
-                        <Button>
-                            <SettingOutlined/>
+                <div class={cx('column-setting')}>
+                    <div class={cx('column-setting-title')}>
+                        <Checkbox
+                            indeterminate={indeterminate}
+                            checked={checked}
+                            onChange={onCheckClick}
+                        >
+                            {t('columnDisplay')}
+                        </Checkbox>
+                        <Button
+                            style={{ padding: '4px' }}
+                            type={'link'}
+                            onClick={onClearClick}
+                        >
+                            {t('reset')}
                         </Button>
-                    </Tooltip>
-                </Popover>
+                    </div>
+                    <div class={cx('tree-list-group')}>
+                        <TreeList
+                            fixed={'left'}
+                            title={t('leftPin')}
+                            columns={leftList}
+                            {...treeListProps}
+                        />
+                        <TreeList
+                            title={t('noPin')}
+                            showTitle={showTitle}
+                            columns={list}
+                            {...treeListProps}
+                        />
+                        <TreeList
+                            fixed={'right'}
+                            title={t('rightPin')}
+                            columns={rightList}
+                            {...treeListProps}
+                        />
+                    </div>
+                </div>
             )
         }
     }
