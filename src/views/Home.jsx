@@ -112,7 +112,7 @@ export default defineComponent({
                 columns: unref(columns),
                 request: request,
                 search: { showCollapse: true },
-                options: { export: true },
+                toolbar: { options: { export: true } },
                 rowSelection: true,
                 onExport: onExport
             }

@@ -73,7 +73,10 @@ describe('Table', () => {
 
     it(`test Table Toolbar`, async () => {
         const wrapper = mount(Table, {
-            props: { search: false, options: { export: true } }
+            props: {
+                search: false,
+                toolbar: { options: { export: true } }
+            }
         })
         const toolbar = wrapper.findComponent(Toolbar)
         const buttonAll = toolbar.findAll('button')

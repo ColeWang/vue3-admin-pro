@@ -51,12 +51,8 @@ const tableProps = {
         default: undefined
     },
     toolbar: {
-        type: Boolean,
-        default: true
-    },
-    options: {
         type: [Object, Boolean],
-        default: undefined
+        default: true
     },
     actions: {
         type: Function,
@@ -75,6 +71,10 @@ const tableProps = {
         default: undefined
     },
     alertOptions: {
+        type: Function,
+        default: undefined
+    },
+    table: {
         type: Function,
         default: undefined
     },

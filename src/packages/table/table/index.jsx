@@ -169,7 +169,7 @@ export default defineComponent({
 
         return () => {
             const { search: propsSearch, columns: propsColumns, manualRequest } = props
-            const { toolbar: propsToolbar, options: propsOptions, rowSelection: propsRowSelection } = props
+            const { toolbar: propsToolbar, rowSelection: propsRowSelection } = props
 
             const renderSearch = () => {
                 const searchProps = {
@@ -180,30 +180,30 @@ export default defineComponent({
                     onFinish: onFinish,
                     onReset: onReset
                 }
+                // custom search 只有插槽的形式
                 const customSearch = getSlotVNode(slots, {}, 'search', searchProps)
                 return customSearch || <Search {...searchProps}/>
             }
 
             const renderToolbar = () => {
-                const titleSlot = getSlot(slots, props, 'title')
-                const actionsSlot = getSlot(slots, props, 'actions')
-                const settingsSlot = getSlot(slots, props, 'settings')
+                const { options } = propsToolbar || {}
                 const toolbarSlots = {
-                    title: titleSlot,
-                    actions: actionsSlot,
-                    settings: settingsSlot
+                    title: getSlot(slots, props, 'title'),
+                    actions: getSlot(slots, props, 'actions'),
+                    settings: getSlot(slots, props, 'settings')
                 }
                 const toolbarProps = {
-                    options: propsOptions,
+                    options: options,
                     onExport: onExport
                 }
                 return <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>
             }
 
             const renderAlert = () => {
-                const alertSlot = getSlot(slots, props, 'alert')
-                const alertOptionsSlot = getSlot(slots, props, 'alertOptions')
-                const alertSlots = { default: alertSlot, options: alertOptionsSlot }
+                const alertSlots = {
+                    default: getSlot(slots, props, 'alert'),
+                    options: getSlot(slots, props, 'alertOptions')
+                }
                 const alertProps = {
                     selectedRowKeys: rowSelection.selectedRowKeys,
                     selectedRows: rowSelection.selectedRows,
@@ -212,7 +212,7 @@ export default defineComponent({
                 return <Alert {...alertProps} v-slots={alertSlots}/>
             }
 
-            const cardBodyStyle = propsToolbar ? ({
+            const cardBodyStyle = propsToolbar !== false ? ({
                 paddingBlock: '16px',
                 paddingBlockStart: '0'
             }) : ({
@@ -231,24 +231,29 @@ export default defineComponent({
 
             const needTableSlots = omit(slots, ['search', 'extra', 'title', 'actions', 'settings', 'alert', 'alertOptions'])
 
-            const extraSlotScope = {
+            const baseTableDom = <Table {...needTableProps} v-slots={needTableSlots}/>
+            const tableDom = getSlotVNode(slots, props, 'table', {
+                props: needTableProps,
+                dom: baseTableDom
+            })
+
+            const extraDom = getSlotVNode(slots, props, 'extra', {
                 loading: requestProps.loading,
                 pageData: requestProps.dataSource,
                 pagination: requestProps.pagination
-            }
-            const extraDom = getSlotVNode(slots, props, 'extra', extraSlotScope)
+            })
 
             return (
                 <div class={cx('table')}>
                     {propsSearch !== false && renderSearch()}
                     {extraDom && <Extra>{extraDom}</Extra>}
                     <Card bodyStyle={cardBodyStyle}>
-                        {propsToolbar && renderToolbar()}
+                        {propsToolbar !== false && renderToolbar()}
                         {propsRowSelection !== false && renderAlert()}
                         <ConfigProvider getPopupContainer={getPopupContainer}>
                             <div class={cx('popup-container')} ref={popupContainer}>
                                 <div class={cx('table-wrapper')} ref={tableRef}>
-                                    <Table {...needTableProps} v-slots={needTableSlots}/>
+                                    {tableDom || baseTableDom}
                                 </div>
                             </div>
                         </ConfigProvider>

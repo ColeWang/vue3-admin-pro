@@ -27,13 +27,13 @@ const defaultOptions = {
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        options: {
-            type: [Object, Boolean],
-            default: () => ({})
-        },
         title: {
             type: Function,
             default: undefined
+        },
+        options: {
+            type: [Object, Boolean],
+            default: () => ({})
         },
         actions: {
             type: Function,
