@@ -11,10 +11,10 @@ export default defineComponent({
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
 
         function onMenuClick (params) {
-            props.onClick && props.onClick(params)
             if (unref(tableSize) !== params.key) {
                 setTableSize && setTableSize(params.key)
             }
+            props.onClick && props.onClick(params)
         }
 
         return () => {

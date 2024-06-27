@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 
-// @todo 列表支持
+// @todo 表单列表 开发中
 export default defineComponent({
     inheritAttrs: false,
     props: {

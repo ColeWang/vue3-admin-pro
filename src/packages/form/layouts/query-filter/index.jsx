@@ -88,7 +88,7 @@ export default defineComponent({
 
             const children = filterEmptyElement(slots.default ? slots.default(slotScope) : [])
             const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
-                const { child, hidden, key } = item
+                const { child, hidden, key } = item || {}
                 const colClass = cx({ 'col-hidden': hidden })
                 return (
                     <Col key={key} class={colClass} span={unref(span)}>{child}</Col>

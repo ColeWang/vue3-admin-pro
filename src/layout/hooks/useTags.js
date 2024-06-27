@@ -1,12 +1,10 @@
 import { ref, unref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
 import { localCache, TAGS__LOCAL } from '@/utils/storage'
 import { cloneProxyToRaw } from '@/utils/props-util'
 
-function useTags (menus, homeName) {
-    const router = useRouter()
-    const route = useRoute()
+function useTags (menus, options) {
+    const { homeName, route, router } = options || {}
 
     const homeRoute = getCurrentRoute(menus, homeName)
     const cacheTags = localCache.getObj(TAGS__LOCAL)
@@ -19,7 +17,8 @@ function useTags (menus, homeName) {
                 return item.name === name
             })
             if (result === -1) {
-                setTagsValue([...unref(tags), cloneProxyToRaw({ name, meta, query, params })])
+                const newValue = cloneProxyToRaw({ name, meta, query, params })
+                setTagsValue([...unref(tags), newValue])
             }
         }
     }, { immediate: true, deep: true })
@@ -31,7 +30,7 @@ function useTags (menus, homeName) {
     }
 
     function getCurrentRoute (menus, name) {
-        for (let item of menus) {
+        for (const item of menus) {
             if (item.name === name) {
                 return item
             } else if (item.children && item.children.length) {
@@ -46,20 +45,20 @@ function useTags (menus, homeName) {
         localCache.setObj(TAGS__LOCAL, values)
     }
 
-    function onTagClick (route) {
-        const { name, query, params } = route
-        router.push({ name, query, params })
+    function onTagClick (currentRoute) {
+        const { name, query, params } = currentRoute
+        router && router.push({ name, query, params })
     }
 
     function onTagClose (values, toName) {
-        setTagsValue(values)
         if (toName) {
             const result = values.find((item) => {
                 return item.name === toName
             })
             const { name, query, params } = result || {}
-            router.push({ name, query, params })
+            router && router.push({ name, query, params })
         }
+        setTagsValue(values)
     }
 
     function onStop () {

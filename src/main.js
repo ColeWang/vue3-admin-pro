@@ -36,8 +36,6 @@ async function start ({ app, router, stores }) {
 
     /**
      * 处理一些杂项
-     * 比如 boot 中需要重定向
-     * (创建一个 redirect 函数) 供 boot 调用
      */
 
     await createBoots({ app, router, stores, urlPath, publicPath })
