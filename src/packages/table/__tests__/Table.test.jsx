@@ -6,7 +6,7 @@ import { BaseSearch, EditableTable, Table } from '../index'
 import Search from '../compatible/search'
 import Toolbar from '../compatible/toolbar'
 import Alert from '../compatible/alert'
-import { BaseForm, Text } from '../../form'
+import { BaseForm, Text, Submitter } from '../../form'
 import mountTest from '../../../../tests/shared/mountTest'
 
 describe('Table', () => {
@@ -69,6 +69,10 @@ describe('Table', () => {
             demo1: 'demo 1 value',
             demo2: 'demo 2 value'
         })
+        const submitter = wrapper.findComponent(Submitter)
+        const buttonAll = submitter.findAll('button')
+        await Promise.all(buttonAll.map((button) => button.trigger('click')))
+        expect(wrapper.emitted()).toHaveProperty('reset')
     })
 
     it(`test Table Toolbar`, async () => {
@@ -239,6 +243,39 @@ describe('Table', () => {
             }
         })
         await wrapper.find('.ant-table-column-sorter').trigger('click')
+        expect(wrapper.emitted()).toHaveProperty('sortChange')
+    })
+
+    it(`test Table sorter multiple`, async () => {
+        const request = () => Promise.resolve({
+            data: [{ demo1: 'demo1', demo2: 'demo2', key: 'key-1' }]
+        })
+        const wrapper = mount(Table, {
+            props: {
+                search: false,
+                request: request,
+                columns: [
+                    {
+                        title: 'Title 1',
+                        dataIndex: 'demo1',
+                        sorter: {
+                            compare: (a, b) => a.demo1 - b.demo1,
+                            multiple: 1
+                        }
+                    },
+                    {
+                        title: 'Title 2',
+                        dataIndex: 'demo2',
+                        sorter: {
+                            compare: (a, b) => a.demo2 - b.demo2,
+                            multiple: 2
+                        }
+                    },
+                ]
+            }
+        })
+        const sorterAll = wrapper.findAll('.ant-table-column-sorter')
+        await Promise.all(sorterAll.map((button) => button.trigger('click')))
         expect(wrapper.emitted()).toHaveProperty('sortChange')
     })
 })

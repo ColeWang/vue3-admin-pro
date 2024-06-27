@@ -75,7 +75,6 @@ export default defineComponent({
                 },
                 sort: () => {
                     if (isArray(sorter)) {
-                        /* v8 ignore next 4 */
                         const data = sorter.reduce((pre, value) => {
                             return { ...pre, [`${value.field}`]: value.order }
                         }, {})
