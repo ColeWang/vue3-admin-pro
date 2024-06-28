@@ -57,9 +57,13 @@ function useQueryFilter (size, props) {
     }
 
     function genColNodes (children, callback) {
+        //  添加计数 解决位置不对问题
+        let hiddenCount = 0
+
         const nodes = filterEmptyElement(children).map((child, index) => {
             const propsHidden = child.props && child.props.hidden || false
-            const colHidden = propsHidden || unref(collapsed) && (index > unref(showNumber) - 1)
+            propsHidden && (hiddenCount += 1)
+            const colHidden = propsHidden || unref(collapsed) && (index - hiddenCount > unref(showNumber) - 1)
             const hidden = showCollapse ? colHidden : propsHidden
             const key = (isValidElement(child) && child.key) || index
             return { key: key, child: child, hidden: hidden }

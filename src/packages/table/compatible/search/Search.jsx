@@ -50,6 +50,7 @@ export default defineComponent({
                         }
                         const needFieldProps = {
                             ...pick(column, Object.keys(Field.props)),
+                            hidden: !!column.hideInSearch,
                             fieldProps: { ...fieldProps, style: { width: '100%' } },
                             formItemProps: needFormItemProps
                         }

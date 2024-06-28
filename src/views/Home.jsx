@@ -22,7 +22,8 @@ export default defineComponent({
                     title: 'Tel',
                     search: true,
                     copyable: true,
-                    dataIndex: 'tel'
+                    dataIndex: 'tel',
+                    hideInSetting: true
                 },
                 {
                     title: 'Age',

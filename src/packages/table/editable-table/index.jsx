@@ -1,6 +1,7 @@
 import { defineComponent, reactive, watch } from 'vue'
-import { Form } from '@/packages/form'
+import { Field, Form } from '@/packages/form'
 import Table from '../table'
+import { pick } from 'lodash-es'
 
 const editable = {
     type: 'multiple', // 可编辑表格的类型，单行编辑或者多行编辑
@@ -33,17 +34,44 @@ export default defineComponent({
         const model = reactive(props.dataSource || [])
 
         watch(model, (value) => {
+            console.log(value)
             emit('update:value', value)
         }, { deep: true, immediate: true })
 
+        function customRender (text, record, index, column) {
+            const { fieldProps, formItemProps } = column
+            const namePath = column.key || column.dataIndex
+
+            const needFormItemProps = {
+                ...formItemProps,
+                name: [index, namePath]
+                // label: column.title
+            }
+            const needFieldProps = {
+                ...pick(column, Object.keys(Field.props)),
+                fieldProps: { ...fieldProps, style: { width: '100%' } },
+                formItemProps: needFormItemProps
+            }
+            return <Field {...needFieldProps}/>
+        }
+
         return () => {
+            const { columns: propsColumns } = props
+
+            const columns = propsColumns.map((column) => {
+                return { ...column, customRender }
+            })
+
+            const tableProps = {
+                ...pick(props, Object.keys(Table.props)),
+                columns: columns,
+                pagination: false,
+                search: false,
+                toolbar: false
+            }
             return (
                 <Form model={model} layout={'vertical'}>
-                    <Table
-                        search={false}
-                        options={false}
-                        pagination={false}
-                    />
+                    <Table {...tableProps}/>
                 </Form>
             )
         }

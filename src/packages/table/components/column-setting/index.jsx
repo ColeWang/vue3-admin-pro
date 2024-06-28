@@ -75,13 +75,16 @@ export default defineComponent({
         return () => {
             const { checkable, draggable } = props
 
-            const unCheckedColumns = unref(columns).filter((item) => item.checked === false)
-            const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(columns).length
-            const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(columns).length
+            // 不在 setting 中展示的
+            const needColumns = unref(columns).filter((item) => !item.hideInSetting)
 
-            const leftList = unref(columns).filter((item) => item.fixed === 'left')
-            const list = unref(columns).filter((item) => item.fixed === undefined)
-            const rightList = unref(columns).filter((item) => item.fixed === 'right')
+            const unCheckedColumns = needColumns.filter((item) => item.checked === false)
+            const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== needColumns.length
+            const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== needColumns.length
+
+            const leftList = needColumns.filter((item) => item.fixed === 'left')
+            const list = needColumns.filter((item) => item.fixed === undefined)
+            const rightList = needColumns.filter((item) => item.fixed === 'right')
 
             const showTitle = leftList.length > 0 || rightList.length > 0
 
