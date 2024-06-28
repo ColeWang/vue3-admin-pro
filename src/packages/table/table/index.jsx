@@ -218,6 +218,12 @@ export default defineComponent({
                 paddingBlock: '16px'
             })
 
+            const extraDom = getSlotVNode(slots, props, 'extra', {
+                pageData: requestProps.dataSource,
+                loading: requestProps.loading,
+                pagination: requestProps.pagination
+            })
+
             const needTableProps = {
                 ...attrs,
                 ...pick(props, Object.keys(Table.props)),
@@ -231,15 +237,10 @@ export default defineComponent({
             const needTableSlots = omit(slots, ['search', 'extra', 'title', 'actions', 'settings', 'alert', 'alertOptions'])
 
             const baseTableDom = <Table {...needTableProps} v-slots={needTableSlots}/>
+
             const tableDom = getSlotVNode(slots, props, 'table', {
                 props: needTableProps,
                 dom: baseTableDom
-            })
-
-            const extraDom = getSlotVNode(slots, props, 'extra', {
-                loading: requestProps.loading,
-                pageData: requestProps.dataSource,
-                pagination: requestProps.pagination
             })
 
             return (
