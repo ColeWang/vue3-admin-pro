@@ -28,9 +28,10 @@ export default defineComponent({
 
         /* v8 ignore next 8 */
         function onCheckClick (evt) {
-            const { checked: targetChecked } = evt.target
+            const { checked: targetChecked } = evt.target || {}
             const values = reduce(unref(columnsMap), (result, column, key) => {
-                const checked = column.disable ? column.checked : targetChecked
+                const { hideInSetting, disable } = column || {}
+                const checked = hideInSetting || disable ? column.checked : targetChecked
                 return set(result, key, { ...column, checked: checked })
             }, {})
             setColumnsMap && setColumnsMap(values)
