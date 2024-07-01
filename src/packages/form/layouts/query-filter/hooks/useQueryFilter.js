@@ -56,20 +56,29 @@ function useQueryFilter (size, props) {
         collapsed.value = value
     }
 
-    function genColNodes (children, callback) {
-        //  添加计数 解决位置不对问题
+    function createNodes (children) {
+        const maxIndex = unref(showNumber) - 1
+        // 计数器
         let hiddenCount = 0
-
-        const nodes = filterEmptyElement(children).map((child, index) => {
-            const propsHidden = child.props && child.props.hidden || false
+        const isChildHidden = (propsHidden, index) => {
             propsHidden && (hiddenCount += 1)
-            const colHidden = propsHidden || unref(collapsed) && (index - hiddenCount > unref(showNumber) - 1)
-            const hidden = showCollapse ? colHidden : propsHidden
+            const cHidden = unref(collapsed) && (index - hiddenCount) > maxIndex
+            return showCollapse ? (propsHidden || cHidden) : propsHidden
+        }
+
+        return children.map((child, index) => {
+            const propsHidden = child.props && child.props.hidden || false
+            const hidden = isChildHidden(propsHidden, index)
             const key = (isValidElement(child) && child.key) || index
             return { key: key, child: child, hidden: hidden }
         })
-        const { length } = nodes.filter((c) => !c.hidden)
-        const offset = getOffset(length, unref(span))
+    }
+
+    function genColNodes (children, callback) {
+        const validChildren = filterEmptyElement(children || [])
+        const nodes = createNodes(validChildren)
+        const showNodes = nodes.filter((c) => !c.hidden)
+        const offset = getOffset(showNodes.length, unref(span))
         const haveRow = unref(span) + offset === 24
         return { nodes: map(nodes, callback), offset, haveRow }
     }
