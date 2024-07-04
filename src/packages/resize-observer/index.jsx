@@ -26,8 +26,8 @@ export default defineComponent({
         }
 
         const debounceCallback = debounce((entries) => {
-            const entry = head(entries)
-            const { width, height, ...restRect } = entry.contentRect
+            const { contentRect = {} } = head(entries) || {}
+            const { width, height, ...restRect } = contentRect
             setSize({ width, height, ...restRect })
         }, props.debounce, { leading: true })
 
