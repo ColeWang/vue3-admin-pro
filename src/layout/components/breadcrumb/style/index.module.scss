@@ -1,0 +1,11 @@
+.breadcrumb {
+    padding: 0 20px;
+
+    :global(ol) {
+        flex-wrap: nowrap;
+    }
+
+    :global(.ant-breadcrumb-link) {
+        white-space: nowrap;
+    }
+}

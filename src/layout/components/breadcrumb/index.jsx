@@ -1,6 +1,10 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Breadcrumb } from 'ant-design-vue'
 import useShowTitle from '../../hooks/useShowTitle'
+import classNames from '@/utils/classNames/bind'
+import styles from './style/index.module.scss'
+
+const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
@@ -25,7 +29,7 @@ export default defineComponent({
 
         return () => {
             return (
-                <Breadcrumb style={{ marginLeft: '30px' }}>
+                <Breadcrumb class={cx('breadcrumb')}>
                     {unref(levels).map((item) => {
                         return (
                             <Breadcrumb.Item>

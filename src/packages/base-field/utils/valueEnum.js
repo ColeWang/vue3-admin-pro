@@ -1,3 +1,4 @@
+import { h } from 'vue'
 import { Badge, Space } from 'ant-design-vue'
 import { compact, isArray, isNumber, isObject, isString, map, reduce, set } from 'lodash-es'
 import { isEmpty } from '@/utils'
@@ -38,17 +39,15 @@ export function valueEnumToText (text, valueEnum = {}) {
         const children = compact(text).map((value) => {
             return valueEnumToText(value, valueEnum)
         })
-        const spaceSlots = { split: () => (',') }
-        return (
-            <Space size={2} wrap={true} v-slots={spaceSlots}>
-                {children}
-            </Space>
-        )
+        return h(Space, { size: 2, wrap: true }, {
+            default: () => children,
+            split: () => ','
+        })
     }
     if (isString(text) || isNumber(text)) {
         const plain = valueEnum[text]
         if (plain && isObject(plain)) {
-            return <Badge {...plain}/>
+            return h(Badge, { ...plain })
         }
         return isEmpty(plain) ? text : plain
     }
