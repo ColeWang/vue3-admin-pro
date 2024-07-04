@@ -20,8 +20,8 @@ export default defineComponent({
         const { formProps = {}, getModelValue } = useFormInstance()
 
         return () => {
-            const { grid } = unref(formProps)
             const { name: namePathList, colProps } = props
+            const { grid } = unref(formProps)
 
             const slotScope = reduce(namePathList, (result, namePath) => {
                 if (namePath && getModelValue && isFunction(getModelValue)) {

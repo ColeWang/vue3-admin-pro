@@ -6,10 +6,10 @@ const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
-    setup (props, { slots }) {
+    setup (props, { slots, attrs }) {
         return () => {
             return (
-                <div class={cx('extra')}>
+                <div class={cx('extra')} {...attrs}>
                     {slots.default && slots.default()}
                 </div>
             )

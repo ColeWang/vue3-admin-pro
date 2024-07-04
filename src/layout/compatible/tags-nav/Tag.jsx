@@ -46,7 +46,9 @@ export default defineComponent({
             return (
                 <div class={cx('tag')} onClick={onClick}>
                     <span class={dotInnerClass}/>
-                    <span class={cx('tag_text')}>{slots.default && slots.default()}</span>
+                    <span class={cx('tag_text')}>
+                        {slots.default && slots.default()}
+                    </span>
                     {closable && (
                         <span class={cx('close')} onClick={withModifiers(onClose, ['stop'])}>
                             <CloseOutlined/>

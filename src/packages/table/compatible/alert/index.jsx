@@ -29,7 +29,7 @@ export default defineComponent({
         }
     },
     emits: ['cleanSelected'],
-    setup (props, { emit, slots }) {
+    setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
 
         const { t } = useLocaleReceiver(['Table', 'alert'])
@@ -45,7 +45,7 @@ export default defineComponent({
 
         return () => {
             if (props.selectedRowKeys.length < 1) return null
-
+            // ----
             const { selectedRowKeys, selectedRows } = props
 
             const contentText = `${t('selected')} ${selectedRowKeys.length} ${t('item')}`
@@ -66,7 +66,7 @@ export default defineComponent({
             const optionsDom = getSlotVNode(slots, props, 'options', slotScope)
 
             return (
-                <div class={cx('alert')}>
+                <div class={cx('alert')} {...attrs}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
                         <div class={cx('popup-container')} ref={popupContainer}>
                             <div class={cx('alert-container')}>

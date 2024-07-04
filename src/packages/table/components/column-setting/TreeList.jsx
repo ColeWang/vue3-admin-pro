@@ -71,6 +71,7 @@ export default defineComponent({
 
         return () => {
             if (props.columns.length === 0) return null
+            // ----
             const { columns, showTitle, title, fixed, checkable, draggable } = props
 
             const checkedKeys = columns.filter((item) => {

@@ -16,8 +16,8 @@ export default defineComponent({
         const { formProps = {} } = useFormInstance()
 
         return () => {
-            const { grid } = unref(formProps)
             const { colProps, ...restProps } = props
+            const { grid } = unref(formProps)
 
             const colWrapProps = {
                 ...colProps,
