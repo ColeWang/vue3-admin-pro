@@ -17,8 +17,6 @@ import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
 
-const BaseTableSize = 'small'
-
 export default defineComponent({
     inheritAttrs: false,
     props: tableProps,
@@ -27,7 +25,7 @@ export default defineComponent({
         const popupContainer = ref(null)
         const tableRef = ref(null)
 
-        const tableSize = ref(props.size || BaseTableSize)
+        const tableSize = ref(props.size || 'large')
 
         const {
             context: requestProps,
