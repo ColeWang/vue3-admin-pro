@@ -41,6 +41,7 @@ export default defineComponent({
                 onOpenChange: onOpenChange
             }
 
+            // @todo 收回时 errors 先置空了, 导致了浮层的塌陷
             const popoverSlots = {
                 content: () => (
                     <div class={cx('with-help')}>
