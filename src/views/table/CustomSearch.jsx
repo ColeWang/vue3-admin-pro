@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { CustomFields } from '@/packages/base-field'
-import { HocField, Radio, Select } from '@/packages/form'
+import { HocField, Radio, Select, Checkbox, Switch, Slider } from '@/packages/form'
 import { Action, ActionGroup, BaseSearch, Table } from '@/packages/table'
 
 const Test = HocField('test')
@@ -9,7 +9,7 @@ export default defineComponent({
     name: 'TableCustomSearch',
     setup () {
         const model = ref({
-            radio: '1'
+            // radio: '1'
         })
 
         const columns = [
@@ -84,7 +84,7 @@ export default defineComponent({
                     }}>
                         <Table {...tableProps} v-slots={{
                             search: (slotScope) => (
-                                <BaseSearch {...slotScope} span={12} model={unref(model)}>
+                                <BaseSearch {...slotScope} labelWidth={100} span={12} model={unref(model)}>
                                     <Select
                                         label={'Age'}
                                         name={['data', 'age']}
@@ -103,6 +103,25 @@ export default defineComponent({
                                             '1': '选项一',
                                             '2': '选项二',
                                         }}
+                                    />
+                                    <Checkbox
+                                        label={'Checkbox'}
+                                        name={'checkbox'}
+                                        required={true}
+                                        valueEnum={{
+                                            '1': '选项一',
+                                            '2': '选项二',
+                                        }}
+                                    />
+                                    <Switch
+                                        label={'Switch'}
+                                        name={'switch'}
+                                        required={true}
+                                    />
+                                    <Slider
+                                        label={'Slider'}
+                                        name={'slider'}
+                                        required={true}
                                     />
                                     <Test
                                         label={'Test'}

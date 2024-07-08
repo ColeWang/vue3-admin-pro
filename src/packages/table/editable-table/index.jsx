@@ -2,7 +2,7 @@ import { defineComponent, reactive, watch } from 'vue'
 import { Field, Form } from '@/packages/form'
 import Table from '../table'
 import InlineError from './components/inline-error'
-import { omit, pick } from 'lodash-es'
+import { get, pick, set, unset } from 'lodash-es'
 
 const editable = {
     type: 'multiple', // 可编辑表格的类型，单行编辑或者多行编辑
@@ -33,23 +33,28 @@ export default defineComponent({
     emits: ['update:value'],
     setup (props, { emit, slots }) {
         const model = reactive(props.dataSource || [])
+        const validateErrors = reactive([])
 
         watch(model, (value) => {
-            console.log(value)
             emit('update:value', value)
         }, { deep: true, immediate: true })
 
-        function onValidate (name, status, errors) {
-            console.log(name, status, errors)
+        function onValidate (namePath, status, errors) {
+            if (!status && errors) {
+                set(validateErrors, namePath, errors)
+            } else {
+                unset(validateErrors, namePath)
+            }
         }
 
         function customRender ({ text, record, index, column }) {
             const { fieldProps, formItemProps } = column
-            const namePath = column.key || column.dataIndex
+            const namePath = [index, column.key || column.dataIndex]
 
             const needFormItemProps = {
-                ...omit(formItemProps, ['label']),
-                name: [index, namePath],
+                ...formItemProps,
+                name: namePath,
+                label: column.title,
                 noStyle: true
             }
             const needFieldProps = {
@@ -57,11 +62,15 @@ export default defineComponent({
                 fieldProps: { ...fieldProps, style: { width: '100%' } },
                 formItemProps: needFormItemProps
             }
-            return (
-                <InlineError errors={['此项为必填项']}>
-                    <Field {...needFieldProps}/>
-                </InlineError>
-            )
+            if (needFormItemProps.required || needFormItemProps.rules) {
+                const errors = get(validateErrors, namePath)
+                return (
+                    <InlineError errors={errors}>
+                        <Field {...needFieldProps}/>
+                    </InlineError>
+                )
+            }
+            return <Field {...needFieldProps}/>
         }
 
         return () => {
@@ -71,6 +80,12 @@ export default defineComponent({
                 return { ...column, customRender }
             })
 
+            const formProps = {
+                model: model,
+                layout: 'vertical',
+                onValidate: onValidate
+            }
+
             const tableProps = {
                 ...pick(props, Object.keys(Table.props)),
                 columns: columns,
@@ -79,7 +94,7 @@ export default defineComponent({
                 toolbar: false
             }
             return (
-                <Form model={model} onValidate={onValidate} layout={'vertical'}>
+                <Form {...formProps}>
                     <Table {...tableProps}/>
                 </Form>
             )

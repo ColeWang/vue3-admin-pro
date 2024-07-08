@@ -5,11 +5,6 @@ import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../util
 import { getSlotVNode } from '@/utils/props-util'
 import { isUndefined } from 'lodash-es'
 
-/**
- * @todo 待优化
- * validateStatus 变化应该使组件颜色变化
- * 组件库没有对外暴露 Form.Item 的 Status
- */
 export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
