@@ -1,6 +1,7 @@
 import { defineComponent, reactive, watch } from 'vue'
 import { Field, Form } from '@/packages/form'
 import Table from '../table'
+import InlineError from './components/inline-error'
 import { omit, pick } from 'lodash-es'
 
 const editable = {
@@ -56,7 +57,11 @@ export default defineComponent({
                 fieldProps: { ...fieldProps, style: { width: '100%' } },
                 formItemProps: needFormItemProps
             }
-            return <Field {...needFieldProps}/>
+            return (
+                <InlineError errors={['此项为必填项']}>
+                    <Field {...needFieldProps}/>
+                </InlineError>
+            )
         }
 
         return () => {
