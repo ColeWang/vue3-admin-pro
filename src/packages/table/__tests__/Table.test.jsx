@@ -180,8 +180,8 @@ describe('Table', () => {
                         children: [
                             {
                                 title: 'Title 6-1',
-                                customRender: (value, row) => {
-                                    return row.demo6
+                                customRender: ({ record }) => {
+                                    return record.demo6
                                 }
                             }
                         ]

@@ -1,7 +1,7 @@
 import { defineComponent, reactive, watch } from 'vue'
 import { Field, Form } from '@/packages/form'
 import Table from '../table'
-import { pick } from 'lodash-es'
+import { omit, pick } from 'lodash-es'
 
 const editable = {
     type: 'multiple', // 可编辑表格的类型，单行编辑或者多行编辑
@@ -38,14 +38,18 @@ export default defineComponent({
             emit('update:value', value)
         }, { deep: true, immediate: true })
 
-        function customRender (text, record, index, column) {
+        function onValidate (name, status, errors) {
+            console.log(name, status, errors)
+        }
+
+        function customRender ({ text, record, index, column }) {
             const { fieldProps, formItemProps } = column
             const namePath = column.key || column.dataIndex
 
             const needFormItemProps = {
-                ...formItemProps,
-                name: [index, namePath]
-                // label: column.title
+                ...omit(formItemProps, ['label']),
+                name: [index, namePath],
+                noStyle: true
             }
             const needFieldProps = {
                 ...pick(column, Object.keys(Field.props)),
@@ -70,7 +74,7 @@ export default defineComponent({
                 toolbar: false
             }
             return (
-                <Form model={model} layout={'vertical'}>
+                <Form model={model} onValidate={onValidate} layout={'vertical'}>
                     <Table {...tableProps}/>
                 </Form>
             )

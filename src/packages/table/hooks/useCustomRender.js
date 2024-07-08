@@ -22,10 +22,10 @@ function getCopyable (column, text) {
 }
 
 function customRender (oldColumn, emptyText) {
-    return function ({ text, record, index, column }) {
+    return function ({ text, ...restArgs }) {
         if (oldColumn.customRender && isFunction(oldColumn.customRender)) {
             const oldCustomRender = oldColumn.customRender
-            return oldCustomRender.apply(null, [text, record, index, column])
+            return oldCustomRender.call(null, { text, ...restArgs })
         }
         if (oldColumn.valueEnum && isObject(oldColumn.valueEnum) && !isEmpty(text)) {
             return valueEnumToText(text, oldColumn.valueEnum)
