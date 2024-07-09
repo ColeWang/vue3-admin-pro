@@ -27,9 +27,15 @@ export default defineComponent({
             }
             return (
                 <Menu {...menuProps}>
-                    <Menu.Item key={'large'}>{t('densityLarger')}</Menu.Item>
-                    <Menu.Item key={'middle'}>{t('densityMiddle')}</Menu.Item>
-                    <Menu.Item key={'small'}>{t('densitySmall')}</Menu.Item>
+                    <Menu.Item key={'large'}>
+                        {t('densityLarger')}
+                    </Menu.Item>
+                    <Menu.Item key={'middle'}>
+                        {t('densityMiddle')}
+                    </Menu.Item>
+                    <Menu.Item key={'small'}>
+                        {t('densitySmall')}
+                    </Menu.Item>
                 </Menu>
             )
         }

@@ -15,7 +15,7 @@ export default defineComponent({
         }
     },
     emits: ['resize'],
-    setup (props, { emit, slots }) {
+    setup (props, { emit, attrs, slots }) {
         const elRef = ref(null)
 
         const size = ref({ width: 0, height: 0 })
@@ -38,7 +38,9 @@ export default defineComponent({
             const children = slots.default && slots.default(slotScope)
 
             return (
-                <div ref={elRef}>{children}</div>
+                <div {...attrs} ref={elRef}>
+                    {children}
+                </div>
             )
         }
     }

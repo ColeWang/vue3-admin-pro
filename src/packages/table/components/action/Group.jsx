@@ -34,9 +34,9 @@ export default defineComponent({
                 /* v8 ignore next 9 */
                 const dropdownSlots = {
                     overlay: () => (
-                        <Menu selectedKeys={[]}>
-                            {takeRight(nodes, nodes.length - max).map((item) => {
-                                return <Menu.Item>{item}</Menu.Item>
+                        <Menu data-type={'dropdown'} selectedKeys={[]}>
+                            {takeRight(nodes, nodes.length - max).map((item, index) => {
+                                return <Menu.Item key={index}>{item}</Menu.Item>
                             })}
                         </Menu>
                     )

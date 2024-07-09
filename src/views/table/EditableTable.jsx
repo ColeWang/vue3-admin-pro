@@ -10,7 +10,8 @@ export default defineComponent({
                 dataIndex: 'name',
                 valueType: 'text',
                 formItemProps: {
-                    required: true
+                    required: true,
+                    extra: '123'
                 }
             },
             {

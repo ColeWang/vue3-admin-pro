@@ -25,7 +25,7 @@ export default defineComponent({
         const popupContainer = ref(null)
         const tableRef = ref(null)
 
-        const tableSize = ref(props.size || 'large')
+        const tableSize = ref(props.size || 'middle')
 
         const {
             context: requestProps,

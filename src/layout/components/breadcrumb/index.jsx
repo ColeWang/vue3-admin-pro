@@ -30,9 +30,9 @@ export default defineComponent({
         return () => {
             return (
                 <Breadcrumb class={cx('breadcrumb')}>
-                    {unref(levels).map((item) => {
+                    {unref(levels).map((item, index) => {
                         return (
-                            <Breadcrumb.Item>
+                            <Breadcrumb.Item key={item.name || index}>
                                 {showTitle && showTitle(item)}
                             </Breadcrumb.Item>
                         )

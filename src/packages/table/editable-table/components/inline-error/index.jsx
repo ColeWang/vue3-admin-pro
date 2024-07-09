@@ -26,6 +26,8 @@ export default defineComponent({
     setup (props, { slots }) {
         const sOpen = ref(false)
 
+        const cacheErrors = ref(props.errors || [])
+
         function onOpenChange (value) {
             if (value !== unref(sOpen)) {
                 sOpen.value = value
@@ -37,6 +39,7 @@ export default defineComponent({
 
             const popoverProps = {
                 ...pick(props, Object.keys(Popover.props)),
+                destroyTooltipOnHide: true,
                 open: errors.length !== 0 ? unref(sOpen) : false,
                 onOpenChange: onOpenChange
             }
