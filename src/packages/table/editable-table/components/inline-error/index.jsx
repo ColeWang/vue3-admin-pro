@@ -1,10 +1,31 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Popover } from 'ant-design-vue'
 import { pick } from 'lodash-es'
+import { cloneProxyToRaw } from '@/utils/props-util'
 import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
+
+const WithHelp = defineComponent({
+    inheritAttrs: false,
+    props: {
+        errors: {
+            type: Array,
+            default: () => ([])
+        }
+    },
+    setup (props) {
+        const cacheErrors = cloneProxyToRaw(props.errors)
+        return () => {
+            return (
+                <div class={cx('with-help')}>
+                    {cacheErrors}
+                </div>
+            )
+        }
+    }
+})
 
 export default defineComponent({
     inheritAttrs: false,
@@ -26,8 +47,6 @@ export default defineComponent({
     setup (props, { slots }) {
         const sOpen = ref(false)
 
-        const cacheErrors = ref(props.errors || [])
-
         function onOpenChange (value) {
             if (value !== unref(sOpen)) {
                 sOpen.value = value
@@ -43,20 +62,11 @@ export default defineComponent({
                 open: errors.length !== 0 ? unref(sOpen) : false,
                 onOpenChange: onOpenChange
             }
-
-            // @todo 收回时 errors 先置空了, 导致了浮层的塌陷
-            const popoverSlots = {
-                content: () => (
-                    <div class={cx('with-help')}>
-                        {errors}
-                    </div>
-                )
-            }
             return (
-                <Popover {...popoverProps} v-slots={popoverSlots}>
-                    <div onClick={() => false}>
-                        {slots.default && slots.default()}
-                    </div>
+                <Popover {...popoverProps} v-slots={{
+                    content: () => <WithHelp errors={errors}/>
+                }}>
+                    {slots.default && slots.default()}
                 </Popover>
             )
         }

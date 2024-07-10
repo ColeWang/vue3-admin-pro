@@ -62,15 +62,20 @@ export default defineComponent({
                 fieldProps: { ...fieldProps, style: { width: '100%' } },
                 formItemProps: needFormItemProps
             }
+            const fieldDom = (
+                <div style={{ marginBlock: '-5px' }} onClick={() => false}>
+                    <Field {...needFieldProps}/>
+                </div>
+            )
             if (needFormItemProps.required || needFormItemProps.rules) {
                 const errors = get(validateErrors, namePath)
                 return (
                     <InlineError errors={errors}>
-                        <Field {...needFieldProps}/>
+                        {fieldDom}
                     </InlineError>
                 )
             }
-            return <Field {...needFieldProps}/>
+            return fieldDom
         }
 
         return () => {
