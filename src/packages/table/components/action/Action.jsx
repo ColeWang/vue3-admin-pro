@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
-import { preventDefault } from '@/utils/event'
-import classNames from '@/utils/classNames/bind'
+import { preventDefault } from '../../../_utils/event'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

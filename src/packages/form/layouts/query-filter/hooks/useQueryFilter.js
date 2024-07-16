@@ -1,6 +1,6 @@
 import { computed, ref, unref, watch } from 'vue'
-import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
-import { filterEmptyElement, isValidElement } from '@/utils/props-util'
+import tryOnScopeDispose from '../../../../_utils/hooks/tryOnScopeDispose'
+import { filterEmptyElement, isValidElement } from '../../../../_utils/props-util'
 import { map } from 'lodash-es'
 
 const breakpoints = {

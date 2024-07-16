@@ -1,13 +1,13 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Col, Form, Row } from 'ant-design-vue'
-import ResizeObserver from '@/packages/resize-observer'
+import ResizeObserver from '../../../resize-observer'
 import BaseForm from '../../base-form'
 import Actions from './Actions'
 import useQueryFilter from './hooks/useQueryFilter'
 import { genFormItemFixStyle } from '../../utils'
-import { filterEmptyElement } from '@/utils/props-util'
+import { filterEmptyElement } from '../../../_utils/props-util'
 import { pick } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

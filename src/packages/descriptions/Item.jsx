@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Descriptions, Form } from 'ant-design-vue'
-import BaseField from '@/packages/base-field'
+import BaseField from '../base-field'
 
 export default defineComponent({
     inheritAttrs: false,

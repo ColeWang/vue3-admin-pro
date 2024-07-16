@@ -2,8 +2,8 @@ import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Drawer } from 'ant-design-vue'
 import { default as BaseForm, Submitter } from '../../base-form'
 import { default as useFloatForm, floatProps } from '../hooks/useFloatForm'
-import { getSlotVNode } from '@/utils/props-util'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../../locale-provider'
+import { getSlotVNode } from '../../../_utils/props-util'
 import { isFunction, omit, pick } from 'lodash-es'
 
 export default defineComponent({

@@ -1,9 +1,9 @@
 import { defineComponent } from 'vue'
 import { Cascader } from 'ant-design-vue'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
-import { optionsToValueEnum, valueEnumToText } from '../utils/valueEnum'
-import { getSlotVNode } from '@/utils/props-util'
+import { optionsToValueEnum, valueEnumToText } from '../../_utils/valueEnum'
+import { getSlotVNode } from '../../_utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,

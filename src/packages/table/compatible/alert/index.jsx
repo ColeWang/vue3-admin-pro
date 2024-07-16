@@ -1,9 +1,9 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
 import { ConfigProvider, Space } from 'ant-design-vue'
 import Action from '../../components/action'
-import { useLocaleReceiver } from '@/packages/locale-provider'
-import { getSlotVNode } from '@/utils/props-util'
-import classNames from '@/utils/classNames/bind'
+import { useLocaleReceiver } from '../../../locale-provider'
+import { getSlotVNode } from '../../../_utils/props-util'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

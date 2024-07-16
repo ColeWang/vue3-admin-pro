@@ -1,9 +1,9 @@
 import { defineComponent } from 'vue'
 import { Dropdown, Menu, Space } from 'ant-design-vue'
-import { filterEmptyElement } from '@/utils/props-util'
+import { filterEmptyElement } from '../../../_utils/props-util'
 import { take, takeRight } from 'lodash-es'
-import { preventDefault } from '@/utils/event'
-import classNames from '@/utils/classNames/bind'
+import { preventDefault } from '../../../_utils/event'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

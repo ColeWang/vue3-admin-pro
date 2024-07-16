@@ -1,10 +1,10 @@
 import { defineComponent, ref, unref } from 'vue'
 import { ConfigProvider, Descriptions, Form, Space, Spin } from 'ant-design-vue'
-import BaseField from '@/packages/base-field'
+import BaseField from '../base-field'
 import useFetchData from './hooks/useFetchData'
 import { isFunction, omit, pick } from 'lodash-es'
-import { filterEmptyElement, getPropsSlot } from '@/utils/props-util'
-import classNames from '@/utils/classNames/bind'
+import { filterEmptyElement, getPropsSlot } from '../_utils/props-util'
+import classNames from '../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

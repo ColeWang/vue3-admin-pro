@@ -1,8 +1,8 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Checkbox } from 'ant-design-vue'
 import baseFieldProps from '../props'
-import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../utils/valueEnum'
-import { getSlotVNode } from '@/utils/props-util'
+import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../../_utils/valueEnum'
+import { getSlotVNode } from '../../_utils/props-util'
 import { isUndefined } from 'lodash-es'
 
 export default defineComponent({

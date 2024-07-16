@@ -1,6 +1,6 @@
-import dayjs from 'dayjs'
-import { isEmpty } from '@/utils'
+import { isEmpty } from '../../_utils/util'
 import { isFunction } from 'lodash-es'
+import dayjs from 'dayjs'
 
 export function formatDate (text, format) {
     // 可设置时区

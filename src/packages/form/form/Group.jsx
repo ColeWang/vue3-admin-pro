@@ -3,7 +3,7 @@ import { Col } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
-import { getPropsSlot } from '@/utils/props-util'
+import { getPropsSlot } from '../../_utils/props-util'
 
 function genTitleStyle (layout) {
     if (layout === 'inline') {

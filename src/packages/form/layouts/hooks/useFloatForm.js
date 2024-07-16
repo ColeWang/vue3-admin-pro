@@ -1,6 +1,6 @@
 import { ref, unref, watch } from 'vue'
 import { default as BaseForm } from '../../base-form'
-import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
+import tryOnScopeDispose from '../../../_utils/hooks/tryOnScopeDispose'
 import { isFunction } from 'lodash-es'
 
 const extraProps = {

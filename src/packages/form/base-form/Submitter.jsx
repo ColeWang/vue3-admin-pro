@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { Button, Space } from 'ant-design-vue'
-import { useLocaleReceiver } from '@/packages/locale-provider'
-import { preventDefault } from '@/utils/event'
+import { useLocaleReceiver } from '../../locale-provider'
+import { preventDefault } from '../../_utils/event'
 
 const submitterProps = {
     loading: {

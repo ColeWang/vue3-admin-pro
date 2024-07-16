@@ -9,10 +9,10 @@ import {
 import Density from '../../components/density'
 import ColumnSetting from '../../components/column-setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
-import { useLocaleReceiver } from '@/packages/locale-provider'
-import { getSlotVNode } from '@/utils/props-util'
+import { useLocaleReceiver } from '../../../locale-provider'
+import { getSlotVNode } from '../../../_utils/props-util'
 import { pick } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

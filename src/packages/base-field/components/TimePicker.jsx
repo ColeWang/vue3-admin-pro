@@ -1,9 +1,9 @@
 import { defineComponent } from 'vue'
 import { TimePicker } from 'ant-design-vue'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
+import { getSlotVNode } from '../../_utils/props-util'
 import { formatDate } from '../utils'
-import { getSlotVNode } from '@/utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,

@@ -1,9 +1,9 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Select } from 'ant-design-vue'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
-import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../utils/valueEnum'
-import { getSlotVNode } from '@/utils/props-util'
+import { optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '../../_utils/valueEnum'
+import { getSlotVNode } from '../../_utils/props-util'
 import { isUndefined } from 'lodash-es'
 
 export default defineComponent({

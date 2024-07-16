@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import { Menu } from 'ant-design-vue'
 import { useSharedContext } from '../../hooks/useSharedContext'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../../locale-provider'
 
 export default defineComponent({
     inheritAttrs: false,

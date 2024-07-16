@@ -1,7 +1,7 @@
 import { cloneVNode, defineComponent, onMounted, ref, unref } from 'vue'
-import { QueryFilter } from '@/packages/form'
+import { QueryFilter } from '../../../form'
 import { Card } from 'ant-design-vue'
-import { filterEmptyElement, isValidElement } from '@/utils/props-util'
+import { filterEmptyElement, isValidElement } from '../../../_utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,

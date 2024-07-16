@@ -1,9 +1,9 @@
 import { defineComponent, Fragment } from 'vue'
 import { TimeRangePicker } from 'ant-design-vue'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
+import { getSlotVNode } from '../../_utils/props-util'
 import { formatDate } from '../utils'
-import { getSlotVNode } from '@/utils/props-util'
 import { isArray } from 'lodash-es'
 
 export default defineComponent({

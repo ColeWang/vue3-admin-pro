@@ -9,10 +9,10 @@ import useFetchData from '../hooks/useFetchData'
 import useTableColumns from '../hooks/useTableColumns'
 import useRowSelection from '../hooks/useRowSelection'
 import { createSharedContext } from '../hooks/useSharedContext'
-import { getSlot, getSlotVNode } from '@/utils/props-util'
-import { omitNil } from '@/utils'
+import { getSlot, getSlotVNode } from '../../_utils/props-util'
+import { omitNil } from '../../_utils/util'
 import { isArray, isFunction, omit, pick } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
+import classNames from '../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

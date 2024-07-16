@@ -1,7 +1,7 @@
 import { defineComponent, withModifiers } from 'vue'
 import { CloseOutlined } from '@ant-design/icons-vue'
-import { preventDefault } from '@/utils/event'
-import classNames from '@/utils/classNames/bind'
+import { preventDefault } from '@/packages/_utils/event'
+import classNames from '@/packages/_utils/classNames/bind'
 import styles from './style/tag.module.scss'
 
 const cx = classNames.bind(styles)

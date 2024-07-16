@@ -1,7 +1,7 @@
 import { ref, unref, watch } from 'vue'
-import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
+import tryOnScopeDispose from '@/packages/_utils/hooks/tryOnScopeDispose'
 import { localCache, TAGS__LOCAL } from '@/utils/storage'
-import { cloneProxyToRaw } from '@/utils/props-util'
+import { cloneProxyToRaw } from '@/packages/_utils/props-util'
 
 function useTags (menus, options) {
     const { homeName, route, router } = options || {}

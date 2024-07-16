@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
-import { getSlotVNode } from '@/utils/props-util'
-import classNames from '@/utils/classNames/bind'
+import { getSlotVNode } from '@/packages/_utils/props-util'
+import classNames from '@/packages/_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

@@ -1,6 +1,6 @@
 import { computed, ref, unref, watch } from 'vue'
 import useCustomRender from './useCustomRender'
-import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
+import tryOnScopeDispose from '../../_utils/hooks/tryOnScopeDispose'
 import { isBoolean, isObject, map, reduce, set } from 'lodash-es'
 
 function genColumnsMap (columns) {

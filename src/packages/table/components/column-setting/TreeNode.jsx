@@ -6,8 +6,8 @@ import {
     VerticalAlignTopOutlined
 } from '@ant-design/icons-vue'
 import Tooltip from './Tooltip'
-import { useLocaleReceiver } from '@/packages/locale-provider'
-import classNames from '@/utils/classNames/bind'
+import { useLocaleReceiver } from '../../../locale-provider'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/tree.module.scss'
 
 const cx = classNames.bind(styles)

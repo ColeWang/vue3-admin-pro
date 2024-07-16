@@ -3,9 +3,9 @@ import { Button, Dropdown, Menu } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import Tag from './Tag'
 import useShowTitle from '../../hooks/useShowTitle'
-import { omitNil } from '@/utils'
+import { omitNil } from '@/packages/_utils/util'
 import { isString } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
+import classNames from '@/packages/_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

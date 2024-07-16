@@ -1,10 +1,30 @@
 import { defineComponent, unref } from 'vue'
 import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
-import BaseField from '@/packages/base-field'
+import BaseField from '../../base-field'
 import { useFormInstance } from '../base-form'
-import { has, isArray, isString, pick } from 'lodash-es'
-import { fieldStyle, genFormItemFixStyle, namePathToString } from '../utils'
+import { has, isArray, isNumber, isString, pick } from 'lodash-es'
+import { namePathToString, toPx } from '../../_utils/util'
+import { genFormItemFixStyle } from '../utils'
+
+const sizeEnum = {
+    xs: 104,
+    sm: 216,
+    md: 328,
+    lg: 440,
+    xl: 552
+}
+
+function fieldStyle (style, fieldWidth) {
+    const { maxWidth, minWidth, width, ...restStyle } = style || {}
+    const fieldSize = isNumber(fieldWidth) ? toPx(fieldWidth) : toPx(sizeEnum[fieldWidth])
+    return {
+        ...restStyle,
+        maxWidth: maxWidth || '100%',
+        minWidth: minWidth || toPx(sizeEnum['xs']),
+        width: width || fieldSize || '100%'
+    }
+}
 
 export default defineComponent({
     inheritAttrs: false,

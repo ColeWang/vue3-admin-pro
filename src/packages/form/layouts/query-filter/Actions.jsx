@@ -1,10 +1,10 @@
 import { defineComponent } from 'vue'
 import { Button, Space } from 'ant-design-vue'
 import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../../locale-provider'
 import { Submitter } from '../../base-form'
 import { pick } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/actions.module.scss'
 
 const cx = classNames.bind(styles)

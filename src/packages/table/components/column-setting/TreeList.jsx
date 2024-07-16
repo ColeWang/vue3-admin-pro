@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { Tree } from 'ant-design-vue'
 import TreeNode from './TreeNode'
-import classNames from '@/utils/classNames/bind'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/tree.module.scss'
 
 const cx = classNames.bind(styles)

@@ -1,8 +1,8 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Popover } from 'ant-design-vue'
 import { pick } from 'lodash-es'
-import { cloneProxyToRaw } from '@/utils/props-util'
-import classNames from '@/utils/classNames/bind'
+import { cloneProxyToRaw } from '../../../../_utils/props-util'
+import classNames from '../../../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

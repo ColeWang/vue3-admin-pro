@@ -1,6 +1,6 @@
 import { defineComponent, Transition } from 'vue'
 import collapseMotion from './collapseMotion'
-import classNames from '@/utils/classNames/bind'
+import classNames from '@/packages/_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

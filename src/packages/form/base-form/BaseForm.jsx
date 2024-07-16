@@ -3,8 +3,8 @@ import { ConfigProvider, Form } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
 import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
-import { cloneProxyToRaw } from '@/utils/props-util'
-import classNames from '@/utils/classNames/bind'
+import { cloneProxyToRaw } from '../../_utils/props-util'
+import classNames from '../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

@@ -2,9 +2,9 @@ import { defineComponent, unref } from 'vue'
 import { Button, Checkbox } from 'ant-design-vue'
 import TreeList from './TreeList'
 import { useSharedContext } from '../../hooks/useSharedContext'
-import { useLocaleReceiver } from '@/packages/locale-provider'
+import { useLocaleReceiver } from '../../../locale-provider'
 import { reduce, set } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
+import classNames from '../../../_utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

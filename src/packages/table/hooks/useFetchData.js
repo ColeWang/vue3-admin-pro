@@ -1,6 +1,6 @@
 import { shallowReactive, watch } from 'vue'
-import { useLocaleReceiver } from '@/packages/locale-provider'
-import tryOnScopeDispose from '@/utils/hooks/tryOnScopeDispose'
+import { useLocaleReceiver } from '../../locale-provider'
+import tryOnScopeDispose from '../../_utils/hooks/tryOnScopeDispose'
 import { isFunction, pick } from 'lodash-es'
 
 function mergePagination (pagination, t) {
