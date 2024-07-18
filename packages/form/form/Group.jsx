@@ -1,21 +1,17 @@
 import { defineComponent, unref } from 'vue'
-import { Col } from 'ant-design-vue'
+import { Col, theme } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
 import { getPropsSlot } from '../../_utils/props-util'
+import { toPx } from '../../_utils/util'
 
-function genTitleStyle (layout) {
+function genTitleStyle (layout, token) {
+    const baseStyle = { fontWeight: 'bold' }
     if (layout === 'inline') {
-        return {
-            paddingBlock: '8px',
-            fontWeight: 'bold'
-        }
+        return { ...baseStyle, paddingBlock: toPx(token.padding / 2) }
     }
-    return {
-        paddingBottom: '12px',
-        fontWeight: 'bold'
-    }
+    return { ...baseStyle, paddingBlockEnd: toPx(token.paddingLG / 2) }
 }
 
 export default defineComponent({
@@ -27,13 +23,14 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
+        const { token } = theme.useToken()
         const { formProps = {} } = useFormInstance()
 
         return () => {
             const { layout = 'vertical', grid, rowProps = {} } = unref(formProps)
 
             const titleDom = getPropsSlot(slots, props, 'title')
-            const titleStyle = genTitleStyle(layout)
+            const titleStyle = genTitleStyle(layout, unref(token))
 
             const colWrapProps = {
                 span: 24,

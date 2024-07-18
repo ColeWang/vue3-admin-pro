@@ -4,12 +4,8 @@ import BaseField from '../base-field'
 import useFetchData from './hooks/useFetchData'
 import { isFunction, omit, pick } from 'lodash-es'
 import { filterEmptyElement, getPropsSlot } from '../_utils/props-util'
-import classNames from '../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
-
-const FIELD_MODE = 'read'
+import { useConfigInject } from '../_utils/extend'
+import useStyle from './style'
 
 const extraProps = {
     dataSource: {
@@ -50,6 +46,10 @@ export default defineComponent({
     },
     emits: ['load', 'requestError'],
     setup (props, { attrs, emit, slots, expose }) {
+        const { prefixCls } = useConfigInject('pro-descriptions', props)
+
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         const popupContainer = ref(null)
 
         const { context: requestProps, onReload } = useFetchData(props.request, props, {
@@ -89,7 +89,7 @@ export default defineComponent({
                 }
                 const needFieldProps = {
                     ...pick(item, Object.keys(BaseField.props)),
-                    mode: FIELD_MODE,
+                    mode: 'read',
                     emptyText: emptyText,
                     fieldProps: fieldProps,
                     formItemProps: needFormItemProps
@@ -141,16 +141,16 @@ export default defineComponent({
                 ...attrs
             }
 
-            return (
-                <div class={cx('descriptions')}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
-                        <div class={cx('popup-container')} ref={popupContainer}>
+                        <div style={{ position: 'relative' }} ref={popupContainer}>
                             {(titleDom || extraDom) && (
-                                <div class={cx('descriptions-header')}>
-                                    <div class={cx('descriptions-title')}>
+                                <div class={`${prefixCls.value}-header`}>
+                                    <div class={`${prefixCls.value}-title`}>
                                         {titleDom}
                                     </div>
-                                    <div class={cx('descriptions-extra')}>
+                                    <div class={`${prefixCls.value}-extra`}>
                                         <Space size={8}>{extraDom}</Space>
                                     </div>
                                 </div>
