@@ -31,6 +31,6 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('Descriptions', (token) => {
+export default genComponentStyleHook('ProDescriptions', (token) => {
     return [genBaseStyle(token)]
 })

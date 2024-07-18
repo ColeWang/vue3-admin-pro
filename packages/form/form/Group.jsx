@@ -4,14 +4,13 @@ import RowWrap from '../helpers/RowWrap'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
 import { getPropsSlot } from '../../_utils/props-util'
-import { toPx } from '../../_utils/util'
 
 function genTitleStyle (layout, token) {
     const baseStyle = { fontWeight: 'bold' }
     if (layout === 'inline') {
-        return { ...baseStyle, paddingBlock: toPx(token.padding / 2) }
+        return { ...baseStyle, paddingBlock: `${token.padding / 2}px` }
     }
-    return { ...baseStyle, paddingBlockEnd: toPx(token.paddingLG / 2) }
+    return { ...baseStyle, paddingBlockEnd: `${token.paddingLG / 2}px` }
 }
 
 export default defineComponent({

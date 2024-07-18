@@ -28,6 +28,6 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('QueryFilter', (token) => {
+export default genComponentStyleHook('ProQueryFilter', (token) => {
     return [genBaseStyle(token)]
 })

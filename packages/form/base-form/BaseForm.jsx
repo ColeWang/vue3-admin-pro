@@ -4,10 +4,8 @@ import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
 import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
 import { cloneProxyToRaw } from '../../_utils/props-util'
-import classNames from '../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '../../_utils/extend'
+import useStyle from './style'
 
 const baseFormProps = {
     ...Form.props,
@@ -64,6 +62,9 @@ export default defineComponent({
     props: baseFormProps,
     emits: ['submit', 'finish', 'finishFailed', 'reset', 'valuesChange'],
     setup (props, { emit, slots, attrs, expose }) {
+        const { prefixCls } = useConfigInject('pro-base-form', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         const popupContainer = ref(null)
         const formInstanceRef = ref(null)
 
@@ -184,9 +185,9 @@ export default defineComponent({
 
             const rowWrapProps = { ...rowProps, grid }
 
-            return (
+            return wrapSSR(
                 <ConfigProvider getPopupContainer={getPopupContainer}>
-                    <div class={cx('form-wrap')} ref={popupContainer}>
+                    <div class={[prefixCls.value, hashId.value]} ref={popupContainer}>
                         <Form {...formProps} ref={formInstanceRef}>
                             <RowWrap {...rowWrapProps} v-slots={slots}/>
                         </Form>
