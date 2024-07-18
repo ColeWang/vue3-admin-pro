@@ -7,7 +7,7 @@ import Search from '../compatible/search'
 import Toolbar from '../compatible/toolbar'
 import Alert from '../compatible/alert'
 import { BaseForm, Text, Submitter } from '../../form'
-import mountTest from '../../../../tests/shared/mountTest'
+import mountTest from '../../_tests/shared/mountTest'
 
 describe('Table', () => {
     mountTest(Table)

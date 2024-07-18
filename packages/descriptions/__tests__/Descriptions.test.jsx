@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { Tooltip } from 'ant-design-vue'
 import Descriptions from '../index'
-import mountTest from '../../../../tests/shared/mountTest'
+import mountTest from '../../_tests/shared/mountTest'
 
 describe('Descriptions', () => {
     mountTest(Descriptions)

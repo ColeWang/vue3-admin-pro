@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import Density from '../components/density'
-import mountTest from '../../../../tests/shared/mountTest'
+import mountTest from '../../_tests/shared/mountTest'
 
 describe('Density', () => {
     mountTest(Density)

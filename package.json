@@ -14,8 +14,8 @@
     "build": "vite build --mode production",
     "build:report": "vite build --mode production",
     "preview": "vite preview",
-    "test": "vitest",
-    "coverage": "vitest run --coverage",
+    "test": "vitest --config ./packages/vitest.config.js",
+    "coverage": "vitest run --config ./packages/vitest.config.js --coverage",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "build:packages": "vite build --config vite.packages.config.js"
   },

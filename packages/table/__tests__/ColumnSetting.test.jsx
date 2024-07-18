@@ -3,7 +3,7 @@ import ColumnSetting from '../components/column-setting'
 import TreeList from '../components/column-setting/TreeList'
 import TreeNode from '../components/column-setting/TreeNode'
 import Tooltip from '../components/column-setting/Tooltip'
-import mountTest from '../../../../tests/shared/mountTest'
+import mountTest from '../../_tests/shared/mountTest'
 
 describe('ColumnSetting', () => {
     mountTest(ColumnSetting)

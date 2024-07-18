@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { BaseForm, DrawerForm, Form, HocField, ModalForm, QueryFilter, Submitter } from '../index'
-import mountTest from '../../../../tests/shared/mountTest'
-import MockResizeObserver from '../../../../tests/__mocks__/resize-observer'
+import mountTest from '../../_tests/shared/mountTest'
+import MockResizeObserver from '../../_tests/__mocks__/resize-observer'
 import { last } from 'lodash-es'
 
 describe('Form', () => {

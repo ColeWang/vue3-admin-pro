@@ -17,7 +17,7 @@ import FieldNumber from '../components/Number'
 import FieldTextArea from '../components/TextArea'
 import FieldText from '../components/Text'
 import FieldPassword from '../components/Password'
-import mountTest from '../../../../tests/shared/mountTest'
+import mountTest from '../../_tests/shared/mountTest'
 import { formatDate } from '../utils'
 import dayjs from 'dayjs'
 
