@@ -7,10 +7,8 @@ import useQueryFilter from './hooks/useQueryFilter'
 import { genFormItemFixStyle } from '../../utils'
 import { filterEmptyElement } from '../../../_utils/props-util'
 import { pick } from 'lodash-es'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style'
 
 const queryFilterProps = {
     ...BaseForm.props,
@@ -46,6 +44,9 @@ export default defineComponent({
     props: queryFilterProps,
     emits: ['resize', 'collapse'],
     setup (props, { slots, emit, attrs, expose }) {
+        const { prefixCls } = useConfigInject('pro-query-filter', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         const baseFormRef = ref(null)
 
         const size = ref({ width: 0, height: 0 })
@@ -89,7 +90,7 @@ export default defineComponent({
             const children = filterEmptyElement(slots.default ? slots.default(slotScope) : [])
             const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
                 const { child, hidden, key } = item || {}
-                const colClass = cx({ 'col-hidden': hidden })
+                const colClass = { [`${prefixCls.value}-col-hidden`]: hidden }
                 return (
                     <Col key={key} class={colClass} span={unref(span)}>{child}</Col>
                 )
@@ -103,22 +104,26 @@ export default defineComponent({
 
             const actionsProps = {
                 ...pick(props, Object.keys(Actions.props)),
+                prefixCls: unref(prefixCls),
                 collapsed: unref(collapsed),
                 onSubmit: onSubmit,
                 onReset: onReset,
                 onCollapse: onCollapse
             }
 
-            const formItemClass = cx({
-                'form-item__vertical': unref(layout) === 'vertical' && !haveRow
-            })
+            const formItemClass = { [`${prefixCls.value}-form-item__vertical`]: unref(layout) === 'vertical' && !haveRow }
 
-            return (
+            return wrapSSR(
                 <BaseForm {...baseFormProps} ref={baseFormRef}>
                     <ResizeObserver onResize={onResize}>
-                        <Row gutter={gutter} class={cx('query-filter')} justify={'start'}>
+                        <Row class={[prefixCls.value, hashId.value]} gutter={gutter} justify={'start'}>
                             {colNodes}
-                            <Col key={'action'} class={cx('action-col')} span={unref(span)} offset={offset}>
+                            <Col
+                                class={`${prefixCls.value}-action-col`}
+                                key={'action'}
+                                span={unref(span)}
+                                offset={offset}
+                            >
                                 <Form.Item class={formItemClass} colon={false}>
                                     <Actions {...actionsProps}/>
                                 </Form.Item>

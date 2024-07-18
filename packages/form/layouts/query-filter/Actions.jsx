@@ -4,14 +4,14 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { Submitter } from '../../base-form'
 import { pick } from 'lodash-es'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/actions.module.scss'
-
-const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
     props: {
+        prefixCls: {
+            type: String,
+            default: undefined
+        },
         loading: {
             type: Boolean,
             default: false
@@ -50,10 +50,10 @@ export default defineComponent({
         }
 
         return () => {
-            const { collapsed, showCollapse, submitter } = props
+            const { prefixCls, collapsed, showCollapse, submitter } = props
 
             const collapseDom = showCollapse && (
-                <Button class={cx('collapse-button')} type={'link'} onClick={onCollapse}>
+                <Button class={`${prefixCls}-collapse-button`} type={'link'} onClick={onCollapse}>
                     <span>{!collapsed ? t('expand') : t('collapsed')}</span>
                     {collapsed ? <DownOutlined/> : <UpOutlined/>}
                 </Button>
