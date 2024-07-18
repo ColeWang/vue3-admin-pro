@@ -5,7 +5,7 @@ import Fullscreen from '../../components/fullscreen'
 import Avatar from '../../components/avatar'
 import Language from '../../components/language'
 import { HamburgerOutlined } from '@/components/icon'
-import classNames from '@/packages/_utils/classNames/bind'
+import classNames from '@utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

@@ -1,7 +1,7 @@
 import { defineComponent, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
 import { ConfigProvider } from 'ant-design-vue'
-import LocaleProvider from '@/packages/locale-provider'
+import { LocaleProvider } from '@packages'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 import { createAppInstance } from './useAppInstance'

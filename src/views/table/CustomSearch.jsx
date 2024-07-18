@@ -1,7 +1,17 @@
 import { defineComponent, ref, unref } from 'vue'
-import { CustomFields } from '@/packages/base-field'
-import { HocField, Radio, Select, Checkbox, Switch, Slider } from '@/packages/form'
-import { Action, ActionGroup, BaseSearch, Table } from '@/packages/table'
+import {
+    Action,
+    ActionGroup,
+    BaseSearch,
+    Checkbox,
+    CustomFields,
+    HocField,
+    Radio,
+    Select,
+    Slider,
+    Switch,
+    Table
+} from '@packages'
 
 const Test = HocField('test')
 

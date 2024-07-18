@@ -2,7 +2,13 @@
     "compilerOptions": {
         "paths": {
             "@/*": [
-                "./*"
+                "./src/*"
+            ],
+            "@packages/*": [
+                "./packages/*"
+            ],
+            "@utils": [
+                "./packages/_utils/*"
             ]
         }
     }

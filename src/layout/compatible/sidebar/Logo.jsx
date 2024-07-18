@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import classNames from '@/packages/_utils/classNames/bind'
+import classNames from '@utils/classNames/bind'
 import styles from './style/logo.module.scss'
 
 const cx = classNames.bind(styles)

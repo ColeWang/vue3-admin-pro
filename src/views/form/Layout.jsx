@@ -1,6 +1,6 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Card, Radio } from 'ant-design-vue'
-import { Form, Number, Text } from '@/packages/form'
+import { Form, Number, Text } from '@packages'
 
 export default defineComponent({
     name: 'FormLayout',

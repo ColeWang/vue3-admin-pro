@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Card } from 'ant-design-vue'
-import { Number, QueryFilter, Select, Text } from '@/packages/form'
+import { Number, QueryFilter, Select, Text } from '@packages'
 
 export default defineComponent({
     name: 'FormFilter',

@@ -4,7 +4,6 @@ import { dirname, resolve } from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import stringHash from 'string-hash'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -38,19 +37,13 @@ export default defineConfig((config) => {
                 scss: {
                     additionalData: '@import \'@/css/mixin.scss\';'
                 }
-            },
-            modules: {
-                generateScopedName: (name, filename, css) => {
-                    const index = css.indexOf(`.${name}`)
-                    const lineNumber = css.slice(0, index).split(/[\r\n]/).length
-                    const hash = stringHash(css).toString(36).slice(0, 5)
-                    return `${name}_${hash}_${lineNumber}`
-                }
             }
         },
         resolve: {
             alias: {
-                '@': resolve(__dirname, 'src')
+                '@': resolve(__dirname, 'src'),
+                '@packages': resolve(__dirname, 'packages'),
+                '@utils': resolve(__dirname, 'packages/_utils')
             }
         }
     }

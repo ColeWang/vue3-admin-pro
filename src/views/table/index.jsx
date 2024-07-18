@@ -1,5 +1,5 @@
 import { computed, defineComponent, unref } from 'vue'
-import { Action, Table } from '@/packages/table'
+import { Action, Table } from '@packages'
 
 export default defineComponent({
     name: 'TableIndex',

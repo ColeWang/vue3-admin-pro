@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Button, Card } from 'ant-design-vue'
-import { default as Descs } from '@/packages/descriptions'
+import { Descriptions as Descs } from '@packages'
 
 export default defineComponent({
     name: 'DescriptionsIndex',
