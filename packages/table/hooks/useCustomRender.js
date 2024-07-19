@@ -1,8 +1,8 @@
 import { computed, h } from 'vue'
 import { TypographyText } from 'ant-design-vue'
 import { valueEnumToText } from '../../_utils/valueEnum'
-import { isArray, isFunction, isObject } from 'lodash-es'
 import { isEmpty } from '../../_utils/util'
+import { isArray, isFunction, isObject } from 'lodash-es'
 
 function getEllipsis (column) {
     if (column.ellipsis && column.ellipsis.showTitle === false) {

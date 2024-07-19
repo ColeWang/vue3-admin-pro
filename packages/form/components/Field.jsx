@@ -3,9 +3,9 @@ import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import BaseField from '../../base-field'
 import { useFormInstance } from '../base-form'
-import { has, isArray, isNumber, isString, pick } from 'lodash-es'
 import { namePathToString, toPx } from '../../_utils/util'
 import { genFormItemFixStyle } from '../utils'
+import { has, isArray, isNumber, isString, pick } from 'lodash-es'
 
 const sizeEnum = {
     xs: 104,

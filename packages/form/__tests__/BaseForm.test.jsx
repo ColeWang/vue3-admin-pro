@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { last } from 'lodash-es'
 import { Button, Tooltip } from 'ant-design-vue'
 import { BaseForm, Field, HocField, Submitter } from '../index'
 import mountTest from '../../_tests/shared/mountTest'
+import { last } from 'lodash-es'
 
 describe('Form', () => {
     const FieldDemo = HocField('text')

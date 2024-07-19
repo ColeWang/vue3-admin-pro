@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { Form } from 'ant-design-vue'
-import { pick } from 'lodash-es'
 import Field from './Field'
+import { pick } from 'lodash-es'
 
 function HocField (valueType) {
     return defineComponent({

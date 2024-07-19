@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { last } from 'lodash-es'
 import { Tooltip } from 'ant-design-vue'
 import { BaseSearch, EditableTable, Table } from '../index'
 import Search from '../compatible/search'
@@ -8,6 +7,7 @@ import Toolbar from '../compatible/toolbar'
 import Alert from '../compatible/alert'
 import { BaseForm, Text, Submitter } from '../../form'
 import mountTest from '../../_tests/shared/mountTest'
+import { last } from 'lodash-es'
 
 describe('Table', () => {
     mountTest(Table)
