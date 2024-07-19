@@ -2,7 +2,7 @@ import { defineComponent } from 'vue'
 import { Tree } from 'ant-design-vue'
 import TreeNode from './TreeNode'
 import { useConfigInject } from '../../../_utils/extend'
-import useStyle from './style/tree-list.js'
+import useStyle from './style/tree-list'
 
 export default defineComponent({
     inheritAttrs: false,

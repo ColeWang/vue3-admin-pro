@@ -7,7 +7,7 @@ function genBaseStyle (token) {
             [`${componentCls}-collapse-button`]: {
                 padding: 0,
                 [iconCls]: {
-                    marginInlineStart: token.marginXXS
+                    marginInlineStart: token.marginXS / 2
                 }
             }
         }

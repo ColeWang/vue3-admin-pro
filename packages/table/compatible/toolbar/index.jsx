@@ -67,6 +67,7 @@ export default defineComponent({
 
         return () => {
             const { options: propsOptions } = props
+            const { marginXS } = unref(token)
 
             const slotScope = {
                 loading: requestProps.loading,
@@ -136,7 +137,7 @@ export default defineComponent({
                         <div class={cx('toolbar')}>
                             <div class={cx('toolbar-title')}>{titleDom}</div>
                             <div class={cx('toolbar-actions')}>
-                                <Space size={unref(token).paddingXS}>{actionsDom}</Space>
+                                <Space size={marginXS}>{actionsDom}</Space>
                                 {propsOptions !== false && renderSettings()}
                             </div>
                         </div>

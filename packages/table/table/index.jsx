@@ -1,5 +1,5 @@
 import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue'
-import { Card, ConfigProvider, Table } from 'ant-design-vue'
+import { Card, ConfigProvider, Table, theme } from 'ant-design-vue'
 import tableProps from './props'
 import Search from '../compatible/search'
 import Extra from '../compatible/extra'
@@ -24,6 +24,8 @@ export default defineComponent({
     setup (props, { emit, attrs, slots, expose }) {
         const popupContainer = ref(null)
         const tableRef = ref(null)
+
+        const { token } = theme.useToken()
 
         const tableSize = ref(props.size || 'middle')
 
@@ -167,6 +169,7 @@ export default defineComponent({
         return () => {
             const { search: propsSearch, columns: propsColumns, manualRequest } = props
             const { toolbar: propsToolbar, rowSelection: propsRowSelection } = props
+            const { padding } = unref(token)
 
             const renderSearch = () => {
                 const searchProps = {
@@ -209,13 +212,6 @@ export default defineComponent({
                 return <Alert {...alertProps} v-slots={alertSlots}/>
             }
 
-            const cardBodyStyle = propsToolbar !== false ? ({
-                paddingBlock: '16px',
-                paddingBlockStart: '0'
-            }) : ({
-                paddingBlock: '16px'
-            })
-
             const extraDom = getSlotVNode(slots, props, 'extra', {
                 pageData: requestProps.dataSource,
                 loading: requestProps.loading,
@@ -239,6 +235,13 @@ export default defineComponent({
             const tableDom = getSlotVNode(slots, props, 'table', {
                 props: needTableProps,
                 dom: baseTableDom
+            })
+
+            const cardBodyStyle = propsToolbar !== false ? ({
+                paddingBlock: `${padding}px`,
+                paddingBlockStart: '0'
+            }) : ({
+                paddingBlock: `${padding}px`
             })
 
             return (

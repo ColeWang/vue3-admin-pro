@@ -1,6 +1,6 @@
 import { cloneVNode, defineComponent, onMounted, ref, unref } from 'vue'
 import { QueryFilter } from '../../../form'
-import { Card } from 'ant-design-vue'
+import { Card, theme } from 'ant-design-vue'
 import { filterEmptyElement, isValidElement } from '../../../_utils/props-util'
 
 export default defineComponent({
@@ -15,6 +15,8 @@ export default defineComponent({
     setup (props, { attrs, slots }) {
         const queryFilterRef = ref(null)
 
+        const { token } = theme.useToken()
+
         onMounted(() => {
             !props.manualRequest && onSubmit()
         })
@@ -28,13 +30,12 @@ export default defineComponent({
         }
 
         return () => {
+            const { margin } = unref(token)
+
             const queryFilterProps = { ...attrs, ...props }
             const cardProps = {
-                bodyStyle: {
-                    paddingInline: '24px'
-                },
                 style: {
-                    marginBottom: '16px'
+                    marginBlockEnd: `${margin}px`
                 }
             }
 

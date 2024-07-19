@@ -1,5 +1,5 @@
 import { defineComponent, ref, unref } from 'vue'
-import BaseForm from '../base-form/index.js'
+import BaseForm from '../base-form'
 
 export default defineComponent({
     inheritAttrs: false,

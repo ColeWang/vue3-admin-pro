@@ -48,10 +48,11 @@ export default defineComponent({
             if (props.selectedRowKeys.length < 1) return null
             // ----
             const { selectedRowKeys, selectedRows } = props
+            const { marginXS } = unref(token)
 
             const contentText = `${t('selected')} ${selectedRowKeys.length} ${t('item')}`
             const defaultContent = (
-                <Space size={unref(token).paddingXS}>
+                <Space size={marginXS}>
                     <Fragment>{contentText}</Fragment>
                     <Action onClick={onCleanSelected}>{t('clear')}</Action>
                 </Space>
@@ -76,7 +77,7 @@ export default defineComponent({
                                         {customContent || defaultContent}
                                     </div>
                                     <div class={cx('alert-options')}>
-                                        <Space size={unref(token).paddingXS}>{optionsDom}</Space>
+                                        <Space size={marginXS}>{optionsDom}</Space>
                                     </div>
                                 </div>
                             </div>

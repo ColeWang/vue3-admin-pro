@@ -14,7 +14,7 @@ function genBaseStyle (token) {
                 overflow: 'hidden'
             },
             [`${componentCls}-option`]: {
-                width: `${token.fontSize * 2 + token.paddingXS * 2 + token.paddingXS / 2}px`,
+                width: `${token.fontSize * 2 + token.paddingXS * 2 + token.marginXS / 2}px`,
                 [`${componentCls}-option-icon`]: {
                     paddingInline: token.paddingXS,
                     display: 'none',
