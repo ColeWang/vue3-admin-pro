@@ -3,11 +3,13 @@ import { Input, theme } from 'ant-design-vue'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
 import { getSlotVNode } from '../../_utils/props-util'
+import { useConfigInject } from '../../_utils/extend'
 
 export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
     setup (props, { slots }) {
+        const { prefixCls } = useConfigInject('pro-field-textarea', props)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['global'])
 
@@ -26,7 +28,7 @@ export default defineComponent({
                     whiteSpace: 'pre-wrap',
                 }
                 return (
-                    <span class={'field-textarea__read'} style={styles}>
+                    <span class={`${prefixCls.value}__read`} style={styles}>
                         {text ?? emptyText}
                     </span>
                 )
