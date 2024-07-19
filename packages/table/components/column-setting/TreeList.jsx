@@ -1,10 +1,8 @@
 import { defineComponent } from 'vue'
 import { Tree } from 'ant-design-vue'
 import TreeNode from './TreeNode'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/tree.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style/tree-list.js'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -48,6 +46,9 @@ export default defineComponent({
     },
     emits: ['checkChange', 'dropChange', 'fixedChange'],
     setup (props, { emit }) {
+        const { prefixCls } = useConfigInject('pro-table-column-setting-tree-list', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         /* v8 ignore next 5 */
         function onTreeNodeCheck (_, info) {
             const { node, checked } = info
@@ -116,10 +117,10 @@ export default defineComponent({
                 onDrop: onTreeNodeDrop
             }
 
-            return (
-                <div class={cx('tree-list')}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]}>
                     {showTitle && (
-                        <div class={cx('tree-list-title')}>{title}</div>
+                        <div class={`${prefixCls.value}-title`}>{title}</div>
                     )}
                     <Tree {...needTreeProps} v-slots={treeSlots}/>
                 </div>

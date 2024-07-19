@@ -7,8 +7,8 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...Menu.props },
     setup (props, { attrs }) {
-        const { tableSize, setTableSize } = useSharedContext()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
+        const { tableSize, setTableSize } = useSharedContext()
 
         function onMenuClick (params) {
             if (unref(tableSize) !== params.key) {

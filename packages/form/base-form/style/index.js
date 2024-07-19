@@ -5,15 +5,17 @@ function genBaseStyle (token) {
     return {
         [componentCls]: {
             position: 'relative',
-            [`${antCls}-input-clear-icon`]: {
-                fontSize: `${token.fontSize}px !important`
-            },
-            [`${antCls}-select-arrow, ${antCls}-select-clear`]: {
-                width: `${token.fontSize}px !important`,
-                height: `${token.fontSize}px !important`,
-                fontSize: `${token.fontSize}px !important`,
-                insetInlineEnd: `${token.paddingSM - 2}px !important`,
-                marginTop: `${-token.fontSize / 2}px !important`
+            [`${antCls}-form`]: {
+                [`${antCls}-input-clear-icon`]: {
+                    fontSize: token.fontSize
+                },
+                [`${antCls}-select-arrow, ${antCls}-select-clear`]: {
+                    width: token.fontSize,
+                    height: token.fontSize,
+                    fontSize: token.fontSize,
+                    insetInlineEnd: token.paddingSM - 2,
+                    marginTop: -token.fontSize / 2
+                }
             }
         }
     }

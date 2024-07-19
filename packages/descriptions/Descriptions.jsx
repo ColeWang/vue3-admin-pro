@@ -1,11 +1,11 @@
 import { defineComponent, ref, unref } from 'vue'
-import { ConfigProvider, Descriptions, Form, Space, Spin } from 'ant-design-vue'
+import { ConfigProvider, Descriptions, Form, Space, Spin, theme } from 'ant-design-vue'
 import BaseField from '../base-field'
 import useFetchData from './hooks/useFetchData'
-import { isFunction, omit, pick } from 'lodash-es'
 import { filterEmptyElement, getPropsSlot } from '../_utils/props-util'
 import { useConfigInject } from '../_utils/extend'
 import useStyle from './style'
+import { isFunction, omit, pick } from 'lodash-es'
 
 const extraProps = {
     dataSource: {
@@ -46,11 +46,11 @@ export default defineComponent({
     },
     emits: ['load', 'requestError'],
     setup (props, { attrs, emit, slots, expose }) {
-        const { prefixCls } = useConfigInject('pro-descriptions', props)
-
-        const [wrapSSR, hashId] = useStyle(prefixCls)
-
         const popupContainer = ref(null)
+
+        const { prefixCls } = useConfigInject('pro-descriptions', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
 
         const { context: requestProps, onReload } = useFetchData(props.request, props, {
             manualRequest: !props.request,
@@ -151,7 +151,7 @@ export default defineComponent({
                                         {titleDom}
                                     </div>
                                     <div class={`${prefixCls.value}-extra`}>
-                                        <Space size={8}>{extraDom}</Space>
+                                        <Space size={unref(token).paddingXS}>{extraDom}</Space>
                                     </div>
                                 </div>
                             )}

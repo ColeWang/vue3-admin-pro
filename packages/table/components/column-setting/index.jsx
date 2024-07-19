@@ -3,11 +3,9 @@ import { Button, Checkbox } from 'ant-design-vue'
 import TreeList from './TreeList'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style'
 import { reduce, set } from 'lodash-es'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
@@ -22,10 +20,10 @@ export default defineComponent({
         }
     },
     setup (props) {
-        const { columns = [], columnsMap = {}, setColumnsMap } = useSharedContext()
-
+        const { prefixCls } = useConfigInject('pro-table-column-setting', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
-
+        const { columns = [], columnsMap = {}, setColumnsMap } = useSharedContext()
         /* v8 ignore next 8 */
         function onCheckClick (evt) {
             const { checked: targetChecked } = evt.target || {}
@@ -96,9 +94,9 @@ export default defineComponent({
                 onFixedChange: onFixedChange,
                 onDropChange: onDropChange
             }
-            return (
-                <div class={cx('column-setting')}>
-                    <div class={cx('column-setting-title')}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]}>
+                    <div class={`${prefixCls.value}-title`}>
                         <Checkbox
                             indeterminate={indeterminate}
                             checked={checked}
@@ -114,7 +112,7 @@ export default defineComponent({
                             {t('reset')}
                         </Button>
                     </div>
-                    <div class={cx('tree-list-group')}>
+                    <div class={`${prefixCls.value}-tree-list-group`}>
                         <TreeList
                             fixed={'left'}
                             title={t('leftPin')}

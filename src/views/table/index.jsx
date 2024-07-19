@@ -44,10 +44,10 @@ export default defineComponent({
                     title: 'Action',
                     customRender: () => {
                         return (
-                            <Action.Group>
+                            <Action.Group max={3}>
                                 <Action>操作1</Action>
-                                <Action>操作2</Action>
-                                <Action>操作3</Action>
+                                <Action type={'error'}>操作2</Action>
+                                <Action type={'warning'}>操作3</Action>
                                 <Action>操作4</Action>
                                 <Action>长长长长长长长长长长长长长长</Action>
                             </Action.Group>

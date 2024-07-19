@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue'
-import { Button, Space } from 'ant-design-vue'
+import { defineComponent, unref } from 'vue'
+import { Button, Space, theme } from 'ant-design-vue'
 import { useLocaleReceiver } from '../../locale-provider'
 import { preventDefault } from '../../_utils/event'
 
@@ -10,7 +10,7 @@ const submitterProps = {
     },
     space: {
         type: Number,
-        default: 8
+        default: undefined
     },
     submitText: {
         type: String,
@@ -43,6 +43,8 @@ export default defineComponent({
     props: submitterProps,
     emits: ['reset', 'submit'],
     setup (props, { emit }) {
+        const { token } = theme.useToken()
+
         const { t } = useLocaleReceiver(['Form'])
 
         function onReset (evt) {
@@ -78,7 +80,7 @@ export default defineComponent({
             )
 
             return (
-                <Space size={space}>
+                <Space size={space || unref(token.paddingXS)}>
                     {[resetButtonDom, submitButtonDom]}
                 </Space>
             )

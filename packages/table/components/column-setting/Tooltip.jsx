@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
-import { preventDefault } from '../../../_utils/event'
 import { Tooltip } from 'ant-design-vue'
+import { preventDefault } from '../../../_utils/event'
 
 export default defineComponent({
     inheritAttrs: false,

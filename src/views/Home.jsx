@@ -34,7 +34,7 @@ export default defineComponent({
                     dataIndex: 'phone'
                 },
                 {
-                    title: 'Address',
+                    title: 'Addres',
                     search: true,
                     dataIndex: 'address'
                 }
@@ -118,33 +118,38 @@ export default defineComponent({
 
             const tableSlots = {
                 title: () => 'Title',
-                actions: () => (
-                    <ModalForm
-                        title={'编辑'}
-                        grid={true}
-                        width={512}
-                        onFinish={onFinish}
-                        v-slots={{
-                            trigger: () => <Button type={'primary'}>Add</Button>
-                        }}
-                    >
-                        <Text
-                            label={'文本'}
-                            name={'text'}
-                            colProps={{ span: 12 }}
-                        />
-                        <Number
-                            label={'数字'}
-                            name={'number'}
-                            colProps={{ span: 12 }}
-                        />
-                    </ModalForm>
+                actions: () => ([
+                        <ModalForm
+                            title={'编辑'}
+                            grid={true}
+                            width={512}
+                            onFinish={onFinish}
+                            v-slots={{
+                                trigger: () => <Button type={'primary'}>Add</Button>
+                            }}
+                        >
+                            <Text
+                                label={'文本'}
+                                name={'text'}
+                                colProps={{ span: 12 }}
+                            />
+                            <Number
+                                label={'数字'}
+                                name={'number'}
+                                colProps={{ span: 12 }}
+                            />
+                        </ModalForm>,
+                        <Button type={'primary'}>Add</Button>
+                    ]
                 ),
-                alertOptions: ({ rows, keys }) => (
+                alertOptions: ({ rows, keys }) => ([
+                    <Action onClick={onAlertClick.bind(null, rows, keys)}>
+                        批量编辑
+                    </Action>,
                     <Action onClick={onAlertClick.bind(null, rows, keys)}>
                         批量编辑
                     </Action>
-                ),
+                ]),
                 extra: ({ pageData }) => (
                     <Card bodyStyle={{ padding: '24px 24px 17px' }}>
                         <Descs size={'small'} column={3}>

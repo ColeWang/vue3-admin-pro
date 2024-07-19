@@ -4,8 +4,10 @@ function genBaseStyle (token) {
     const { componentCls, antCls } = token
     return {
         [componentCls]: {
-            position: 'relative',
-            rowGap: token.paddingLG,
+            [`${componentCls}-row`]: {
+                position: 'relative',
+                rowGap: token.paddingLG,
+            },
             [`${antCls}-form-item`]: {
                 marginBlock: 0
             },
@@ -13,13 +15,7 @@ function genBaseStyle (token) {
                 marginBlockStart: token.fontSize * token.lineHeight + token.paddingXS
             },
             [`${componentCls}-action-col`]: {
-                textAlign: 'end',
-                [`${componentCls}-collapse-button`]: {
-                    padding: 0,
-                    [`> span:last-child`]: {
-                        marginInlineStart: token.marginXXS
-                    }
-                }
+                textAlign: 'end'
             },
             [`${componentCls}-col-hidden`]: {
                 display: 'none'

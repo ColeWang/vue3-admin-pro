@@ -2,10 +2,10 @@ import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { ConfigProvider, Form } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
-import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
 import { cloneProxyToRaw } from '../../_utils/props-util'
 import { useConfigInject } from '../../_utils/extend'
 import useStyle from './style'
+import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
 
 const baseFormProps = {
     ...Form.props,
@@ -62,11 +62,11 @@ export default defineComponent({
     props: baseFormProps,
     emits: ['submit', 'finish', 'finishFailed', 'reset', 'valuesChange'],
     setup (props, { emit, slots, attrs, expose }) {
-        const { prefixCls } = useConfigInject('pro-base-form', props)
-        const [wrapSSR, hashId] = useStyle(prefixCls)
-
         const popupContainer = ref(null)
         const formInstanceRef = ref(null)
+
+        const { prefixCls } = useConfigInject('pro-base-form', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
 
         const defaultValues = cloneProxyToRaw(props.initialValues)
         // 考虑到 model 传递就不再需要 initialValues

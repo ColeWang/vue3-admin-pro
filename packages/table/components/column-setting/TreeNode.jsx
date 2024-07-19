@@ -1,16 +1,14 @@
-import { defineComponent } from 'vue'
-import { Space } from 'ant-design-vue'
+import { defineComponent, unref } from 'vue'
+import { Space, theme } from 'ant-design-vue'
+import Tooltip from './Tooltip'
+import { useLocaleReceiver } from '../../../locale-provider'
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style/tree-node'
 import {
     VerticalAlignBottomOutlined,
     VerticalAlignMiddleOutlined,
     VerticalAlignTopOutlined
 } from '@ant-design/icons-vue'
-import Tooltip from './Tooltip'
-import { useLocaleReceiver } from '../../../locale-provider'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/tree.module.scss'
-
-const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
@@ -34,6 +32,9 @@ export default defineComponent({
     },
     emits: ['change'],
     setup (props, { emit, attrs }) {
+        const { prefixCls } = useConfigInject('pro-table-column-setting-tree-node', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
 
         /* v8 ignore next 3 */
@@ -50,7 +51,7 @@ export default defineComponent({
             }
 
             const iconDom = (
-                <Space size={4}>
+                <Space size={unref(token).paddingXS / 2}>
                     {fixed !== 'left' && (
                         <Tooltip title={t('leftPin')} fixed={'left'} {...iconProps}>
                             <VerticalAlignTopOutlined/>
@@ -69,11 +70,13 @@ export default defineComponent({
                 </Space>
             )
 
-            return (
-                <div class={cx('tree-node')}>
-                    <div class={cx('tree-node-title')}>{title}</div>
-                    <div class={cx('tree-node-option')}>
-                        {!attrs.disabled && iconDom}
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]}>
+                    <div class={`${prefixCls.value}-title`}>{title}</div>
+                    <div class={`${prefixCls.value}-option`}>
+                        <div class={`${prefixCls.value}-option-icon`}>
+                            {!attrs.disabled && iconDom}
+                        </div>
                     </div>
                 </div>
             )

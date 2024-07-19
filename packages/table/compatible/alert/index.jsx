@@ -1,5 +1,5 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
-import { ConfigProvider, Space } from 'ant-design-vue'
+import { ConfigProvider, Space, theme } from 'ant-design-vue'
 import Action from '../../components/action'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../_utils/props-util'
@@ -32,6 +32,7 @@ export default defineComponent({
     setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
 
+        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'alert'])
 
         function onCleanSelected () {
@@ -50,7 +51,7 @@ export default defineComponent({
 
             const contentText = `${t('selected')} ${selectedRowKeys.length} ${t('item')}`
             const defaultContent = (
-                <Space size={8}>
+                <Space size={unref(token).paddingXS}>
                     <Fragment>{contentText}</Fragment>
                     <Action onClick={onCleanSelected}>{t('clear')}</Action>
                 </Space>
@@ -75,7 +76,7 @@ export default defineComponent({
                                         {customContent || defaultContent}
                                     </div>
                                     <div class={cx('alert-options')}>
-                                        <Space size={16}>{optionsDom}</Space>
+                                        <Space size={unref(token).paddingXS}>{optionsDom}</Space>
                                     </div>
                                 </div>
                             </div>

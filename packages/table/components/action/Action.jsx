@@ -1,9 +1,7 @@
 import { defineComponent } from 'vue'
 import { preventDefault } from '../../../_utils/event'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -18,21 +16,24 @@ export default defineComponent({
         }
     },
     emits: ['click'],
-    setup (props, { emit, slots }) {
+    setup (props, { emit, slots, attrs }) {
+        const { prefixCls } = useConfigInject('pro-table-action', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         function onClick (evt) {
             preventDefault(evt)
             emit('click', evt)
         }
 
         return () => {
-            const actionClass = cx('action', {
-                'action__primary': props.type === 'primary',
-                'action__warning': props.type === 'warning',
-                'action__error': props.type === 'error'
-            })
-
-            return (
-                <a class={actionClass} onClick={onClick}>
+            const actionClass = [prefixCls.value, hashId.value, {
+                [`${prefixCls.value}-default`]: props.type === 'default',
+                [`${prefixCls.value}-primary`]: props.type === 'primary',
+                [`${prefixCls.value}-warning`]: props.type === 'warning',
+                [`${prefixCls.value}-error`]: props.type === 'error'
+            }]
+            return wrapSSR(
+                <a class={actionClass} onClick={onClick} {...attrs}>
                     {slots.default && slots.default()}
                 </a>
             )

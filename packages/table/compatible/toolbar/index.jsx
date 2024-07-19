@@ -1,5 +1,5 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Button, ConfigProvider, Dropdown, Popover, Space, Tooltip } from 'ant-design-vue'
+import { Button, ConfigProvider, Dropdown, Popover, Space, theme, Tooltip } from 'ant-design-vue'
 import {
     ColumnHeightOutlined,
     ReloadOutlined,
@@ -52,6 +52,7 @@ export default defineComponent({
     setup (props, { emit, slots }) {
         const popupContainer = ref(null)
 
+        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
         const { requestProps = {}, onReload } = useSharedContext()
 
@@ -135,7 +136,7 @@ export default defineComponent({
                         <div class={cx('toolbar')}>
                             <div class={cx('toolbar-title')}>{titleDom}</div>
                             <div class={cx('toolbar-actions')}>
-                                <Space size={8}>{actionsDom}</Space>
+                                <Space size={unref(token).paddingXS}>{actionsDom}</Space>
                                 {propsOptions !== false && renderSettings()}
                             </div>
                         </div>

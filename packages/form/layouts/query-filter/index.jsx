@@ -6,9 +6,9 @@ import Actions from './Actions'
 import useQueryFilter from './hooks/useQueryFilter'
 import { genFormItemFixStyle } from '../../utils'
 import { filterEmptyElement } from '../../../_utils/props-util'
-import { pick } from 'lodash-es'
 import { useConfigInject } from '../../../_utils/extend'
 import useStyle from './style'
+import { pick } from 'lodash-es'
 
 const queryFilterProps = {
     ...BaseForm.props,
@@ -104,7 +104,6 @@ export default defineComponent({
 
             const actionsProps = {
                 ...pick(props, Object.keys(Actions.props)),
-                prefixCls: unref(prefixCls),
                 collapsed: unref(collapsed),
                 onSubmit: onSubmit,
                 onReset: onReset,
@@ -115,8 +114,8 @@ export default defineComponent({
 
             return wrapSSR(
                 <BaseForm {...baseFormProps} ref={baseFormRef}>
-                    <ResizeObserver onResize={onResize}>
-                        <Row class={[prefixCls.value, hashId.value]} gutter={gutter} justify={'start'}>
+                    <ResizeObserver class={[prefixCls.value, hashId.value]} onResize={onResize}>
+                        <Row class={`${prefixCls.value}-row`} gutter={gutter} justify={'start'}>
                             {colNodes}
                             <Col
                                 class={`${prefixCls.value}-action-col`}

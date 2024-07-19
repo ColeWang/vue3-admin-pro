@@ -6,11 +6,16 @@ import { useFormInstance } from '../base-form'
 import { getPropsSlot } from '../../_utils/props-util'
 
 function genTitleStyle (layout, token) {
-    const baseStyle = { fontWeight: 'bold' }
+    const baseStyle = {
+        fontSize: token.fontSize,
+        color: token.colorText,
+        lineHeight: token.lineHeight,
+        fontWeight: token.fontWeightStrong,
+    }
     if (layout === 'inline') {
         return { ...baseStyle, paddingBlock: `${token.padding / 2}px` }
     }
-    return { ...baseStyle, paddingBlockEnd: `${token.paddingLG / 2}px` }
+    return { ...baseStyle, paddingBlockEnd: `${token.padding}px` }
 }
 
 export default defineComponent({

@@ -1,12 +1,8 @@
 import { defineComponent } from 'vue'
 import { Dropdown, Menu, Space } from 'ant-design-vue'
+import Action from './Action'
 import { filterEmptyElement } from '../../../_utils/props-util'
 import { take, takeRight } from 'lodash-es'
-import { preventDefault } from '../../../_utils/event'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
@@ -22,10 +18,6 @@ export default defineComponent({
         }
     },
     setup (props, { slots }) {
-        function onClick (evt) {
-            preventDefault(evt)
-        }
-
         return () => {
             const { max, ...restProps } = props
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
@@ -45,7 +37,7 @@ export default defineComponent({
                     <Space {...restProps}>
                         {take(nodes, max)}
                         <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
-                            <a class={cx('action', 'action__primary')} onClick={onClick}>...</a>
+                            <Action>...</Action>
                         </Dropdown>
                     </Space>
                 )

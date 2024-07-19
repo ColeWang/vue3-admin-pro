@@ -1,17 +1,15 @@
-import { defineComponent } from 'vue'
-import { Button, Space } from 'ant-design-vue'
+import { defineComponent, unref } from 'vue'
+import { Button, Space, theme } from 'ant-design-vue'
 import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
-import { useLocaleReceiver } from '../../../locale-provider'
 import { Submitter } from '../../base-form'
+import { useLocaleReceiver } from '../../../locale-provider'
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style/actions'
 import { pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        prefixCls: {
-            type: String,
-            default: undefined
-        },
         loading: {
             type: Boolean,
             default: false
@@ -43,6 +41,9 @@ export default defineComponent({
     },
     emits: ['submit', 'reset', 'collapse'],
     setup (props, { emit, attrs }) {
+        const { prefixCls } = useConfigInject('pro-query-filter-actions', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Form'])
 
         function onCollapse () {
@@ -50,10 +51,10 @@ export default defineComponent({
         }
 
         return () => {
-            const { prefixCls, collapsed, showCollapse, submitter } = props
+            const { collapsed, showCollapse, submitter } = props
 
             const collapseDom = showCollapse && (
-                <Button class={`${prefixCls}-collapse-button`} type={'link'} onClick={onCollapse}>
+                <Button class={`${prefixCls.value}-collapse-button`} type={'link'} onClick={onCollapse}>
                     <span>{!collapsed ? t('expand') : t('collapsed')}</span>
                     {collapsed ? <DownOutlined/> : <UpOutlined/>}
                 </Button>
@@ -63,11 +64,13 @@ export default defineComponent({
                 ...pick(submitter, Object.keys(Submitter.props)),
                 submitText: submitter.submitText || t('search')
             }
-            return (
-                <Space size={10} {...attrs}>
-                    <Submitter {...submitterProps}/>
-                    {collapseDom}
-                </Space>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]}>
+                    <Space size={unref(token).paddingXS} {...attrs}>
+                        <Submitter {...submitterProps}/>
+                        {collapseDom}
+                    </Space>
+                </div>
             )
         }
     }
