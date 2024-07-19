@@ -1,5 +1,5 @@
 import { defineComponent, unref } from 'vue'
-import { Button, Checkbox } from 'ant-design-vue'
+import { Button, Checkbox, theme } from 'ant-design-vue'
 import TreeList from './TreeList'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
@@ -22,8 +22,10 @@ export default defineComponent({
     setup (props) {
         const { prefixCls } = useConfigInject('pro-table-column-setting', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
         const { columns = [], columnsMap = {}, setColumnsMap } = useSharedContext()
+
         /* v8 ignore next 8 */
         function onCheckClick (evt) {
             const { checked: targetChecked } = evt.target || {}
@@ -73,6 +75,7 @@ export default defineComponent({
 
         return () => {
             const { checkable, draggable } = props
+            const { paddingXXS } = unref(token)
 
             // 不在 setting 中展示的
             const needColumns = unref(columns).filter((item) => !item.hideInSetting)
@@ -105,7 +108,7 @@ export default defineComponent({
                             {t('columnDisplay')}
                         </Checkbox>
                         <Button
-                            style={{ padding: '4px' }}
+                            style={{ padding: `${paddingXXS}px` }}
                             type={'link'}
                             onClick={onClearClick}
                         >

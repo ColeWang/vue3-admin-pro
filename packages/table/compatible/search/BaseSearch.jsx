@@ -32,17 +32,10 @@ export default defineComponent({
         return () => {
             const { margin } = unref(token)
 
-            const queryFilterProps = { ...attrs, ...props }
-            const cardProps = {
-                style: {
-                    marginBlockEnd: `${margin}px`
-                }
-            }
-
             const children = filterEmptyElement(slots.default ? slots.default() : [])
-
+            const queryFilterProps = { ...attrs, ...props }
             return (
-                <Card {...cardProps}>
+                <Card style={{ marginBlockEnd: `${margin}px` }}>
                     <QueryFilter {...queryFilterProps} ref={queryFilterRef}>
                         {(slotScope) => {
                             return children.map((vNode) => {

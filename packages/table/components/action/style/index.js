@@ -1,13 +1,14 @@
-import { genComponentStyleHook } from '../../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls } = token
+    const { componentCls, actionTransition } = token
     return {
         [componentCls]: {
+            display: 'inline-block',
             fontSize: token.fontSize,
             lineHeight: token.lineHeight,
             color: token.colorText,
-            transition: `all ${token.motionDurationMid} ${token.motionEaseInOut}`,
+            transition: actionTransition,
             textDecoration: 'none',
             outline: 'none',
             cursor: 'pointer',
@@ -44,5 +45,10 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableAction', (token) => {
-    return [genBaseStyle(token)]
+    const actionTransition = `all ${token.motionDurationMid} ${token.motionEaseInOut}`
+
+    const actionToken = mergeToken(token, {
+        actionTransition
+    })
+    return [genBaseStyle(actionToken)]
 })

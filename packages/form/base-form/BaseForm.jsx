@@ -186,13 +186,15 @@ export default defineComponent({
             const rowWrapProps = { ...rowProps, grid }
 
             return wrapSSR(
-                <ConfigProvider getPopupContainer={getPopupContainer}>
-                    <div class={[prefixCls.value, hashId.value]} ref={popupContainer}>
-                        <Form {...formProps} ref={formInstanceRef}>
-                            <RowWrap {...rowWrapProps} v-slots={slots}/>
-                        </Form>
-                    </div>
-                </ConfigProvider>
+                <div class={[prefixCls.value, hashId.value]}>
+                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                        <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                            <Form {...formProps} ref={formInstanceRef}>
+                                <RowWrap {...rowWrapProps} v-slots={slots}/>
+                            </Form>
+                        </div>
+                    </ConfigProvider>
+                </div>
             )
         }
     }

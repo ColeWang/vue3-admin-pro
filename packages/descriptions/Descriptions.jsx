@@ -145,22 +145,24 @@ export default defineComponent({
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
-                        <div style={{ position: 'relative' }} ref={popupContainer}>
-                            {(titleDom || extraDom) && (
-                                <div class={`${prefixCls.value}-header`}>
-                                    <div class={`${prefixCls.value}-title`}>
-                                        {titleDom}
+                        <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                            <div class={`${prefixCls.value}-container`}>
+                                {(titleDom || extraDom) && (
+                                    <div class={`${prefixCls.value}-header`}>
+                                        <div class={`${prefixCls.value}-title`}>
+                                            {titleDom}
+                                        </div>
+                                        <div class={`${prefixCls.value}-extra`}>
+                                            <Space size={marginXS}>{extraDom}</Space>
+                                        </div>
                                     </div>
-                                    <div class={`${prefixCls.value}-extra`}>
-                                        <Space size={marginXS}>{extraDom}</Space>
-                                    </div>
-                                </div>
-                            )}
-                            <Spin spinning={requestProps.loading}>
-                                <Descriptions {...needDescsProps}>
-                                    {children}
-                                </Descriptions>
-                            </Spin>
+                                )}
+                                <Spin spinning={requestProps.loading}>
+                                    <Descriptions {...needDescsProps}>
+                                        {children}
+                                    </Descriptions>
+                                </Spin>
+                            </div>
                         </div>
                     </ConfigProvider>
                 </div>

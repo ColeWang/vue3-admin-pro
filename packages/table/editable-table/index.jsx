@@ -1,4 +1,5 @@
-import { defineComponent, reactive, watch } from 'vue'
+import { defineComponent, reactive, unref, watch } from 'vue'
+import { theme } from 'ant-design-vue'
 import { Field, Form } from '../../form'
 import Table from '../table'
 import InlineError from './components/inline-error'
@@ -32,6 +33,8 @@ export default defineComponent({
     },
     emits: ['update:value'],
     setup (props, { emit, slots }) {
+        const { token } = theme.useToken()
+
         const model = reactive(props.dataSource || [])
         const validateErrors = reactive([])
 
@@ -48,6 +51,7 @@ export default defineComponent({
         }
 
         function customRender ({ text, record, index, column }) {
+            const { controlHeight, fontSize, lineHeight } = unref(token)
             const { fieldProps, formItemProps } = column
             const namePath = [index, column.key || column.dataIndex]
 
@@ -62,8 +66,9 @@ export default defineComponent({
                 fieldProps: { ...fieldProps, style: { width: '100%' } },
                 formItemProps: needFormItemProps
             }
+            const marginBlock = -(controlHeight - fontSize * lineHeight) / 2
             const fieldDom = (
-                <div style={{ marginBlock: '-5px' }} onClick={() => false}>
+                <div style={{ marginBlock: `${marginBlock}px` }} onClick={() => false}>
                     <Field {...needFieldProps}/>
                 </div>
             )

@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue'
-import { Input } from 'ant-design-vue'
+import { defineComponent, unref } from 'vue'
+import { Input, theme } from 'ant-design-vue'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
 import { getSlotVNode } from '../../_utils/props-util'
@@ -8,17 +8,20 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
     setup (props, { slots }) {
+        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['global'])
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
+            const { lineHeight, paddingXXS, paddingSM } = unref(token)
             const placeholder = fieldProps.placeholder || t('inputPlaceholder')
 
             if (mode === 'read') {
                 const styles = {
                     display: 'inline-block',
-                    padding: '4px 11px',
-                    lineHeight: '1.5715',
+                    paddingBlock: `${paddingXXS}px`,
+                    paddingInline: `${paddingSM}px`,
+                    lineHeight: lineHeight,
                     maxWidth: '100%',
                     whiteSpace: 'pre-wrap',
                 }

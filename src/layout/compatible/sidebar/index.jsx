@@ -5,7 +5,7 @@ import Logo from './Logo'
 import useShowTitle from '../../hooks/useShowTitle'
 import { dropRight, head, isNil, last, reverse } from 'lodash-es'
 import { hasChild } from '../../utils'
-import classNames from '@utils/classNames/bind'
+import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

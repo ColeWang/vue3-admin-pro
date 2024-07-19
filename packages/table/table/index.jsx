@@ -11,11 +11,9 @@ import useRowSelection from '../hooks/useRowSelection'
 import { createSharedContext } from '../hooks/useSharedContext'
 import { getSlot, getSlotVNode } from '../../_utils/props-util'
 import { omitNil } from '../../_utils/util'
+import { useConfigInject } from '../../_utils/extend'
+import useStyle from './style'
 import { isArray, isFunction, omit, pick } from 'lodash-es'
-import classNames from '../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
 
 export default defineComponent({
     inheritAttrs: false,
@@ -25,6 +23,8 @@ export default defineComponent({
         const popupContainer = ref(null)
         const tableRef = ref(null)
 
+        const { prefixCls } = useConfigInject('pro-table', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
 
         const tableSize = ref(props.size || 'middle')
@@ -244,16 +244,16 @@ export default defineComponent({
                 paddingBlock: `${padding}px`
             })
 
-            return (
-                <div class={cx('table')}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]}>
                     {propsSearch !== false && renderSearch()}
                     {extraDom && <Extra>{extraDom}</Extra>}
                     <Card bodyStyle={cardBodyStyle}>
                         {propsToolbar !== false && renderToolbar()}
                         {propsRowSelection !== false && renderAlert()}
                         <ConfigProvider getPopupContainer={getPopupContainer}>
-                            <div class={cx('popup-container')} ref={popupContainer}>
-                                <div class={cx('table-wrapper')} ref={tableRef}>
+                            <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                                <div class={`${prefixCls.value}-container`} ref={tableRef}>
                                     {tableDom || baseTableDom}
                                 </div>
                             </div>

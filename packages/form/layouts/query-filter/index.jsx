@@ -113,23 +113,25 @@ export default defineComponent({
             const formItemClass = { [`${prefixCls.value}-form-item__vertical`]: unref(layout) === 'vertical' && !haveRow }
 
             return wrapSSR(
-                <BaseForm {...baseFormProps} ref={baseFormRef}>
-                    <ResizeObserver class={[prefixCls.value, hashId.value]} onResize={onResize}>
-                        <Row class={`${prefixCls.value}-row`} gutter={gutter} justify={'start'}>
-                            {colNodes}
-                            <Col
-                                class={`${prefixCls.value}-action-col`}
-                                key={'action'}
-                                span={unref(span)}
-                                offset={offset}
-                            >
-                                <Form.Item class={formItemClass} colon={false}>
-                                    <Actions {...actionsProps}/>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </ResizeObserver>
-                </BaseForm>
+                <div class={[prefixCls.value, hashId.value]}>
+                    <BaseForm {...baseFormProps} ref={baseFormRef}>
+                        <ResizeObserver onResize={onResize}>
+                            <Row class={`${prefixCls.value}-row`} gutter={gutter} justify={'start'}>
+                                {colNodes}
+                                <Col
+                                    class={`${prefixCls.value}-action-col`}
+                                    key={'action'}
+                                    span={unref(span)}
+                                    offset={offset}
+                                >
+                                    <Form.Item class={formItemClass} colon={false}>
+                                        <Actions {...actionsProps}/>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </ResizeObserver>
+                    </BaseForm>
+                </div>
             )
         }
     }

@@ -1,7 +1,14 @@
-import { genComponentStyleHook } from '../../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls } = token
+    const {
+        componentCls,
+        antCls,
+        treeListTitleMargin,
+        treeListHolderPadding,
+        treeIndentContentUrl,
+        treeCheckboxMargin
+    } = token
     return {
         [componentCls]: {
             paddingBlockStart: token.paddingXS,
@@ -9,13 +16,13 @@ function genBaseStyle (token) {
                 fontSize: token.fontSizeSM,
                 color: token.colorTextSecondary,
                 lineHeight: token.lineHeightSM,
-                marginBlock: token.controlHeightSM - token.fontSizeSM * token.lineHeightSM,
+                marginBlock: treeListTitleMargin,
                 paddingInlineStart: token.controlHeightSM
             },
             [`${antCls}-tree`]: {
                 background: token.colorBgLayout,
                 [`${antCls}-tree-list-holder`]: {
-                    paddingBlockStart: token.paddingXS / 2
+                    paddingBlockStart: treeListHolderPadding
                 },
                 [`${antCls}-tree-indent`]: {
                     flexShrink: 0,
@@ -32,7 +39,7 @@ function genBaseStyle (token) {
                         lineHeight: `${token.fontSize}px`,
                         fontSize: token.fontSize,
                         textAlign: 'center',
-                        content: `url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSI2NCA2NCA4OTYgODk2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9jdXNhYmxlPSJmYWxzZSIgZmlsbD0icmdiYSgwLCAwLCAwLCAwLjY1KSI+PHBhdGggZD0iTTMwMCAyNzYuNWE1NiA1NiAwIDEwNTYtOTcgNTYgNTYgMCAwMC01NiA5N3ptMCAyODRhNTYgNTYgMCAxMDU2LTk3IDU2IDU2IDAgMDAtNTYgOTd6TTY0MCAyMjhhNTYgNTYgMCAxMDExMiAwIDU2IDU2IDAgMDAtMTEyIDB6bTAgMjg0YTU2IDU2IDAgMTAxMTIgMCA1NiA1NiAwIDAwLTExMiAwek0zMDAgODQ0LjVhNTYgNTYgMCAxMDU2LTk3IDU2IDU2IDAgMDAtNTYgOTd6TTY0MCA3OTZhNTYgNTYgMCAxMDExMiAwIDU2IDU2IDAgMDAtMTEyIDB6Ii8+PC9zdmc+")`
+                        content: treeIndentContentUrl
                     }
                 },
                 [`${antCls}-tree-node-content-wrapper`]: {
@@ -47,7 +54,7 @@ function genBaseStyle (token) {
                 [`${antCls}-tree-treenode`]: {
                     alignItems: 'center',
                     [`${antCls}-tree-checkbox`]: {
-                        margin: `0 ${(token.controlHeightSM - token.controlInteractiveSize) / 2}px 0 0`,
+                        margin: `0 ${treeCheckboxMargin}px 0 0`,
                         top: 0
                     }
                 },
@@ -65,5 +72,16 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableColumnSettingTreeList', (token) => {
-    return [genBaseStyle(token)]
+    const treeListTitleMargin = token.controlHeightSM - token.fontSizeSM * token.lineHeightSM
+    const treeListHolderPadding = token.paddingXS / 2
+    const treeIndentContentUrl = `url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSI2NCA2NCA4OTYgODk2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9jdXNhYmxlPSJmYWxzZSIgZmlsbD0icmdiYSgwLCAwLCAwLCAwLjY1KSI+PHBhdGggZD0iTTMwMCAyNzYuNWE1NiA1NiAwIDEwNTYtOTcgNTYgNTYgMCAwMC01NiA5N3ptMCAyODRhNTYgNTYgMCAxMDU2LTk3IDU2IDU2IDAgMDAtNTYgOTd6TTY0MCAyMjhhNTYgNTYgMCAxMDExMiAwIDU2IDU2IDAgMDAtMTEyIDB6bTAgMjg0YTU2IDU2IDAgMTAxMTIgMCA1NiA1NiAwIDAwLTExMiAwek0zMDAgODQ0LjVhNTYgNTYgMCAxMDU2LTk3IDU2IDU2IDAgMDAtNTYgOTd6TTY0MCA3OTZhNTYgNTYgMCAxMDExMiAwIDU2IDU2IDAgMDAtMTEyIDB6Ii8+PC9zdmc+")`
+    const treeCheckboxMargin = (token.controlHeightSM - token.controlInteractiveSize) / 2
+
+    const treeListToken = mergeToken(token, {
+        treeListTitleMargin,
+        treeListHolderPadding,
+        treeIndentContentUrl,
+        treeCheckboxMargin
+    })
+    return [genBaseStyle(treeListToken)]
 })

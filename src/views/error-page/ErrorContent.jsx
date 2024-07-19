@@ -2,7 +2,7 @@ import { defineComponent, onBeforeUnmount, onMounted, ref, unref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Button, Space } from 'ant-design-vue'
 import { HOME_NAME } from '@/config'
-import classNames from '@utils/classNames/bind'
+import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

@@ -3,10 +3,8 @@ import { ConfigProvider, Space, theme } from 'ant-design-vue'
 import Action from '../../components/action'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../_utils/props-util'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -32,6 +30,8 @@ export default defineComponent({
     setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
 
+        const { prefixCls } = useConfigInject('pro-table-alert', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'alert'])
 
@@ -54,7 +54,9 @@ export default defineComponent({
             const defaultContent = (
                 <Space size={marginXS}>
                     <Fragment>{contentText}</Fragment>
-                    <Action onClick={onCleanSelected}>{t('clear')}</Action>
+                    <Action onClick={onCleanSelected}>
+                        {t('clear')}
+                    </Action>
                 </Space>
             )
 
@@ -67,16 +69,16 @@ export default defineComponent({
             const customContent = getSlotVNode(slots, props, 'default', slotScope)
             const optionsDom = getSlotVNode(slots, props, 'options', slotScope)
 
-            return (
-                <div class={cx('alert')} {...attrs}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
-                        <div class={cx('popup-container')} ref={popupContainer}>
-                            <div class={cx('alert-container')}>
-                                <div class={cx('alert-info-wrap')}>
-                                    <div class={cx('alert-content')}>
+                        <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                            <div class={`${prefixCls.value}-container`}>
+                                <div class={`${prefixCls.value}-wrapper`}>
+                                    <div class={`${prefixCls.value}-content`}>
                                         {customContent || defaultContent}
                                     </div>
-                                    <div class={cx('alert-options')}>
+                                    <div class={`${prefixCls.value}-options`}>
                                         <Space size={marginXS}>{optionsDom}</Space>
                                     </div>
                                 </div>

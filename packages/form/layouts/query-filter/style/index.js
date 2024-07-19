@@ -1,7 +1,7 @@
-import { genComponentStyleHook } from '../../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls } = token
+    const { componentCls, antCls, formItemVerticalMargin } = token
     return {
         [componentCls]: {
             [`${componentCls}-row`]: {
@@ -12,7 +12,7 @@ function genBaseStyle (token) {
                 marginBlock: 0
             },
             [`${componentCls}-form-item__vertical`]: {
-                marginBlockStart: token.fontSize * token.lineHeight + token.paddingXS
+                marginBlockStart: formItemVerticalMargin
             },
             [`${componentCls}-action-col`]: {
                 textAlign: 'end'
@@ -25,5 +25,10 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProQueryFilter', (token) => {
-    return [genBaseStyle(token)]
+    const formItemVerticalMargin = token.fontSize * token.lineHeight + token.paddingXS
+
+    const queryFilterToken = mergeToken(token, {
+        formItemVerticalMargin
+    })
+    return [genBaseStyle(queryFilterToken)]
 })

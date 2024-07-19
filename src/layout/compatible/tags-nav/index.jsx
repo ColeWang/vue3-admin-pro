@@ -5,7 +5,7 @@ import Tag from './Tag'
 import useShowTitle from '../../hooks/useShowTitle'
 import { omitNil } from '@utils/util'
 import { isString } from 'lodash-es'
-import classNames from '@utils/classNames/bind'
+import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

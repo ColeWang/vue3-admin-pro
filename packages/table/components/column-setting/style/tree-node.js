@@ -1,20 +1,23 @@
-import { genComponentStyleHook } from '../../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls, iconCls } = token
+    const { componentCls, iconCls, treeNodeTitleMaxWidth, treeNodeOptionWidth } = token
     return {
         [componentCls]: {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             [`${componentCls}-title`]: {
-                maxWidth: 168,
+                maxWidth: treeNodeTitleMaxWidth,
+                fontSize: token.fontSize,
+                color: token.colorText,
+                lineHeight: `${token.controlHeightSM}px`,
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden'
             },
             [`${componentCls}-option`]: {
-                width: `${token.fontSize * 2 + token.paddingXS * 2 + token.marginXS / 2}px`,
+                width: `${treeNodeOptionWidth}px`,
                 [`${componentCls}-option-icon`]: {
                     paddingInline: token.paddingXS,
                     display: 'none',
@@ -34,5 +37,12 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableColumnSettingTreeNode', (token) => {
-    return [genBaseStyle(token)]
+    const treeNodeTitleMaxWidth = 168
+    const treeNodeOptionWidth = token.fontSize * 2 + token.paddingXS * 2 + token.marginXXS
+
+    const treeNodeToken = mergeToken(token, {
+        treeNodeTitleMaxWidth,
+        treeNodeOptionWidth
+    })
+    return [genBaseStyle(treeNodeToken)]
 })

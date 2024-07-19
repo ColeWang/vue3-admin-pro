@@ -7,7 +7,7 @@ import { HOME_NAME } from '@/config'
 import useRemember from './useRemember'
 import bubbly from './bubbly'
 import { setCookie, TOKEN_KEY } from '@/utils/cookie'
-import classNames from '@utils/classNames/bind'
+import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 import BACKGROUND from './images/background.svg'
 

@@ -4,7 +4,7 @@ import { CaretDownOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/useAppInstance'
 import { map } from 'lodash-es'
 import { localCache, LOCALE__LOCAL } from '@/utils/storage'
-import classNames from '@utils/classNames/bind'
+import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)

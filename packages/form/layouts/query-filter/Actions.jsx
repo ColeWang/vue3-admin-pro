@@ -66,8 +66,8 @@ export default defineComponent({
                 submitText: submitter.submitText || t('search')
             }
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]}>
-                    <Space size={marginXS} {...attrs}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
+                    <Space size={marginXS}>
                         <Submitter {...submitterProps}/>
                         {collapseDom}
                     </Space>

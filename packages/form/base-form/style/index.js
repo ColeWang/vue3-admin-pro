@@ -1,10 +1,12 @@
-import { genComponentStyleHook } from '../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls } = token
+    const { componentCls, antCls, selectIconInset, selectIconMargin } = token
     return {
         [componentCls]: {
-            position: 'relative',
+            [`${componentCls}-popup-container`]: {
+                position: 'relative'
+            },
             [`${antCls}-form`]: {
                 [`${antCls}-input-clear-icon`]: {
                     fontSize: token.fontSize
@@ -13,8 +15,9 @@ function genBaseStyle (token) {
                     width: token.fontSize,
                     height: token.fontSize,
                     fontSize: token.fontSize,
-                    insetInlineEnd: token.paddingSM - 2,
-                    marginTop: -token.fontSize / 2
+                    lineHeight: token.fontSize,
+                    insetInlineEnd: selectIconInset,
+                    marginTop: selectIconMargin
                 }
             }
         }
@@ -22,5 +25,12 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProBaseForm', (token) => {
-    return [genBaseStyle(token)]
+    const selectIconInset = token.paddingSM - 2
+    const selectIconMargin = -(token.fontSize / 2)
+
+    const baseFormToken = mergeToken(token, {
+        selectIconInset,
+        selectIconMargin
+    })
+    return [genBaseStyle(baseFormToken)]
 })

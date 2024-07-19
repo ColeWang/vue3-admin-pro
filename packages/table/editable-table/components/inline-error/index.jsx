@@ -1,11 +1,7 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Popover } from 'ant-design-vue'
-import { pick } from 'lodash-es'
+import { Popover, theme } from 'ant-design-vue'
 import { cloneProxyToRaw } from '../../../../_utils/props-util'
-import classNames from '../../../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { pick } from 'lodash-es'
 
 const WithHelp = defineComponent({
     inheritAttrs: false,
@@ -16,10 +12,19 @@ const WithHelp = defineComponent({
         }
     },
     setup (props) {
+        const { token } = theme.useToken()
+
         const cacheErrors = cloneProxyToRaw(props.errors)
         return () => {
+            const { fontSize, colorError, lineHeight } = unref(token)
+
+            const errorStyle = {
+                fontSize: fontSize,
+                color: colorError,
+                lineHeight: lineHeight
+            }
             return (
-                <div class={cx('with-help')}>
+                <div style={errorStyle}>
                     {cacheErrors}
                 </div>
             )

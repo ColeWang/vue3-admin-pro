@@ -11,11 +11,9 @@ import ColumnSetting from '../../components/column-setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../_utils/props-util'
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style'
 import { pick } from 'lodash-es'
-import classNames from '../../../_utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
 
 const defaultOptions = {
     reload: true,
@@ -52,6 +50,8 @@ export default defineComponent({
     setup (props, { emit, slots }) {
         const popupContainer = ref(null)
 
+        const { prefixCls } = useConfigInject('pro-table-toolbar', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
         const { requestProps = {}, onReload } = useSharedContext()
@@ -67,7 +67,7 @@ export default defineComponent({
 
         return () => {
             const { options: propsOptions } = props
-            const { marginXS } = unref(token)
+            const { marginXS, marginSM } = unref(token)
 
             const slotScope = {
                 loading: requestProps.loading,
@@ -125,24 +125,26 @@ export default defineComponent({
                 const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
 
                 return (
-                    <Space.Compact style={{ marginLeft: '12px' }}>
+                    <Space.Compact style={{ marginInlineStart: `${marginSM}px` }}>
                         {customSettings || defaultSettings}
                     </Space.Compact>
                 )
             }
 
-            return (
-                <ConfigProvider getPopupContainer={getPopupContainer}>
-                    <div class={cx('popup-container')} ref={popupContainer}>
-                        <div class={cx('toolbar')}>
-                            <div class={cx('toolbar-title')}>{titleDom}</div>
-                            <div class={cx('toolbar-actions')}>
-                                <Space size={marginXS}>{actionsDom}</Space>
-                                {propsOptions !== false && renderSettings()}
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]}>
+                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                        <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                            <div class={`${prefixCls.value}-container`}>
+                                <div class={`${prefixCls.value}-title`}>{titleDom}</div>
+                                <div class={`${prefixCls.value}-actions`}>
+                                    <Space size={marginXS}>{actionsDom}</Space>
+                                    {propsOptions !== false && renderSettings()}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </ConfigProvider>
+                    </ConfigProvider>
+                </div>
             )
         }
     }

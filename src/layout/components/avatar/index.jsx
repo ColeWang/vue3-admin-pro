@@ -2,7 +2,7 @@ import { defineComponent } from 'vue'
 import { Avatar, Dropdown, Menu } from 'ant-design-vue'
 import { CaretDownOutlined, LoginOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/useAppInstance'
-import classNames from '@utils/classNames/bind'
+import classNames from '@/utils/classNames/bind'
 import styles from './style/index.module.scss'
 
 const cx = classNames.bind(styles)
