@@ -67,7 +67,7 @@ export default defineComponent({
 
         return () => {
             const { options: propsOptions } = props
-            const { marginXS, marginSM } = unref(token)
+            const { sizeXS, sizeSM } = unref(token)
 
             const slotScope = {
                 loading: requestProps.loading,
@@ -125,7 +125,7 @@ export default defineComponent({
                 const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
 
                 return (
-                    <Space.Compact style={{ marginInlineStart: `${marginSM}px` }}>
+                    <Space.Compact style={{ marginInlineStart: `${sizeSM}px` }}>
                         {customSettings || defaultSettings}
                     </Space.Compact>
                 )
@@ -138,7 +138,7 @@ export default defineComponent({
                             <div class={`${prefixCls.value}-container`}>
                                 <div class={`${prefixCls.value}-title`}>{titleDom}</div>
                                 <div class={`${prefixCls.value}-actions`}>
-                                    <Space size={marginXS}>{actionsDom}</Space>
+                                    <Space size={sizeXS}>{actionsDom}</Space>
                                     {propsOptions !== false && renderSettings()}
                                 </div>
                             </div>

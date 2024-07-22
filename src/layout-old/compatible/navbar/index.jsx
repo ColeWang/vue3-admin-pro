@@ -1,14 +1,12 @@
 import { defineComponent } from 'vue'
-import { Space } from 'ant-design-vue'
+import { Layout } from 'ant-design-vue'
 import Breadcrumb from '../../components/breadcrumb'
 import Fullscreen from '../../components/fullscreen'
 import Avatar from '../../components/avatar'
 import Language from '../../components/language'
 import { HamburgerOutlined } from '@/components/icon'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -28,6 +26,9 @@ export default defineComponent({
     },
     emits: ['change'],
     setup (props, { emit }) {
+        const { prefixCls } = useConfigInject('pro-layout-navbar', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         function handleCollapseClick () {
             emit('change', !props.collapsed)
         }
@@ -35,26 +36,24 @@ export default defineComponent({
         return () => {
             const { router, collapsed } = props
 
-            const collapseClass = cx('collapse__icon', {
-                'collapse__icon-down': !!collapsed
-            })
+            const collapseClass = [`${prefixCls.value}-collapse-icon`, {
+                [`${prefixCls.value}-collapse-icon__down`]: !!collapsed
+            }]
 
-            return (
-                <div class={cx('navbar')}>
-                    <div class={cx('navbar__left')}>
-                        <div class={cx('collapse')} onClick={handleCollapseClick}>
+            return wrapSSR(
+                <Layout.Header class={[prefixCls.value, hashId.value]}>
+                    <div class={`${prefixCls.value}-left`}>
+                        <div class={`${prefixCls.value}-collapse`} onClick={handleCollapseClick}>
                             <HamburgerOutlined class={collapseClass}/>
                         </div>
                         <Breadcrumb router={router}/>
                     </div>
-                    <div class={cx('navbar__right')}>
-                        <Space size={20}>
-                            <Fullscreen/>
-                            <Language/>
-                            <Avatar/>
-                        </Space>
+                    <div class={`${prefixCls.value}-right`}>
+                        <Fullscreen/>
+                        <Language/>
+                        <Avatar/>
                     </div>
-                </div>
+                </Layout.Header>
             )
         }
     }

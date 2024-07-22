@@ -1,5 +1,5 @@
 import { computed, defineComponent, ref, unref, watch } from 'vue'
-import { ConfigProvider, Form } from 'ant-design-vue'
+import { ConfigProvider, Form, theme } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
 import { cloneProxyToRaw } from '../../_utils/props-util'
@@ -23,7 +23,7 @@ const baseFormProps = {
     },
     rowProps: {
         type: Object,
-        default: () => ({ gutter: [32, 0] })
+        default: () => ({})
     },
     transform: {
         type: Function,
@@ -67,14 +67,22 @@ export default defineComponent({
 
         const { prefixCls } = useConfigInject('pro-base-form', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
 
         const defaultValues = cloneProxyToRaw(props.initialValues)
         // 考虑到 model 传递就不再需要 initialValues
         const model = ref(props.model || defaultValues)
 
+        const rowProps = computed(() => {
+            const { sizeMS } = unref(token)
+            const baseProps = { gutter: [sizeMS, 0] }
+            return { ...baseProps, ...props.rowProps }
+        })
+
         const formProps = computed(() => {
             const layout = resetLayoutOfGrid(props)
-            return { ...attrs, ...props, layout }
+            const baseProps = { ...attrs, ...props, layout }
+            return { ...baseProps, rowProps: unref(rowProps) }
         })
 
         watch(model, (curr) => {
@@ -130,7 +138,6 @@ export default defineComponent({
                 const options = isObject(scrollToFirstError) ? scrollToFirstError : {}
                 onScrollToField(headField.name, options)
             }
-            console.log('finishFailed')
             emit('finishFailed', error)
         }
 
@@ -173,23 +180,22 @@ export default defineComponent({
         expose(fromInstance)
 
         return () => {
-            const { grid, rowProps } = props
+            const { layout, grid, rowProps } = unref(formProps)
 
-            const formProps = {
-                ...attrs,
+            const needFormProps = {
                 ...pick(props, Object.keys(Form.props)),
-                layout: resetLayoutOfGrid(props),
+                layout: layout,
                 model: unref(model),
                 onFinish: onFinish
             }
 
-            const rowWrapProps = { ...rowProps, grid }
+            const rowWrapProps = { ...rowProps, grid: grid }
 
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
-                            <Form {...formProps} ref={formInstanceRef}>
+                            <Form {...needFormProps} ref={formInstanceRef}>
                                 <RowWrap {...rowWrapProps} v-slots={slots}/>
                             </Form>
                         </div>

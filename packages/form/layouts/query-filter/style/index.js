@@ -4,10 +4,6 @@ function genBaseStyle (token) {
     const { componentCls, antCls, formItemVerticalMargin } = token
     return {
         [componentCls]: {
-            [`${componentCls}-row`]: {
-                position: 'relative',
-                rowGap: token.paddingLG,
-            },
             [`${antCls}-form-item`]: {
                 marginBlock: 0
             },

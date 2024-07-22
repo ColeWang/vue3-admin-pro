@@ -151,7 +151,7 @@ export default defineComponent({
                     </Action>
                 ]),
                 extra: ({ pageData }) => (
-                    <Card bodyStyle={{ padding: '24px 24px 17px' }}>
+                    <Card>
                         <Descs size={'small'} column={3}>
                             <Descs.Item label={'Row'}>{pageData.length}</Descs.Item>
                             <Descs.Item label={'Created'}>Cole</Descs.Item>

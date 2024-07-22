@@ -20,7 +20,7 @@ function genBaseStyle (token) {
                 paddingInlineStart: token.controlHeightSM
             },
             [`${antCls}-tree`]: {
-                background: token.colorBgLayout,
+                background: token.colorFillAlter,
                 [`${antCls}-tree-list-holder`]: {
                     paddingBlockStart: treeListHolderPadding
                 },

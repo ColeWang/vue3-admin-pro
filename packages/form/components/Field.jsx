@@ -5,7 +5,7 @@ import BaseField from '../../base-field'
 import { useFormInstance } from '../base-form'
 import { namePathToString, toPx } from '../../_utils/util'
 import { genFormItemFixStyle } from '../utils'
-import { has, isArray, isNumber, isString, pick } from 'lodash-es'
+import { has, isArray, isNumber, isString, merge, pick } from 'lodash-es'
 
 const sizeEnum = {
     xs: 104,
@@ -47,7 +47,7 @@ export default defineComponent({
             default: () => ({})
         }
     },
-    setup (props, { slots: fieldSlots, attrs }) {
+    setup (props, { slots: fieldSlots }) {
         const { model = {}, formProps = {}, setModelValue } = useFormInstance()
 
         // 初始化值 防止 form 报错
@@ -76,26 +76,22 @@ export default defineComponent({
                 style: fieldStyle(fieldProps.style, fieldWidth),
                 'onUpdate:value': onUpdateValue.bind(null, formItemProps.name)
             }
-            const needFormItemProps = {
+            const needFormItemProps = merge({
                 ...formItemProps,
-                ...extraFormItemProps,
                 key: key,
                 model: unref(model)
-            }
+            }, extraFormItemProps)
+
             const baseFieldProps = {
-                ...attrs,
                 ...pick(props, Object.keys(BaseField.props)),
                 fieldProps: needFieldProps,
                 formItemProps: needFormItemProps
             }
-
             const colWrapProps = {
                 ...colProps,
                 hidden: hidden,
                 grid: !!grid,
             }
-
-            // 暂不支持 Form.Item 本身的插槽 够用
             return (
                 <ColWrap {...colWrapProps} key={key}>
                     <Form.Item {...needFormItemProps}>

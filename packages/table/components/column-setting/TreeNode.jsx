@@ -44,7 +44,7 @@ export default defineComponent({
 
         return () => {
             const { title, fixed, columnKey } = props
-            const { marginXXS } = unref(token)
+            const { sizeXXS } = unref(token)
 
             const iconProps = {
                 columnKey: columnKey,
@@ -52,7 +52,7 @@ export default defineComponent({
             }
 
             const iconDom = (
-                <Space size={marginXXS}>
+                <Space size={sizeXXS}>
                     {fixed !== 'left' && (
                         <Tooltip title={t('leftPin')} fixed={'left'} {...iconProps}>
                             <VerticalAlignTopOutlined/>

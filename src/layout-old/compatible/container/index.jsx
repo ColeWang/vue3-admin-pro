@@ -1,10 +1,8 @@
 import { defineComponent, KeepAlive, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
-import { BackTop } from 'ant-design-vue'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { BackTop, Layout } from 'ant-design-vue'
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -17,15 +15,18 @@ export default defineComponent({
     setup (props) {
         const spaceRef = ref(null)
 
+        const { prefixCls } = useConfigInject('pro-layout-container', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         return () => {
             const { include } = props
 
-            return (
-                <div class={cx('container')}>
-                    <div class={cx('content-space')} ref={spaceRef}>
-                        <div id={'viewContainer'} class={cx('view-container')}>
-                            <div class={cx('content__fill')}/>
-                            <div class={cx('content__view')}>
+            return wrapSSR(
+                <Layout.Content class={[prefixCls.value, hashId.value]}>
+                    <div class={`${prefixCls.value}-space`} ref={spaceRef}>
+                        <div id={'viewContainer'} class={`${prefixCls.value}-view`}>
+                            <div class={`${prefixCls.value}-view-fill`}/>
+                            <div class={`${prefixCls.value}-view-content`}>
                                 <RouterView>
                                     {({ Component }) => {
                                         return (
@@ -36,11 +37,11 @@ export default defineComponent({
                                     }}
                                 </RouterView>
                             </div>
-                            <div class={cx('content__fill')}/>
+                            <div class={`${prefixCls.value}-view-fill`}/>
                         </div>
-                        <BackTop class={cx('back-top')} target={() => unref(spaceRef)}/>
+                        <BackTop target={() => unref(spaceRef)}/>
                     </div>
-                </div>
+                </Layout.Content>
             )
         }
     }

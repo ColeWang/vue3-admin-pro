@@ -37,16 +37,10 @@ export default defineComponent({
             const titleDom = getPropsSlot(slots, props, 'title')
             const titleStyle = genTitleStyle(layout, unref(token))
 
-            const colWrapProps = {
-                span: 24,
-                grid: !!grid
-            }
-            const rowWrapProps = {
-                ...rowProps,
-                grid: !!grid
-            }
+            const rowWrapProps = { ...rowProps, grid: !!grid }
+
             return (
-                <ColWrap {...colWrapProps}>
+                <ColWrap span={24} grid={!!grid}>
                     <RowWrap {...rowWrapProps}>
                         {titleDom && (
                             <Col span={24}>

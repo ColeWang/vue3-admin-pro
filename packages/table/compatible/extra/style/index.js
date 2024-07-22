@@ -1,10 +1,10 @@
-import { genComponentStyleHook } from '../../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls } = token
+    const { componentCls, extraMarginBottom } = token
     return {
         [componentCls]: {
-            marginBlockEnd: token.margin,
+            marginBlockEnd: extraMarginBottom,
             [`${componentCls}-popup-container`]: {
                 position: 'relative'
             },
@@ -14,5 +14,10 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableExtra', (token) => {
-    return [genBaseStyle(token)]
+    const extraMarginBottom = token.sizeMS
+
+    const extraToken = mergeToken(token, {
+        extraMarginBottom
+    })
+    return [genBaseStyle(extraToken)]
 })

@@ -1,22 +1,21 @@
-.language-wrap {
-    height: 60px;
+.avatar-wrap {
+    height: 100%;
     cursor: pointer;
     position: relative;
 }
 
-.language-center {
-    height: 60px;
-    white-space: nowrap;
+.avatar-center {
+    height: 100%;
     @include flex(center);
 
-    .language-center__icon-down {
+    .avatar-center__icon-down {
         color: $icon;
         @include size(18px, 100%);
         @include flex(center, center);
     }
 }
 
-.language-menu {
+.avatar-menu {
     min-width: 110px;
     white-space: nowrap;
 }

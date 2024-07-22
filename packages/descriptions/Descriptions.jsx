@@ -45,7 +45,7 @@ export default defineComponent({
         }
     },
     emits: ['load', 'requestError'],
-    setup (props, { attrs, emit, slots, expose }) {
+    setup (props, { emit, slots, attrs, expose }) {
         const popupContainer = ref(null)
 
         const { prefixCls } = useConfigInject('pro-descriptions', props)
@@ -122,7 +122,7 @@ export default defineComponent({
 
         return () => {
             const { columns, emptyText } = props
-            const { marginXS } = unref(token)
+            const { sizeXS } = unref(token)
 
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
 
@@ -137,13 +137,9 @@ export default defineComponent({
             const extraDom = getPropsSlot(slots, props, 'extra', slotScope)
 
             const restProps = omit(props, ['title', 'extra'])
-            const needDescsProps = {
-                ...pick(restProps, Object.keys(Descriptions.props)),
-                ...attrs
-            }
-
+            const needDescsProps = { ...pick(restProps, Object.keys(Descriptions.props)) }
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-container`}>
@@ -153,7 +149,7 @@ export default defineComponent({
                                             {titleDom}
                                         </div>
                                         <div class={`${prefixCls.value}-extra`}>
-                                            <Space size={marginXS}>{extraDom}</Space>
+                                            <Space size={sizeXS}>{extraDom}</Space>
                                         </div>
                                     </div>
                                 )}

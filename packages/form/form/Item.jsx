@@ -20,16 +20,13 @@ export default defineComponent({
             const { grid } = unref(formProps)
 
             const colWrapProps = {
+                ...attrs,
                 ...colProps,
                 grid: !!grid
             }
-            const formItemProps = {
-                ...attrs,
-                ...restProps
-            }
             return (
                 <ColWrap {...colWrapProps}>
-                    <Form.Item {...formItemProps} v-slots={slots}/>
+                    <Form.Item {...restProps} v-slots={slots}/>
                 </ColWrap>
             )
         }

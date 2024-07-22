@@ -7,7 +7,7 @@ function HocField (valueType) {
     return defineComponent({
         inheritAttrs: false,
         props: { ...Field.props, ...Form.Item.props },
-        setup (props, { slots, attrs }) {
+        setup (props, { slots }) {
             return () => {
                 const { fieldProps, formItemProps } = props
                 const needFormItemProps = {
@@ -15,7 +15,6 @@ function HocField (valueType) {
                     ...formItemProps,
                 }
                 const needFieldProps = {
-                    ...attrs,
                     ...props,
                     valueType: valueType,
                     fieldProps: fieldProps,

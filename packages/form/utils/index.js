@@ -14,5 +14,5 @@ export function genFormItemFixStyle (labelWidth, layout) {
             }
         }
     }
-    return undefined
+    return {}
 }

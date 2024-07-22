@@ -1,12 +1,10 @@
-import { genComponentStyleHook } from '../../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls } = token
+    const { componentCls, alertMarginBottom } = token
     return {
         [componentCls]: {
-            marginBlockEnd: token.margin,
-            backgroundColor: token.colorBgLayout,
-            borderRadius: token.borderRadius,
+            marginBlockEnd: alertMarginBottom,
             border: 'none',
             [`${componentCls}-popup-container`]: {
                 position: 'relative'
@@ -17,6 +15,8 @@ function genBaseStyle (token) {
                 lineHeight: token.lineHeight,
                 paddingBlock: token.paddingSM,
                 paddingInline: token.paddingLG,
+                backgroundColor: token.colorFillAlter,
+                borderRadius: token.borderRadius,
                 [`${componentCls}-wrapper`]: {
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -39,5 +39,10 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableAlert', (token) => {
-    return [genBaseStyle(token)]
+    const alertMarginBottom = token.sizeMS
+
+    const alertToken = mergeToken(token, {
+        alertMarginBottom
+    })
+    return [genBaseStyle(alertToken)]
 })

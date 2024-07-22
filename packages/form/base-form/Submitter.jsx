@@ -4,13 +4,13 @@ import { useLocaleReceiver } from '../../locale-provider'
 import { preventDefault } from '../../_utils/event'
 
 const submitterProps = {
+    size: {
+        type: Number,
+        default: undefined
+    },
     loading: {
         type: Boolean,
         default: false
-    },
-    space: {
-        type: Number,
-        default: undefined
     },
     submitText: {
         type: String,
@@ -42,7 +42,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: submitterProps,
     emits: ['reset', 'submit'],
-    setup (props, { emit }) {
+    setup (props, { emit, attrs }) {
         const { token } = theme.useToken()
 
         const { t } = useLocaleReceiver(['Form'])
@@ -58,7 +58,8 @@ export default defineComponent({
         }
 
         return () => {
-            const { loading, space, submitText, resetText, submitButtonProps, resetButtonProps } = props
+            const { size: propsSize, loading, submitText, resetText, submitButtonProps, resetButtonProps } = props
+            const { sizeXS } = unref(token)
 
             const needSubmitButtonProps = {
                 ...submitButtonProps,
@@ -66,21 +67,18 @@ export default defineComponent({
                 loading: loading,
                 onClick: onSubmit
             }
-
             const resetButtonDom = resetButtonProps !== false && (
                 <Button {...resetButtonProps} onClick={onReset}>
                     {resetText || t('reset')}
                 </Button>
             )
-
             const submitButtonDom = submitButtonProps !== false && (
                 <Button {...needSubmitButtonProps} html-type={'submit'}>
                     {submitText || t('submit')}
                 </Button>
             )
-
             return (
-                <Space size={space || unref(token.paddingXS)}>
+                <Space size={propsSize || sizeXS} {...attrs}>
                     {[resetButtonDom, submitButtonDom]}
                 </Space>
             )

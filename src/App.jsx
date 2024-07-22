@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
-import { ConfigProvider } from 'ant-design-vue'
+import { ConfigProvider, theme } from 'ant-design-vue'
 import { LocaleProvider } from '@packages'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
@@ -32,9 +32,10 @@ export default defineComponent({
 
         return () => {
             const { antd, comps } = unref(localeMessage)
+            const { darkAlgorithm, compactAlgorithm } = theme
 
             return (
-                <ConfigProvider locale={antd}>
+                <ConfigProvider theme={{ algorithm: [] }} locale={antd}>
                     <LocaleProvider locale={comps}>
                         <RouterView/>
                     </LocaleProvider>

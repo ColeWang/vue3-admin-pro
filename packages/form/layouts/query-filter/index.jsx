@@ -1,5 +1,5 @@
-import { defineComponent, ref, unref } from 'vue'
-import { Col, Form, Row } from 'ant-design-vue'
+import { computed, defineComponent, ref, unref } from 'vue'
+import { Col, Form, Row, theme } from 'ant-design-vue'
 import ResizeObserver from '../../../resize-observer'
 import BaseForm from '../../base-form'
 import Actions from './Actions'
@@ -16,10 +16,6 @@ const queryFilterProps = {
     span: {
         type: Number,
         default: undefined
-    },
-    gutter: {
-        type: [Number, String],
-        default: 24
     },
     labelWidth: {
         type: [Number, String],
@@ -43,15 +39,22 @@ export default defineComponent({
     inheritAttrs: false,
     props: queryFilterProps,
     emits: ['resize', 'collapse'],
-    setup (props, { slots, emit, attrs, expose }) {
+    setup (props, { emit, slots, attrs, expose }) {
         const { prefixCls } = useConfigInject('pro-query-filter', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
 
         const baseFormRef = ref(null)
 
         const size = ref({ width: 0, height: 0 })
 
         const { layout, span, collapsed, setCollapse, genColNodes } = useQueryFilter(size, props)
+
+        const rowProps = computed(() => {
+            const { sizeMS, sizeLG } = unref(token)
+            const baseProps = { gutter: [sizeMS, sizeLG] }
+            return { ...baseProps, ...props.rowProps }
+        })
 
         function onResize (value) {
             size.value = value
@@ -80,7 +83,7 @@ export default defineComponent({
         expose({ getFormInstance })
 
         return () => {
-            const { labelWidth, gutter } = props
+            const { labelWidth } = props
 
             const slotScope = {
                 layout: unref(layout),
@@ -89,17 +92,19 @@ export default defineComponent({
 
             const children = filterEmptyElement(slots.default ? slots.default(slotScope) : [])
             const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
-                const { child, hidden, key } = item || {}
+                const { child: fieldNode, hidden, key } = item || {}
                 const colClass = { [`${prefixCls.value}-col-hidden`]: hidden }
                 return (
-                    <Col key={key} class={colClass} span={unref(span)}>{child}</Col>
+                    <Col key={key} class={colClass} span={unref(span)}>
+                        {() => fieldNode}
+                    </Col>
                 )
             })
 
             const baseFormProps = {
-                ...attrs,
                 ...pick(props, Object.keys(BaseForm.props)),
-                layout: unref(layout)
+                layout: unref(layout),
+                grid: false
             }
 
             const actionsProps = {
@@ -110,13 +115,16 @@ export default defineComponent({
                 onCollapse: onCollapse
             }
 
-            const formItemClass = { [`${prefixCls.value}-form-item__vertical`]: unref(layout) === 'vertical' && !haveRow }
+            const formItemClass = {
+                [`${prefixCls.value}-form-item__vertical`]: unref(layout) === 'vertical' && !haveRow
+            }
+            const needRowProps = { ...unref(rowProps), justify: 'start' }
 
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]}>
-                    <BaseForm {...baseFormProps} ref={baseFormRef}>
-                        <ResizeObserver onResize={onResize}>
-                            <Row class={`${prefixCls.value}-row`} gutter={gutter} justify={'start'}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
+                    <ResizeObserver onResize={onResize}>
+                        <BaseForm {...baseFormProps} ref={baseFormRef}>
+                            <Row {...needRowProps}>
                                 {colNodes}
                                 <Col
                                     class={`${prefixCls.value}-action-col`}
@@ -129,8 +137,8 @@ export default defineComponent({
                                     </Form.Item>
                                 </Col>
                             </Row>
-                        </ResizeObserver>
-                    </BaseForm>
+                        </BaseForm>
+                    </ResizeObserver>
                 </div>
             )
         }

@@ -19,7 +19,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: tableProps,
     emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'export', 'sizeChange', 'columnsChange', 'load', 'requestError', 'finish', 'reset'],
-    setup (props, { emit, attrs, slots, expose }) {
+    setup (props, { emit, slots, attrs, expose }) {
         const popupContainer = ref(null)
         const tableRef = ref(null)
 
@@ -169,7 +169,7 @@ export default defineComponent({
         return () => {
             const { search: propsSearch, columns: propsColumns, manualRequest } = props
             const { toolbar: propsToolbar, rowSelection: propsRowSelection } = props
-            const { padding } = unref(token)
+            const { sizeMS } = unref(token)
 
             const renderSearch = () => {
                 const searchProps = {
@@ -238,10 +238,10 @@ export default defineComponent({
             })
 
             const cardBodyStyle = propsToolbar !== false ? ({
-                paddingBlock: `${padding}px`,
+                paddingBlock: `${sizeMS}px`,
                 paddingBlockStart: '0'
             }) : ({
-                paddingBlock: `${padding}px`
+                paddingBlock: `${sizeMS}px`
             })
 
             return wrapSSR(

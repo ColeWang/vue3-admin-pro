@@ -1,6 +1,6 @@
-import { computed, defineComponent, getCurrentInstance, unref } from 'vue'
+import { defineComponent, getCurrentInstance } from 'vue'
 import { Dropdown, Menu } from 'ant-design-vue'
-import { CaretDownOutlined } from '@ant-design/icons-vue'
+import { GlobalOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/useAppInstance'
 import { map } from 'lodash-es'
 import { localCache, LOCALE__LOCAL } from '@/utils/storage'
@@ -32,10 +32,6 @@ export default defineComponent({
             'zh-CN': '中文简体',
             'en-US': 'English'
         }
-
-        const title = computed(() => {
-            return langList[$i18n.locale]
-        })
 
         // 先执行 缓存的 lang
         onLocaleChange(lang)
@@ -74,10 +70,7 @@ export default defineComponent({
                         v-slots={dropdownSlots}
                     >
                         <div class={cx('language-center')}>
-                            <span>{unref(title)}</span>
-                            <div class={cx('language-center__icon-down')}>
-                                <CaretDownOutlined/>
-                            </div>
+                            <GlobalOutlined/>
                         </div>
                     </Dropdown>
                 </div>

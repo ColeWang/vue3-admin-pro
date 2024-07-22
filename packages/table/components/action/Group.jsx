@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue'
-import { Dropdown, Menu, Space } from 'ant-design-vue'
+import { defineComponent, unref } from 'vue'
+import { Dropdown, Menu, Space, theme } from 'ant-design-vue'
 import Action from './Action'
 import { filterEmptyElement } from '../../../_utils/props-util'
 import { take, takeRight } from 'lodash-es'
@@ -7,19 +7,21 @@ import { take, takeRight } from 'lodash-es'
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        ...Space.props,
         max: {
             type: Number,
             default: 2
         },
         size: {
             type: Number,
-            default: 8
+            default: undefined
         }
     },
     setup (props, { slots }) {
+        const { token } = theme.useToken()
         return () => {
-            const { max, ...restProps } = props
+            const { max, size: propsSize } = props
+            const { sizeXS } = unref(token)
+
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
 
             if (nodes.length && nodes.length > max) {
@@ -34,7 +36,7 @@ export default defineComponent({
                     )
                 }
                 return (
-                    <Space {...restProps}>
+                    <Space size={propsSize || sizeXS}>
                         {take(nodes, max)}
                         <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
                             <Action>...</Action>
@@ -43,7 +45,7 @@ export default defineComponent({
                 )
             }
             return (
-                <Space {...restProps}>{nodes}</Space>
+                <Space size={propsSize || sizeXS}>{nodes}</Space>
             )
         }
     }

@@ -159,7 +159,7 @@ function defaultRenderText (valueType, props, slots) {
 export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
-    setup (props, { slots, attrs }) {
+    setup (props, { slots }) {
         const { valueTypeMap } = useCustomFields()
 
         function onUpdateValue (value) {
@@ -184,7 +184,6 @@ export default defineComponent({
             }
             const fieldRenderProps = {
                 ...props,
-                ...attrs,
                 text: mode === 'edit' ? (inputValue ?? text) : (text ?? inputValue),
                 fieldProps: needFieldProps
             }

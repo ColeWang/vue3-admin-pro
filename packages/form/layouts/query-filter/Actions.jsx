@@ -52,7 +52,7 @@ export default defineComponent({
 
         return () => {
             const { collapsed, showCollapse, submitter } = props
-            const { marginXS } = unref(token)
+            const { sizeXS } = unref(token)
 
             const collapseDom = showCollapse && (
                 <Button class={`${prefixCls.value}-collapse-button`} type={'link'} onClick={onCollapse}>
@@ -67,7 +67,7 @@ export default defineComponent({
             }
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <Space size={marginXS}>
+                    <Space size={sizeXS}>
                         <Submitter {...submitterProps}/>
                         {collapseDom}
                     </Space>

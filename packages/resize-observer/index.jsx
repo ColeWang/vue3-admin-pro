@@ -15,7 +15,7 @@ export default defineComponent({
         }
     },
     emits: ['resize'],
-    setup (props, { emit, attrs, slots }) {
+    setup (props, { emit, slots, attrs }) {
         const elRef = ref(null)
 
         const size = ref({ width: 0, height: 0 })

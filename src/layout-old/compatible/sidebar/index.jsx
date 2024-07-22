@@ -1,5 +1,5 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
-import { Menu } from 'ant-design-vue'
+import { Menu, Layout } from 'ant-design-vue'
 import OutIcon from './OutIcon'
 import Logo from './Logo'
 import useShowTitle from '../../hooks/useShowTitle'
@@ -170,13 +170,7 @@ export default defineComponent({
         return () => {
             const { menus, collapsed } = props
 
-            const sideStyle = {
-                width: collapsed ? '80px' : '256px'
-            }
-
             const menuProps = {
-                style: sideStyle,
-                inlineCollapsed: collapsed,
                 selectedKeys: unref(selectedKeys),
                 openKeys: unref(openKeys),
                 onSelect: onSelectMenu,
@@ -190,16 +184,12 @@ export default defineComponent({
             })
 
             return (
-                <div class={cx('sidebar')} style={sideStyle}>
-                    <div class={cx('sidebar-content')}>
-                        <div class={cx('sidebar-content__wrap')}>
-                            <Logo collapsed={collapsed}/>
-                            <Menu {...menuProps}>
-                                {children}
-                            </Menu>
-                        </div>
-                    </div>
-                </div>
+                <Layout.Sider collapsed={collapsed}>
+                    <Logo collapsed={collapsed}/>
+                    <Menu {...menuProps}>
+                        {children}
+                    </Menu>
+                </Layout.Sider>
             )
         }
     }

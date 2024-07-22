@@ -39,7 +39,8 @@ function genBaseStyle (token) {
 export default genComponentStyleHook('ProDescriptions', (token) => {
     const { antCls } = token
 
-    const descsHeaderMarginBottom = token.fontSizeSM * token.lineHeightSM
+    // const descsHeaderMarginBottom = token.fontSizeSM * token.lineHeightSM
+    const descsHeaderMarginBottom = token.sizeMS
     const fieldTextareaReadCls = `${antCls}-pro-field-textarea__read`
 
     const descriptionsToken = mergeToken(token, {

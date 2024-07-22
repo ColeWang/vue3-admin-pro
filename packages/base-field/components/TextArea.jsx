@@ -15,15 +15,17 @@ export default defineComponent({
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
-            const { lineHeight, paddingXXS, paddingSM } = unref(token)
+            const { fontSize, colorText, lineHeight, sizeXXS, sizeSM } = unref(token)
             const placeholder = fieldProps.placeholder || t('inputPlaceholder')
 
             if (mode === 'read') {
                 const styles = {
                     display: 'inline-block',
-                    paddingBlock: `${paddingXXS}px`,
-                    paddingInline: `${paddingSM}px`,
+                    fontSize: `${fontSize}px`,
+                    color: colorText,
                     lineHeight: lineHeight,
+                    paddingBlock: `${sizeXXS}px`,
+                    paddingInline: `${sizeSM}px`,
                     maxWidth: '100%',
                     whiteSpace: 'pre-wrap',
                 }

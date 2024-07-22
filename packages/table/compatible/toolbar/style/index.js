@@ -1,10 +1,10 @@
-import { genComponentStyleHook } from '../../../../_utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls } = token
+    const { componentCls, antCls, toolbarPadding } = token
     return {
         [componentCls]: {
-            paddingBlock: token.padding,
+            paddingBlock: toolbarPadding,
             [`${componentCls}-popup-container`]: {
                 position: 'relative',
                 [`${antCls}-popover`]: {
@@ -40,5 +40,10 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableToolbar', (token) => {
-    return [genBaseStyle(token)]
+    const toolbarPadding = token.sizeMS
+
+    const toolbarToken = mergeToken(token, {
+        toolbarPadding
+    })
+    return [genBaseStyle(toolbarToken)]
 })
