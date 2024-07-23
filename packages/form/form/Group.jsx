@@ -13,10 +13,10 @@ function genTitleStyle (layout, token) {
         fontWeight: token.fontWeightStrong,
     }
     if (layout === 'inline') {
-        const needPadding = token.padding / 2
+        const needPadding = token.size / 2
         return { ...baseStyle, paddingBlock: `${needPadding}px` }
     }
-    return { ...baseStyle, paddingBlockEnd: `${token.padding}px` }
+    return { ...baseStyle, paddingBlockEnd: `${token.size}px` }
 }
 
 export default defineComponent({

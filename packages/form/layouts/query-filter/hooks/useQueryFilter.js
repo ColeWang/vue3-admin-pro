@@ -1,7 +1,7 @@
 import { computed, ref, unref, watch } from 'vue'
 import tryOnScopeDispose from '../../../../_utils/hooks/tryOnScopeDispose'
 import { filterEmptyElement, isValidElement } from '../../../../_utils/props-util'
-import { map } from 'lodash-es'
+import { isFunction, map } from 'lodash-es'
 
 const breakpoints = {
     horizontal: [
@@ -30,7 +30,7 @@ function getOffset (length, span) {
 }
 
 function useQueryFilter (size, props) {
-    const { span: propsSpan, showCollapse } = props
+    const { showCollapse, getSpanConfig: propsGetSpanConfig } = props
 
     // vertical horizontal 只有两种
     const layout = ref('horizontal')
@@ -43,9 +43,12 @@ function useQueryFilter (size, props) {
     })
 
     const stopWatchSize = watch(size, ({ width }) => {
-        const spanSize = getSpanConfig(props.layout, width)
-        layout.value = spanSize.layout
-        span.value = (propsSpan || spanSize.span)
+        const spanSize = propsGetSpanConfig && isFunction(propsGetSpanConfig)
+            ? propsGetSpanConfig(props.layout, width) || {}
+            : getSpanConfig(props.layout, width)
+        // ---
+        layout.value = spanSize.layout || 'horizontal'
+        span.value = spanSize.span || 24
     })
 
     const stopWatchCollapsed = watch(() => props.collapsed, (value) => {

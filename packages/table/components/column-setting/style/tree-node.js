@@ -19,7 +19,7 @@ function genBaseStyle (token) {
             [`${componentCls}-option`]: {
                 width: `${treeNodeOptionWidth}px`,
                 [`${componentCls}-option-icon`]: {
-                    paddingInline: token.paddingXS,
+                    paddingInline: token.sizeXS,
                     display: 'none',
                     [`${iconCls}`]: {
                         width: `${token.fontSize}px`,
@@ -37,8 +37,8 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableColumnSettingTreeNode', (token) => {
-    const treeNodeTitleMaxWidth = 168
-    const treeNodeOptionWidth = token.fontSize * 2 + token.paddingXS * 2 + token.marginXXS
+    const treeNodeTitleMaxWidth = token.controlHeightSM * 7
+    const treeNodeOptionWidth = token.fontSize * 2 + token.sizeXS * 2 + token.sizeXXS
 
     const treeNodeToken = mergeToken(token, {
         treeNodeTitleMaxWidth,

@@ -51,7 +51,7 @@ function genBaseStyle (token) {
 export default genComponentStyleHook('ProTableColumnSettingTreeList', (token) => {
     const treeListTitleMargin = token.controlHeightSM - token.fontSizeSM * token.lineHeightSM
     const treeListHolderPadding = token.sizeXS / 2
-    const treeCheckboxMargin = (token.controlHeightSM - token.controlInteractiveSize) / 2
+    const treeCheckboxMargin = (token.controlHeightSM - token.controlHeight / 2) / 2
 
     const treeListToken = mergeToken(token, {
         treeListTitleMargin,

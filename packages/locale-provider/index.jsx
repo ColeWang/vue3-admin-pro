@@ -8,7 +8,7 @@ export function useLocaleReceiver (path, defaultLocale, propsLocale) {
     const state = inject(BaseKey, {})
 
     const locale = computed(() => {
-        const locale = unref(defaultLocale) || get(zhCN, (path || ['global']), {})
+        const locale = unref(defaultLocale)|| get(zhCN, (path || ['global']), {})
         const localeContext = (path && state.locale) ? get(state.locale, path, {}) : {}
         return { ...locale, ...localeContext, ...(unref(propsLocale) || {}) }
     })

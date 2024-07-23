@@ -75,7 +75,7 @@ export default defineComponent({
 
         return () => {
             const { checkable, draggable } = props
-            const { paddingXXS } = unref(token)
+            const { sizeXXS } = unref(token)
 
             // 不在 setting 中展示的
             const needColumns = unref(columns).filter((item) => !item.hideInSetting)
@@ -108,7 +108,7 @@ export default defineComponent({
                             {t('columnDisplay')}
                         </Checkbox>
                         <Button
-                            style={{ padding: `${paddingXXS}px` }}
+                            style={{ padding: `${sizeXXS}px` }}
                             type={'link'}
                             onClick={onClearClick}
                         >

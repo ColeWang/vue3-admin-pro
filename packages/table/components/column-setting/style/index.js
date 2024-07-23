@@ -24,7 +24,7 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableColumnSetting', (token) => {
-    const treeListMinWidth = 200
+    const treeListMinWidth = token.controlHeightSM * 8
 
     const columnSettingToken = mergeToken(token, {
         treeListMinWidth

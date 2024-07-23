@@ -94,7 +94,7 @@ export default defineComponent({
                     }}>
                         <Table {...tableProps} v-slots={{
                             search: (slotScope) => (
-                                <BaseSearch {...slotScope} labelWidth={100} span={12} model={unref(model)}>
+                                <BaseSearch {...slotScope} labelWidth={100} model={unref(model)}>
                                     <Select
                                         label={'Age'}
                                         name={['data', 'age']}

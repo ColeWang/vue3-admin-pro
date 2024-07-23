@@ -13,17 +13,17 @@ import { pick } from 'lodash-es'
 const queryFilterProps = {
     ...BaseForm.props,
     ...Actions.props,
-    span: {
-        type: Number,
-        default: undefined
-    },
     labelWidth: {
         type: [Number, String],
-        default: 80 // 'auto'
+        default: undefined // 'auto'
     },
     defaultRowsNumber: {
         type: Number,
         default: 1
+    },
+    getSpanConfig: {
+        type: Function,
+        default: undefined
     },
     onResize: {
         type: Function,
@@ -84,11 +84,10 @@ export default defineComponent({
 
         return () => {
             const { labelWidth } = props
+            const { sizeMD } = unref(token)
 
-            const slotScope = {
-                layout: unref(layout),
-                props: genFormItemFixStyle(labelWidth, unref(layout))
-            }
+            const formItemProps = genFormItemFixStyle(labelWidth || sizeMD * 4, unref(layout))
+            const slotScope = { layout: unref(layout), props: formItemProps }
 
             const children = filterEmptyElement(slots.default ? slots.default(slotScope) : [])
             const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
@@ -115,10 +114,11 @@ export default defineComponent({
                 onCollapse: onCollapse
             }
 
+            const needRowProps = { ...unref(rowProps), justify: 'start' }
+            const colActionProps = { span: unref(span), offset: offset, key: 'action' }
             const formItemClass = {
                 [`${prefixCls.value}-form-item__vertical`]: unref(layout) === 'vertical' && !haveRow
             }
-            const needRowProps = { ...unref(rowProps), justify: 'start' }
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
@@ -126,12 +126,7 @@ export default defineComponent({
                         <BaseForm {...baseFormProps} ref={baseFormRef}>
                             <Row {...needRowProps}>
                                 {colNodes}
-                                <Col
-                                    class={`${prefixCls.value}-action-col`}
-                                    key={'action'}
-                                    span={unref(span)}
-                                    offset={offset}
-                                >
+                                <Col class={`${prefixCls.value}-action-col`} {...colActionProps}>
                                     <Form.Item class={formItemClass} colon={false}>
                                         <Actions {...actionsProps}/>
                                     </Form.Item>

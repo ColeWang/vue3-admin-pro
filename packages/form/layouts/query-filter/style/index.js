@@ -21,7 +21,7 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProQueryFilter', (token) => {
-    const formItemVerticalMargin = token.fontSize * token.lineHeight + token.paddingXS
+    const formItemVerticalMargin = token.fontSize * token.lineHeight + token.sizeXS
 
     const queryFilterToken = mergeToken(token, {
         formItemVerticalMargin

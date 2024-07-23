@@ -14,7 +14,7 @@ function genBaseStyle (token) {
                     display: 'none'
                 },
                 [`${antCls}-popover-inner-content`]: {
-                    padding: `0 0 ${token.paddingXS}px`
+                    padding: `0 0 ${token.sizeXS}px`
                 }
             },
             [`${componentCls}-container`]: {
@@ -31,7 +31,7 @@ function genBaseStyle (token) {
                     whiteSpace: 'nowrap'
                 },
                 [`${componentCls}-actions`]: {
-                    paddingInlineStart: token.padding,
+                    paddingInlineStart: token.size,
                     whiteSpace: 'nowrap'
                 },
             }
