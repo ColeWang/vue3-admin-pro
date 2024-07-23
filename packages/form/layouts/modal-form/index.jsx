@@ -66,13 +66,13 @@ export default defineComponent({
             const { extraProps, submitter } = props
 
             const baseFormProps = {
-                ...attrs,
                 ...pick(props, Object.keys(BaseForm.props)),
                 onFinish: onFinish
             }
             const baseFormSlots = omit(slots, ['trigger'])
 
             const needModalProps = {
+                ...attrs,
                 ...pick(props, Object.keys(Modal.props)),
                 ...extraProps,
                 open: unref(sOpen),

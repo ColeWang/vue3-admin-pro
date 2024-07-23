@@ -2,6 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
+import { pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -16,17 +17,20 @@ export default defineComponent({
         const { formProps = {} } = useFormInstance()
 
         return () => {
-            const { colProps, ...restProps } = props
+            const { colProps } = props
             const { grid } = unref(formProps)
 
             const colWrapProps = {
-                ...attrs,
                 ...colProps,
                 grid: !!grid
             }
+            const formItemProps = {
+                ...attrs,
+                ...pick(props, Object.keys(Form.Item.props))
+            }
             return (
                 <ColWrap {...colWrapProps}>
-                    <Form.Item {...restProps} v-slots={slots}/>
+                    <Form.Item {...formItemProps} v-slots={slots}/>
                 </ColWrap>
             )
         }

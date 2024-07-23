@@ -98,6 +98,9 @@ const compactSize = {
     controlHeightSM: controlHeight * 0.75, // 21
     controlHeightXS: controlHeight * 0.5, // 14
     controlHeightLG: controlHeight * 1.25, // 35
+    controlInteractiveSize: controlHeight / 2,
+    controlPaddingHorizontalSM: 8,
+    controlPaddingHorizontal: 12,
 
     // const compactSizeStep = sizeStep - 2
     sizeXXL: sizeUnit * (compactSizeStep + 10), // 48

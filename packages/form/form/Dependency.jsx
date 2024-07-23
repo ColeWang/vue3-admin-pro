@@ -16,7 +16,7 @@ export default defineComponent({
             default: () => ({})
         }
     },
-    setup (props, { slots, attrs }) {
+    setup (props, { slots }) {
         const { formProps = {}, getModelValue } = useFormInstance()
 
         return () => {
@@ -32,7 +32,6 @@ export default defineComponent({
             }, {})
 
             const colWrapProps = {
-                ...attrs,
                 ...colProps,
                 grid: !!grid
             }

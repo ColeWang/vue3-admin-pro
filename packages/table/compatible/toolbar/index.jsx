@@ -47,7 +47,7 @@ export default defineComponent({
         }
     },
     emits: ['export'],
-    setup (props, { emit, slots }) {
+    setup (props, { emit, slots, attrs }) {
         const popupContainer = ref(null)
 
         const { prefixCls } = useConfigInject('pro-table-toolbar', props)
@@ -67,7 +67,7 @@ export default defineComponent({
 
         return () => {
             const { options: propsOptions } = props
-            const { sizeXS, sizeSM } = unref(token)
+            const { sizeXS } = unref(token)
 
             const slotScope = {
                 loading: requestProps.loading,
@@ -125,14 +125,14 @@ export default defineComponent({
                 const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
 
                 return (
-                    <Space.Compact style={{ marginInlineStart: `${sizeSM}px` }}>
+                    <Space.Compact style={{ marginInlineStart: `${sizeXS}px` }}>
                         {customSettings || defaultSettings}
                     </Space.Compact>
                 )
             }
 
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <ConfigProvider getPopupContainer={getPopupContainer}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-container`}>

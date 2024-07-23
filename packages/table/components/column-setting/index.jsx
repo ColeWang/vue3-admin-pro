@@ -19,7 +19,7 @@ export default defineComponent({
             default: true
         }
     },
-    setup (props) {
+    setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-table-column-setting', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
@@ -98,7 +98,7 @@ export default defineComponent({
                 onDropChange: onDropChange
             }
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <div class={`${prefixCls.value}-title`}>
                         <Checkbox
                             indeterminate={indeterminate}

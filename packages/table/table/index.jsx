@@ -219,7 +219,6 @@ export default defineComponent({
             })
 
             const needTableProps = {
-                ...attrs,
                 ...pick(props, Object.keys(Table.props)),
                 ...requestProps,
                 size: unref(tableSize),
@@ -245,7 +244,7 @@ export default defineComponent({
             })
 
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     {propsSearch !== false && renderSearch()}
                     {extraDom && <Extra>{extraDom}</Extra>}
                     <Card bodyStyle={cardBodyStyle}>

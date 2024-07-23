@@ -13,9 +13,9 @@ function genBaseStyle (token) {
                 fontSize: token.fontSize,
                 color: token.colorText,
                 lineHeight: token.lineHeight,
-                paddingBlock: token.paddingSM,
-                paddingInline: token.paddingLG,
-                backgroundColor: token.colorFillAlter,
+                paddingBlock: token.sizeSM,
+                paddingInline: token.sizeLG,
+                backgroundColor: token.colorFillQuaternary,
                 borderRadius: token.borderRadius,
                 [`${componentCls}-wrapper`]: {
                     display: 'flex',
@@ -29,7 +29,7 @@ function genBaseStyle (token) {
                         whiteSpace: 'nowrap'
                     },
                     [`${componentCls}-options`]: {
-                        paddingInlineStart: token.padding,
+                        paddingInlineStart: token.size,
                         whiteSpace: 'nowrap'
                     }
                 }

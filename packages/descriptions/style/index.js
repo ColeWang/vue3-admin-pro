@@ -1,7 +1,7 @@
 import { genComponentStyleHook, mergeToken } from '../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, fieldTextareaReadCls, descsHeaderMarginBottom } = token
+    const { componentCls, fieldTextareaReadCls, descsHeaderMargin } = token
     return {
         [componentCls]: {
             [`${componentCls}-popup-container`]: {
@@ -11,7 +11,7 @@ function genBaseStyle (token) {
                 [`${componentCls}-header`]: {
                     display: 'flex',
                     alignItems: 'center',
-                    marginBottom: descsHeaderMarginBottom,
+                    marginBlockEnd: descsHeaderMargin,
                     [`${componentCls}-title`]: {
                         flex: 'auto',
                         fontSize: token.fontSizeLG,
@@ -40,11 +40,11 @@ export default genComponentStyleHook('ProDescriptions', (token) => {
     const { antCls } = token
 
     // const descsHeaderMarginBottom = token.fontSizeSM * token.lineHeightSM
-    const descsHeaderMarginBottom = token.sizeMS
+    const descsHeaderMargin = token.sizeMS
     const fieldTextareaReadCls = `${antCls}-pro-field-textarea__read`
 
     const descriptionsToken = mergeToken(token, {
-        descsHeaderMarginBottom,
+        descsHeaderMargin,
         fieldTextareaReadCls
     })
     return [genBaseStyle(descriptionsToken)]

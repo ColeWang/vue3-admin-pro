@@ -2,6 +2,7 @@ import { cloneVNode, defineComponent, onMounted, ref, unref } from 'vue'
 import { QueryFilter } from '../../../form'
 import { Card, theme } from 'ant-design-vue'
 import { filterEmptyElement, isValidElement } from '../../../_utils/props-util'
+import { pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -12,7 +13,7 @@ export default defineComponent({
             default: false
         }
     },
-    setup (props, { attrs, slots }) {
+    setup (props, { slots, attrs }) {
         const queryFilterRef = ref(null)
 
         const { token } = theme.useToken()
@@ -33,9 +34,11 @@ export default defineComponent({
             const { sizeMS } = unref(token)
 
             const children = filterEmptyElement(slots.default ? slots.default() : [])
-            const queryFilterProps = { ...attrs, ...props }
+
+            const cardProps = { style: { marginBlockEnd: `${sizeMS}px` }, ...attrs }
+            const queryFilterProps = pick(props, Object.keys(QueryFilter.props))
             return (
-                <Card style={{ marginBlockEnd: `${sizeMS}px` }}>
+                <Card {...cardProps}>
                     <QueryFilter {...queryFilterProps} ref={queryFilterRef}>
                         {(slotScope) => {
                             return children.map((vNode) => {

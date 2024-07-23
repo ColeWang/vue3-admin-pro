@@ -1,5 +1,6 @@
-import { defineComponent, Fragment } from 'vue'
+import { defineComponent } from 'vue'
 import { Row } from 'ant-design-vue'
+import { pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -12,11 +13,14 @@ export default defineComponent({
     },
     setup (props, { slots }) {
         return () => {
-            const { grid, ...restProps } = props
+            const { grid } = props
             const children = slots.default && slots.default()
 
-            if (!grid) return <Fragment>{children}</Fragment>
-            return <Row {...restProps}>{children}</Row>
+            if (grid) {
+                const rowProps = pick(props, Object.keys(Row.props))
+                return <Row {...rowProps}>{children}</Row>
+            }
+            return children
         }
     }
 })

@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue'
 import { Tree } from 'ant-design-vue'
 import TreeNode from './TreeNode'
+import DraggableOutlined from './DraggableOutlined'
 import { useConfigInject } from '../../../_utils/extend'
 import useStyle from './style/tree-list'
 
@@ -104,13 +105,14 @@ export default defineComponent({
                 }
             })
 
+            const needDraggable = draggable ? { icon: <DraggableOutlined/> } : draggable
+
             const needTreeProps = {
                 height: 280,
-                showLine: false,
                 blockNode: true,
                 checkStrictly: true,
                 checkable: checkable,
-                draggable: draggable,
+                draggable: needDraggable,
                 checkedKeys: checkedKeys,
                 treeData: loopTreeData,
                 onCheck: onTreeNodeCheck,

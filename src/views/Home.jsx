@@ -14,6 +14,7 @@ export default defineComponent({
                     formItemProps: {
                         tooltip: 'Name'
                     },
+                    disabled: true,
                     sorter: true
                 },
                 {

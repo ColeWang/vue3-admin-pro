@@ -35,7 +35,7 @@ export default defineComponent({
             const { darkAlgorithm, compactAlgorithm } = theme
 
             return (
-                <ConfigProvider theme={{ algorithm: [] }} locale={antd}>
+                <ConfigProvider theme={{ algorithm: [darkAlgorithm] }} locale={antd}>
                     <LocaleProvider locale={comps}>
                         <RouterView/>
                     </LocaleProvider>

@@ -1,6 +1,6 @@
-import { defineComponent, Fragment } from 'vue'
+import { defineComponent } from 'vue'
 import { Col } from 'ant-design-vue'
-import { clone, isUndefined } from 'lodash-es'
+import { pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -13,15 +13,17 @@ export default defineComponent({
     },
     setup (props, { slots }) {
         return () => {
-            const { grid, ...restProps } = props
+            const { grid } = props
             const children = slots.default && slots.default()
 
-            const originProps = clone(restProps)
-            if (isUndefined(originProps.span) && isUndefined(originProps.xs)) {
-                originProps.xs = 24
+            if (grid) {
+                const colProps = pick(props, Object.keys(Col.props))
+                if (!colProps.span && !colProps.xs) {
+                    colProps.xs = 24
+                }
+                return <Col {...colProps}>{children}</Col>
             }
-            if (!grid) return <Fragment>{children}</Fragment>
-            return <Col {...originProps}>{children}</Col>
+            return children
         }
     }
 })

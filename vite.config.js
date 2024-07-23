@@ -24,10 +24,10 @@ export default defineConfig((config) => {
             rollupOptions: {
                 output: {
                     manualChunks: {
-                        vue: ['vue', 'vue-router', 'pinia'],
-                        plugins: ['dayjs', 'axios', 'js-cookie', 'lodash-es'],
-                        common: ['vue-i18n', 'nprogress'],
-                        library: ['ant-design-vue', '@ant-design/icons-vue']
+                        'vue-vendor': ['vue', 'vue-router', 'pinia'],
+                        'antd-vendor': ['ant-design-vue', '@ant-design/icons-vue'],
+                        'utils-vendor': ['dayjs', 'lodash-es'],
+                        'common-vendor': ['axios', 'vue-i18n', 'js-cookie', 'nprogress']
                     }
                 }
             }

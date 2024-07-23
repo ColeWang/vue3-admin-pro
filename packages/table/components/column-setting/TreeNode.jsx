@@ -25,13 +25,17 @@ export default defineComponent({
             type: String,
             default: undefined
         },
+        disabledSettingIcon: {
+            type: Boolean,
+            default: false
+        },
         onChange: {
             type: Function,
             default: undefined
         }
     },
     emits: ['change'],
-    setup (props, { emit, attrs }) {
+    setup (props, { emit }) {
         const { prefixCls } = useConfigInject('pro-table-column-setting-tree-node', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
@@ -43,7 +47,7 @@ export default defineComponent({
         }
 
         return () => {
-            const { title, fixed, columnKey } = props
+            const { title, fixed, columnKey, disabledSettingIcon } = props
             const { sizeXXS } = unref(token)
 
             const iconProps = {
@@ -76,7 +80,7 @@ export default defineComponent({
                     <div class={`${prefixCls.value}-title`}>{title}</div>
                     <div class={`${prefixCls.value}-option`}>
                         <div class={`${prefixCls.value}-option-icon`}>
-                            {!attrs.disabled && iconDom}
+                            {!disabledSettingIcon && iconDom}
                         </div>
                     </div>
                 </div>

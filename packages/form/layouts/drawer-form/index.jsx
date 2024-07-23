@@ -1,5 +1,5 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
-import { Drawer, theme } from 'ant-design-vue'
+import { Drawer } from 'ant-design-vue'
 import { default as BaseForm, Submitter } from '../../base-form'
 import { default as useFloatForm, floatProps } from '../hooks/useFloatForm'
 import { useLocaleReceiver } from '../../../locale-provider'
@@ -13,7 +13,6 @@ export default defineComponent({
     setup (props, { emit, slots, attrs, expose }) {
         const baseFormRef = ref(null)
 
-        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Form'])
 
         const { sOpen, loading, onOpen, onCancel, onFinish } = useFloatForm(props, {
@@ -67,13 +66,13 @@ export default defineComponent({
             const { extraProps, submitter } = props
 
             const baseFormProps = {
-                ...attrs,
                 ...pick(props, Object.keys(BaseForm.props)),
                 onFinish: onFinish
             }
             const baseFormSlots = omit(slots, ['trigger'])
 
             const needDrawerProps = {
+                ...attrs,
                 ...pick(props, Object.keys(Drawer.props)),
                 ...extraProps,
                 // headerStyle: { paddingBlock: '14px' },
