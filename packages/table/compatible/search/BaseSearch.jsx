@@ -2,7 +2,7 @@ import { cloneVNode, defineComponent, onMounted, ref, unref } from 'vue'
 import { QueryFilter } from '../../../form'
 import { Card, theme } from 'ant-design-vue'
 import { filterEmptyElement, isValidElement } from '../../../_utils/props-util'
-import { pick } from 'lodash-es'
+import { merge, pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -45,7 +45,7 @@ export default defineComponent({
                                 if (!isValidElement(vNode)) return vNode
                                 const { fieldProps, formItemProps } = vNode.props
                                 const extraProps = {
-                                    fieldProps: { ...fieldProps, style: { width: '100%' } },
+                                    fieldProps: merge({ style: { width: '100%' } }, fieldProps),
                                     formItemProps: { ...formItemProps, ...slotScope.props }
                                 }
                                 return cloneVNode(vNode, extraProps)

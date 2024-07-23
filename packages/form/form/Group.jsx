@@ -22,13 +22,17 @@ function genTitleStyle (layout, token) {
 export default defineComponent({
     inheritAttrs: false,
     props: {
+        class: {
+            type: [String, Array, Object],
+            default: undefined
+        },
         title: {
             type: [String, Function],
             default: undefined
         }
     },
     setup (props, { slots }) {
-        const { token } = theme.useToken()
+        const { class: className, token } = theme.useToken()
         const { formProps = {} } = useFormInstance()
 
         return () => {
@@ -43,7 +47,7 @@ export default defineComponent({
                 <ColWrap span={24} grid={!!grid}>
                     <RowWrap {...rowWrapProps}>
                         {titleDom && (
-                            <Col span={24}>
+                            <Col class={className} span={24}>
                                 <div style={titleStyle}>
                                     {titleDom}
                                 </div>
