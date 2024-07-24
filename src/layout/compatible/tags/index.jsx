@@ -5,10 +5,8 @@ import Tag from './Tag'
 import useShowTitle from '../../hooks/useShowTitle'
 import { omitNil } from '@utils/util'
 import { isString } from 'lodash-es'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 
 const outerPadding = 4
 
@@ -36,7 +34,10 @@ export default defineComponent({
         }
     },
     emits: ['click', 'close'],
-    setup (props, { emit }) {
+    setup (props, { emit, attrs }) {
+        const { prefixCls } = useConfigInject('pro-layout-tags', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         let tagRefsMap = {}
 
         const scrollOuterRef = ref(null)
@@ -170,7 +171,7 @@ export default defineComponent({
                     onClose: onClose(item)
                 }
                 return (
-                    <Tag {...tagProps} class={cx('tag')} key={key} ref={onTagRefs.bind(null, key)}>
+                    <Tag {...tagProps} class={`${prefixCls.value}-tag`} key={key} ref={onTagRefs.bind(null, key)}>
                         {showTitle && showTitle(item)}
                     </Tag>
                 )
@@ -191,34 +192,34 @@ export default defineComponent({
                 }
             }
 
-            return (
-                <div class={cx('tags-nav-wrap')}>
-                    <div class={cx('tags-nav')}>
-                        <div class={cx('btn-wrap', 'left-btn')}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
+                    <div class={`${prefixCls.value}-content`}>
+                        <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-left`]}>
                             <Button
-                                class={cx('button')}
+                                class={`${prefixCls.value}-button`}
                                 type={'text'}
                                 v-slots={{ icon: () => <LeftOutlined/> }}
                                 onClick={handleScroll.bind(null, 240)}
                             />
                         </div>
-                        <div class={cx('scroll-outer')} ref={scrollOuterRef}>
-                            <div class={cx('scroll-body')} style={scrollBodyStyle} ref={scrollBodyRef}>
+                        <div class={`${prefixCls.value}-scroll-outer`} ref={scrollOuterRef}>
+                            <div class={`${prefixCls.value}-scroll-body`} style={scrollBodyStyle} ref={scrollBodyRef}>
                                 {tagNodes}
                             </div>
                         </div>
-                        <div class={cx('btn-wrap', 'right-btn')}>
+                        <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-right`]}>
                             <Button
-                                class={cx('button')}
+                                class={`${prefixCls.value}-button`}
                                 type={'text'}
                                 v-slots={{ icon: () => <RightOutlined/> }}
                                 onClick={handleScroll.bind(null, -240)}
                             />
                         </div>
-                        <div class={cx('close-wrap')}>
+                        <div class={`${prefixCls.value}-close-wrap`}>
                             <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
                                 <Button
-                                    class={cx('button')}
+                                    class={`${prefixCls.value}-button`}
                                     type={'text'}
                                     v-slots={{ icon: () => <CloseCircleOutlined/> }}
                                 />

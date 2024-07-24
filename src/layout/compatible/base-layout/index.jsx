@@ -24,12 +24,11 @@ export default defineComponent({
     setup (props, { slots, attrs }) {
         const { prefixCls } = useConfigInject('pro-layout', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
-        const { className } = useMediaQuery()
+        const { screen } = useMediaQuery()
 
         const collapsed = ref(false)
 
         function onCollapse (value) {
-            console.log(value)
             collapsed.value = value
         }
 

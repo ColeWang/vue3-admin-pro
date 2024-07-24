@@ -1,9 +1,10 @@
 import { computed, defineComponent, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BaseLayout from './compatible/base-layout'
-import Container from './compatible/container'
-import Navbar from './compatible/navbar'
 import Sidebar from './compatible/sidebar'
+import Navbar from './compatible/navbar'
+import Container from './compatible/container'
+import Tags from './compatible/tags'
 import useTags from './hooks/useTags'
 import { getMenuList } from './utils'
 import routes from '@/router/routes'
@@ -37,29 +38,33 @@ export default defineComponent({
         }
 
         return () => {
-            // <Tags
-            //     homeName={HOME_NAME}
-            //     route={route}
-            //     tags={unref(tags)}
-            //     onClick={onTagClick}
-            //     onClose={onTagClose}
-            // />
             const layoutSlots = {
-                sider: ({ collapsed }) => (
-                    <Sidebar
-                        route={route}
-                        menus={menus}
-                        collapsed={collapsed}
-                        onChange={onSidebarChange}
-                    />
-                ),
-                header: ({ collapsed, onCollapse }) => (
-                    <Navbar
-                        router={router}
-                        collapsed={collapsed}
-                        onCollapse={onCollapse}
-                    />
-                ),
+                sider: ({ collapsed }) => {
+                    return (
+                        <Sidebar
+                            route={route}
+                            menus={menus}
+                            collapsed={collapsed}
+                            onChange={onSidebarChange}
+                        />
+                    )
+                },
+                header: ({ collapsed, onCollapse }) => {
+                    return [
+                        <Navbar
+                            router={router}
+                            collapsed={collapsed}
+                            onCollapse={onCollapse}
+                        />,
+                        <Tags
+                            homeName={HOME_NAME}
+                            route={route}
+                            tags={unref(tags)}
+                            onClick={onTagClick}
+                            onClose={onTagClose}
+                        />
+                    ]
+                },
                 content: () => <Container include={unref(include)}/>
             }
 

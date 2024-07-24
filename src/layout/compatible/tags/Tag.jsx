@@ -1,10 +1,8 @@
 import { defineComponent, withModifiers } from 'vue'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { preventDefault } from '@utils/event'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/tag.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style/tag'
 
 export default defineComponent({
     props: {
@@ -26,7 +24,10 @@ export default defineComponent({
         }
     },
     emits: ['click', 'close'],
-    setup (props, { emit, slots }) {
+    setup (props, { emit, slots, attrs }) {
+        const { prefixCls } = useConfigInject('pro-layout-tag', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         function onClick (evt) {
             emit('click', evt)
         }
@@ -39,18 +40,18 @@ export default defineComponent({
         return () => {
             const { closable, color } = props
 
-            const dotInnerClass = cx('dot-inner', {
-                'dot-inner__primary': color === 'primary'
-            })
+            const dotInnerClass = [`${prefixCls.value}-dot-inner`, {
+                [`${prefixCls.value}-dot-inner-primary`]: color === 'primary'
+            }]
 
-            return (
-                <div class={cx('tag')} onClick={onClick}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} onClick={onClick} {...attrs}>
                     <span class={dotInnerClass}/>
-                    <span class={cx('tag_text')}>
+                    <span class={`${prefixCls.value}-text`}>
                         {slots.default && slots.default()}
                     </span>
                     {closable && (
-                        <span class={cx('close')} onClick={withModifiers(onClose, ['stop'])}>
+                        <span class={`${prefixCls.value}-close`} onClick={withModifiers(onClose, ['stop'])}>
                             <CloseOutlined/>
                         </span>
                     )}

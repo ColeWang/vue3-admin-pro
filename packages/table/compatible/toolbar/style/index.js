@@ -28,10 +28,10 @@ function genBaseStyle (token) {
                     color: token.colorText,
                     lineHeight: token.lineHeightLG,
                     fontWeight: token.fontWeightStrong,
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    paddingInlineEnd: token.sizeXS,
                 },
                 [`${componentCls}-actions`]: {
-                    paddingInlineStart: token.size,
                     whiteSpace: 'nowrap'
                 },
             }

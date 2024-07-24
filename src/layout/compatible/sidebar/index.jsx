@@ -97,7 +97,7 @@ export default defineComponent({
         },
         theme: {
             type: String,
-            default: 'light'
+            default: 'dark'
         },
         collapsed: {
             type: Boolean,
@@ -173,16 +173,17 @@ export default defineComponent({
 
         return () => {
             const { theme, collapsed, menus } = props
-            const { controlHeightLG } = unref(token)
+            const { controlHeightLG, controlHeightSM } = unref(token)
 
             const menuProps = {
+                mode: 'inline',
                 theme: theme,
                 inlineCollapsed: collapsed,
                 selectedKeys: unref(selectedKeys),
                 openKeys: unref(openKeys),
+                inlineIndent: controlHeightSM,
                 onSelect: onSelectMenu,
-                onOpenChange: onOpenChange,
-                mode: 'inline'
+                onOpenChange: onOpenChange
             }
 
             const logoDom = getPropsSlot(slots, props, 'logo')
