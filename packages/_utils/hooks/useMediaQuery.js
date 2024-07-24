@@ -1,6 +1,6 @@
 import { ref, unref, watch } from 'vue'
 import tryOnScopeDispose from './tryOnScopeDispose'
-import { isNil, mapValues } from 'lodash-es'
+import { isNil, mapValues, omit, reduce } from 'lodash-es'
 
 // const defaultValues = {
 //     xs: '(max-width: 575px)',
@@ -17,7 +17,8 @@ const defaultValues = {
     md: [768, 991],
     lg: [992, 1199],
     xl: [1200, 1599],
-    xxl: [1600, null]
+    xxl: [1600, null],
+    __order__: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
 }
 
 function genMediaQueryEnum (values) {
@@ -54,21 +55,36 @@ function onMediaQuery (mediaQuery) {
     return matches
 }
 
-export default function (values = defaultValues) {
-    const mediaQueryEnum = genMediaQueryEnum(values)
+export default function (configValues = defaultValues) {
+    const needOrder = configValues.__order__ || []
+    const needValues = omit(configValues, ['__order__'])
+
+    const mediaQueryEnum = genMediaQueryEnum(needValues)
     const matchesEnum = mapValues(mediaQueryEnum, (value) => onMediaQuery(value))
 
     const className = ref('md')
+    const screen = ref({ lt: {}, gt: {} })
 
     const stopWatch = watch(() => matchesEnum, (values) => {
-        const name = Object.keys(values).find((key) => unref(values[key]))
+        const nextValues = reduce(values, (result, value, key) => {
+            return { ...result, [key]: unref(value) }
+        }, {})
+        const name = Object.keys(values).find((key) => nextValues[key])
         if (name && name !== unref(className)) {
-            setClassName(name)
+            const nextScreen = genScreenData(nextValues)
+            className.value = name
+            screen.value = nextScreen
         }
     }, { immediate: true, deep: true })
 
-    function setClassName (value) {
-        className.value = value
+    function genScreenData (values) {
+        const nextValues = needOrder.map((key) => ({ name: key, value: values[key] }))
+        const current = nextValues.findIndex((item) => item.value)
+        return reduce(nextValues, (result, item, index) => {
+            result.lt = { ...result.lt, [item.name]: current < index || false }
+            result.gt = { ...result.gt, [item.name]: current > index || false }
+            return { ...result, [item.name]: current === index }
+        }, { lt: {}, gt: {} })
     }
 
     function onStop () {
@@ -77,5 +93,5 @@ export default function (values = defaultValues) {
 
     tryOnScopeDispose(onStop)
 
-    return { className, onStop }
+    return { className, screen }
 }

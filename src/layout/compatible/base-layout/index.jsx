@@ -1,4 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
+import { Drawer } from 'ant-design-vue'
+import useMediaQuery from '@utils/hooks/useMediaQuery'
 import { getPropsSlot } from '@utils/props-util'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
@@ -22,6 +24,7 @@ export default defineComponent({
     setup (props, { slots, attrs }) {
         const { prefixCls } = useConfigInject('pro-layout', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { className } = useMediaQuery()
 
         const collapsed = ref(false)
 
