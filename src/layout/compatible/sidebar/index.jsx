@@ -1,18 +1,12 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
-import { Menu, Layout } from 'ant-design-vue'
+import { Menu, theme } from 'ant-design-vue'
 import OutIcon from './OutIcon'
-import Logo from './Logo'
 import useShowTitle from '../../hooks/useShowTitle'
+import { hasChild, showChildren } from '../../utils'
+import { getPropsSlot } from '@utils/props-util'
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 import { dropRight, head, isNil, last, reverse } from 'lodash-es'
-import { hasChild } from '../../utils'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
-
-function showChildren (item) {
-    return !!(item.children && item.children.length > 1)
-}
 
 function createFlatMenus (menus) {
     const flatMenus = []
@@ -101,6 +95,10 @@ export default defineComponent({
             type: Object,
             default: undefined
         },
+        theme: {
+            type: String,
+            default: 'light'
+        },
         collapsed: {
             type: Boolean,
             default: false
@@ -109,34 +107,39 @@ export default defineComponent({
             type: Array,
             default: () => ([])
         },
+        logo: {
+            type: Function,
+            default: undefined
+        },
         onChange: {
             type: Function,
             default: undefined
         }
     },
-    emits: ['change'],
-    setup (props, { emit }) {
+    emits: ['change', 'open'],
+    setup (props, { emit, slots, attrs }) {
+        const { prefixCls } = useConfigInject('pro-layout-sidebar', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
         const { showTitle } = useShowTitle()
 
-        const FlatMenus = createFlatMenus(props.menus)
+        const flatMenus = createFlatMenus(props.menus)
         const selectedKeys = ref([])
         const openKeys = ref([])
 
         watch(() => props.route, (currentRoute) => {
             const { meta, name } = currentRoute || {}
-            if (meta.hltInName) {
-                selectedKeys.value = [meta.hltInName]
-            } else {
-                selectedKeys.value = [name]
-                // @todo 待优化
-                if (!props.collapsed) {
-                    setOpenKeys(findMenuKeys(FlatMenus, name))
-                }
+            const needName = meta.hltInName || name
+            selectedKeys.value = [needName]
+            if (!props.collapsed) {
+                const nextKeys = genFlatKeys(flatMenus, needName)
+                setOpenKeys(nextKeys)
             }
         }, { deep: true, immediate: true })
 
         function setOpenKeys (value) {
             openKeys.value = value
+            emit('open')
         }
 
         function onSelectMenu (params) {
@@ -146,8 +149,8 @@ export default defineComponent({
             }
         }
 
-        function findMenuKeys (flatMenus, lastKey) {
-            let result = flatMenus.find((item) => item.name === lastKey)
+        function genFlatKeys (values, key) {
+            let result = values.find((item) => item.name === key)
             const keys = []
             while (result && !isNil(result)) {
                 keys.push(result.name)
@@ -156,40 +159,57 @@ export default defineComponent({
             return reverse(keys)
         }
 
-        function onOpenChange (keys) {
-            const lastKey = last(keys)
-            const latestKey = keys.find((key) => unref(openKeys).indexOf(key) === -1)
-            if (latestKey && !isNil(latestKey)) {
-                setOpenKeys(findMenuKeys(FlatMenus, lastKey))
+        function onOpenChange (values) {
+            const latest = values.find((key) => unref(openKeys).indexOf(key) === -1)
+            if (latest && !isNil(latest)) {
+                const nextKeys = genFlatKeys(flatMenus, last(values))
+                setOpenKeys(nextKeys)
             } else {
-                const findIndex = unref(openKeys).findIndex((key) => keys.indexOf(key) === -1)
-                setOpenKeys(dropRight(unref(openKeys), unref(openKeys).length - findIndex))
+                const findIndex = unref(openKeys).findIndex((key) => values.indexOf(key) === -1)
+                const nextKeys = dropRight(unref(openKeys), unref(openKeys).length - findIndex)
+                setOpenKeys(nextKeys)
             }
         }
 
         return () => {
-            const { menus, collapsed } = props
+            const { theme, collapsed, menus } = props
+            const { controlHeightLG } = unref(token)
 
             const menuProps = {
+                theme: theme,
+                inlineCollapsed: collapsed,
                 selectedKeys: unref(selectedKeys),
                 openKeys: unref(openKeys),
                 onSelect: onSelectMenu,
                 onOpenChange: onOpenChange,
-                theme: 'dark',
                 mode: 'inline'
             }
 
+            const logoDom = getPropsSlot(slots, props, 'logo')
             const children = menus.map((item) => {
                 return createMenuItem(item, showTitle)
             })
 
-            return (
-                <Layout.Sider collapsed={collapsed}>
-                    <Logo collapsed={collapsed}/>
-                    <Menu {...menuProps}>
-                        {children}
-                    </Menu>
-                </Layout.Sider>
+            const level = 2
+            const menuStyle = collapsed ? {
+                width: `${controlHeightLG * 2}px`
+            } : {
+                width: `${controlHeightLG * 5 + level * 8}px`
+            }
+
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value, `${prefixCls.value}-${theme}`]} {...attrs}>
+                    <div class={`${prefixCls.value}-space`}>
+                        <div class={`${prefixCls.value}-content`}>
+                            <div class={`${prefixCls.value}-logo`}>
+                                {logoDom}
+                            </div>
+                            <Menu {...menuProps} style={menuStyle}>
+                                {children}
+                            </Menu>
+                        </div>
+                    </div>
+                </div>
             )
         }
     }

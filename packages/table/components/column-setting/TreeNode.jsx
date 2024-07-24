@@ -1,14 +1,14 @@
 import { defineComponent, unref } from 'vue'
 import { Space, theme } from 'ant-design-vue'
-import Tooltip from './Tooltip'
-import { useLocaleReceiver } from '../../../locale-provider'
-import { useConfigInject } from '../../../_utils/extend'
-import useStyle from './style/tree-node'
 import {
     VerticalAlignBottomOutlined,
     VerticalAlignMiddleOutlined,
     VerticalAlignTopOutlined
 } from '@ant-design/icons-vue'
+import Tooltip from './Tooltip'
+import { useLocaleReceiver } from '../../../locale-provider'
+import { useConfigInject } from '../../../_utils/extend'
+import useStyle from './style/tree-node'
 
 export default defineComponent({
     inheritAttrs: false,

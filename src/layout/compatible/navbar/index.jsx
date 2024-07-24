@@ -1,5 +1,4 @@
 import { defineComponent } from 'vue'
-import { Layout } from 'ant-design-vue'
 import Breadcrumb from '../../components/breadcrumb'
 import Fullscreen from '../../components/fullscreen'
 import Avatar from '../../components/avatar'
@@ -19,18 +18,18 @@ export default defineComponent({
             type: Boolean,
             default: false
         },
-        onChange: {
+        onCollapse: {
             type: Function,
             default: undefined
         }
     },
-    emits: ['change'],
-    setup (props, { emit }) {
+    emits: ['collapse'],
+    setup (props, { emit, attrs }) {
         const { prefixCls } = useConfigInject('pro-layout-navbar', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
-        function handleCollapseClick () {
-            emit('change', !props.collapsed)
+        function onCollapse () {
+            emit('collapse', !props.collapsed)
         }
 
         return () => {
@@ -41,9 +40,9 @@ export default defineComponent({
             }]
 
             return wrapSSR(
-                <Layout.Header class={[prefixCls.value, hashId.value]}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <div class={`${prefixCls.value}-left`}>
-                        <div class={`${prefixCls.value}-collapse`} onClick={handleCollapseClick}>
+                        <div class={`${prefixCls.value}-collapse`} onClick={onCollapse}>
                             <HamburgerOutlined class={collapseClass}/>
                         </div>
                         <Breadcrumb router={router}/>
@@ -53,7 +52,7 @@ export default defineComponent({
                         <Language/>
                         <Avatar/>
                     </div>
-                </Layout.Header>
+                </div>
             )
         }
     }

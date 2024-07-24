@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue'
-import { Tree } from 'ant-design-vue'
+import { defineComponent, unref } from 'vue'
+import { theme, Tree } from 'ant-design-vue'
 import TreeNode from './TreeNode'
 import DraggableOutlined from './DraggableOutlined'
 import { useConfigInject } from '../../../_utils/extend'
@@ -49,6 +49,7 @@ export default defineComponent({
     setup (props, { emit }) {
         const { prefixCls } = useConfigInject('pro-table-column-setting-tree-list', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
 
         /* v8 ignore next 5 */
         function onTreeNodeCheck (_, info) {
@@ -75,6 +76,7 @@ export default defineComponent({
             if (props.columns.length === 0) return null
             // ----
             const { columns, showTitle, title, fixed, checkable, draggable } = props
+            const { controlHeightSM } = unref(token)
 
             const checkedKeys = columns.filter((item) => {
                 return item.checked !== false
@@ -105,10 +107,10 @@ export default defineComponent({
                 }
             })
 
-            const needDraggable = draggable ? { icon: <DraggableOutlined/> } : draggable
+            const needDraggable = draggable ? { icon: <DraggableOutlined/> } : false
 
             const needTreeProps = {
-                height: 280,
+                height: controlHeightSM * 10,
                 blockNode: true,
                 checkStrictly: true,
                 checkable: checkable,

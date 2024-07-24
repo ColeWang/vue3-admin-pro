@@ -1,6 +1,7 @@
 import { defineComponent, KeepAlive, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
-import { BackTop, Layout } from 'ant-design-vue'
+import { BackTop } from 'ant-design-vue'
+import { getPropsSlot } from '@utils/props-util'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
 
@@ -10,9 +11,17 @@ export default defineComponent({
         include: {
             type: Array,
             default: () => ([])
+        },
+        header: {
+            type: Function,
+            default: undefined
+        },
+        footer: {
+            type: Function,
+            default: undefined
         }
     },
-    setup (props) {
+    setup (props, { slots, attrs }) {
         const spaceRef = ref(null)
 
         const { prefixCls } = useConfigInject('pro-layout-container', props)
@@ -21,10 +30,14 @@ export default defineComponent({
         return () => {
             const { include } = props
 
+            const headerDom = getPropsSlot(slots, props, 'header')
+            const footerDom = getPropsSlot(slots, props, 'footer')
+
             return wrapSSR(
-                <Layout.Content class={[prefixCls.value, hashId.value]}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <div class={`${prefixCls.value}-space`} ref={spaceRef}>
                         <div id={'viewContainer'} class={`${prefixCls.value}-view`}>
+                            {headerDom}
                             <div class={`${prefixCls.value}-view-fill`}/>
                             <div class={`${prefixCls.value}-view-content`}>
                                 <RouterView>
@@ -38,10 +51,11 @@ export default defineComponent({
                                 </RouterView>
                             </div>
                             <div class={`${prefixCls.value}-view-fill`}/>
+                            {footerDom}
                         </div>
                         <BackTop target={() => unref(spaceRef)}/>
                     </div>
-                </Layout.Content>
+                </div>
             )
         }
     }

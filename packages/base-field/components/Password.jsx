@@ -1,5 +1,5 @@
-import { defineComponent, Fragment, ref, unref } from 'vue'
-import { Input, Space } from 'ant-design-vue'
+import { defineComponent, ref, unref } from 'vue'
+import { Input, Space, theme } from 'ant-design-vue'
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
@@ -11,6 +11,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...baseFieldProps },
     setup (props, { slots }) {
+        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['global'])
 
         const { fieldProps } = props
@@ -23,15 +24,16 @@ export default defineComponent({
 
         return () => {
             const { mode, text, emptyText, fieldProps } = props
+            const { sizeXXS } = unref(token)
             const placeholder = fieldProps.placeholder || t('inputPlaceholder')
 
             if (mode === 'read') {
                 if (isEmpty(text)) {
-                    return <Fragment>{emptyText}</Fragment>
+                    return emptyText
                 }
                 const eyeIcon = unref(visible) ? <EyeOutlined/> : <EyeInvisibleOutlined/>
                 return (
-                    <Space>
+                    <Space size={sizeXXS}>
                         <span>{unref(visible) ? text : '＊＊＊＊＊'}</span>
                         <a onClick={onVisibleClick}>{eyeIcon}</a>
                     </Space>

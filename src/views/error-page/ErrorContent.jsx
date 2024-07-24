@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeUnmount, onMounted, ref, unref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Button, Space } from 'ant-design-vue'
 import { HOME_NAME } from '@/config'
@@ -35,20 +35,6 @@ export default defineComponent({
             router.go(-1)
         }
 
-        onMounted(() => {
-            timer = setInterval(() => {
-                if (unref(second) === 0) {
-                    backPrev()
-                } else {
-                    second.value--
-                }
-            }, 1000)
-        })
-
-        onBeforeUnmount(() => {
-            clearInterval(timer)
-        })
-
         return () => {
             return (
                 <div class={cx('error-page')}>
@@ -61,7 +47,7 @@ export default defineComponent({
                         <Space class={cx('back-btn-group')} size={10}>
                             <Button onClick={backHome}>返回首页</Button>
                             <Button style={{ width: '130px' }} onClick={backPrev}>
-                                返回上一页({unref(second)}s)
+                                返回上一页
                             </Button>
                         </Space>
                     </div>

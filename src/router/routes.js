@@ -1,4 +1,4 @@
-import Layout from '@/layout-old'
+import Layout from '@/layout'
 
 /**
  * meta: {

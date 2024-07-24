@@ -5,6 +5,10 @@ export function hasChild (item) {
     return !!(item.children && item.children.length !== 0)
 }
 
+export function showChildren (item) {
+    return !!(item.children && item.children.length > 1)
+}
+
 export function hasAccess (route, access) {
     if (route.meta && isArray(route.meta.access)) {
         return hasRoleAccess(route.meta.access, access)

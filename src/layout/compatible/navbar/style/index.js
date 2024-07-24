@@ -1,14 +1,15 @@
 import { genComponentStyleHook, mergeToken } from '@utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls, navbarHeight, navbarPaddingInline, navbarCollapseSize } = token
+    const { componentCls, navbarHeight, navbarPaddingInline, navbarCollapseSize } = token
     return {
-        [`${antCls}-layout ${componentCls}`]: {
+        [componentCls]: {
             height: `${navbarHeight}px`,
             display: 'flex',
             justifyContent: 'space-between',
             paddingInline: navbarPaddingInline,
             background: 'transparent',
+            userSelect: 'none',
             [`${componentCls}-left, ${componentCls}-right`]: {
                 height: navbarHeight,
                 display: 'flex',
