@@ -1,10 +1,8 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Breadcrumb } from 'ant-design-vue'
 import useShowTitle from '../../hooks/useShowTitle'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -14,7 +12,10 @@ export default defineComponent({
             default: undefined
         }
     },
-    setup (props) {
+    setup (props, { attrs }) {
+        const { prefixCls } = useConfigInject('pro-breadcrumb', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         const { showTitle } = useShowTitle()
 
         const levels = computed(() => {
@@ -28,16 +29,18 @@ export default defineComponent({
         })
 
         return () => {
-            return (
-                <Breadcrumb class={cx('breadcrumb')}>
-                    {unref(levels).map((item, index) => {
-                        return (
-                            <Breadcrumb.Item key={item.name || index}>
-                                {showTitle && showTitle(item)}
-                            </Breadcrumb.Item>
-                        )
-                    })}
-                </Breadcrumb>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
+                    <Breadcrumb>
+                        {unref(levels).map((item, index) => {
+                            return (
+                                <Breadcrumb.Item key={item.name || index}>
+                                    {showTitle && showTitle(item)}
+                                </Breadcrumb.Item>
+                            )
+                        })}
+                    </Breadcrumb>
+                </div>
             )
         }
     }

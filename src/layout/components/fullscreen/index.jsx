@@ -2,14 +2,15 @@ import { defineComponent, onBeforeUnmount, onMounted, ref, unref } from 'vue'
 import { ExitFullscreenOutlined, FullscreenOutlined } from '@/components/icon'
 import native from './screenfull'
 import { off, on } from '@utils/dom'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
-    setup () {
+    setup (props, { attrs }) {
+        const { prefixCls } = useConfigInject('pro-fullscreen', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         const { fullscreenElement, exitFullscreen, requestFullscreen, fullscreenchange } = native
 
         const fullest = ref(false)
@@ -40,8 +41,8 @@ export default defineComponent({
         })
 
         return () => {
-            return (
-                <div class={cx('fullscreen')} onClick={handleFullscreen}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} onClick={handleFullscreen} {...attrs}>
                     {unref(fullest) ? <ExitFullscreenOutlined/> : <FullscreenOutlined/>}
                 </div>
             )

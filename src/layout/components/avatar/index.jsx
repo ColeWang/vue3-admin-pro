@@ -1,15 +1,17 @@
-import { defineComponent } from 'vue'
-import { Avatar, Dropdown, Menu } from 'ant-design-vue'
-import { CaretDownOutlined, LoginOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue'
+import { defineComponent, unref } from 'vue'
+import { Avatar, Dropdown, Menu, theme } from 'ant-design-vue'
+import { LoginOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/useAppInstance'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
-    setup () {
+    setup (props, { attrs }) {
+        const { prefixCls } = useConfigInject('pro-avatar', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
+
         const { onLogout } = useAppInstance()
 
         function handleLogout () {
@@ -21,10 +23,12 @@ export default defineComponent({
         }
 
         return () => {
+            const { controlHeight } = unref(token)
+
             const dropdownSlots = {
                 overlay: () => {
                     return (
-                        <Menu class={cx('avatar-menu')} selectedKeys={[]}>
+                        <Menu class={`${prefixCls.value}-menu`} selectedKeys={[]}>
                             <Menu.Item
                                 key={'center'}
                                 v-slots={{ icon: () => <UserOutlined/> }}
@@ -50,18 +54,18 @@ export default defineComponent({
                 }
             }
 
-            return (
-                <div class={cx('avatar-wrap')}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <Dropdown
                         getPopupContainer={getPopupContainer}
                         placement={'bottomRight'}
                         v-slots={dropdownSlots}
                     >
-                        <div class={cx('avatar-center')}>
-                            <Avatar size={28} v-slots={{ icon: () => <UserOutlined/> }}/>
-                            <div class={cx('avatar-center__icon-down')}>
-                                <CaretDownOutlined/>
-                            </div>
+                        <div class={`${prefixCls.value}-content`}>
+                            <Avatar
+                                size={controlHeight - 4}
+                                v-slots={{ icon: () => <UserOutlined/> }}
+                            />
                         </div>
                     </Dropdown>
                 </div>

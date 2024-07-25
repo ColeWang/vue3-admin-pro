@@ -4,14 +4,15 @@ import { GlobalOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/useAppInstance'
 import { map } from 'lodash-es'
 import { localCache, LOCALE__LOCAL } from '@/utils/storage'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-
-const cx = classNames.bind(styles)
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
-    setup () {
+    setup (props, { attrs }) {
+        const { prefixCls } = useConfigInject('pro-language', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+
         const { setLocale } = useAppInstance()
         // 需要修改为不需要依赖 useI18n 的方式
         // 并且不干涉 layout 的逻辑
@@ -49,7 +50,7 @@ export default defineComponent({
             const dropdownSlots = {
                 overlay: () => {
                     return (
-                        <Menu class={cx('language-menu')} selectedKeys={[$i18n.locale]}>
+                        <Menu class={`${prefixCls.value}-menu`} selectedKeys={[$i18n.locale]}>
                             {map(localeList, (value, key) => {
                                 return (
                                     <Menu.Item key={key} onClick={onLocaleChange.bind(null, key)}>
@@ -62,14 +63,14 @@ export default defineComponent({
                 }
             }
 
-            return (
-                <div class={cx('language-wrap')}>
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <Dropdown
                         placement={'bottom'}
                         getPopupContainer={getPopupContainer}
                         v-slots={dropdownSlots}
                     >
-                        <div class={cx('language-center')}>
+                        <div class={`${prefixCls.value}-content`}>
                             <GlobalOutlined/>
                         </div>
                     </Dropdown>
