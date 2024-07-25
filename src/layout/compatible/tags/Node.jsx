@@ -2,7 +2,7 @@ import { defineComponent, withModifiers } from 'vue'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { preventDefault } from '@utils/event'
 import { useConfigInject } from '@utils/extend'
-import useStyle from './style/node.js'
+import useStyle from './style/node'
 
 export default defineComponent({
     props: {
