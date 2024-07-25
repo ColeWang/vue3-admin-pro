@@ -49,7 +49,7 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProLayoutTag', (token) => {
+export default genComponentStyleHook('ProLayoutTagsNode', (token) => {
     const tagPadding = token.sizeMS / 2
     const tagCloseFontSize = 10
 

@@ -7,7 +7,7 @@ import {
     VerticalAlignBottomOutlined
 } from '@ant-design/icons-vue'
 import Density from '../../components/density'
-import ColumnSetting from '../../components/column-setting'
+import Setting from '../../components/setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../_utils/props-util'
@@ -107,7 +107,7 @@ export default defineComponent({
                     setting: (
                         <Tooltip title={t('columnSetting')}>
                             <Popover trigger={'click'} placement={'bottomRight'} v-slots={{
-                                content: () => <ColumnSetting/>
+                                content: () => <Setting/>
                             }}>
                                 <Button>
                                     <SettingOutlined/>

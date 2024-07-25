@@ -2,7 +2,7 @@ import { defineComponent, withModifiers } from 'vue'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { preventDefault } from '@utils/event'
 import { useConfigInject } from '@utils/extend'
-import useStyle from './style/tag'
+import useStyle from './style/node.js'
 
 export default defineComponent({
     props: {
@@ -25,7 +25,7 @@ export default defineComponent({
     },
     emits: ['click', 'close'],
     setup (props, { emit, slots, attrs }) {
-        const { prefixCls } = useConfigInject('pro-layout-tag', props)
+        const { prefixCls } = useConfigInject('pro-layout-tags-node', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
         function onClick (evt) {

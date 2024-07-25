@@ -24,7 +24,7 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProLayout', (token) => {
+export default genComponentStyleHook('ProBaseLayout', (token) => {
     const layoutBgColor = token.colorBgLayout
 
     const layoutToken = mergeToken(token, {

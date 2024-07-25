@@ -1,14 +1,12 @@
 import { defineComponent, nextTick, ref, unref, watch } from 'vue'
-import { Button, Dropdown, Menu } from 'ant-design-vue'
+import { Button, ConfigProvider, Dropdown, Menu, theme } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
-import Tag from './Tag'
+import TagNode from './Node'
 import useShowTitle from '../../hooks/useShowTitle'
 import { omitNil } from '@utils/util'
 import { isString } from 'lodash-es'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
-
-const outerPadding = 4
 
 export default defineComponent({
     props: {
@@ -37,7 +35,9 @@ export default defineComponent({
     setup (props, { emit, attrs }) {
         const { prefixCls } = useConfigInject('pro-layout-tags', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { token } = theme.useToken()
 
+        const popupContainer = ref(null)
         let tagRefsMap = {}
 
         const scrollOuterRef = ref(null)
@@ -144,6 +144,7 @@ export default defineComponent({
             const { offsetWidth: outerWidth } = unref(scrollOuterRef)
             const { offsetWidth: bodyWidth } = unref(scrollBodyRef)
             const { offsetLeft: left, offsetWidth: width } = evt
+            const { sizeXXS: outerPadding } = unref(token)
             if (bodyWidth < outerWidth) {
                 setBodyLeft(0)
             } else if (left < -unref(bodyLeft)) {
@@ -155,27 +156,40 @@ export default defineComponent({
             }
         }
 
+        function getPopupContainer () {
+            const plain = unref(popupContainer)
+            return plain ? (plain.$el || plain) : plain
+        }
+
         return () => {
             const { tags, route: currentRoute, homeName } = props
+            const { sizeXXS } = unref(token)
 
             const scrollBodyStyle = {
                 left: unref(bodyLeft) + 'px'
             }
-
             const tagNodes = tags.map((item) => {
                 const { name: key } = item || {}
                 const tagProps = {
+                    style: { marginInlineEnd: `${sizeXXS}px` },
                     color: currentRoute.name === key ? 'primary' : 'default',
                     closable: key !== homeName,
                     onClick: onClick(item),
                     onClose: onClose(item)
                 }
                 return (
-                    <Tag {...tagProps} class={`${prefixCls.value}-tag`} key={key} ref={onTagRefs.bind(null, key)}>
+                    <TagNode {...tagProps} key={key} ref={onTagRefs.bind(null, key)}>
                         {showTitle && showTitle(item)}
-                    </Tag>
+                    </TagNode>
                 )
             })
+            const tagsScrollDom = (
+                <div class={`${prefixCls.value}-scroll-outer`} ref={scrollOuterRef}>
+                    <div class={`${prefixCls.value}-scroll-body`} style={scrollBodyStyle} ref={scrollBodyRef}>
+                        {tagNodes}
+                    </div>
+                </div>
+            )
 
             const dropdownSlots = {
                 overlay: () => {
@@ -194,38 +208,38 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <div class={`${prefixCls.value}-content`}>
-                        <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-left`]}>
-                            <Button
-                                class={`${prefixCls.value}-button`}
-                                type={'text'}
-                                v-slots={{ icon: () => <LeftOutlined/> }}
-                                onClick={handleScroll.bind(null, 240)}
-                            />
-                        </div>
-                        <div class={`${prefixCls.value}-scroll-outer`} ref={scrollOuterRef}>
-                            <div class={`${prefixCls.value}-scroll-body`} style={scrollBodyStyle} ref={scrollBodyRef}>
-                                {tagNodes}
+                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                        <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                            <div class={`${prefixCls.value}-content`}>
+                                <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-left`]}>
+                                    <Button
+                                        class={`${prefixCls.value}-button`}
+                                        type={'text'}
+                                        v-slots={{ icon: () => <LeftOutlined/> }}
+                                        onClick={handleScroll.bind(null, 240)}
+                                    />
+                                </div>
+                                {tagsScrollDom}
+                                <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-right`]}>
+                                    <Button
+                                        class={`${prefixCls.value}-button`}
+                                        type={'text'}
+                                        v-slots={{ icon: () => <RightOutlined/> }}
+                                        onClick={handleScroll.bind(null, -240)}
+                                    />
+                                </div>
+                                <div class={`${prefixCls.value}-close-wrap`}>
+                                    <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
+                                        <Button
+                                            class={`${prefixCls.value}-button`}
+                                            type={'text'}
+                                            v-slots={{ icon: () => <CloseCircleOutlined/> }}
+                                        />
+                                    </Dropdown>
+                                </div>
                             </div>
                         </div>
-                        <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-right`]}>
-                            <Button
-                                class={`${prefixCls.value}-button`}
-                                type={'text'}
-                                v-slots={{ icon: () => <RightOutlined/> }}
-                                onClick={handleScroll.bind(null, -240)}
-                            />
-                        </div>
-                        <div class={`${prefixCls.value}-close-wrap`}>
-                            <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
-                                <Button
-                                    class={`${prefixCls.value}-button`}
-                                    type={'text'}
-                                    v-slots={{ icon: () => <CloseCircleOutlined/> }}
-                                />
-                            </Dropdown>
-                        </div>
-                    </div>
+                    </ConfigProvider>
                 </div>
             )
         }

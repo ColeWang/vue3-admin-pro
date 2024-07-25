@@ -1,7 +1,7 @@
 import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, treeListMinWidth } = token
+    const { componentCls, listMinWidth } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -15,7 +15,7 @@ function genBaseStyle (token) {
                 fontWeight: token.fontWeightStrong
             },
             [`${componentCls}-tree-list-group`]: {
-                minWidth: treeListMinWidth,
+                minWidth: listMinWidth,
                 display: 'flex',
                 flexDirection: 'column'
             }
@@ -23,11 +23,11 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProTableColumnSetting', (token) => {
-    const treeListMinWidth = token.controlHeightSM * 8
+export default genComponentStyleHook('ProTableSetting', (token) => {
+    const listMinWidth = token.controlHeightSM * 8
 
     const columnSettingToken = mergeToken(token, {
-        treeListMinWidth
+        listMinWidth
     })
     return [genBaseStyle(columnSettingToken)]
 })

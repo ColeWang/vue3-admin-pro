@@ -36,7 +36,7 @@ export default defineComponent({
     },
     emits: ['change'],
     setup (props, { emit }) {
-        const { prefixCls } = useConfigInject('pro-table-column-setting-tree-node', props)
+        const { prefixCls } = useConfigInject('pro-table-setting-node', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])

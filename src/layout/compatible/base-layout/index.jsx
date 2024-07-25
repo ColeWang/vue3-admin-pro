@@ -22,7 +22,7 @@ export default defineComponent({
         }
     },
     setup (props, { slots, attrs }) {
-        const { prefixCls } = useConfigInject('pro-layout', props)
+        const { prefixCls } = useConfigInject('pro-base-layout', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { screen } = useMediaQuery()
 

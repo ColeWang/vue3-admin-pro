@@ -20,7 +20,7 @@ export default defineComponent({
         }
     },
     setup (props, { attrs }) {
-        const { prefixCls } = useConfigInject('pro-table-column-setting', props)
+        const { prefixCls } = useConfigInject('pro-table-setting', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])

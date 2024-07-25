@@ -42,7 +42,7 @@ export function toPx (value) {
     if (value && isNumber(value)) {
         return `${value}px`
     }
-    return undefined
+    return value
 }
 
 export function namePathToString (namePath) {

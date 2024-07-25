@@ -4,7 +4,7 @@ function genBaseStyle (token) {
     const { componentCls, navbarHeight, navbarPaddingInline, navbarCollapseSize } = token
     return {
         [componentCls]: {
-            height: `${navbarHeight}px`,
+            height: navbarHeight,
             display: 'flex',
             justifyContent: 'space-between',
             paddingInline: navbarPaddingInline,

@@ -1,22 +1,28 @@
 import { genComponentStyleHook, mergeToken } from '@utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, iconCls, tagsHeight } = token
+    const { componentCls, iconCls, tagsHeight, tagsButtonWidth, tagsCloseRight } = token
     return {
         [componentCls]: {
             position: 'relative',
             width: '100%',
             borderBlock: `1px solid ${token.colorBorder}`,
             userSelect: 'none',
+            [`${componentCls}-popup-container`]: {
+                position: 'relative',
+            },
             [`${componentCls}-content`]: {
                 width: '100%',
                 height: tagsHeight,
                 display: 'flex',
                 [`${componentCls}-button`]: {
+                    width: tagsButtonWidth,
                     height: '100%',
                     fontSize: token.fontSizeSM,
                     color: token.colorText,
                     lineHeight: token.lineHeightSM,
+                    padding: 0,
+                    border: 'none',
                     background: 'transparent !important',
                     [`&:hover`]: {
                         color: token.colorPrimaryHover
@@ -36,20 +42,20 @@ function genBaseStyle (token) {
                 },
                 [`${componentCls}-close-wrap`]: {
                     height: tagsHeight,
-                    paddingInlineEnd: '8px',
+                    paddingInlineEnd: tagsCloseRight,
                     borderInlineStart: `1px solid ${token.colorBorder}`,
                     [`${componentCls}-button`]: {
                         position: 'relative',
                         [`&:before`]: {
                             position: 'absolute',
+                            right: -tagsCloseRight,
                             top: 0,
-                            right: '-8px',
-                            bottom: 0,
                             left: 0,
+                            bottom: 0,
                             content: '""',
                         },
                         [`${iconCls}-close-circle`]: {
-                            marginInlineEnd: '-8px'
+                            marginInlineEnd: -tagsCloseRight
                         }
                     }
                 },
@@ -67,9 +73,6 @@ function genBaseStyle (token) {
                         whiteSpace: 'nowrap',
                         transition: 'left .3s ease'
                     }
-                },
-                [`${componentCls}-tag`]: {
-                    marginInlineEnd: token.sizeXXS
                 }
             }
         }
@@ -78,9 +81,13 @@ function genBaseStyle (token) {
 
 export default genComponentStyleHook('ProLayoutTags', (token) => {
     const tagsHeight = token.controlHeight + token.sizeXXS * 2
+    const tagsButtonWidth = Math.ceil(tagsHeight * 0.65)
+    const tagsCloseRight = 6
 
     const tagsToken = mergeToken(token, {
-        tagsHeight
+        tagsHeight,
+        tagsButtonWidth,
+        tagsCloseRight
     })
     return [genBaseStyle(tagsToken)]
 })

@@ -47,7 +47,7 @@ export default defineComponent({
     },
     emits: ['checkChange', 'dropChange', 'fixedChange'],
     setup (props, { emit }) {
-        const { prefixCls } = useConfigInject('pro-table-column-setting-tree-list', props)
+        const { prefixCls } = useConfigInject('pro-table-setting-list', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
 
