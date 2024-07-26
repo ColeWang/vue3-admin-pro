@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
-import NProgress from 'nprogress'
+import NProgress from '@/components/nprogress'
 // import { canTurnTo } from '@/layout/utils'
 import { getCookie, TOKEN_KEY } from '@/utils/cookie'
 import { HOME_NAME, LOGIN_NAME } from '@/config'

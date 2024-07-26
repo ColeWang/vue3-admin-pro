@@ -7,10 +7,7 @@ import createBoots from '@/boot'
 // ----
 import { isFunction } from 'lodash-es'
 // CSS
-import 'ant-design-vue/es/style/reset.css'
-import '@/css/base.css'
-import '@/css/transition.scss'
-import '@/css/nprogress.scss'
+import '@/css/reset.css'
 
 async function createRunApp () {
     const app = createApp(Root)
