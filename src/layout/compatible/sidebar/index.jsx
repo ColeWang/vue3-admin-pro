@@ -93,11 +93,15 @@ export default defineComponent({
     props: {
         route: {
             type: Object,
-            default: undefined
+            default: () => ({})
         },
         theme: {
             type: String,
             default: 'dark' // light dark
+        },
+        level: {
+            type: Number,
+            default: 3 // 8 * n
         },
         collapsed: {
             type: Boolean,
@@ -128,7 +132,7 @@ export default defineComponent({
         const openKeys = ref([])
 
         watch(() => props.route, (currentRoute) => {
-            const { meta, name } = currentRoute || {}
+            const { meta = {}, name } = currentRoute
             const needName = meta.hltInName || name
             selectedKeys.value = [needName]
             if (!props.collapsed) {
@@ -172,7 +176,7 @@ export default defineComponent({
         }
 
         return () => {
-            const { theme, collapsed, menus } = props
+            const { theme, level, collapsed, menus } = props
             const { controlHeightLG, controlHeightSM } = unref(token)
 
             const menuProps = {
@@ -191,7 +195,6 @@ export default defineComponent({
                 return createMenuItem(item, showTitle)
             })
 
-            const level = 2
             const menuStyle = collapsed ? {
                 width: `${controlHeightLG * 2}px`
             } : {

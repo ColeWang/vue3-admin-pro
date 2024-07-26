@@ -16,7 +16,7 @@ export default defineComponent({
         },
         route: {
             type: Object,
-            default: undefined
+            default: () => ({})
         },
         tags: {
             type: Array,

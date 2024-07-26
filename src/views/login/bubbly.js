@@ -20,7 +20,7 @@ function bubbly (canvas, image) {
 
     const objectCreator = () => ({
         f: `rgba(105, 177, 255, ${Math.random()})`,
-        r: 4 + Math.random() * cv.width / 25,
+        r: 4 + Math.random() * Math.max(cv.width, cv.height) / 25,
         x: Math.random() * cv.width,
         y: Math.random() * cv.height,
         a: Math.random() * Math.PI * 2,

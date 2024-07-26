@@ -9,7 +9,7 @@ export default defineComponent({
     props: {
         router: {
             type: Object,
-            default: undefined
+            default: () => ({})
         }
     },
     setup (props, { attrs }) {

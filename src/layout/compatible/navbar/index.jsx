@@ -12,7 +12,7 @@ export default defineComponent({
     props: {
         router: {
             type: Object,
-            default: undefined
+            default: () => ({})
         },
         collapsed: {
             type: Boolean,

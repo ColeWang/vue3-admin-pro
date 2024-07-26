@@ -1,32 +1,31 @@
 ## 简介
 
-基于Vue3、Vite、Antd 的后台管理模版 + 内置重装组件，
-JSX + CSS Module 编写，支持 Template。
+基于 Vue3、Vite、Antd 的后台管理模版
 
 - 🏠 预览 [vue3-admin-pro](https://colewang.github.io/vue3-admin-pro/)
 - 🔥 文档 [docs](https://colewang.github.io/admin-docs/)
 
 ## 特性
 
-- Vue3
-- JSX
 - Vite
-- Ant Design Vue
+- Vue3
 - Vue Router
 - Pinia
-- Css Module
-- Scss
-- Axios
+- Ant Design Vue
+- Vue I18n
+- JSX
+- CSS In JS
+- CSS Module
+- SCSS
 
 ## 功能
 
 - 用户管理：登录、登出
 - 权限管理：菜单权限、按钮权限、权限自定义
-- 重装组件：Form、Table、Descriptions 等
-- 错误页面：401、404、500
+- 重装组件：Field、Form、Table 等
+- 错误页面：403、404、500
 - 其他内置：主题切换、多语言、动态菜单栏、面包屑、全屏等
-- 灵活：开箱即用，提供最基础的后台模板，随意拓展
-- 专注：重装组件让开发者从各种状态管理中脱身出来，专注于业务开发
+- 灵活：开箱即用，提供基础模板，随意拓展
 
 ## 预览图
 

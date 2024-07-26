@@ -1,5 +1,4 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Drawer } from 'ant-design-vue'
 import useMediaQuery from '@utils/hooks/useMediaQuery'
 import { getPropsSlot } from '@utils/props-util'
 import { useConfigInject } from '@utils/extend'
@@ -40,7 +39,7 @@ export default defineComponent({
 
             const siderDom = getPropsSlot(slots, props, 'sider', slotScope)
             const headerDom = getPropsSlot(slots, props, 'header', slotScope)
-            const contentDom = getPropsSlot(slots, props, 'content')
+            const contentDom = getPropsSlot(slots, props, 'content', slotScope)
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>

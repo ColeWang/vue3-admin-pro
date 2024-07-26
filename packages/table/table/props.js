@@ -40,7 +40,7 @@ const tableProps = {
     },
     params: {
         type: Object,
-        default: undefined
+        default: () => ({})
     },
     beforeSearchSubmit: {
         type: Function,
