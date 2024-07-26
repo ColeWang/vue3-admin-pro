@@ -1,17 +1,19 @@
 import { genComponentStyleHook, mergeToken } from '@utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, sidebarLogoHeight, sidebarLightBg, sidebarDarkBg } = token
+    const { componentCls, antCls, sidebarLogoHeight, sidebarLightBg, sidebarDarkBg } = token
     return {
         [componentCls]: {
             position: 'relative',
             overflow: 'hidden',
             userSelect: 'none',
             [`&-light`]: {
-                background: sidebarLightBg
+                background: sidebarLightBg,
+                borderInlineEnd: `1px solid ${token.colorSplit}`
             },
             [`&-dark`]: {
-                background: sidebarDarkBg
+                background: sidebarDarkBg,
+                borderInlineEnd: `1px solid ${sidebarDarkBg}`
             },
             [`${componentCls}-space`]: {
                 height: '100%',
@@ -34,6 +36,12 @@ function genBaseStyle (token) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'flex-start',
+                    },
+                    [`${antCls}-menu-light`]: {
+                        borderInlineEnd: 'none'
+                    },
+                    [`${antCls}-menu-dark`]: {
+                        borderInlineEnd: 'none'
                     }
                 }
             }

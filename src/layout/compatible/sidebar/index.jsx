@@ -97,7 +97,7 @@ export default defineComponent({
         },
         theme: {
             type: String,
-            default: 'dark'
+            default: 'dark' // light dark
         },
         collapsed: {
             type: Boolean,

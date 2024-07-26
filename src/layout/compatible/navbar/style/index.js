@@ -8,7 +8,7 @@ function genBaseStyle (token) {
             display: 'flex',
             justifyContent: 'space-between',
             paddingInline: navbarPaddingInline,
-            background: 'transparent',
+            background: token.colorBgContainer,
             userSelect: 'none',
             [`${componentCls}-left, ${componentCls}-right`]: {
                 height: navbarHeight,

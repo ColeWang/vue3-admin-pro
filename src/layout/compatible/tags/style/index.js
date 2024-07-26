@@ -7,6 +7,7 @@ function genBaseStyle (token) {
             position: 'relative',
             width: '100%',
             borderBlock: `1px solid ${token.colorBorder}`,
+            background: token.colorBgContainer,
             userSelect: 'none',
             [`${componentCls}-popup-container`]: {
                 position: 'relative',
@@ -63,7 +64,7 @@ function genBaseStyle (token) {
                     position: 'relative',
                     flex: 1,
                     paddingBlock: token.sizeXXS,
-                    boxShadow: 'inset 0 0 3px 2px hsla(0, 0%, 39.2%, .1)',
+                    boxShadow: `inset 0 0 3px 2px ${token.colorFillTertiary}`,
                     overflow: 'hidden',
                     [`${componentCls}-scroll-body`]: {
                         position: 'absolute',
