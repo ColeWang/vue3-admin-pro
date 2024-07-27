@@ -42,8 +42,10 @@ export default defineComponent({
 
         return () => {
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]} onClick={handleFullscreen} {...attrs}>
-                    {unref(fullest) ? <ExitFullscreenOutlined/> : <FullscreenOutlined/>}
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
+                    <div class={`${prefixCls.value}-content`} onClick={handleFullscreen}>
+                        {unref(fullest) ? <ExitFullscreenOutlined/> : <FullscreenOutlined/>}
+                    </div>
                 </div>
             )
         }

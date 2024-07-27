@@ -1,42 +1,38 @@
 import { defineComponent, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
-import { ConfigProvider, theme } from 'ant-design-vue'
+import { ConfigProvider } from 'ant-design-vue'
 import { LocaleProvider } from '@packages'
-import { useI18n } from 'vue-i18n'
-import dayjs from 'dayjs'
 import { createAppInstance } from './useAppInstance'
 
 export default defineComponent({
     inheritAttrs: false,
     setup () {
-        const { locale, getLocaleMessage } = useI18n()
-
         const localeMessage = ref({})
+        const customTheme = ref({})
 
-        function setLocale (value) {
-            if (locale && getLocaleMessage) {
-                const message = getLocaleMessage(value)
-                locale.value = value
-                localeMessage.value = message
-                dayjs.locale(message.dayjs)
-            }
+        function setCustomTheme (value) {
+            customTheme.value = value
         }
 
-        function onLogout () {
-            console.log('退出登录')
+        function setLocaleMessage (value) {
+            localeMessage.value = value
+        }
+
+        function onAvatarAction (key) {
+            console.log(key)
         }
 
         createAppInstance({
-            setLocale: setLocale,
-            onLogout: onLogout
+            setCustomTheme: setCustomTheme,
+            setLocaleMessage: setLocaleMessage,
+            onAvatarAction: onAvatarAction
         })
 
         return () => {
             const { antd, packages } = unref(localeMessage)
-            const { darkAlgorithm, compactAlgorithm } = theme
 
             return (
-                <ConfigProvider theme={{ algorithm: [] }} locale={antd}>
+                <ConfigProvider locale={antd} theme={unref(customTheme)}>
                     <LocaleProvider locale={packages}>
                         <RouterView/>
                     </LocaleProvider>

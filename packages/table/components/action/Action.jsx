@@ -32,8 +32,10 @@ export default defineComponent({
                 [`${prefixCls.value}-warning`]: props.type === 'warning',
                 [`${prefixCls.value}-error`]: props.type === 'error'
             }]
+
+            const actionProps = { ...attrs, onClick: onClick }
             return wrapSSR(
-                <a class={actionClass} onClick={onClick} {...attrs}>
+                <a class={actionClass} {...actionProps}>
                     {slots.default && slots.default()}
                 </a>
             )

@@ -1,8 +1,9 @@
 import { defineComponent } from 'vue'
 import Breadcrumb from '../../components/breadcrumb'
+import Settings from '../../components/settings'
 import Fullscreen from '../../components/fullscreen'
-import Avatar from '../../components/avatar'
 import Language from '../../components/language'
+import Avatar from '../../components/avatar'
 import { HamburgerOutlined } from '@/components/icon'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
@@ -48,6 +49,7 @@ export default defineComponent({
                         <Breadcrumb router={router}/>
                     </div>
                     <div class={`${prefixCls.value}-right`}>
+                        <Settings/>
                         <Fullscreen/>
                         <Language/>
                         <Avatar/>

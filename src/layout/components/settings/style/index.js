@@ -6,6 +6,10 @@ function genBaseStyle (token) {
         [componentCls]: {
             position: 'relative',
             height: '100%',
+            [`${componentCls}-popup-container`]: {
+                position: 'relative',
+                height: '100%',
+            },
             [`${componentCls}-content`]: {
                 height: '100%',
                 fontSize: token.fontSizeLG,
@@ -28,6 +32,6 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProFullscreen', (token) => {
+export default genComponentStyleHook('ProSettings', (token) => {
     return [genBaseStyle(token)]
 })

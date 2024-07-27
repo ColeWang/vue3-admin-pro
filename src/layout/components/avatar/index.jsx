@@ -14,10 +14,10 @@ export default defineComponent({
         const { token } = theme.useToken()
         const { $t } = useGlobalProperties()
 
-        const { onLogout } = useAppInstance()
+        const { onAvatarAction } = useAppInstance()
 
-        function handleLogout () {
-            onLogout && onLogout()
+        function onMenuClick (key) {
+            onAvatarAction && onAvatarAction(key)
         }
 
         function getPopupContainer (trigger) {
@@ -32,13 +32,15 @@ export default defineComponent({
                     return (
                         <Menu class={`${prefixCls.value}-menu`} selectedKeys={[]}>
                             <Menu.Item
-                                key={'center'}
+                                key={'profile'}
+                                onClick={onMenuClick.bind(null, 'profile')}
                                 v-slots={{ icon: () => <UserOutlined/> }}
                             >
                                 {$t ? $t('layout.navbar.profile') : '个人中心'}
                             </Menu.Item>
                             <Menu.Item
                                 key={'settings'}
+                                onClick={onMenuClick.bind(null, 'settings')}
                                 v-slots={{ icon: () => <SettingOutlined/> }}
                             >
                                 {$t ? $t('layout.navbar.settings') : '个人设置'}
@@ -46,7 +48,7 @@ export default defineComponent({
                             <Menu.Divider/>
                             <Menu.Item
                                 key={'logout'}
-                                onClick={handleLogout}
+                                onClick={onMenuClick.bind(null, 'logout')}
                                 v-slots={{ icon: () => <LoginOutlined/> }}
                             >
                                 {$t ? $t('layout.navbar.logout') : '退出登录'}

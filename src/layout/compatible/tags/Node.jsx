@@ -46,16 +46,18 @@ export default defineComponent({
             }]
 
             return wrapSSR(
-                <div class={[prefixCls.value, hashId.value]} onClick={onClick} {...attrs}>
-                    <span class={dotInnerClass}/>
-                    <span class={`${prefixCls.value}-text`}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
+                    <div class={`${prefixCls.value}-content`} onClick={onClick}>
+                        <span class={dotInnerClass}/>
+                        <span class={`${prefixCls.value}-text`}>
                         {slots.default && slots.default()}
                     </span>
-                    {closable && (
-                        <span class={`${prefixCls.value}-close`} onClick={withModifiers(onClose, ['stop'])}>
-                            <CloseOutlined/>
-                        </span>
-                    )}
+                        {closable && (
+                            <span class={`${prefixCls.value}-close`} onClick={withModifiers(onClose, ['stop'])}>
+                                <CloseOutlined/>
+                            </span>
+                        )}
+                    </div>
                 </div>
             )
         }

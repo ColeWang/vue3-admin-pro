@@ -1,12 +1,14 @@
-import { defineComponent } from 'vue'
+import { defineComponent, unref } from 'vue'
 import { Dropdown, Menu } from 'ant-design-vue'
 import { GlobalOutlined } from '@ant-design/icons-vue'
-import { useAppInstance } from '@/useAppInstance'
-import { localCache, LOCALE__LOCAL } from '@/utils/storage'
-import useGlobalProperties from '@utils/hooks/useGlobalProperties'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
 import { map } from 'lodash-es'
+// --
+import { localCache, LOCALE__LOCAL } from '@/utils/storage'
+import { useAppInstance } from '@/useAppInstance'
+import { useI18n } from 'vue-i18n'
+import dayjs from 'dayjs'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -14,26 +16,26 @@ export default defineComponent({
         const { prefixCls } = useConfigInject('pro-language', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
-        // 需要修改为不需要依赖 useI18n 的方式
-        // 并且不干涉 layout 的逻辑
-        const { $i18n = { locale: 'zh-CN' } } = useGlobalProperties()
-        const { setLocale } = useAppInstance()
+        const { locale, getLocaleMessage } = useI18n()
+        const { setLocaleMessage } = useAppInstance()
 
         const language = navigator.language
-        const localeLang = (language === 'zh-CN' || language === 'en-US') ? language : false
-        const lang = localCache.get(LOCALE__LOCAL) || localeLang || 'zh-CN'
+        const lang = (language === 'zh-CN' || language === 'en-US') ? language : false
+        const localeLang = localCache.get(LOCALE__LOCAL) || lang || 'zh-CN'
+        // 先执行 缓存的 localeLang
+        onLocaleChange(localeLang)
 
         const localeList = {
             'zh-CN': '中文简体',
             'en-US': 'English'
         }
 
-        // 先执行 缓存的 lang
-        onLocaleChange(lang)
-
         function onLocaleChange (value) {
-            setLocale && setLocale(value)
+            locale.value = value
             localCache.set(LOCALE__LOCAL, value)
+            const message = getLocaleMessage(value)
+            dayjs.locale(message.dayjs)
+            setLocaleMessage && setLocaleMessage(message)
         }
 
         function getPopupContainer (trigger) {
@@ -44,7 +46,7 @@ export default defineComponent({
             const dropdownSlots = {
                 overlay: () => {
                     return (
-                        <Menu class={`${prefixCls.value}-menu`} selectedKeys={[$i18n.locale]}>
+                        <Menu class={`${prefixCls.value}-menu`} selectedKeys={[unref(locale)]}>
                             {map(localeList, (value, key) => {
                                 return (
                                     <Menu.Item key={key} onClick={onLocaleChange.bind(null, key)}>
