@@ -31,12 +31,12 @@ export default defineComponent({
         })
 
         return () => {
-            const { antd, comps } = unref(localeMessage)
+            const { antd, packages } = unref(localeMessage)
             const { darkAlgorithm, compactAlgorithm } = theme
 
             return (
                 <ConfigProvider theme={{ algorithm: [] }} locale={antd}>
-                    <LocaleProvider locale={comps}>
+                    <LocaleProvider locale={packages}>
                         <RouterView/>
                     </LocaleProvider>
                 </ConfigProvider>

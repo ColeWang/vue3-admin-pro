@@ -3,7 +3,6 @@ export const HOME_NAME = 'HomeIndex'
 // 登录页 (路由的拦截)
 export const LOGIN_NAME = 'Login'
 
-
 // iconfont 的在线地址 src/components/icon/IconFont.jsx
 export const scriptUrl = ''
 

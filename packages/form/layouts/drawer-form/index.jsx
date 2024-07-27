@@ -75,7 +75,6 @@ export default defineComponent({
                 ...attrs,
                 ...pick(props, Object.keys(Drawer.props)),
                 ...extraProps,
-                // headerStyle: { paddingBlock: '14px' },
                 open: unref(sOpen),
                 onClose: onCancel,
                 onAfterOpenChange: onAfterClose

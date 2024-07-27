@@ -1,7 +1,7 @@
 import { genComponentStyleHook, mergeToken } from '@utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, iconCls, tagsHeight, tagsButtonWidth, tagsCloseRight } = token
+    const { componentCls, iconCls, tagsHeight, tagsButtonWidth, tagsCloseRight, tagsMenuMinWidth } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -76,6 +76,10 @@ function genBaseStyle (token) {
                         transition: 'left .3s ease'
                     }
                 }
+            },
+            [`${componentCls}-menu`]: {
+                minWidth: tagsMenuMinWidth,
+                whiteSpace: 'nowrap'
             }
         }
     }
@@ -85,11 +89,13 @@ export default genComponentStyleHook('ProLayoutTags', (token) => {
     const tagsHeight = token.controlHeight + token.sizeXXS * 2
     const tagsButtonWidth = Math.ceil(tagsHeight * 0.65)
     const tagsCloseRight = 6
+    const tagsMenuMinWidth = token.fontSize * 7
 
     const tagsToken = mergeToken(token, {
         tagsHeight,
         tagsButtonWidth,
-        tagsCloseRight
+        tagsCloseRight,
+        tagsMenuMinWidth
     })
     return [genBaseStyle(tagsToken)]
 })

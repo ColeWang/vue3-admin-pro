@@ -4,9 +4,10 @@ import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/ic
 import TagNode from './Node'
 import useShowTitle from '../../hooks/useShowTitle'
 import { omitNil } from '@utils/util'
-import { isString } from 'lodash-es'
+import useGlobalProperties from '@utils/hooks/useGlobalProperties'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
+import { isString } from 'lodash-es'
 
 export default defineComponent({
     props: {
@@ -36,6 +37,7 @@ export default defineComponent({
         const { prefixCls } = useConfigInject('pro-layout-tags', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
+        const { $t } = useGlobalProperties()
 
         const popupContainer = ref(null)
         let tagRefsMap = {}
@@ -194,12 +196,12 @@ export default defineComponent({
             const dropdownSlots = {
                 overlay: () => {
                     return (
-                        <Menu selectedKeys={[]}>
+                        <Menu class={`${prefixCls.value}-menu`} selectedKeys={[]}>
                             <Menu.Item onClick={onMenuClose.bind(null, 'all')}>
-                                关闭所有
+                                {$t ? $t('layout.tags.closeAll') : '关闭所有'}
                             </Menu.Item>
                             <Menu.Item onClick={onMenuClose.bind(null, 'others')}>
-                                关闭其他
+                                {$t ? $t('layout.tags.closeOthers') : '关闭其他'}
                             </Menu.Item>
                         </Menu>
                     )

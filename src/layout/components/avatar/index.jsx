@@ -2,6 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Avatar, Dropdown, Menu, theme } from 'ant-design-vue'
 import { LoginOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/useAppInstance'
+import useGlobalProperties from '@utils/hooks/useGlobalProperties'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
 
@@ -11,6 +12,7 @@ export default defineComponent({
         const { prefixCls } = useConfigInject('pro-avatar', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
+        const { $t } = useGlobalProperties()
 
         const { onLogout } = useAppInstance()
 
@@ -33,13 +35,13 @@ export default defineComponent({
                                 key={'center'}
                                 v-slots={{ icon: () => <UserOutlined/> }}
                             >
-                                个人中心
+                                {$t ? $t('layout.navbar.profile') : '个人中心'}
                             </Menu.Item>
                             <Menu.Item
                                 key={'settings'}
                                 v-slots={{ icon: () => <SettingOutlined/> }}
                             >
-                                个人设置
+                                {$t ? $t('layout.navbar.settings') : '个人设置'}
                             </Menu.Item>
                             <Menu.Divider/>
                             <Menu.Item
@@ -47,7 +49,7 @@ export default defineComponent({
                                 onClick={handleLogout}
                                 v-slots={{ icon: () => <LoginOutlined/> }}
                             >
-                                退出登录
+                                {$t ? $t('layout.navbar.logout') : '退出登录'}
                             </Menu.Item>
                         </Menu>
                     )

@@ -1,5 +1,5 @@
 import { defineComponent, unref } from 'vue'
-import { Menu } from 'ant-design-vue'
+import { Menu, theme } from 'ant-design-vue'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
 
@@ -7,6 +7,8 @@ export default defineComponent({
     inheritAttrs: false,
     props: { ...Menu.props },
     setup (props, { attrs }) {
+        const { token } = theme.useToken()
+
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
         const { tableSize, setTableSize } = useSharedContext()
 
@@ -18,10 +20,12 @@ export default defineComponent({
         }
 
         return () => {
+            const { fontSize } = unref(token)
+
             const menuProps = {
                 ...attrs,
                 ...props,
-                style: { width: '88px' },
+                style: { minWidth: `${fontSize * 7}px` },
                 selectedKeys: [unref(tableSize)],
                 onClick: onMenuClick
             }

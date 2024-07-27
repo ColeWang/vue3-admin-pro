@@ -37,7 +37,7 @@ $font-size: 14px;
 // 圆角
 $border-radius: 4px;
 
-// 设置宽高 $width $height=$width
+// 设置宽高 $width $height:$width
 @mixin size($width, $height: $width) {
     width: $width;
     height: $height;
@@ -65,11 +65,11 @@ $border-radius: 4px;
 // flex $justify-content: null, $align-items: null
 @mixin flex($align-items: null, $justify-content: null) {
     display: flex;
-    @if ($justify-content != "" and $justify-content != null) {
-        justify-content: $justify-content;
-    }
     @if ($align-items != "" and $align-items != null) {
         align-items: $align-items;
+    }
+    @if ($justify-content != "" and $justify-content != null) {
+        justify-content: $justify-content;
     }
 }
 
@@ -90,7 +90,7 @@ $border-radius: 4px;
     }
 }
 
-// 扩展点击区域
+// 扩展点击区域 $v: 10px
 @mixin extend-click($v: 10px) {
     position: relative;
     &:before {
@@ -105,7 +105,7 @@ $border-radius: 4px;
     -webkit-overflow-scrolling: touch;
 }
 
-// translate 未知宽高 水平垂直居中
+// translate 未知宽高水平垂直居中 $direction: both
 @mixin center-translate($direction: both) {
     position: absolute;
     @if ($direction == both) {
@@ -124,7 +124,7 @@ $border-radius: 4px;
     }
 }
 
-// 多行超出设置点点点
+// 多行超出设置点点点 $v: 1
 @mixin box-clamp($v: 1) {
     overflow: hidden;
     display: -webkit-box;
@@ -140,7 +140,7 @@ $border-radius: 4px;
     overflow: hidden;
 }
 
-// 圆形
+// 圆形 $size: 12px
 @mixin circle($size: 12px) {
     border-radius: 50%;
     width: $size;

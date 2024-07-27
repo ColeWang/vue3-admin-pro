@@ -1,20 +1,13 @@
-import { getCurrentInstance } from 'vue'
-import { isFunction } from 'lodash-es'
+import useGlobalProperties from '@utils/hooks/useGlobalProperties'
 
 function useShowTitle () {
-    /**
-     * 判断有没有安装 i18n
-     * 即使不使用 i18n ,也不用修改这部分代码了
-     */
-    const { appContext } = getCurrentInstance()
-    const { globalProperties } = appContext ? appContext.config : {}
-    const { $t, $te } = globalProperties || {}
+    const { $t, $te } = useGlobalProperties()
 
     const prefix = 'routes.'
 
     function showTitle (route) {
         const { title } = route.meta || {}
-        if (isFunction($t) && isFunction($te) && route.name) {
+        if ($t && $te && route.name) {
             const key = prefix + route.name
             return $te(key) ? $t(key) : (title || route.name)
         }
