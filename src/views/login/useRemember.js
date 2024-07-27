@@ -2,9 +2,6 @@ import { ref, unref } from 'vue'
 import { localCache, PASSWORD__LOCAL, USERNAME__LOCAL } from '@/utils/storage'
 import { AesDecode, AesEncode } from './ase'
 
-/**
- * 考虑要不要提供 aes 的加密, 以及密码的缓存？？
- */
 function useRemember (options) {
     const { setState } = options
 

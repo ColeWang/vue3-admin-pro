@@ -7,9 +7,9 @@ export default defineComponent({
         return () => {
             return (
                 <ErrorPage
-                    status={500}
-                    title={'500'}
-                    subTitle={'Sorry, the server is wrong.'}
+                    status={403}
+                    title={'403'}
+                    subTitle={'Sorry, you are not authorized to access this page.'}
                 />
             )
         }

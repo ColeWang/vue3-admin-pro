@@ -1,36 +1,22 @@
-import { defineComponent, onUnmounted, reactive, ref, unref } from 'vue'
+import { defineComponent, reactive, ref, unref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { Button, Card, Checkbox } from 'ant-design-vue'
 import { Form, Password, Text } from '@packages'
 import { PasswordFilled, UserFilled } from '@/components/icon'
-import { useRoute, useRouter } from 'vue-router'
-import { HOME_NAME } from '@/config'
+import Bubbly from './bubbly'
 import useRemember from './useRemember'
-import bubbly from './bubbly'
+import useMediaQuery from '@utils/hooks/useMediaQuery'
+import { useConfigInject } from '@utils/extend'
+import useStyle from './style'
 import { setCookie, TOKEN_KEY } from '@/utils/cookie'
-import classNames from '@/utils/classNames/bind'
-import styles from './style/index.module.scss'
-import BACKGROUND from './images/background.svg'
-
-const cx = classNames.bind(styles)
-
-let destroy = null
-
-function loadImage (src) {
-    return new Promise((resolve, reject) => {
-        const image = new Image()
-        image.src = src
-        image.onload = () => {
-            resolve(image)
-        }
-        image.onerror = (err) => {
-            reject(err)
-        }
-    })
-}
+import { HOME_NAME } from '@/config'
 
 export default defineComponent({
-    setup () {
-        const canvasRef = ref(null)
+    inheritAttrs: false,
+    setup (props, { attrs }) {
+        const { prefixCls } = useConfigInject('pro-login', props)
+        const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { screen } = useMediaQuery()
 
         const router = useRouter()
         const route = useRoute()
@@ -50,16 +36,9 @@ export default defineComponent({
             }
         })
 
-        loadImage(BACKGROUND).then((image) => {
-            destroy = bubbly(unref(canvasRef), image)
-        })
-
         function onFinish () {
+            console.log('onFinish', model)
             errorType.value = undefined
-            const data = {
-                phone: Number(model.username),
-                passwd: model.password
-            }
             loading.value = true
             setTimeout(() => {
                 setCookie(TOKEN_KEY, 'token')
@@ -68,39 +47,19 @@ export default defineComponent({
                 const name = redirect && String(redirect)
                 router.push({ name: name || HOME_NAME })
             }, 1000)
-            // requestLogin(data)
-            //     .then((res) => {
-            //         localRemember(model)
-            //         router.push({ name: HOME_NAME })
-            //     })
-            //     .catch((err) => {
-            //         errorType.value = err.message || '登录失败'
-            //     })
-            //     .finally(() => {
-            //         loading.value = false
-            //     })
         }
 
-        onUnmounted(() => {
-            destroy && destroy()
-            destroy = null
-        })
-
         return () => {
-            const cardProps = {
-                title: '欢迎登陆',
-                bordered: false,
-                bodyStyle: {
-                    padding: '16px'
-                }
-            }
+            const { lt } = unref(screen)
 
-            return (
-                <div class={cx('login')}>
-                    <div class={cx('login-bg')}>
-                        <canvas class={cx('login-bg__canvas')} ref={canvasRef}/>
-                    </div>
-                    <Card class={cx('login-form')} {...cardProps}>
+            const cardClass = [`${prefixCls.value}-form`, {
+                [`${prefixCls.value}-form-center`]: lt.lg
+            }]
+
+            return wrapSSR(
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
+                    <Bubbly/>
+                    <Card class={cardClass} title={'欢迎登陆'} bordered={false}>
                         <Form model={model} onFinish={onFinish}>
                             <Text
                                 name={'username'}
@@ -116,13 +75,17 @@ export default defineComponent({
                                 formItemProps={{ rules: { required: true, message: '密码不能为空' } }}
                                 v-slots={{ addonBefore: () => <PasswordFilled/> }}
                             />
-                            <div class={cx('checked-wrap')}>
+                            <div class={`${prefixCls.value}-checkbox-warp`}>
                                 <Checkbox checked={unref(checked)} onChange={setChecked}>
                                     记住账号
                                 </Checkbox>
                                 <a href={'javaScript: void 0'}>忘记密码</a>
                             </div>
-                            <Form.Item class={cx('login-form__error')} validateStatus={'error'} help={unref(errorType)}>
+                            <Form.Item
+                                class={`${prefixCls.value}-form-item-error`}
+                                validateStatus={'error'}
+                                help={unref(errorType)}
+                            >
                                 <Button type={'primary'} html-type={'submit'} block={true} loading={unref(loading)}>
                                     登录
                                 </Button>

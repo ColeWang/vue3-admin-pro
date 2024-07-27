@@ -13,6 +13,7 @@ function genBaseStyle (token) {
             paddingInline: tagPadding,
             transition: 'all 0.2s',
             cursor: 'pointer',
+            background: token.colorBgContainer,
             [`${componentCls}-text`]: {
                 fontSize: token.fontSizeSM,
                 lineHeight: token.lineHeightSM,

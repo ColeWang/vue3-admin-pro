@@ -7,7 +7,6 @@ function genBaseStyle (token) {
             position: 'relative',
             width: '100%',
             borderBlock: `1px solid ${token.colorBorder}`,
-            background: token.colorBgContainer,
             userSelect: 'none',
             [`${componentCls}-popup-container`]: {
                 position: 'relative',
@@ -34,6 +33,7 @@ function genBaseStyle (token) {
                 },
                 [`${componentCls}-button-wrap`]: {
                     height: tagsHeight,
+                    background: token.colorBgContainer,
                     [`&-left`]: {
                         borderInlineEnd: `1px solid ${token.colorBorder}`,
                     },
@@ -44,6 +44,7 @@ function genBaseStyle (token) {
                 [`${componentCls}-close-wrap`]: {
                     height: tagsHeight,
                     paddingInlineEnd: tagsCloseRight,
+                    background: token.colorBgContainer,
                     borderInlineStart: `1px solid ${token.colorBorder}`,
                     [`${componentCls}-button`]: {
                         position: 'relative',

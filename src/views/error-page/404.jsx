@@ -1,15 +1,15 @@
 import { defineComponent } from 'vue'
-import ErrorContent from './ErrorContent'
-import error404 from './images/error-404.svg'
+import ErrorPage from './ErrorPage'
 
 export default defineComponent({
-    setup () {
+    inheritAttrs: false,
+    setup (props, { attrs }) {
         return () => {
             return (
-                <ErrorContent
-                    code={'404'}
-                    desc={'Oh~~您的页面好像飞走了~'}
-                    src={error404}
+                <ErrorPage
+                    status={404}
+                    title={'404'}
+                    subTitle={'Sorry, the page you visited does not exist.'}
                 />
             )
         }

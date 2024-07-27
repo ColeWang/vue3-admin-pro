@@ -1,15 +1,7 @@
 import Layout from '@/layout'
+import errorPages from './errorPages'
+import { concat } from 'lodash-es'
 
-/**
- * meta: {
- *  title: (string) 导航栏 title
- *  icon: (string|function) 导航栏 icon
- *  hideInMenu: (boolean=false) 设为 true 后在左侧菜单不会显示该页面选项
- *  hltInName: (string) 高亮的路由 name active
- *  access: (null) 可访问该页面的权限数组 当前路由设置的权限会影响子路由
- *  notCache: (boolean=false) 设为 true 后 KeepAlive 混缓存页面
- * }
- */
 const routes = [
     {
         path: '/',
@@ -25,7 +17,7 @@ const routes = [
         meta: {
             hideInMenu: true
         },
-        component: () => import('@/views/login')
+        component: () => import('@/views/login/index')
     },
     {
         path: '/home',
@@ -133,7 +125,7 @@ const routes = [
             {
                 path: 'index',
                 name: 'DescriptionsIndex',
-                component: () => import('@/views/descriptions'),
+                component: () => import('@/views/descriptions/index'),
                 meta: {
                     title: '描述列表'
                 }
@@ -158,31 +150,7 @@ const routes = [
                 }
             }
         ]
-    },
-    {
-        path: '/401',
-        name: 'error-401',
-        meta: {
-            hideInMenu: true
-        },
-        component: () => import('@/views/error-page/401')
-    },
-    {
-        path: '/500',
-        name: 'error-500',
-        meta: {
-            hideInMenu: true
-        },
-        component: () => import('@/views/error-page/500')
-    },
-    {
-        path: '/:pathMatch(.*)*',
-        name: 'error-404',
-        meta: {
-            hideInMenu: true
-        },
-        component: () => import('@/views/error-page/404')
     }
 ]
 
-export default routes
+export default concat(routes, errorPages)
