@@ -1,9 +1,10 @@
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { Button, Result } from 'ant-design-vue'
-import { HOME_NAME } from '@/config'
+import useGlobalProperties from '@utils/hooks/useGlobalProperties'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
+import { HOME_NAME } from '@/config'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -11,6 +12,7 @@ export default defineComponent({
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-error-page', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const { $t } = useGlobalProperties()
 
         const router = useRouter()
 
@@ -23,7 +25,7 @@ export default defineComponent({
                 extra: () => {
                     return (
                         <Button type={'primary'} onClick={onBackHome}>
-                            Back Home
+                            {$t ? $t('errorPages.backHome') : '返回首页'}
                         </Button>
                     )
                 }

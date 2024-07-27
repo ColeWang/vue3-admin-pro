@@ -1,5 +1,5 @@
 import Layout from '@/layout'
-import errorPages from './errorPages'
+import errorPages from './error-pages'
 import { concat } from 'lodash-es'
 
 const routes = [
@@ -8,14 +8,16 @@ const routes = [
         name: '_home',
         redirect: { name: 'Home' },
         meta: {
-            hideInMenu: true
+            hideInMenu: true,
+            notCache: true
         }
     },
     {
         path: '/login',
         name: 'Login',
         meta: {
-            hideInMenu: true
+            hideInMenu: true,
+            notCache: true
         },
         component: () => import('@/views/login/index')
     },
@@ -38,75 +40,51 @@ const routes = [
     {
         path: '/form',
         name: 'Form',
-        redirect: { name: 'FormLayout' },
+        redirect: { name: 'FormBasicForm' },
         meta: {
-            title: '表单'
+            title: '表单页'
         },
         component: Layout,
         children: [
             {
-                path: 'layout',
-                name: 'FormLayout',
-                component: () => import('@/views/form/Layout'),
+                path: 'basic-form',
+                name: 'FormBasicForm',
+                component: () => import('@/views/form/BasicForm'),
                 meta: {
-                    title: '表单布局'
+                    title: '基础表单'
                 }
             },
             {
-                path: 'modal',
-                name: 'FormModal',
-                component: () => import('@/views/form/Modal'),
+                path: 'floating-form',
+                name: 'FormFloatingForm',
+                component: () => import('@/views/form/FloatingForm'),
                 meta: {
                     title: '浮层表单'
-                }
-            },
-            {
-                path: 'drawer',
-                name: 'FormDrawer',
-                component: () => import('@/views/form/Drawer'),
-                meta: {
-                    title: '抽屉表单'
-                }
-            },
-            {
-                path: 'filter',
-                name: 'FormFilter',
-                component: () => import('@/views/form/Filter'),
-                meta: {
-                    title: '筛选表单'
                 }
             },
         ]
     },
     {
-        path: '/table',
-        name: 'Table',
-        redirect: { name: 'TableIndex' },
+        path: '/list',
+        name: 'List',
+        redirect: { name: 'ListTable' },
         meta: {
-            title: '表格'
+            title: '列表页'
         },
         component: Layout,
         children: [
             {
-                path: 'index',
-                name: 'TableIndex',
-                component: () => import('@/views/table/index'),
+                path: 'table',
+                name: 'ListTable',
+                component: () => import('@/views/list/Table'),
                 meta: {
-                    title: '表格'
-                }
-            },
-            {
-                path: 'custom-search',
-                name: 'TableCustomSearch',
-                component: () => import('@/views/table/CustomSearch'),
-                meta: {
-                    title: '自定义搜索'
+                    title: '查询表格'
                 }
             },
             {
                 path: 'editable-table',
-                name: 'TableEditableTable',
-                component: () => import('@/views/table/EditableTable'),
+                name: 'ListEditableTable',
+                component: () => import('@/views/list/EditableTable'),
                 meta: {
                     title: '可编辑表格'
                 }
@@ -114,37 +92,61 @@ const routes = [
         ]
     },
     {
-        path: '/descriptions',
-        name: 'Descriptions',
-        redirect: { name: 'DescriptionsIndex' },
+        path: '/exception',
+        name: 'Exception',
+        redirect: { name: 'Exception403' },
         meta: {
-            title: '描述列表'
+            title: '异常页'
         },
         component: Layout,
         children: [
             {
-                path: 'index',
-                name: 'DescriptionsIndex',
-                component: () => import('@/views/descriptions/index'),
+                path: '403',
+                name: 'Exception403',
+                component: () => import('@/views/error-pages/403'),
                 meta: {
-                    title: '描述列表'
+                    title: '403'
+                }
+            },
+            {
+                path: '404',
+                name: 'Exception404',
+                component: () => import('@/views/error-pages/404'),
+                meta: {
+                    title: '404'
+                }
+            },
+            {
+                path: '500',
+                name: 'Exception500',
+                component: () => import('@/views/error-pages/500'),
+                meta: {
+                    title: '500'
                 }
             }
         ]
     },
     {
-        path: '/test',
-        name: 'Test',
-        redirect: { name: 'TestIndex' },
+        path: '/examples',
+        name: 'Examples',
+        redirect: { name: 'ExamplesDescriptions' },
         meta: {
-            title: '测试'
+            title: '组件展示'
         },
         component: Layout,
         children: [
             {
-                path: 'index',
-                name: 'TestIndex',
-                component: () => import('@/views/Test'),
+                path: 'descriptions',
+                name: 'ExamplesDescriptions',
+                component: () => import('@/views/examples/Descriptions'),
+                meta: {
+                    title: '描述列表'
+                }
+            },
+            {
+                path: 'test',
+                name: 'ExamplesTest',
+                component: () => import('@/views/examples/Test'),
                 meta: {
                     title: '测试'
                 }

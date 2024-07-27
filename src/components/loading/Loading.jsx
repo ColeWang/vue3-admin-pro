@@ -5,6 +5,7 @@ import styles from './style/index.module.scss'
 const cx = classNames.bind(styles)
 
 export default defineComponent({
+    inheritAttrs: false,
     props: {
         onClose: {
             type: Function,

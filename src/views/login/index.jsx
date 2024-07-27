@@ -3,14 +3,33 @@ import { useRoute, useRouter } from 'vue-router'
 import { Button, Card, Checkbox } from 'ant-design-vue'
 import { Form, Password, Text } from '@packages'
 import { PasswordFilled, UserFilled } from '@/components/icon'
-import Bubbly from './bubbly'
-import useRemember from './useRemember'
 import useMediaQuery from '@utils/hooks/useMediaQuery'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
-import { setCookie, TOKEN_KEY } from '@/utils/cookie'
+// --
 import { HOME_NAME } from '@/config'
+import { setCookie, TOKEN_KEY } from '@/utils/cookie'
+import Bubbly from './bubbly'
+import useRemember from './useRemember'
 
+/**
+ * 登录页 在示例中不提供多语言
+ *
+ * 实际使用中
+ * import { useI18n } from 'vue-i18n'
+ * const { t } = useI18n({
+ *     messages: {
+ *         'en-US': {
+ *             login: 'Login'
+ *         },
+ *         'zh-CN': {
+ *             login: '登录'
+ *         }
+ *     }
+ * })
+ *
+ * t('login')
+ */
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { attrs }) {
@@ -79,7 +98,9 @@ export default defineComponent({
                                 <Checkbox checked={unref(checked)} onChange={setChecked}>
                                     记住账号
                                 </Checkbox>
-                                <a href={'javaScript: void 0'}>忘记密码</a>
+                                <a href={'javaScript: void 0'}>
+                                    忘记密码
+                                </a>
                             </div>
                             <Form.Item
                                 class={`${prefixCls.value}-form-item-error`}

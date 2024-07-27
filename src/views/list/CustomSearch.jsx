@@ -16,6 +16,7 @@ import {
 const Test = HocField('test')
 
 export default defineComponent({
+    inheritAttrs: false,
     name: 'TableCustomSearch',
     setup () {
         const model = ref({

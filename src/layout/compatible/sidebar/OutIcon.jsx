@@ -6,7 +6,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: {
         type: {
-            type: [String, Function],
+            type: [String, Function, Boolean],
             default: undefined
         }
     },
@@ -18,7 +18,10 @@ export default defineComponent({
             if (props.type && isString(props.type)) {
                 return <Icon type={props.type}/>
             }
-            return <MenuOutlined/>
+            if (props.type !== false) {
+                return <MenuOutlined/>
+            }
+            return null
         }
     }
 })

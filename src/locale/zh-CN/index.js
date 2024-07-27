@@ -4,6 +4,7 @@ import dayjs from 'dayjs/locale/zh-cn'
 // --
 import routes from './routes'
 import layout from './layout'
+import errorPages from './error-pages'
 
 export default {
     locale: 'zh-CN',
@@ -11,5 +12,6 @@ export default {
     packages: packages,
     dayjs: dayjs,
     routes: routes,
-    layout: layout
+    layout: layout,
+    errorPages: errorPages
 }

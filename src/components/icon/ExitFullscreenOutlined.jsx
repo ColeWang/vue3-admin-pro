@@ -2,6 +2,7 @@ import { defineComponent } from 'vue'
 import Icon from '@ant-design/icons-vue'
 
 export default defineComponent({
+    inheritAttrs: false,
     setup (props, { attrs }) {
         return () => {
             const iconSlots = {

@@ -10,6 +10,7 @@ import useStyle from './style'
 import { isString } from 'lodash-es'
 
 export default defineComponent({
+    inheritAttrs: false,
     props: {
         homeName: {
             type: String,

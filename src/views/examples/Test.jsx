@@ -19,7 +19,8 @@ import {
 } from '@packages'
 
 export default defineComponent({
-    name: 'TestIndex',
+    inheritAttrs: false,
+    name: 'ExamplesTest',
     setup () {
         const open = ref(true)
 

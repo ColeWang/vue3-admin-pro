@@ -3,6 +3,7 @@ import { Button, Card } from 'ant-design-vue'
 import { ModalForm, Number, Text } from '@packages'
 
 export default defineComponent({
+    inheritAttrs: false,
     name: 'FormModal',
     setup () {
         const open = ref(false)

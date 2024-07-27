@@ -3,6 +3,7 @@ import { Button, Card } from 'ant-design-vue'
 import { DrawerForm, Number, Text } from '@packages'
 
 export default defineComponent({
+    inheritAttrs: false,
     name: 'FormDrawer',
     setup () {
         const open = ref(false)

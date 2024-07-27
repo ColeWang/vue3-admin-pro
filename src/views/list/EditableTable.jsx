@@ -3,6 +3,7 @@ import { EditableTable } from '@packages'
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ListEditableTable',
     setup () {
         const columns = [
             {

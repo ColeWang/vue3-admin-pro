@@ -3,6 +3,7 @@ import { Action, Descriptions as Descs, ModalForm, Number, Table, Text } from '@
 import { Button, Card } from 'ant-design-vue'
 
 export default defineComponent({
+    inheritAttrs: false,
     name: 'HomeIndex',
     setup () {
         const columns = computed(() => {
@@ -119,29 +120,27 @@ export default defineComponent({
 
             const tableSlots = {
                 title: () => 'Title',
-                actions: () => ([
-                        <ModalForm
-                            title={'编辑'}
-                            grid={true}
-                            width={512}
-                            onFinish={onFinish}
-                            v-slots={{
-                                trigger: () => <Button type={'primary'}>Add</Button>
-                            }}
-                        >
-                            <Text
-                                label={'文本'}
-                                name={'text'}
-                                colProps={{ span: 12 }}
-                            />
-                            <Number
-                                label={'数字'}
-                                name={'number'}
-                                colProps={{ span: 12 }}
-                            />
-                        </ModalForm>,
-                        <Button type={'primary'}>Add</Button>
-                    ]
+                actions: () => (
+                    <ModalForm
+                        title={'编辑'}
+                        grid={true}
+                        width={512}
+                        onFinish={onFinish}
+                        v-slots={{
+                            trigger: () => <Button type={'primary'}>Add</Button>
+                        }}
+                    >
+                        <Text
+                            label={'文本'}
+                            name={'text'}
+                            colProps={{ span: 12 }}
+                        />
+                        <Number
+                            label={'数字'}
+                            name={'number'}
+                            colProps={{ span: 12 }}
+                        />
+                    </ModalForm>
                 ),
                 alertOptions: ({ rows, keys }) => ([
                     <Action onClick={onAlertClick.bind(null, rows, keys)}>

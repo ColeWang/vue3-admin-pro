@@ -1,16 +1,13 @@
 export default {
     HomeIndex: '首页',
-    Form: '表单',
-    FormLayout: '表单布局',
-    FormModal: '浮层表单',
-    FormDrawer: '抽屉表单',
-    FormFilter: '筛选表单',
-    Table: '表格',
-    TableIndex: '表格',
-    TableCustomSearch: '自定义搜索',
-    TableEditableTable: '可编辑表格',
-    Descriptions: '描述列表',
-    DescriptionsIndex: '描述列表',
-    Test: '测试',
-    TestIndex: '测试'
+    Form: '表单页',
+    FormBasicForm: '基础表单',
+    FormFloatingForm: '浮层表单',
+    List: '列表页',
+    ListTable: '查询表格',
+    ListEditableTable: '可编辑表格',
+    Exception: '异常页',
+    Examples: '组件展示',
+    ExamplesDescriptions: '描述列表',
+    ExamplesTest: '测试'
 }

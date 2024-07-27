@@ -3,7 +3,8 @@ import { Button, Card } from 'ant-design-vue'
 import { Descriptions as Descs } from '@packages'
 
 export default defineComponent({
-    name: 'DescriptionsIndex',
+    inheritAttrs: false,
+    name: 'ExamplesDescriptions',
     setup () {
         const valueEnum = {
             '1': '选项一',

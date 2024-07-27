@@ -2,7 +2,8 @@ import { computed, defineComponent, unref } from 'vue'
 import { Action, Table } from '@packages'
 
 export default defineComponent({
-    name: 'TableIndex',
+    inheritAttrs: false,
+    name: 'ListTable',
     setup () {
         function onColumnsChange (values) {
             console.log(values)

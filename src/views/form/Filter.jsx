@@ -3,6 +3,7 @@ import { Card } from 'ant-design-vue'
 import { Number, QueryFilter, Select, Text } from '@packages'
 
 export default defineComponent({
+    inheritAttrs: false,
     name: 'FormFilter',
     setup () {
         function onSubmit (values) {

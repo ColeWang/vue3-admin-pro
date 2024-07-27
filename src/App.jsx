@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { createAppInstance } from './useAppInstance'
 
 export default defineComponent({
+    inheritAttrs: false,
     setup () {
         const { locale, getLocaleMessage } = useI18n()
 

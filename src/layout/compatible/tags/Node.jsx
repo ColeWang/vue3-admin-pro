@@ -5,6 +5,7 @@ import { useConfigInject } from '@utils/extend'
 import useStyle from './style/node'
 
 export default defineComponent({
+    inheritAttrs: false,
     props: {
         closable: {
             type: Boolean,
