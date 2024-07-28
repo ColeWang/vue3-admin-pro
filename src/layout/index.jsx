@@ -47,9 +47,16 @@ export default defineComponent({
         return () => {
             const layoutSlots = {
                 sider: ({ collapsed }) => {
+                    const logo = () => {
+                        const style = { width: '32px', height: '32px' }
+                        return (
+                            <img src={'/logo.svg'} style={style} alt={'logo'}/>
+                        )
+                    }
                     return (
                         <Sidebar
                             theme={unref(sidebarTheme)}
+                            logo={logo}
                             route={route}
                             menus={menus}
                             collapsed={collapsed}

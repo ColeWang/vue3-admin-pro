@@ -1,6 +1,6 @@
 ## 简介
 
-基于 Vue3、Vite、Antd 的后台管理模版
+开箱即用的 Vue3/Ant Design Vue 中后台管理解决方案
 
 - 🏠 预览 [vue3-admin-pro](https://colewang.github.io/vue3-admin-pro/)
 - 🔥 文档 [docs](https://colewang.github.io/admin-docs/)
@@ -65,4 +65,6 @@ npm run build
 
 ### 感谢
 
-欢迎留言讨论，支持一个 star！这是作者持续维护的唯一动力
+欢迎留言讨论，支持一个 star！
+
+QQ交流群：779593934

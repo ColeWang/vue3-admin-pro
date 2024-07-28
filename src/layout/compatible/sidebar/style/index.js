@@ -35,7 +35,7 @@ function genBaseStyle (token) {
                         height: sidebarLogoHeight,
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'flex-start',
+                        justifyContent: 'center',
                     },
                     [`${antCls}-menu-light`]: {
                         borderInlineEnd: 'none'

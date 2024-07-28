@@ -190,7 +190,8 @@ export default defineComponent({
                 onOpenChange: onOpenChange
             }
 
-            const logoDom = getPropsSlot(slots, props, 'logo')
+            const slotScope = { collapsed: collapsed }
+            const logoDom = getPropsSlot(slots, props, 'logo', slotScope)
             const children = menus.map((item) => {
                 return createMenuItem(item, showTitle)
             })
