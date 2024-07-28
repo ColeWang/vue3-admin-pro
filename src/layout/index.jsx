@@ -22,9 +22,9 @@ export default defineComponent({
         // 过滤没有权限的路由, 权限 access 一般是在后台请求过来放在 store 里面
         const menus = getMenuList(routes, [])
         const { tags, onTagClick, onTagClose } = useTags(menus, {
+            homeName: HOME_NAME,
             route: route,
-            router: router,
-            homeName: HOME_NAME
+            onChange: onTagsChange
         })
 
         const sideTheme = computed(() => {
@@ -43,6 +43,10 @@ export default defineComponent({
 
         function onSidebarChange (name) {
             router.push({ name: name })
+        }
+
+        function onTagsChange ({ name, query, params }) {
+            router.push({ name, query, params })
         }
 
         return () => {

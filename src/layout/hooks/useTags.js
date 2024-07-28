@@ -4,7 +4,7 @@ import { cloneProxyToRaw } from '@utils/props-util'
 import { localCache, TAGS__LOCAL } from '@/utils/storage'
 
 function useTags (menus, options) {
-    const { homeName, route, router } = options || {}
+    const { homeName, route, onChange } = options || {}
 
     const homeRoute = getCurrentRoute(menus, homeName)
     const cacheTags = localCache.getObj(TAGS__LOCAL)
@@ -46,8 +46,7 @@ function useTags (menus, options) {
     }
 
     function onTagClick (currentRoute) {
-        const { name, query, params } = currentRoute
-        router && router.push({ name, query, params })
+        onChange && onChange(currentRoute || {})
     }
 
     function onTagClose (values, toName) {
@@ -55,8 +54,7 @@ function useTags (menus, options) {
             const result = values.find((item) => {
                 return item.name === toName
             })
-            const { name, query, params } = result || {}
-            router && router.push({ name, query, params })
+            onChange && onChange(result || {})
         }
         setTagsValue(values)
     }
