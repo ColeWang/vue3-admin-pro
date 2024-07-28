@@ -1,9 +1,9 @@
-import { defineComponent, ref, unref, watch } from 'vue'
+import { defineComponent, unref } from 'vue'
 import { Switch, theme as antTheme, Tooltip } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
+import { useAppInstance } from '@/hooks/useAppInstance'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style/theme-settings'
-import { useAppInstance } from '@/useAppInstance'
 
 const themeList = [
     {
@@ -61,42 +61,41 @@ export default defineComponent({
         const { prefixCls } = useConfigInject('pro-theme-settings', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = antTheme.useToken()
-        const { darkAlgorithm, compactAlgorithm } = antTheme
 
-        const { setConfigTheme } = useAppInstance()
+        const { themeConfig = {}, setThemeConfig } = useAppInstance()
 
-        const theme = ref('dark')
-        const primary = ref('blue')
-        const compact = ref(false)
-
-        watch([theme, primary, compact], ([themeValue, primaryValue, compactValue]) => {
-            const algorithm = [
-                themeValue === 'real-dark' ? darkAlgorithm : null,
-                compactValue ? compactAlgorithm : null
-            ]
-            setConfigTheme && setConfigTheme(themeValue, {
-                algorithm: algorithm.filter((value) => !!value),
-                token: { colorPrimary: unref(token)[primaryValue] }
+        function onUpdateTheme (value) {
+            setThemeConfig && setThemeConfig({
+                ...unref(themeConfig),
+                theme: value
             })
-        })
-
-        function onThemeClick (value) {
-            theme.value = value
         }
 
-        function onPrimaryClick (value) {
-            primary.value = value
+        function onUpdatePrimary (value) {
+            setThemeConfig && setThemeConfig({
+                ...unref(themeConfig),
+                primary: value
+            })
+        }
+
+        function onUpdateCompact (value) {
+            setThemeConfig && setThemeConfig({
+                ...unref(themeConfig),
+                compact: value
+            })
         }
 
         return () => {
+            const { theme, primary, compact } = unref(themeConfig)
+
             const themeDom = themeList.map((item) => {
                 return (
                     <Tooltip title={item.title}>
                         <div
                             class={[`${prefixCls.value}-theme`, `${prefixCls.value}-theme-${item.name}`]}
-                            onClick={onThemeClick.bind(null, item.name)}
+                            onClick={onUpdateTheme.bind(null, item.name)}
                         >
-                            {unref(theme) === item.name ? <CheckOutlined/> : null}
+                            {theme === item.name ? <CheckOutlined/> : null}
                         </div>
                     </Tooltip>
                 )
@@ -109,13 +108,16 @@ export default defineComponent({
                         <div
                             class={`${prefixCls.value}-primary`}
                             style={primaryStyle}
-                            onClick={onPrimaryClick.bind(null, item.name)}
+                            onClick={onUpdatePrimary.bind(null, item.name)}
                         >
-                            {unref(primary) === item.name ? <CheckOutlined/> : null}
+                            {primary === item.name ? <CheckOutlined/> : null}
                         </div>
                     </Tooltip>
                 )
             })
+
+            const compactProps = { checked: compact, 'onUpdate:checked': onUpdateCompact }
+            const compactDom = <Switch {...compactProps}/>
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
@@ -134,7 +136,7 @@ export default defineComponent({
                     <div class={`${prefixCls.value}-block-wrap`}>
                         <div class={`${prefixCls.value}-title`}>紧凑主题</div>
                         <div class={`${prefixCls.value}-compact-block`}>
-                            <Switch v-model:checked={compact.value}/>
+                            {compactDom}
                         </div>
                     </div>
                 </div>

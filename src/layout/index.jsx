@@ -5,16 +5,16 @@ import Sidebar from './compatible/sidebar'
 import Navbar from './compatible/navbar'
 import Container from './compatible/container'
 import Tags from './compatible/tags'
-import useTags from './hooks/useTags'
+import { useAppInstance } from '@/hooks/useAppInstance'
 import { getMenuList } from './utils'
+import useTags from './hooks/useTags'
 import routes from '@/router/routes'
-import { useAppInstance } from '@/useAppInstance'
 import { HOME_NAME } from '@/config'
 
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { attrs }) {
-        const { theme = 'dark' } = useAppInstance()
+        const { themeConfig = {} } = useAppInstance()
 
         const route = useRoute()
         const router = useRouter()
@@ -27,8 +27,9 @@ export default defineComponent({
             homeName: HOME_NAME
         })
 
-        const sidebarTheme = computed(() => {
-            return unref(theme) === 'light' || unref(theme) === 'dark' ? unref(theme) : 'light'
+        const sideTheme = computed(() => {
+            const { theme } = unref(themeConfig)
+            return theme === 'light' || theme === 'dark' ? theme : 'light'
         })
 
         const include = computed(() => {
@@ -55,7 +56,7 @@ export default defineComponent({
                     }
                     return (
                         <Sidebar
-                            theme={unref(sidebarTheme)}
+                            theme={unref(sideTheme)}
                             logo={logo}
                             route={route}
                             menus={menus}
