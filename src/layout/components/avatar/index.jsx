@@ -66,10 +66,9 @@ export default defineComponent({
                         v-slots={dropdownSlots}
                     >
                         <div class={`${prefixCls.value}-content`}>
-                            <Avatar
-                                size={controlHeight - 4}
-                                v-slots={{ icon: () => <UserOutlined/> }}
-                            />
+                            <Avatar size={controlHeight - 4}>
+                                {{ icon: () => <UserOutlined/> }}
+                            </Avatar>
                         </div>
                     </Dropdown>
                 </div>
