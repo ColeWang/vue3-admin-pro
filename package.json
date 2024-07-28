@@ -1,7 +1,7 @@
 {
   "name": "vue3-admin-pro",
   "version": "0.2.1",
-  "description": "开箱即用的 Vue3/Ant Design Vue 中后台管理解决方案",
+  "description": "开箱即用的 Vue3/Ant Design Vue 中后台管理系统",
   "repository": {
     "type": "git",
     "url": "https://github.com/ColeWang/vue3-admin-pro.git"

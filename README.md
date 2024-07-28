@@ -1,6 +1,6 @@
 ## 简介
 
-开箱即用的 Vue3/Ant Design Vue 中后台管理解决方案
+开箱即用的 Vue3/Ant Design Vue 中后台管理系统
 
 - 🏠 预览 [vue3-admin-pro](https://colewang.github.io/vue3-admin-pro/)
 - 🔥 文档 [docs](https://colewang.github.io/admin-docs/)
