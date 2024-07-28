@@ -50,7 +50,7 @@ export default defineComponent({
                     const logo = () => {
                         const style = { width: '32px', height: '32px' }
                         return (
-                            <img src={'/logo.svg'} style={style} alt={'logo'}/>
+                            <img src={'https://colewang.github.io/vue3-admin-pro/logo.svg'} style={style} alt={'logo'}/>
                         )
                     }
                     return (
