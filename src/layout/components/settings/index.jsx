@@ -1,6 +1,7 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Drawer } from 'ant-design-vue'
 import { SettingOutlined } from '@ant-design/icons-vue'
+import ThemeSettings from './ThemeSettings'
 import { useConfigInject } from '@utils/extend'
 import useStyle from './style'
 
@@ -24,11 +25,11 @@ export default defineComponent({
 
         return () => {
             const drawerProps = {
+                width: 320,
                 open: unref(open),
                 onClose: onDrawerClose,
                 getContainer: () => unref(popupContainer)
             }
-
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
@@ -36,7 +37,7 @@ export default defineComponent({
                             <SettingOutlined/>
                         </div>
                         <Drawer {...drawerProps}>
-                            自定义主题
+                            <ThemeSettings/>
                         </Drawer>
                     </div>
                 </div>

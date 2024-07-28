@@ -8,10 +8,13 @@ export default defineComponent({
     inheritAttrs: false,
     setup () {
         const localeMessage = ref({})
-        const customTheme = ref({})
 
-        function setCustomTheme (value) {
-            customTheme.value = value
+        const theme = ref('dark')
+        const themeProvider = ref({})
+
+        function setConfigTheme (name, value) {
+            theme.value = name
+            themeProvider.value = value
         }
 
         function setLocaleMessage (value) {
@@ -23,7 +26,8 @@ export default defineComponent({
         }
 
         createAppInstance({
-            setCustomTheme: setCustomTheme,
+            theme: theme,
+            setConfigTheme: setConfigTheme,
             setLocaleMessage: setLocaleMessage,
             onAvatarAction: onAvatarAction
         })
@@ -32,7 +36,7 @@ export default defineComponent({
             const { antd, packages } = unref(localeMessage)
 
             return (
-                <ConfigProvider locale={antd} theme={unref(customTheme)}>
+                <ConfigProvider locale={antd} theme={unref(themeProvider)}>
                     <LocaleProvider locale={packages}>
                         <RouterView/>
                     </LocaleProvider>

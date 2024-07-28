@@ -8,11 +8,14 @@ import Tags from './compatible/tags'
 import useTags from './hooks/useTags'
 import { getMenuList } from './utils'
 import routes from '@/router/routes'
+import { useAppInstance } from '@/useAppInstance'
 import { HOME_NAME } from '@/config'
 
 export default defineComponent({
     inheritAttrs: false,
-    setup (props) {
+    setup (props, { attrs }) {
+        const { theme = 'dark' } = useAppInstance()
+
         const route = useRoute()
         const router = useRouter()
 
@@ -22,6 +25,10 @@ export default defineComponent({
             route: route,
             router: router,
             homeName: HOME_NAME
+        })
+
+        const sidebarTheme = computed(() => {
+            return unref(theme) === 'light' || unref(theme) === 'dark' ? unref(theme) : 'light'
         })
 
         const include = computed(() => {
@@ -42,6 +49,7 @@ export default defineComponent({
                 sider: ({ collapsed }) => {
                     return (
                         <Sidebar
+                            theme={unref(sidebarTheme)}
                             route={route}
                             menus={menus}
                             collapsed={collapsed}
@@ -68,7 +76,7 @@ export default defineComponent({
                 content: () => <Container include={unref(include)}/>
             }
 
-            return <BaseLayout v-slots={layoutSlots}/>
+            return <BaseLayout {...attrs} v-slots={layoutSlots}/>
         }
     }
 })

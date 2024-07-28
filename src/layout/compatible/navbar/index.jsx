@@ -1,4 +1,5 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref, unref } from 'vue'
+import { ConfigProvider } from 'ant-design-vue'
 import Breadcrumb from '../../components/breadcrumb'
 import Settings from '../../components/settings'
 import Fullscreen from '../../components/fullscreen'
@@ -29,8 +30,15 @@ export default defineComponent({
         const { prefixCls } = useConfigInject('pro-layout-navbar', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
+        const popupContainer = ref(null)
+
         function onCollapse () {
             emit('collapse', !props.collapsed)
+        }
+
+        function getPopupContainer () {
+            const plain = unref(popupContainer)
+            return plain ? (plain.$el || plain) : plain
         }
 
         return () => {
@@ -42,18 +50,24 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <div class={`${prefixCls.value}-left`}>
-                        <div class={`${prefixCls.value}-collapse`} onClick={onCollapse}>
-                            <HamburgerOutlined class={collapseClass}/>
+                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                        <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                            <div class={`${prefixCls.value}-content`}>
+                                <div class={`${prefixCls.value}-left`}>
+                                    <div class={`${prefixCls.value}-collapse`} onClick={onCollapse}>
+                                        <HamburgerOutlined class={collapseClass}/>
+                                    </div>
+                                    <Breadcrumb router={router}/>
+                                </div>
+                                <div class={`${prefixCls.value}-right`}>
+                                    <Settings/>
+                                    <Fullscreen/>
+                                    <Language/>
+                                    <Avatar/>
+                                </div>
+                            </div>
                         </div>
-                        <Breadcrumb router={router}/>
-                    </div>
-                    <div class={`${prefixCls.value}-right`}>
-                        <Settings/>
-                        <Fullscreen/>
-                        <Language/>
-                        <Avatar/>
-                    </div>
+                    </ConfigProvider>
                 </div>
             )
         }
