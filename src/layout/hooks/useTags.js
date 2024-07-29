@@ -3,6 +3,7 @@ import tryOnScopeDispose from '@utils/hooks/tryOnScopeDispose'
 import { cloneProxyToRaw } from '@utils/props-util'
 import { localCache, TAGS__LOCAL } from '@/utils/storage'
 
+// @todo 版本升级的时候 清空 Tags 缓存
 function useTags (menus, options) {
     const { homeName, route, onChange } = options || {}
 
