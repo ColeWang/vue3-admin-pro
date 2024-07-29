@@ -59,7 +59,7 @@ export default defineComponent({
 
         return () => {
             const { size: propsSize, loading, submitText, resetText, submitButtonProps, resetButtonProps } = props
-            const { sizeXS } = unref(token)
+            const { sizeMS } = unref(token)
 
             const needSubmitButtonProps = {
                 ...submitButtonProps,
@@ -78,7 +78,7 @@ export default defineComponent({
                 </Button>
             )
             return (
-                <Space size={propsSize || sizeXS} {...attrs}>
+                <Space size={propsSize || sizeMS / 2} {...attrs}>
                     {[resetButtonDom, submitButtonDom]}
                 </Space>
             )

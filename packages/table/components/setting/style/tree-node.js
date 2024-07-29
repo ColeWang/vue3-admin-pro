@@ -1,7 +1,7 @@
 import { genComponentStyleHook, mergeToken } from '../../../../_utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, iconCls, nodeTitleMaxWidth, nodeOptionWidth } = token
+    const { componentCls, iconCls, nodeTitleMaxWidth, nodeOptionWidth, nodeOptionPaddingInline } = token
     return {
         [componentCls]: {
             display: 'flex',
@@ -19,7 +19,7 @@ function genBaseStyle (token) {
             [`${componentCls}-option`]: {
                 width: nodeOptionWidth,
                 [`${componentCls}-option-icon`]: {
-                    paddingInline: token.sizeXS,
+                    paddingInline: nodeOptionPaddingInline,
                     display: 'none',
                     [`${iconCls}`]: {
                         width: token.fontSize,
@@ -38,11 +38,13 @@ function genBaseStyle (token) {
 
 export default genComponentStyleHook('ProTableSettingNode', (token) => {
     const nodeTitleMaxWidth = token.controlHeightSM * 7
-    const nodeOptionWidth = token.fontSize * 2 + token.sizeXS * 2 + token.sizeXXS
+    const nodeOptionWidth = token.fontSize * 2 + token.sizeMS + token.sizeXXS
+    const nodeOptionPaddingInline = token.sizeMS / 2
 
     const treeNodeToken = mergeToken(token, {
         nodeTitleMaxWidth,
-        nodeOptionWidth
+        nodeOptionWidth,
+        nodeOptionPaddingInline
     })
     return [genBaseStyle(treeNodeToken)]
 })

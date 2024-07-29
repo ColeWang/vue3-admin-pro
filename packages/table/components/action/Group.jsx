@@ -20,10 +20,10 @@ export default defineComponent({
         const { token } = theme.useToken()
         return () => {
             const { max, size: propsSize } = props
-            const { sizeXS } = unref(token)
+            const { sizeMS } = unref(token)
 
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
-            const spaceProps = { size: propsSize || sizeXS, ...attrs }
+            const spaceProps = { size: propsSize || sizeMS / 2, ...attrs }
 
             if (nodes.length && nodes.length > max) {
                 /* v8 ignore next 9 */

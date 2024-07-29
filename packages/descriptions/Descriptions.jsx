@@ -122,7 +122,7 @@ export default defineComponent({
 
         return () => {
             const { columns, emptyText } = props
-            const { sizeXS } = unref(token)
+            const { sizeMS } = unref(token)
 
             const nodes = filterEmptyElement(slots.default ? slots.default() : [])
 
@@ -149,7 +149,7 @@ export default defineComponent({
                                             {titleDom}
                                         </div>
                                         <div class={`${prefixCls.value}-extra`}>
-                                            <Space size={sizeXS}>{extraDom}</Space>
+                                            <Space size={sizeMS / 2}>{extraDom}</Space>
                                         </div>
                                     </div>
                                 )}

@@ -1,42 +1,3 @@
-// 主题色
-$primary: #1677FF;
-$primary-hover: #4096FF;
-$primary-active: #0958D9;
-// warning
-$warning: #FAAD14;
-$warning-hover: #FFC53D;
-$warning-active: #D48806;
-// Error
-$error: #FF4D4F;
-$error-hover: #FF7875;
-$error-active: #D9363E;
-// 主文本色
-$text: rgba(0, 0, 0, 0.88);
-// 次文本色
-$text-secondary: rgba(0, 0, 0, 0.65);
-// 三级文本色
-$text-tertiary: rgba(0, 0, 0, 0.45);
-// 四级文本色
-$text-quaternary: rgba(0, 0, 0, 0.25);
-// 图标
-$icon: rgba(0, 0, 0, 0.65);
-// 背景
-$background: #F5F5F5;
-// 边框
-$border: #D9D9D9;
-// 失效 Disabled
-$disabled: #C1C2C5;
-// White
-$white: #FFF;
-// Black
-$black: #000;
-// 浮层阴影
-$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-// 主字号
-$font-size: 14px;
-// 圆角
-$border-radius: 4px;
-
 // 设置宽高 $width $height:$width
 @mixin size($width, $height: $width) {
     width: $width;
@@ -55,11 +16,6 @@ $border-radius: 4px;
     @if ($text-align != "" and $text-align != null) {
         text-align: $text-align;
     }
-}
-
-// 设置字体粗细 $font-weight: null
-@mixin text-weight($font-weight: bold) {
-    font-weight: $font-weight;
 }
 
 // flex $justify-content: null, $align-items: null
