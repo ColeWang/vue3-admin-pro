@@ -1,16 +1,19 @@
 import { computed, ref, unref } from 'vue'
 import { theme as antTheme } from 'ant-design-vue'
+import { localCache, THEME__LOCAL } from '@/utils/storage'
+
+const defaultValues = {
+    theme: 'dark',
+    primary: 'blue',
+    compact: false
+}
 
 function useTheme () {
+    const themeCache = localCache.getObj(THEME__LOCAL)
     const { darkAlgorithm, compactAlgorithm } = antTheme
     const { token } = antTheme.useToken()
 
-    // @todo 添加缓存
-    const themeConfig = ref({
-        theme: 'dark',
-        primary: 'blue',
-        compact: false
-    })
+    const themeConfig = ref(themeCache || defaultValues)
 
     const themeProvider = computed(() => {
         const { theme, primary, compact } = unref(themeConfig)
@@ -26,6 +29,7 @@ function useTheme () {
 
     function setThemeConfig (value) {
         themeConfig.value = value
+        localCache.setObj(THEME__LOCAL, value)
     }
 
     return { themeConfig, themeProvider, setThemeConfig }

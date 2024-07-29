@@ -59,6 +59,7 @@ export const sessionCache = new GalleryCache(sessionStorage)
 
 export const TAGS__LOCAL = 'tags'
 export const LOCALE__LOCAL = 'locale'
+export const THEME__LOCAL = 'theme'
 
 // 用户账号
 export const USERNAME__LOCAL = 'username'
