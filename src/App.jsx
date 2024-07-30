@@ -3,14 +3,14 @@ import { RouterView } from 'vue-router'
 import { ConfigProvider } from 'ant-design-vue'
 import { LocaleProvider } from '@packages'
 import { createAppInstance } from '@/hooks/useAppInstance'
-import useTheme from '@/hooks/useTheme'
-import useLocale from '@/hooks/useLocale'
+import useLocaleMessage from '@/hooks/useLocaleMessage'
+import useThemeConfig from '@/hooks/useThemeConfig'
 
 export default defineComponent({
     inheritAttrs: false,
     setup () {
-        const { themeConfig, themeProvider, setThemeConfig } = useTheme()
-        const { localeMessage, setLocaleMessage } = useLocale()
+        const { localeMessage, setLocaleMessage } = useLocaleMessage()
+        const { themeConfig, themeProvider, setThemeConfig } = useThemeConfig()
 
         function onAvatarAction (key) {
             console.log(key)

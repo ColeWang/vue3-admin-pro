@@ -2,18 +2,16 @@ import { computed, ref, unref } from 'vue'
 import { theme as antTheme } from 'ant-design-vue'
 import { localCache, THEME__LOCAL } from '@/utils/storage'
 
-const defaultValues = {
-    theme: 'dark',
-    primary: 'blue',
-    compact: false
-}
-
-function useTheme () {
+function useThemeConfig () {
     const themeCache = localCache.getObj(THEME__LOCAL)
     const { darkAlgorithm, compactAlgorithm } = antTheme
     const { token } = antTheme.useToken()
 
-    const themeConfig = ref(themeCache || defaultValues)
+    const themeConfig = ref(themeCache || {
+        theme: 'dark',
+        primary: 'blue',
+        compact: false
+    })
 
     const themeProvider = computed(() => {
         const { theme, primary, compact } = unref(themeConfig)
@@ -35,4 +33,4 @@ function useTheme () {
     return { themeConfig, themeProvider, setThemeConfig }
 }
 
-export default useTheme
+export default useThemeConfig

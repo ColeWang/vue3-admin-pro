@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 import { localCache, LOCALE__LOCAL } from '@/utils/storage'
 
-function useLocale () {
+function useLocaleMessage () {
     const language = navigator.language
     const lang = (language === 'zh-CN' || language === 'en-US') ? language : false
     const localeLang = localCache.get(LOCALE__LOCAL) || lang || 'zh-CN'
@@ -25,4 +25,4 @@ function useLocale () {
     return { localeMessage, setLocaleMessage }
 }
 
-export default useLocale
+export default useLocaleMessage
