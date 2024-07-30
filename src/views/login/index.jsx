@@ -37,8 +37,6 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const screen = useScreen()
 
-        console.log('cole', screen)
-
         const router = useRouter()
         const route = useRoute()
 
