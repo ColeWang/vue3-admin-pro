@@ -6,7 +6,7 @@ import Fullscreen from '../../components/fullscreen'
 import Language from '../../components/language'
 import Avatar from '../../components/avatar'
 import { HamburgerOutlined } from '@/components/icon'
-import { useConfigInject } from '@utils/extend'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 
 export default defineComponent({

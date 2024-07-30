@@ -2,7 +2,7 @@ import { defineComponent, ref, unref } from 'vue'
 import { Drawer } from 'ant-design-vue'
 import { SettingOutlined } from '@ant-design/icons-vue'
 import ThemeSettings from './ThemeSettings'
-import { useConfigInject } from '@utils/extend'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 
 export default defineComponent({

@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { Button, Result } from 'ant-design-vue'
-import useGlobalProperties from '@utils/hooks/useGlobalProperties'
-import { useConfigInject } from '@utils/extend'
+import useGlobalProperties from '@packages/hooks/useGlobalProperties'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 import { HOME_NAME } from '@/config'
 

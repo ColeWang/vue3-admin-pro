@@ -1,6 +1,6 @@
 import { ref, unref, watch } from 'vue'
-import tryOnScopeDispose from '@utils/hooks/tryOnScopeDispose'
-import { cloneProxyToRaw } from '@utils/props-util'
+import tryOnScopeDispose from '@packages/hooks/tryOnScopeDispose'
+import { cloneProxyToRaw } from '@packages/utils/props-util'
 import { localCache, TAGS__LOCAL } from '@/utils/storage'
 
 // @todo 版本升级的时候 清空 Tags 缓存

@@ -1,7 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
-import useMediaQuery from '@utils/hooks/useMediaQuery'
-import { getPropsSlot } from '@utils/props-util'
-import { useConfigInject } from '@utils/extend'
+import { getPropsSlot } from '@packages/utils/props-util'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 
 export default defineComponent({
@@ -23,7 +22,6 @@ export default defineComponent({
     setup (props, { slots, attrs }) {
         const { prefixCls } = useConfigInject('pro-base-layout', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
-        const { screen } = useMediaQuery()
 
         const collapsed = ref(false)
 

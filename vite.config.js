@@ -60,8 +60,7 @@ export default defineConfig((config) => {
         resolve: {
             alias: {
                 '@': resolve(__dirname, 'src'),
-                '@packages': resolve(__dirname, 'packages'),
-                '@utils': resolve(__dirname, 'packages/_utils')
+                '@packages': resolve(__dirname, 'packages')
             }
         }
     }

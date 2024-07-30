@@ -1,4 +1,4 @@
-import { genComponentStyleHook } from '@utils/extend'
+import { genComponentStyleHook } from '@packages/utils/extend'
 
 function genBaseStyle (token) {
     const { componentCls } = token

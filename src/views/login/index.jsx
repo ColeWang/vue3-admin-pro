@@ -3,8 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { Button, Card, Checkbox } from 'ant-design-vue'
 import { Form, Password, Text } from '@packages'
 import { PasswordFilled, UserFilled } from '@/components/icon'
-import useMediaQuery from '@utils/hooks/useMediaQuery'
-import { useConfigInject } from '@utils/extend'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 // --
 import { HOME_NAME } from '@/config'
@@ -35,7 +34,6 @@ export default defineComponent({
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-login', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
-        const { screen } = useMediaQuery()
 
         const router = useRouter()
         const route = useRoute()
@@ -69,10 +67,8 @@ export default defineComponent({
         }
 
         return () => {
-            const { lt } = unref(screen)
-
             const cardClass = [`${prefixCls.value}-form`, {
-                [`${prefixCls.value}-form-center`]: lt.lg
+                [`${prefixCls.value}-form-center`]: false
             }]
 
             return wrapSSR(

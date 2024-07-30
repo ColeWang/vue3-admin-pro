@@ -1,7 +1,7 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Breadcrumb } from 'ant-design-vue'
 import useShowTitle from '../../hooks/useShowTitle'
-import { useConfigInject } from '@utils/extend'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 
 export default defineComponent({

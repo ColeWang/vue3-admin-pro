@@ -2,7 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Switch, theme as antTheme, Tooltip } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/hooks/useAppInstance'
-import { useConfigInject } from '@utils/extend'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style/theme-settings'
 
 const themeList = [
@@ -102,12 +102,11 @@ export default defineComponent({
             })
 
             const primaryDom = primaryList.map((item) => {
-                const primaryStyle = { backgroundColor: unref(token)[item.name] }
                 return (
                     <Tooltip title={item.title}>
                         <div
                             class={`${prefixCls.value}-primary`}
-                            style={primaryStyle}
+                            style={{ backgroundColor: unref(token)[item.name] }}
                             onClick={onUpdatePrimary.bind(null, item.name)}
                         >
                             {primary === item.name ? <CheckOutlined/> : null}

@@ -1,4 +1,4 @@
-import { genComponentStyleHook, mergeToken } from '@utils/extend'
+import { genComponentStyleHook, mergeToken } from '@packages/utils/extend'
 
 function genBaseStyle (token) {
     const { componentCls, antCls, loginBgColor, loginFormWidth, loginFormRight } = token

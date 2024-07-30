@@ -1,8 +1,8 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, unref } from 'vue'
 import { ExitFullscreenOutlined, FullscreenOutlined } from '@/components/icon'
 import native from './screenfull'
-import { off, on } from '@utils/dom'
-import { useConfigInject } from '@utils/extend'
+import { off, on } from '@packages/utils/dom'
+import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 
 export default defineComponent({

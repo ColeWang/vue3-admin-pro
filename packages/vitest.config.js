@@ -5,11 +5,11 @@ export default defineConfig((configEnv) => {
     return mergeConfig(viteConfig(configEnv), defineConfig({
         test: {
             environment: 'jsdom',
-            setupFiles: ['./packages/_tests/setup.js'],
+            setupFiles: ['./packages/tests/setup.js'],
             include: ['**/*.{test,spec,type-test}.{js,mjs,cjs,ts,tsx,jsx}'],
             coverage: {
                 exclude: [
-                    'packages/_tests/**',
+                    'packages/tests/**',
                     'packages/index.js',
                     '.eslintrc.cjs',
                     'entry.packages.js',

@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import ErrorPage from './ErrorPage'
-import useGlobalProperties from '@utils/hooks/useGlobalProperties'
+import useGlobalProperties from '@packages/hooks/useGlobalProperties'
 
 export default defineComponent({
     inheritAttrs: false,

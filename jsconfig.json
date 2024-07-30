@@ -6,9 +6,6 @@
             ],
             "@packages/*": [
                 "./packages/*"
-            ],
-            "@utils": [
-                "./packages/_utils/*"
             ]
         }
     }
