@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { Button, Card, Checkbox } from 'ant-design-vue'
 import { Form, Password, Text } from '@packages'
 import { PasswordFilled, UserFilled } from '@/components/icon'
+import { useScreen } from '@packages/plugins/screen'
 import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 // --
@@ -34,6 +35,9 @@ export default defineComponent({
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-login', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const screen = useScreen()
+
+        console.log('cole', screen)
 
         const router = useRouter()
         const route = useRoute()
@@ -68,7 +72,7 @@ export default defineComponent({
 
         return () => {
             const cardClass = [`${prefixCls.value}-form`, {
-                [`${prefixCls.value}-form-center`]: false
+                [`${prefixCls.value}-form-center`]: screen.lt.lg
             }]
 
             return wrapSSR(

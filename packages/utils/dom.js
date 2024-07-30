@@ -43,3 +43,8 @@ export function removeClass (node, className) {
         }
     }
 }
+
+export function getWindowSize () {
+    // @todo visualViewport
+    return [window.innerWidth, window.innerHeight]
+}

@@ -1,5 +1,6 @@
 import { defineComponent, onMounted, onUnmounted, ref, unref } from 'vue'
 import { theme } from 'ant-design-vue'
+import { getWindowSize } from '@packages/utils/dom'
 import { random } from 'lodash-es'
 import BACKGROUND from './background.svg'
 
@@ -20,8 +21,7 @@ function hexToRgba (colorStr, opacity) {
 function bubbly (cv, colorStr, fillStyle, fillImage) {
     let cancel = null
 
-    const width = window.innerWidth
-    const height = window.innerHeight
+    const [width, height] = getWindowSize()
 
     const ctx = cv.getContext('2d')
     const devicePixelRatio = (window.devicePixelRatio || 1)
