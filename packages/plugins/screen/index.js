@@ -91,17 +91,17 @@ export function createScreen (options) {
 
     const updateEvent = debounce(update, delay)
 
-    // @todo visualViewport
-    on(window, 'resize', updateEvent, { passive: true })
-
-    update()
-
-    if (classes === true && screen.name === 'xs') {
-        addClass(document.body, `screen--xs`)
-    }
-
     return {
         install: (app) => {
+            // @todo visualViewport
+            on(window, 'resize', updateEvent, { passive: true })
+
+            update()
+
+            if (classes === true && screen.name === 'xs') {
+                addClass(document.body, `screen--xs`)
+            }
+
             app.provide(BaseKey, screen)
         }
     }
