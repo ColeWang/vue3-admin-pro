@@ -3,13 +3,12 @@ import { addClass, getWindowSize, removeClass } from '../../utils/dom'
 import { addEvt } from '../../utils/event'
 import { debounce, pick } from 'lodash-es'
 
-const SIZE_LIST = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
-
 const BaseKey = Symbol('Screen')
 
 export function createScreen (options) {
     const { sizes = {}, delay = 16, classes } = options || {}
 
+    const SIZE_LIST = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
     const baseSizes = {
         xs: 0,
         sm: 576,
