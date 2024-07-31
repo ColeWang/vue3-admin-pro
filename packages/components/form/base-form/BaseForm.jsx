@@ -2,7 +2,8 @@ import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { ConfigProvider, Form, theme } from 'ant-design-vue'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
-import { cloneProxyToRaw } from '../../../utils/props-util'
+import { cloneProxyToRaw } from '../../../utils/util'
+import { getElement } from '../../../utils/dom'
 import { useConfigInject } from '../../../utils/extend'
 import useStyle from './style'
 import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
@@ -158,11 +159,6 @@ export default defineComponent({
             props.submitOnReset && submit()
         }
 
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
-        }
-
         const fromInstance = {
             formInstanceRef,
             model,
@@ -193,7 +189,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <Form {...needFormProps} ref={formInstanceRef}>
                                 <RowWrap {...rowWrapProps} v-slots={slots}/>

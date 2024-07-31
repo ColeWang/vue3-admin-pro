@@ -25,10 +25,6 @@ export default defineComponent({
             setLocaleMessage && setLocaleMessage(value)
         }
 
-        function getPopupContainer (trigger) {
-            return trigger.parentNode || document.body
-        }
-
         return () => {
             const dropdownSlots = {
                 overlay: () => {
@@ -48,11 +44,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <Dropdown
-                        placement={'bottom'}
-                        getPopupContainer={getPopupContainer}
-                        v-slots={dropdownSlots}
-                    >
+                    <Dropdown placement={'bottom'} v-slots={dropdownSlots}>
                         <div class={`${prefixCls.value}-content`}>
                             <GlobalOutlined/>
                         </div>

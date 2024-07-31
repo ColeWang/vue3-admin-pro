@@ -1,15 +1,32 @@
 import { isBoolean } from 'lodash-es'
 
-export function stopPropagation (event) {
-    event.stopPropagation()
+export function addEvt (el, type, listener, options) {
+    el.addEventListener(type, listener, options)
 }
 
-export function preventDefault (event, isStopPropagation) {
-    if (!isBoolean(event.cancelable) || event.cancelable) {
-        event.preventDefault()
+export function cleanEvt (el, type, listener, options) {
+    el.removeEventListener(type, listener, options)
+}
+
+export function onceEvt (el, type, listener, options) {
+    function handler (evt) {
+        listener.call(null, evt)
+        cleanEvt(el, type, handler, options)
+    }
+
+    addEvt(el, type, handler, options)
+}
+
+export function stopPropagation (evt) {
+    evt.stopPropagation()
+}
+
+export function preventDefault (evt, isStopPropagation) {
+    if (!isBoolean(evt.cancelable) || evt.cancelable) {
+        evt.preventDefault()
     }
     if (isStopPropagation) {
-        stopPropagation(event)
+        stopPropagation(evt)
     }
 }
 

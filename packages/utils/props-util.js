@@ -1,41 +1,15 @@
-import { Comment, Fragment, isProxy, toRaw } from 'vue'
-import { cloneDeep, cloneWith, isArray, isFunction, isSymbol } from 'lodash-es'
+import { Fragment } from 'vue'
+import { isArray, isFunction } from 'lodash-es'
+import { isEmptyElement } from './is'
 
-export function cloneProxyToRaw (proxy) {
-    return cloneWith(proxy, (value) => {
-        if (isProxy(value)) {
-            const nextValue = toRaw(value)
-            return cloneDeep(nextValue)
-        } else {
-            return value
-        }
-    })
-}
-
-export function isValidElement (c) {
-    return c && c.__v_isVNode && !isSymbol(c.type)
-}
-
-export function isEmptyText (c) {
-    return c && c.type === Text && c.children.trim() === ''
-}
-
-export function isEmptyFragment (c) {
-    return c && c.type === Fragment && c.children.length === 0
-}
-
-export function isEmptyElement (c) {
-    return c && (c.type === Comment || isEmptyText(c) || isEmptyFragment(c))
-}
-
-export function filterEmptyElement (children) {
+export function flattenChildren (children) {
     const result = []
     if (isArray(children) && children.length !== 0) {
         children.forEach((child) => {
             if (isArray(child)) {
                 result.push(...child)
             } else if (child && child.type === Fragment && isArray(child.children)) {
-                result.push(...filterEmptyElement(child.children))
+                result.push(...flattenChildren(child.children))
             } else if (child) {
                 result.push(child)
             }

@@ -1,4 +1,5 @@
-import { computed, unref, watch } from 'vue'
+import { computed, watch } from 'vue'
+import { getElement } from '../utils/dom'
 import tryOnScopeDispose from './tryOnScopeDispose'
 
 function useResizeObserver (target, callback, options) {
@@ -9,10 +10,7 @@ function useResizeObserver (target, callback, options) {
         observer = undefined
     }
 
-    const elTarget = computed(() => {
-        const plain = unref(target)
-        return plain ? (plain.$el || plain) : plain
-    })
+    const elTarget = computed(() => getElement(target))
 
     const stopWatch = watch(elTarget, (el) => {
         cleanup()

@@ -11,6 +11,7 @@ import useRowSelection from '../hooks/useRowSelection'
 import { createSharedContext } from '../hooks/useSharedContext'
 import { getSlot, getSlotVNode } from '../../../utils/props-util'
 import { omitNil } from '../../../utils/util'
+import { getElement } from '../../../utils/dom'
 import { useConfigInject } from '../../../utils/extend'
 import useStyle from './style'
 import { isArray, isFunction, omit, pick } from 'lodash-es'
@@ -143,11 +144,6 @@ export default defineComponent({
             emit('sizeChange', value)
         }
 
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
-        }
-
         createSharedContext({
             requestProps,
             tableSize,
@@ -250,7 +246,7 @@ export default defineComponent({
                     <Card bodyStyle={cardBodyStyle}>
                         {propsToolbar !== false && renderToolbar()}
                         {propsRowSelection !== false && renderAlert()}
-                        <ConfigProvider getPopupContainer={getPopupContainer}>
+                        <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                             <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                                 <div class={`${prefixCls.value}-container`} ref={tableRef}>
                                     {tableDom || baseTableDom}

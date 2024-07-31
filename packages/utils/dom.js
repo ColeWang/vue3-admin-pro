@@ -1,19 +1,4 @@
-export function on (el, type, listener, options) {
-    el.addEventListener(type, listener, options)
-}
-
-export function off (el, type, listener, options) {
-    el.removeEventListener(type, listener, options)
-}
-
-export function once (el, type, listener, options) {
-    function handler (evt) {
-        listener.call(null, evt)
-        off(el, type, handler, options)
-    }
-
-    on(el, type, handler, options)
-}
+import { unref } from 'vue'
 
 export function hasClass (node, className) {
     if (node.classList) {
@@ -42,6 +27,14 @@ export function removeClass (node, className) {
             node.className = ` ${originClass} `.replace(` ${className} `, ' ')
         }
     }
+}
+
+export function getElement (el) {
+    const target = unref(el)
+    if (target) {
+        return target.$el || target
+    }
+    return undefined
 }
 
 export function getWindowSize () {

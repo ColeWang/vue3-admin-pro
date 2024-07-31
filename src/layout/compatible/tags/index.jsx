@@ -4,6 +4,7 @@ import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/ic
 import TagNode from './Node'
 import useShowTitle from '../../hooks/useShowTitle'
 import { omitNil } from '@packages/utils/util'
+import { getElement } from '@packages/utils/dom'
 import useGlobalProperties from '@packages/hooks/useGlobalProperties'
 import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
@@ -159,11 +160,6 @@ export default defineComponent({
             }
         }
 
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
-        }
-
         return () => {
             const { tags, route: currentRoute, homeName } = props
             const { sizeXXS } = unref(token)
@@ -211,7 +207,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-content`}>
                                 <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-left`]}>

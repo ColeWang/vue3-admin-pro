@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import { Dropdown, Menu, Space, theme } from 'ant-design-vue'
 import Action from './Action'
-import { filterEmptyElement } from '../../../../utils/props-util'
+import { flattenChildren } from '../../../../utils/props-util'
 import { take, takeRight } from 'lodash-es'
 
 export default defineComponent({
@@ -22,7 +22,7 @@ export default defineComponent({
             const { max, size: propsSize } = props
             const { sizeMS } = unref(token)
 
-            const nodes = filterEmptyElement(slots.default ? slots.default() : [])
+            const nodes = flattenChildren(slots.default ? slots.default() : [])
             const spaceProps = { size: propsSize || sizeMS / 2, ...attrs }
 
             if (nodes.length && nodes.length > max) {

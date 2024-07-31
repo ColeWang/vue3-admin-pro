@@ -5,7 +5,7 @@ import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
 import { getSlotVNode } from '../../../utils/props-util'
 import { preventDefault } from '../../../utils/event'
-import { isEmpty } from '../../../utils/util'
+import { isEmpty } from '../../../utils/is'
 
 export default defineComponent({
     inheritAttrs: false,

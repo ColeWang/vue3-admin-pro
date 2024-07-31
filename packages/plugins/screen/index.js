@@ -1,5 +1,6 @@
 import { inject, reactive } from 'vue'
-import { addClass, getWindowSize, on, removeClass } from '../../utils/dom'
+import { addClass, getWindowSize, removeClass } from '../../utils/dom'
+import { addEvt } from '../../utils/event'
 import { debounce, pick } from 'lodash-es'
 
 const SIZE_LIST = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
@@ -92,9 +93,9 @@ export function createScreen (options) {
     const updateEvent = debounce(update, delay)
 
     return {
-        install: (app) => {
+        install (app) {
             // @todo visualViewport
-            on(window, 'resize', updateEvent, { passive: true })
+            addEvt(window, 'resize', updateEvent, { passive: true })
 
             update()
 

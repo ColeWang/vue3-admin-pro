@@ -2,7 +2,8 @@ import { defineComponent, ref, unref } from 'vue'
 import { ConfigProvider, Descriptions, Form, Space, Spin, theme } from 'ant-design-vue'
 import BaseField from '../base-field'
 import useFetchData from './hooks/useFetchData'
-import { filterEmptyElement, getPropsSlot } from '../../utils/props-util'
+import { flattenChildren, getPropsSlot } from '../../utils/props-util'
+import { getElement } from '../../utils/dom'
 import { useConfigInject } from '../../utils/extend'
 import useStyle from './style'
 import { isFunction, omit, pick } from 'lodash-es'
@@ -113,18 +114,13 @@ export default defineComponent({
                 .sort((a, b) => (a.order || 0) - (b.order || 0))
         }
 
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
-        }
-
         expose({ reload: onReload })
 
         return () => {
             const { columns, emptyText } = props
             const { sizeMS } = unref(token)
 
-            const nodes = filterEmptyElement(slots.default ? slots.default() : [])
+            const nodes = flattenChildren(slots.default ? slots.default() : [])
 
             const schemaColumns = getColumns(nodes, columns)
             const children = schemaToDescsItem(schemaColumns, emptyText)
@@ -140,7 +136,7 @@ export default defineComponent({
             const needDescsProps = { ...pick(restProps, Object.keys(Descriptions.props)) }
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-container`}>
                                 {(titleDom || extraDom) && (

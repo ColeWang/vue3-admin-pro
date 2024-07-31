@@ -1,7 +1,8 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Field } from '../../../form'
 import BaseSearch from './BaseSearch'
-import { isEmpty, namePathToString } from '../../../../utils/util'
+import { namePathToString } from '../../../../utils/util'
+import { isEmpty } from '../../../../utils/is'
 import { pick, reduce, set } from 'lodash-es'
 
 function filterSearchColumns (columns) {

@@ -3,6 +3,7 @@ import { ConfigProvider, Space, theme } from 'ant-design-vue'
 import Action from '../../components/action'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../../utils/props-util'
+import { getElement } from '../../../../utils/dom'
 import { useConfigInject } from '../../../../utils/extend'
 import useStyle from './style'
 
@@ -39,11 +40,6 @@ export default defineComponent({
             emit('cleanSelected')
         }
 
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
-        }
-
         return () => {
             if (props.selectedRowKeys.length < 1) return null
             // ----
@@ -71,7 +67,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-container`}>
                                 <div class={`${prefixCls.value}-wrapper`}>

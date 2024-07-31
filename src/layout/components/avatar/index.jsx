@@ -20,10 +20,6 @@ export default defineComponent({
             onAvatarAction && onAvatarAction(key)
         }
 
-        function getPopupContainer (trigger) {
-            return trigger.parentNode || document.body
-        }
-
         return () => {
             const { controlHeight } = unref(token)
 
@@ -60,11 +56,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <Dropdown
-                        getPopupContainer={getPopupContainer}
-                        placement={'bottomRight'}
-                        v-slots={dropdownSlots}
-                    >
+                    <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
                         <div class={`${prefixCls.value}-content`}>
                             <Avatar size={controlHeight - 4}>
                                 {{ icon: () => <UserOutlined/> }}

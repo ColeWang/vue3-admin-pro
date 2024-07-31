@@ -1,25 +1,21 @@
-import { defineComponent, ref, unref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
+import { getElement } from '../../../../utils/dom'
 import { useConfigInject } from '../../../../utils/extend'
 import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { slots, attrs }) {
-        const popupContainer = ref(null)
-
         const { prefixCls } = useConfigInject('pro-table-extra', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
-        }
+        const popupContainer = ref(null)
 
         return () => {
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-container`}>
                                 {slots.default && slots.default()}

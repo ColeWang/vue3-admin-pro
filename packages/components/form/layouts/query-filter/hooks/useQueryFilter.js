@@ -1,6 +1,7 @@
 import { computed, ref, unref, watch } from 'vue'
 import tryOnScopeDispose from '../../../../../hooks/tryOnScopeDispose'
-import { filterEmptyElement, isValidElement } from '../../../../../utils/props-util'
+import { flattenChildren } from '../../../../../utils/props-util'
+import { isValidElement } from '../../../../../utils/is'
 import { isFunction, map } from 'lodash-es'
 
 const breakpoints = {
@@ -78,7 +79,7 @@ function useQueryFilter (size, props) {
     }
 
     function genColNodes (children, callback) {
-        const validChildren = filterEmptyElement(children || [])
+        const validChildren = flattenChildren(children || [])
         const nodes = createNodes(validChildren)
         const showNodes = nodes.filter((c) => !c.hidden)
         const offset = getOffset(showNodes.length, unref(span))

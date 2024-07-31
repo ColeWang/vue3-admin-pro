@@ -1,4 +1,4 @@
-import { defineComponent, ref, unref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
 import Breadcrumb from '../../components/breadcrumb'
 import Settings from '../../components/settings'
@@ -6,6 +6,7 @@ import Fullscreen from '../../components/fullscreen'
 import Language from '../../components/language'
 import Avatar from '../../components/avatar'
 import { HamburgerOutlined } from '@/components/icon'
+import { getElement } from '@packages//utils/dom'
 import { useConfigInject } from '@packages/utils/extend'
 import useStyle from './style'
 
@@ -36,11 +37,6 @@ export default defineComponent({
             emit('collapse', !props.collapsed)
         }
 
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
-        }
-
         return () => {
             const { router, collapsed } = props
 
@@ -50,7 +46,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-content`}>
                                 <div class={`${prefixCls.value}-left`}>

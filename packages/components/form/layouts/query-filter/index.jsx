@@ -5,7 +5,7 @@ import BaseForm from '../../base-form'
 import Actions from './Actions'
 import useQueryFilter from './hooks/useQueryFilter'
 import { genFormItemFixStyle } from '../../utils'
-import { filterEmptyElement } from '../../../../utils/props-util'
+import { flattenChildren } from '../../../../utils/props-util'
 import { useConfigInject } from '../../../../utils/extend'
 import useStyle from './style'
 import { pick } from 'lodash-es'
@@ -89,7 +89,7 @@ export default defineComponent({
             const formItemProps = genFormItemFixStyle(labelWidth || sizeMD * 4, unref(layout))
             const slotScope = { layout: unref(layout), props: formItemProps }
 
-            const children = filterEmptyElement(slots.default ? slots.default(slotScope) : [])
+            const children = flattenChildren(slots.default ? slots.default(slotScope) : [])
             const { nodes: colNodes, offset, haveRow } = genColNodes(children, (item) => {
                 const { child: fieldNode, hidden, key } = item || {}
                 const colClass = { [`${prefixCls.value}-col-hidden`]: hidden }

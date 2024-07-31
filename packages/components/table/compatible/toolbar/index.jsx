@@ -11,6 +11,7 @@ import Setting from '../../components/setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../../utils/props-util'
+import { getElement } from '../../../../utils/dom'
 import { useConfigInject } from '../../../../utils/extend'
 import useStyle from './style'
 import { pick } from 'lodash-es'
@@ -58,11 +59,6 @@ export default defineComponent({
 
         function onExportClick () {
             emit('export')
-        }
-
-        function getPopupContainer () {
-            const plain = unref(popupContainer)
-            return plain ? (plain.$el || plain) : plain
         }
 
         return () => {
@@ -133,7 +129,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getPopupContainer}>
+                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-container`}>
                                 <div class={`${prefixCls.value}-title`}>{titleDom}</div>

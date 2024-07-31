@@ -1,7 +1,8 @@
 import { cloneVNode, defineComponent, onMounted, ref, unref } from 'vue'
 import { QueryFilter } from '../../../form'
 import { Card, theme } from 'ant-design-vue'
-import { filterEmptyElement, isValidElement } from '../../../../utils/props-util'
+import { flattenChildren } from '../../../../utils/props-util'
+import { isValidElement } from '../../../../utils/is'
 import { merge, pick } from 'lodash-es'
 
 export default defineComponent({
@@ -33,7 +34,7 @@ export default defineComponent({
         return () => {
             const { sizeMS } = unref(token)
 
-            const children = filterEmptyElement(slots.default ? slots.default() : [])
+            const children = flattenChildren(slots.default ? slots.default() : [])
 
             const cardProps = { style: { marginBlockEnd: `${sizeMS}px` }, ...attrs }
             const queryFilterProps = pick(props, Object.keys(QueryFilter.props))
