@@ -3,14 +3,13 @@ import { addClass, getWindowSize, removeClass } from '../../utils/dom'
 import { addEvt } from '../../utils/event'
 import { debounce, pick } from 'lodash-es'
 
-const SIZE_LIST = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+const SIZE_LIST = ['sm', 'md', 'lg', 'xl', 'xxl']
 
 export default createReactivePlugin({
     width: 0,
     height: 0,
     name: 'xs',
     sizes: {
-        xs: 0,
         sm: 576,
         md: 768,
         lg: 992,
@@ -65,10 +64,10 @@ export default createReactivePlugin({
             this.gt.xl = width >= sizes.xxl
 
             this.xs = this.lt.sm
-            this.sm = this.gt.xs === false && this.lt.md === true
-            this.md = this.gt.sm === false && this.lt.lg === true
-            this.lg = this.gt.md === false && this.lt.xl === true
-            this.xl = this.gt.lg === false && this.lt.xxl === true
+            this.sm = this.gt.xs === true && this.lt.md === true
+            this.md = this.gt.sm === true && this.lt.lg === true
+            this.lg = this.gt.md === true && this.lt.xl === true
+            this.xl = this.gt.lg === true && this.lt.xxl === true
             this.xxl = this.gt.xl
 
             const name = (this.xs === true && 'xs')

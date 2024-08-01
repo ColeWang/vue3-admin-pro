@@ -1,19 +1,13 @@
 import { inject } from 'vue'
 import { Fullscreen, Screen } from './plugins'
-import { omit } from 'lodash-es'
+import { forEach, omit } from 'lodash-es'
 
 const BaseKey = Symbol('Site')
 
-const defaultPlugins = [
-    {
-        name: 'fullscreen',
-        plugin: Fullscreen
-    },
-    {
-        name: 'screen',
-        plugin: Screen
-    }
-]
+const defaultPlugins = {
+    fullscreen: Fullscreen,
+    screen: Screen
+}
 
 function install (app, options) {
     const { config: pluginConfig } = options
@@ -26,7 +20,7 @@ function install (app, options) {
     app.config.globalProperties.$site = $site
     app.provide(BaseKey, $site)
 
-    defaultPlugins.forEach(({ name, plugin }) => {
+    forEach(defaultPlugins, (plugin, name) => {
         const pluginOptions = { ...options, ...pluginConfig[name] }
         plugin.install(app, omit(pluginOptions, ['config']), $site)
         plugin.__installed = true
