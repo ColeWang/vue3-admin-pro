@@ -16,7 +16,7 @@ import {
     Time,
     TimeRange,
     Radio
-} from '@packages'
+} from '@site'
 
 export default defineComponent({
     inheritAttrs: false,

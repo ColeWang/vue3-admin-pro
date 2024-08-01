@@ -2,7 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Switch, theme as antTheme, Tooltip } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
 import { useAppInstance } from '@/hooks/useAppInstance'
-import { useConfigInject } from '@packages/utils/extend'
+import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style/theme-settings'
 
 const themeList = [

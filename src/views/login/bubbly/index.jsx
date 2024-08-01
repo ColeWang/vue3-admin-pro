@@ -1,6 +1,6 @@
 import { defineComponent, onMounted, onUnmounted, ref, unref } from 'vue'
 import { theme } from 'ant-design-vue'
-import { getWindowSize } from '@packages/utils/dom'
+import { getWindowSize } from '@site/utils/dom'
 import { random } from 'lodash-es'
 import BACKGROUND from './background.svg'
 

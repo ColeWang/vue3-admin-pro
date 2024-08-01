@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Button, Card } from 'ant-design-vue'
-import { Descriptions as Descs } from '@packages'
+import { Descriptions as Descs } from '@site'
 
 export default defineComponent({
     inheritAttrs: false,

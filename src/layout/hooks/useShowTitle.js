@@ -1,4 +1,4 @@
-import useGlobalProperties from '@packages/hooks/useGlobalProperties'
+import useGlobalProperties from '@site/hooks/useGlobalProperties'
 
 function useShowTitle () {
     const { $t, $te } = useGlobalProperties()

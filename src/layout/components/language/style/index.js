@@ -1,4 +1,4 @@
-import { genComponentStyleHook, mergeToken } from '@packages/utils/extend'
+import { genComponentStyleHook, mergeToken } from '@site/utils/extend'
 
 function genBaseStyle (token) {
     const { componentCls, languageMenuMinWidth } = token

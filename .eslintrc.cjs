@@ -1,5 +1,6 @@
 /* eslint-env node */
 module.exports = {
+    globals: { __SITE_VERSION__: 'readonly' },
     env: { browser: true, node: true },
     plugins: ['vue'],
     extends: [

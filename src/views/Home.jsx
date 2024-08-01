@@ -1,5 +1,5 @@
 import { computed, defineComponent, unref } from 'vue'
-import { Action, Descriptions as Descs, ModalForm, Number, Table, Text } from '@packages'
+import { Action, Descriptions as Descs, ModalForm, Number, Table, Text } from '@site'
 import { Button, Card } from 'ant-design-vue'
 
 export default defineComponent({

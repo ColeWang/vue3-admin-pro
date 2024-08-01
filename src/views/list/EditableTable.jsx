@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { EditableTable } from '@packages'
+import { EditableTable } from '@site'
 
 export default defineComponent({
     inheritAttrs: false,

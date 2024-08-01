@@ -1,10 +1,9 @@
 import { defineComponent, reactive, ref, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Button, Card, Checkbox } from 'ant-design-vue'
-import { Form, Password, Text } from '@packages'
+import { Form, Password, Text, useSite } from '@site'
 import { PasswordFilled, UserFilled } from '@/components/icon'
-import { Screen } from '@packages/plugins'
-import { useConfigInject } from '@packages/utils/extend'
+import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
 // --
 import { HOME_NAME } from '@/config'
@@ -35,6 +34,7 @@ export default defineComponent({
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-login', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const $site = useSite()
 
         const router = useRouter()
         const route = useRoute()
@@ -69,7 +69,7 @@ export default defineComponent({
 
         return () => {
             const cardClass = [`${prefixCls.value}-form`, {
-                [`${prefixCls.value}-form-center`]: Screen.lt.lg
+                [`${prefixCls.value}-form-center`]: $site.screen.lt.lg
             }]
 
             return wrapSSR(

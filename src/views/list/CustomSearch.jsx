@@ -11,7 +11,7 @@ import {
     Slider,
     Switch,
     Table
-} from '@packages'
+} from '@site'
 
 const Test = HocField('test')
 

@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import { RouterView } from 'vue-router'
 import { ConfigProvider } from 'ant-design-vue'
-import { LocaleProvider } from '@packages'
+import { LocaleProvider } from '@site'
 import { createAppInstance } from '@/hooks/useAppInstance'
 import useLocaleMessage from '@/hooks/useLocaleMessage'
 import useThemeConfig from '@/hooks/useThemeConfig'

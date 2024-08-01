@@ -1,5 +1,5 @@
 import antd from 'ant-design-vue/es/locale/en_US'
-import packages from '@packages/locale/en-US'
+import packages from '@site/locale/en-US'
 import dayjs from 'dayjs/locale/en'
 // --
 import routes from './routes'

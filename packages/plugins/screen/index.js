@@ -3,6 +3,8 @@ import { addClass, getWindowSize, removeClass } from '../../utils/dom'
 import { addEvt } from '../../utils/event'
 import { debounce, pick } from 'lodash-es'
 
+const SIZE_LIST = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+
 export default createReactivePlugin({
     width: 0,
     height: 0,
@@ -36,9 +38,10 @@ export default createReactivePlugin({
     xl: false,
     xxl: false
 }, {
-    install (app, options) {
-        const { sizes = {}, delay = 16, classes } = options || {}
-        const SIZE_LIST = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+    install (app, options, $site) {
+        const { sizes = {}, delay = 16, classes } = options
+
+        $site && ($site.screen = this)
 
         this.sizes = pick({ ...this.sizes, ...sizes }, SIZE_LIST)
 

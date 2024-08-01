@@ -1,6 +1,6 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Card, Radio } from 'ant-design-vue'
-import { Form, Number, Text } from '@packages'
+import { Form, Number, Text } from '@site'
 
 export default defineComponent({
     inheritAttrs: false,

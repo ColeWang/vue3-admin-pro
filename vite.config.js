@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url'
+import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 
 import { defineConfig, isCSSRequest, loadEnv } from 'vite'
@@ -31,8 +32,15 @@ function manualChunks (id) {
     return undefined
 }
 
+function readPackageFile () {
+    const urlPath = new URL('./package.json', import.meta.url)
+    const file = readFileSync(urlPath, 'utf-8')
+    return JSON.parse(file)
+}
+
 export default defineConfig((config) => {
     const env = loadEnv(config.mode, __dirname, ['VITE_', 'ENV_'])
+    const { version } = readPackageFile()
 
     const APP_ENV = env['VITE_VUE_APP_ENV'] || 'production'
     const isProd = APP_ENV === 'production'
@@ -60,8 +68,11 @@ export default defineConfig((config) => {
         resolve: {
             alias: {
                 '@': resolve(__dirname, 'src'),
-                '@packages': resolve(__dirname, 'packages')
+                '@site': resolve(__dirname, 'packages')
             }
+        },
+        define: {
+            '__SITE_VERSION__': `'${version}'`
         }
     }
 })

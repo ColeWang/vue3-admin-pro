@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { addClass, removeClass } from '@packages/utils/dom'
+import { addClass, removeClass } from '@site/utils/dom'
 
 function collapseMotion (name, appear) {
     return {
