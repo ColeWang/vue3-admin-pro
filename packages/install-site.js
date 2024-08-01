@@ -1,9 +1,9 @@
 import { inject } from 'vue'
-import { Screen } from './plugins'
+import { Fullscreen, Screen } from './plugins'
 
 const BaseKey = Symbol('Site')
 
-const defaultPlugins = [Screen]
+const defaultPlugins = [Fullscreen, Screen]
 
 function install (app, options = {}) {
     const $site = {
