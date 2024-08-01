@@ -1,6 +1,6 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
 import { ConfigProvider, Space, theme } from 'ant-design-vue'
-import Action from '../../components/action'
+import { Action } from '../../components'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../../utils/props-util'
 import { getElement } from '../../../../utils/dom'

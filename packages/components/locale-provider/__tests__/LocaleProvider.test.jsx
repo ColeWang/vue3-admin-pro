@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent } from 'vue'
-import LocaleProvider, { useLocaleReceiver } from '../index'
+import { LocaleProvider, useLocaleReceiver } from '../index'
 import mountTest from '../../../tests/shared/mountTest'
-import enUS from '../lang/en-US'
+import enUS from '../../../locale/en-US'
 
 describe('LocaleProvider', () => {
     mountTest(LocaleProvider)

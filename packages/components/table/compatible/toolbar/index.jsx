@@ -6,8 +6,8 @@ import {
     SettingOutlined,
     VerticalAlignBottomOutlined
 } from '@ant-design/icons-vue'
-import Density from '../../components/density'
-import Setting from '../../components/setting'
+import Density from '../density'
+import Setting from '../setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../../utils/props-util'

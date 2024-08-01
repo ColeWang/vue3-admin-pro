@@ -1,4 +1,7 @@
+import Field from './Field'
 import HocField from './HocField'
+
+export { Field, HocField }
 
 export const Date = HocField('date')
 export const DateRange = HocField('dateRange')

@@ -1,8 +1,8 @@
 import { describe } from 'vitest'
-import ColumnSetting from '../components/setting'
-import TreeList from '../components/setting/TreeList'
-import TreeNode from '../components/setting/TreeNode'
-import Tooltip from '../components/setting/Tooltip'
+import ColumnSetting from '../compatible/setting'
+import TreeList from '../compatible/setting/TreeList'
+import TreeNode from '../compatible/setting/TreeNode'
+import Tooltip from '../compatible/setting/Tooltip'
 import mountTest from '../../../tests/shared/mountTest'
 
 describe('ColumnSetting', () => {

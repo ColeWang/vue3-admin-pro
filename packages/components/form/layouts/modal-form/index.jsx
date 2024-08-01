@@ -1,6 +1,6 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { default as BaseForm, Submitter } from '../../base-form'
+import { BaseForm, Submitter } from '../../base-form'
 import { default as useFloatForm, floatProps } from '../hooks/useFloatForm'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../../utils/props-util'

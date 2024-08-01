@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { ConfigProvider, Descriptions, Form, Space, Spin, theme } from 'ant-design-vue'
-import BaseField from '../base-field'
+import { BaseField } from '../base-field'
 import useFetchData from './hooks/useFetchData'
 import { flattenChildren, getPropsSlot } from '../../utils/props-util'
 import { getElement } from '../../utils/dom'

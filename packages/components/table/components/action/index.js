@@ -1,8 +1,6 @@
 import Action from './Action'
-import Group from './Group'
+import { default as ActionGroup } from './Group'
 
-Action.Group = Group
+Action.Group = ActionGroup
 
-export { Group as ActionGroup }
-
-export default Action
+export { Action, ActionGroup }

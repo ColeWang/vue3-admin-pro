@@ -1,5 +1,5 @@
 import antd from 'ant-design-vue/es/locale/zh_CN'
-import packages from '@packages/components/locale-provider/lang/zh-CN'
+import packages from '@packages/locale/zh-CN'
 import dayjs from 'dayjs/locale/zh-cn'
 // --
 import routes from './routes'

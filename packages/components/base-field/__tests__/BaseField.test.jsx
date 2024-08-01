@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 // --
-import BaseField from '../index'
+import { BaseField } from '../index'
 import FieldDatePicker from '../components/DatePicker'
 import FieldRangePicker from '../components/RangePicker'
 import FieldTimePicker from '../components/TimePicker'

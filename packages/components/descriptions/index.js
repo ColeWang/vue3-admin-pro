@@ -1,8 +1,6 @@
 import Descriptions from './Descriptions'
-import Item from './Item'
+import { default as DescriptionsItem } from './Item'
 
-Descriptions.Item = Item
+Descriptions.Item = DescriptionsItem
 
-export { Item as DescriptionsItem }
-
-export default Descriptions
+export { Descriptions, DescriptionsItem }

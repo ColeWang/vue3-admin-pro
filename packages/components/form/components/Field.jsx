@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import { Form } from 'ant-design-vue'
 import ColWrap from '../helpers/ColWrap'
-import BaseField from '../../base-field'
+import { BaseField } from '../../base-field'
 import { useFormInstance } from '../base-form'
 import { namePathToString, toPx } from '../../../utils/util'
 import { genFormItemFixStyle } from '../utils'

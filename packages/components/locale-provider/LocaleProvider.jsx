@@ -1,6 +1,6 @@
 import { computed, defineComponent, inject, provide, reactive, unref, watch } from 'vue'
 import { get } from 'lodash-es'
-import zhCN from './lang/zh-CN'
+import zhCN from '../../locale/zh-CN'
 
 const BaseKey = Symbol('LocaleData')
 

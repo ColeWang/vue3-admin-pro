@@ -1,9 +1,9 @@
-import screen from './screen'
+import plugins from './plugins'
 import i18n from './i18n'
 import axios from './axios'
 import { isFunction } from 'lodash-es'
 
-const bootArray = [screen, i18n, axios]
+const bootArray = [plugins, i18n, axios]
 
 export default async (...args) => {
     for (const bootChunk of bootArray) {

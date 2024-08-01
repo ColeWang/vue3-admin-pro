@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import BaseField, { CustomFields } from '../index'
+import { BaseField, CustomFields } from '../index'
 import mountTest from '../../../tests/shared/mountTest'
 
 describe('CustomFields', () => {

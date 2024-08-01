@@ -1,20 +1,24 @@
 import { Form as AForm } from 'ant-design-vue'
+// ---
 import Form from './Form'
-import Item from './Item'
-import List from './List'
-import Dependency from './Dependency'
-import Group from './Group'
+import { default as FormItem } from './Item'
+import { default as FormList } from './List'
+import { default as FormGroup } from './Group'
+import { default as FormDependency } from './Dependency'
 
-Form.useForm = AForm.useForm
-Form.Item = Item
-Form.Group = Group
-Form.List = List
-Form.Dependency = Dependency
+const useForm = AForm.useForm
 
-export const useForm = AForm.useForm
-export { Item as FormItem }
-export { List as FormList }
-export { Dependency as FormDependency }
-export { Group as FormGroup }
+Form.useForm = useForm
+Form.Item = FormItem
+Form.List = FormList
+Form.Group = FormGroup
+Form.Dependency = FormDependency
 
-export default Form
+export {
+    useForm,
+    Form,
+    FormItem,
+    FormList,
+    FormGroup,
+    FormDependency
+}
