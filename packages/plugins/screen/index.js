@@ -39,7 +39,7 @@ export default createReactivePlugin({
     xxl: false
 }, {
     install (app, options, $site) {
-        const { sizes = {}, delay = 16, classes } = options
+        const { sizes = {}, delay = 16, classes } = options || {}
 
         $site && ($site.screen = this)
 

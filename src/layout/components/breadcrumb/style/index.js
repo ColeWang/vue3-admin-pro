@@ -5,11 +5,13 @@ function genBaseStyle (token) {
     return {
         [componentCls]: {
             paddingInline: token.sizeMD,
-            [`ol`]: {
-                flexWrap: 'nowrap'
-            },
-            [`${antCls}-breadcrumb-link`]: {
-                whiteSpace: 'nowrap'
+            [`${antCls}-breadcrumb`]: {
+                [`ol`]: {
+                    flexWrap: 'nowrap'
+                },
+                [`${antCls}-breadcrumb-link`]: {
+                    whiteSpace: 'nowrap'
+                }
             }
         }
     }
