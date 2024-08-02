@@ -131,11 +131,13 @@ export default defineComponent({
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
-                            <div class={`${prefixCls.value}-container`}>
-                                <div class={`${prefixCls.value}-title`}>{titleDom}</div>
-                                <div class={`${prefixCls.value}-actions`}>
-                                    <Space size={sizeMS / 2}>{actionsDom}</Space>
-                                    {propsOptions !== false && renderSettings()}
+                            <div class={`${prefixCls.value}-space`}>
+                                <div class={`${prefixCls.value}-container`}>
+                                    <div class={`${prefixCls.value}-title`}>{titleDom}</div>
+                                    <div class={`${prefixCls.value}-actions`}>
+                                        <Space size={sizeMS / 2}>{actionsDom}</Space>
+                                        {propsOptions !== false && renderSettings()}
+                                    </div>
                                 </div>
                             </div>
                         </div>

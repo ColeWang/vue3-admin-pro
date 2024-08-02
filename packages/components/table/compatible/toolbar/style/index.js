@@ -5,7 +5,6 @@ function genBaseStyle (token) {
     return {
         [componentCls]: {
             position: 'relative',
-            overflowY: 'auto',
             [`${componentCls}-popup-container`]: {
                 position: 'relative',
                 [`${antCls}-popover`]: {
@@ -18,23 +17,28 @@ function genBaseStyle (token) {
                     padding: `0 0 ${token.sizeXS}px`
                 }
             },
-            [`${componentCls}-container`]: {
-                display: 'flex',
-                justifyContent: 'space-between',
-                paddingBlock: token.sizeMS,
-                [`${componentCls}-title`]: {
+            [`${componentCls}-space`]: {
+                position: 'relative',
+                width: '100%',
+                overflowY: 'auto',
+                [`${componentCls}-container`]: {
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    fontSize: token.fontSizeLG,
-                    color: token.colorText,
-                    lineHeight: token.lineHeightLG,
-                    fontWeight: token.fontWeightStrong,
-                    whiteSpace: 'nowrap',
-                    paddingInlineEnd: toolbarTitlePadding
-                },
-                [`${componentCls}-actions`]: {
-                    whiteSpace: 'nowrap'
+                    justifyContent: 'space-between',
+                    paddingBlock: token.sizeMS,
+                    [`${componentCls}-title`]: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        fontSize: token.fontSizeLG,
+                        color: token.colorText,
+                        lineHeight: token.lineHeightLG,
+                        fontWeight: token.fontWeightStrong,
+                        whiteSpace: 'nowrap',
+                        paddingInlineEnd: toolbarTitlePadding
+                    },
+                    [`${componentCls}-actions`]: {
+                        whiteSpace: 'nowrap'
+                    }
                 }
             }
         }
