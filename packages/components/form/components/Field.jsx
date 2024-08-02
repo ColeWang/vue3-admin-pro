@@ -74,7 +74,7 @@ export default defineComponent({
             const needFieldProps = {
                 ...fieldProps,
                 style: fieldStyle(fieldProps.style, fieldWidth),
-                'onUpdate:value': onUpdateValue.bind(null, formItemProps.name)
+                ['onUpdate:value']: onUpdateValue.bind(null, formItemProps.name)
             }
             const needFormItemProps = merge({
                 ...formItemProps,

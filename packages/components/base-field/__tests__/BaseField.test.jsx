@@ -184,7 +184,7 @@ describe('BaseField', () => {
         it(`emits update:value event when switch changes`, async () => {
             const updateValue = vi.fn()
             const wrapper = mount(BaseField, {
-                props: { valueType: 'switch', fieldProps: { 'onUpdate:value': updateValue } }
+                props: { valueType: 'switch', fieldProps: { ['onUpdate:value']: updateValue } }
             })
             await wrapper.find('button').trigger('click')
             expect(updateValue).toHaveBeenCalledWith(true)
@@ -467,7 +467,7 @@ describe('BaseField', () => {
     it(`emits update:value event when input changes`, async () => {
         const updateValue = vi.fn()
         const wrapper = mount(BaseField, {
-            props: { fieldProps: { 'onUpdate:value': updateValue } }
+            props: { fieldProps: { ['onUpdate:value']: updateValue } }
         })
         await wrapper.find('input').setValue('new value')
         expect(wrapper.find('input').element.value).toBe('new value')

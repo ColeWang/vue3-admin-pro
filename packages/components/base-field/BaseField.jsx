@@ -180,7 +180,7 @@ export default defineComponent({
                 ...fieldProps,
                 value: inputValue,
                 placeholder: placeholder,
-                'onUpdate:value': onUpdateValue
+                ['onUpdate:value']: onUpdateValue
             }
             const fieldRenderProps = {
                 ...props,

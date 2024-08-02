@@ -4,7 +4,8 @@ function genBaseStyle (token) {
     const { componentCls, antCls, toolbarTitlePadding } = token
     return {
         [componentCls]: {
-            paddingBlock: token.sizeMS,
+            position: 'relative',
+            overflowY: 'auto',
             [`${componentCls}-popup-container`]: {
                 position: 'relative',
                 [`${antCls}-popover`]: {
@@ -20,6 +21,7 @@ function genBaseStyle (token) {
             [`${componentCls}-container`]: {
                 display: 'flex',
                 justifyContent: 'space-between',
+                paddingBlock: token.sizeMS,
                 [`${componentCls}-title`]: {
                     display: 'flex',
                     alignItems: 'center',

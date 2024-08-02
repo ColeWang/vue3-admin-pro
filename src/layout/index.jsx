@@ -51,7 +51,7 @@ export default defineComponent({
 
         return () => {
             const layoutSlots = {
-                sider: ({ collapsed }) => {
+                sider: ({ collapsed, styleFn }) => {
                     const logo = () => {
                         const style = { width: '32px', height: '32px' }
                         return (
@@ -65,6 +65,7 @@ export default defineComponent({
                             route={route}
                             menus={menus}
                             collapsed={collapsed}
+                            styleFn={styleFn}
                             onChange={onSidebarChange}
                         />
                     )

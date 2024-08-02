@@ -115,7 +115,7 @@ export default defineComponent({
                 )
             })
 
-            const compactProps = { checked: compact, 'onUpdate:checked': onUpdateCompact }
+            const compactProps = { checked: compact, ['onUpdate:checked']: onUpdateCompact }
             const compactDom = <Switch {...compactProps}/>
 
             return wrapSSR(

@@ -5,6 +5,7 @@ function genBaseStyle (token) {
     return {
         [componentCls]: {
             position: 'relative',
+            height: '100%',
             overflow: 'hidden',
             userSelect: 'none',
             [`&-light`]: {

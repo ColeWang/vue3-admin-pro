@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, ref, unref, watch } from 'vue'
+import { computed, defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Menu, theme } from 'ant-design-vue'
 import OutIcon from './OutIcon'
 import useShowTitle from '../../hooks/useShowTitle'
@@ -6,7 +6,7 @@ import { hasChild, showChildren } from '../../utils'
 import { getPropsSlot } from '@site/utils/props-util'
 import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
-import { dropRight, head, isNil, last, reverse } from 'lodash-es'
+import { dropRight, head, isFunction, isNil, last, reverse } from 'lodash-es'
 
 function createFlatMenus (menus) {
     const flatMenus = []
@@ -115,6 +115,10 @@ export default defineComponent({
             type: Function,
             default: undefined
         },
+        styleFn: {
+            type: Function,
+            default: undefined
+        },
         onChange: {
             type: Function,
             default: undefined
@@ -130,6 +134,19 @@ export default defineComponent({
         const flatMenus = createFlatMenus(props.menus)
         const selectedKeys = ref([])
         const openKeys = ref([])
+
+        const menuStyle = computed(() => {
+            const { collapsed, level, styleFn } = props
+            const { controlHeightLG } = unref(token)
+            const width = collapsed
+                ? controlHeightLG * 2
+                : controlHeightLG * 5 + level * 8
+            // ----
+            if (styleFn && isFunction(styleFn)) {
+                return styleFn(width) || { width: `${width}px` }
+            }
+            return { width: `${width}px` }
+        })
 
         watch(() => props.route, (currentRoute) => {
             const { meta = {}, name } = currentRoute
@@ -176,8 +193,8 @@ export default defineComponent({
         }
 
         return () => {
-            const { theme, level, collapsed, menus } = props
-            const { controlHeightLG, controlHeightSM } = unref(token)
+            const { theme, collapsed, menus } = props
+            const { controlHeightSM } = unref(token)
 
             const menuProps = {
                 mode: 'inline',
@@ -196,12 +213,6 @@ export default defineComponent({
                 return createMenuItem(item, showTitle)
             })
 
-            const menuStyle = collapsed ? {
-                width: `${controlHeightLG * 2}px`
-            } : {
-                width: `${controlHeightLG * 5 + level * 8}px`
-            }
-
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value, `${prefixCls.value}-${theme}`]} {...attrs}>
                     <div class={`${prefixCls.value}-space`}>
@@ -209,7 +220,7 @@ export default defineComponent({
                             <div class={`${prefixCls.value}-logo`}>
                                 {logoDom}
                             </div>
-                            <Menu {...menuProps} style={menuStyle}>
+                            <Menu {...menuProps} style={unref(menuStyle)}>
                                 {children}
                             </Menu>
                         </div>

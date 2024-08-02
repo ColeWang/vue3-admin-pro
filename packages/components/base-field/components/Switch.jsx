@@ -30,7 +30,7 @@ export default defineComponent({
             const needFieldProps = {
                 ...restFieldProps,
                 checked: checked || value,
-                'onUpdate:checked': onUpdateChecked
+                ['onUpdate:checked']: onUpdateChecked
             }
             const dom = (
                 <div style={style}>
