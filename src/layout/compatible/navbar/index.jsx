@@ -6,6 +6,7 @@ import Fullscreen from '../../components/fullscreen'
 import Language from '../../components/language'
 import Avatar from '../../components/avatar'
 import { HamburgerOutlined } from '@/components/icon'
+import { useSite } from '@site'
 import { getElement } from '@site//utils/dom'
 import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
@@ -30,6 +31,7 @@ export default defineComponent({
     setup (props, { emit, attrs }) {
         const { prefixCls } = useConfigInject('pro-layout-navbar', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
+        const $site = useSite()
 
         const popupContainer = ref(null)
 
@@ -53,7 +55,9 @@ export default defineComponent({
                                     <div class={`${prefixCls.value}-collapse`} onClick={onCollapse}>
                                         <HamburgerOutlined class={collapseClass}/>
                                     </div>
-                                    <Breadcrumb router={router}/>
+                                    {$site.screen.gt.xs ? (
+                                        <Breadcrumb router={router}/>
+                                    ) : null}
                                 </div>
                                 <div class={`${prefixCls.value}-right`}>
                                     <Settings/>

@@ -152,7 +152,7 @@ export default defineComponent({
                 ]),
                 extra: ({ pageData }) => (
                     <Card>
-                        <Descs size={'small'} column={3}>
+                        <Descs size={'small'}>
                             <Descs.Item label={'Row'}>{pageData.length}</Descs.Item>
                             <Descs.Item label={'Created'}>Cole</Descs.Item>
                             <Descs.Item label={'Association'}>
