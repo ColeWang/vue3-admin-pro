@@ -16,10 +16,10 @@ export default createReactivePlugin({
     },
     hide (config) {
         this.isActive = false
-        const afterClose = () => {
-            config && config.afterClose && config.afterClose()
+        const onAfterClose = () => {
+            config && config.onAfterClose && config.onAfterClose()
         }
-        this.update({ visible: false, afterClose })
+        this.update({ visible: false, onAfterClose })
     },
     update (props) {
         const nextVNode = cloneVNode(instance, {

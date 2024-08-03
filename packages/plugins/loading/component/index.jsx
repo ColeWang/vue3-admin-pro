@@ -10,6 +10,10 @@ export default defineComponent({
         visible: {
             type: Boolean,
             default: false
+        },
+        onAfterClose: {
+            type: Function,
+            default: undefined
         }
     },
     emits: ['afterClose'],
