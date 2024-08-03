@@ -1,5 +1,4 @@
 import { nextTick } from 'vue'
-import { addClass, removeClass } from '@site/utils/dom'
 
 function collapseMotion (name, appear) {
     return {
@@ -7,9 +6,10 @@ function collapseMotion (name, appear) {
         appear,
         css: true,
         onBeforeEnter (node) {
+            node.style.overflow = 'hidden'
+            node.style.transition = 'height 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)'
             node.style.height = '0px'
             node.style.opacity = '0'
-            addClass(node, name)
         },
         onEnter (node) {
             nextTick().then(() => {
@@ -18,14 +18,16 @@ function collapseMotion (name, appear) {
             })
         },
         onAfterEnter (node) {
-            if (node) {
-                removeClass(node, name)
+            if (node && node.style) {
+                node.style.overflow = ''
+                node.style.transition = ''
                 node.style.height = ''
                 node.style.opacity = ''
             }
         },
         onBeforeLeave (node) {
-            addClass(node, name)
+            node.style.overflow = 'hidden'
+            node.style.transition = 'height 0.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)'
             node.style.height = `${node.offsetHeight}px`
             node.style.opacity = ''
         },
@@ -36,12 +38,11 @@ function collapseMotion (name, appear) {
             })
         },
         onAfterLeave (node) {
-            if (node) {
-                removeClass(node, name)
-                if (node.style) {
-                    node.style.height = ''
-                    node.style.opacity = ''
-                }
+            if (node && node.style) {
+                node.style.overflow = ''
+                node.style.transition = ''
+                node.style.height = ''
+                node.style.opacity = ''
             }
         },
     }

@@ -1,11 +1,11 @@
 import { defineComponent } from 'vue'
-import { useConfigInject } from '@site/utils/extend'
+import { useConfigInject } from '../../../utils/extend'
 import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { attrs }) {
-        const { prefixCls } = useConfigInject('pro-base-layout', props)
+        const { prefixCls } = useConfigInject('pro-progress', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
         function inc (amount) {
@@ -14,7 +14,7 @@ export default defineComponent({
 
         return () => {
             return wrapSSR(
-                <div class={[prefixCls.values, hashId.value]} {...attrs}>
+                <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <div class={`${prefixCls.value}-bar`}>
                         <div class={`${prefixCls.value}-peg`}/>
                     </div>

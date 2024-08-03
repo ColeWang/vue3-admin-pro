@@ -7,7 +7,7 @@ function genBaseStyle (token) {
             [`${componentCls}-mask`]: {
                 position: 'fixed',
                 inset: 0,
-                zIndex: token.zIndexPopupBase,
+                zIndex: token.zIndexPopupBase + 30,
                 backgroundColor: token.colorBgMask,
                 userSelect: 'none',
                 [`${componentCls}-spin`]: {
@@ -45,4 +45,3 @@ function genBaseStyle (token) {
 export default genComponentStyleHook('ProLoading', (token) => {
     return [genBaseStyle(token)]
 })
-
