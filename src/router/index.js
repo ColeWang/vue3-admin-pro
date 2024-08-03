@@ -3,6 +3,7 @@ import { message, Modal } from 'ant-design-vue'
 // import { canTurnTo } from '@/layout/utils'
 import { getCookie, TOKEN_KEY } from '@/utils/cookie'
 import { HOME_NAME, LOGIN_NAME } from '@/config'
+import { Loading } from '@site'
 import routes from './routes'
 
 export default () => {

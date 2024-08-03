@@ -1,51 +1,33 @@
-import { defineComponent, ref, unref } from 'vue'
-import {
-    Form,
-    Date,
-    DateRange,
-    DateWeek,
-    DateWeekRange,
-    DateMonth,
-    DateMonthRange,
-    DateQuarter,
-    DateQuarterRange,
-    DateYear,
-    DateYearRange,
-    DateTime,
-    DateTimeRange,
-    Time,
-    TimeRange,
-    Radio
-} from '@site'
+import { defineComponent, Fragment } from 'vue'
+import { Button } from 'ant-design-vue'
+import { Loading, useSite } from '@site'
 
 export default defineComponent({
     inheritAttrs: false,
     name: 'ExamplesTest',
     setup () {
-        const open = ref(true)
+        const $site = useSite()
 
         function onClick () {
-            open.value = !unref(open)
+            $site.loading.show()
+            setTimeout(() => {
+                $site.loading.hide()
+            }, 2000)
+        }
+
+        function onClickLoading () {
+            Loading.show()
+            setTimeout(() => {
+                Loading.hide()
+            }, 2000)
         }
 
         return () => {
             return (
-                <Form layout={'inline'}>
-                    <Date mode={'read'} width={'md'}/>
-                    {/*<DateRange width={'md'}/>*/}
-                    {/*<DateWeek width={'md'}/>*/}
-                    {/*<DateWeekRange width={'md'}/>*/}
-                    {/*<DateMonth width={'md'}/>*/}
-                    {/*<DateMonthRange width={'md'}/>*/}
-                    {/*<DateQuarter width={'md'}/>*/}
-                    {/*<DateQuarterRange width={'md'}/>*/}
-                    {/*<DateYear width={'md'}/>*/}
-                    {/*<DateYearRange width={'md'}/>*/}
-                    {/*<DateTime width={'md'}/>*/}
-                    {/*<DateTimeRange width={'md'}/>*/}
-                    {/*<Time width={'md'}/>*/}
-                    {/*<TimeRange width={'md'}/>*/}
-                </Form>
+                <Fragment>
+                    <Button onClick={onClick}>点击</Button>
+                    <Button onClick={onClickLoading}>点击 Loading</Button>
+                </Fragment>
             )
         }
     }

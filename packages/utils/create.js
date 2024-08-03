@@ -1,5 +1,11 @@
 import { reactive } from 'vue'
 
+export function createDocumentFragment () {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+    return container
+}
+
 export function createReactivePlugin (state, plugin) {
     const pluginState = reactive(state)
 
