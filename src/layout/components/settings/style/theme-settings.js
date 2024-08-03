@@ -17,8 +17,8 @@ function genBaseStyle (token) {
                 overflow: 'hidden',
                 [`&:after`]: {
                     position: 'absolute',
-                    top: 0,
-                    left: 0,
+                    insetBlockStart: 0,
+                    insetInlineStart: 0,
                     width: '100%',
                     height: '25%',
                     backgroundColor: '#ffffff',
@@ -26,8 +26,8 @@ function genBaseStyle (token) {
                 },
                 [`&:before`]: {
                     position: 'absolute',
-                    top: 0,
-                    left: 0,
+                    insetBlockStart: 0,
+                    insetInlineStart: 0,
                     width: '33%',
                     height: '100%',
                     backgroundColor: '#ffffff',
@@ -50,8 +50,8 @@ function genBaseStyle (token) {
                 },
                 [`${iconCls}`]: {
                     position: 'absolute',
-                    right: token.sizeXXS,
-                    bottom: token.sizeXXS,
+                    insetInlineEnd: token.sizeXXS,
+                    insetBlockEnd: token.sizeXXS,
                     fontSize: token.fontSize,
                     color: token.colorPrimary
                 }

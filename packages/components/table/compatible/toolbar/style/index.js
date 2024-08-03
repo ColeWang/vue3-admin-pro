@@ -17,28 +17,23 @@ function genBaseStyle (token) {
                     padding: `0 0 ${token.sizeXS}px`
                 }
             },
-            [`${componentCls}-space`]: {
-                position: 'relative',
-                width: '100%',
-                overflowY: 'auto',
-                [`${componentCls}-container`]: {
+            [`${componentCls}-container`]: {
+                display: 'flex',
+                justifyContent: 'space-between',
+                paddingBlock: token.sizeMS,
+                [`${componentCls}-title`]: {
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    paddingBlock: token.sizeMS,
-                    [`${componentCls}-title`]: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        fontSize: token.fontSizeLG,
-                        color: token.colorText,
-                        lineHeight: token.lineHeightLG,
-                        fontWeight: token.fontWeightStrong,
-                        whiteSpace: 'nowrap',
-                        paddingInlineEnd: toolbarTitlePadding
-                    },
-                    [`${componentCls}-actions`]: {
-                        whiteSpace: 'nowrap'
-                    }
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    fontSize: token.fontSizeLG,
+                    color: token.colorText,
+                    lineHeight: token.lineHeightLG,
+                    fontWeight: token.fontWeightStrong,
+                    whiteSpace: 'nowrap',
+                    paddingInlineEnd: toolbarTitlePadding
+                },
+                [`${componentCls}-actions`]: {
+                    whiteSpace: 'nowrap'
                 }
             }
         }

@@ -33,16 +33,16 @@
 @mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
     position: $position;
     @if ($top != "" and $top != null) {
-        top: $top;
+        inset-block-start: $top;
     }
     @if ($right != "" and $right != null) {
-        right: $right;
+        inset-inline-end: $right;
     }
     @if ($bottom != "" and $bottom != null) {
-        bottom: $bottom;
+        inset-block-end: $bottom;
     }
     @if ($left != "" and $left != null) {
-        left: $left;
+        inset-inline-start: $left;
     }
 }
 
@@ -65,16 +65,16 @@
 @mixin center-translate($direction: both) {
     position: absolute;
     @if ($direction == both) {
-        top: 50%;
-        left: 50%;
+        inset-block-start: 50%;
+        inset-inline-start: 50%;
         -webkit-transform: translate3d(-50%, -50%, 0);
         transform: translate3d(-50%, -50%, 0);
     } @else if ($direction == horizontal) {
-        left: 50%;
+        inset-inline-start: 50%;
         -webkit-transform: translate3d(-50%, 0, 0);
         transform: translate3d(-50%, 0, 0);
     } @else if ($direction == vertical) {
-        top: 50%;
+        inset-block-start: 50%;
         -webkit-transform: translate3d(0, -50%, 0);
         transform: translate3d(0, -50%, 0);
     }

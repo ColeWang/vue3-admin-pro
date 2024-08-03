@@ -30,7 +30,7 @@ function genBaseStyle (token) {
                     alignItems: 'center',
                     [`${antCls}-tree-checkbox`]: {
                         margin: `0 ${listCheckboxMargin}px 0 0`,
-                        top: 0
+                        insetBlockStart: 0
                     }
                 },
                 [`${antCls}-tree-draggable-icon`]: {

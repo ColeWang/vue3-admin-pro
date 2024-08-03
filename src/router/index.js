@@ -5,18 +5,9 @@ import { getCookie, TOKEN_KEY } from '@/utils/cookie'
 import { HOME_NAME, LOGIN_NAME } from '@/config'
 import routes from './routes'
 
-function scrollBehavior () {
-    const container = document.getElementById('viewContainer')
-    if (container) {
-        return { top: 0, left: 0, el: container }
-    }
-    return { top: 0, left: 0 }
-}
-
 export default () => {
     const router = createRouter({
         history: createWebHashHistory('/vue3-admin-pro/'),
-        scrollBehavior: scrollBehavior,
         routes: routes
     })
 

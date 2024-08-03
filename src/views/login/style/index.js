@@ -24,8 +24,8 @@ function genBaseStyle (token) {
             },
             [`${componentCls}-form`]: {
                 position: 'absolute',
-                top: '50%',
-                right: loginFormRight,
+                insetBlockStart: '50%',
+                insetInlineEnd: loginFormRight,
                 width: loginFormWidth,
                 transform: 'translateY(-60%)',
                 [`${componentCls}-checkbox-warp`]: {
@@ -47,8 +47,7 @@ function genBaseStyle (token) {
                 }
             },
             [`${componentCls}-form-center`]: {
-                right: 0,
-                left: 0,
+                insetInline: 0,
                 margin: 'auto'
             }
         }

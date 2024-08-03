@@ -50,10 +50,9 @@ function genBaseStyle (token) {
                         position: 'relative',
                         [`&:before`]: {
                             position: 'absolute',
-                            right: -tagsCloseRight,
-                            top: 0,
-                            left: 0,
-                            bottom: 0,
+                            insetInlineEnd: -tagsCloseRight,
+                            insetInlineStart: 0,
+                            insetBlock: 0,
                             content: '""',
                         },
                         [`${iconCls}-close-circle`]: {
@@ -73,7 +72,7 @@ function genBaseStyle (token) {
                         paddingInline: token.sizeXXS,
                         overflow: 'visible',
                         whiteSpace: 'nowrap',
-                        transition: 'left .3s ease'
+                        transition: 'inset-inline-start .3s ease'
                     }
                 }
             },
