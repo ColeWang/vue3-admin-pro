@@ -36,7 +36,6 @@ export default createReactivePlugin({
         const vm = createVNode(Loading, { ...props })
         vm.appContext = options.parentContext || options.appContext || vm.appContext
         vueRender(vm, container)
-        document.body.appendChild(container)
         return vm
     },
     install (app, options, $site) {
