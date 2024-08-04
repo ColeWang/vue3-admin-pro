@@ -21,6 +21,7 @@ function genBaseStyle (token) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     color: token.colorTextSecondary,
+                    overflow: 'hidden',
                     [`${componentCls}-content`]: {
                         display: 'flex',
                         alignItems: 'center',

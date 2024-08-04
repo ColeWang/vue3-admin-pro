@@ -26,11 +26,15 @@ export default defineComponent({
             const spaceProps = { size: propsSize || sizeMS / 2, ...attrs }
 
             if (nodes.length && nodes.length > max) {
+                // 前部分
+                const firstHalfNodes = take(nodes, max)
+                // 后部分
+                const secondHalfNodes = takeRight(nodes, nodes.length - max)
                 /* v8 ignore next 9 */
                 const dropdownSlots = {
                     overlay: () => (
                         <Menu data-type={'dropdown'} selectedKeys={[]}>
-                            {takeRight(nodes, nodes.length - max).map((item, index) => {
+                            {secondHalfNodes.map((item, index) => {
                                 return <Menu.Item key={index}>{item}</Menu.Item>
                             })}
                         </Menu>
@@ -38,7 +42,7 @@ export default defineComponent({
                 }
                 return (
                     <Space {...spaceProps}>
-                        {take(nodes, max)}
+                        {firstHalfNodes}
                         <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
                             <Action>...</Action>
                         </Dropdown>

@@ -1,7 +1,7 @@
-import { genComponentStyleHook, mergeToken } from '../../../../../utils/extend'
+import { genComponentStyleHook } from '../../../../../utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls, toolbarTitlePadding } = token
+    const { componentCls, antCls } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -18,21 +18,26 @@ function genBaseStyle (token) {
                 }
             },
             [`${componentCls}-container`]: {
-                display: 'flex',
-                justifyContent: 'space-between',
+                overflow: 'hidden',
                 paddingBlock: token.sizeMS,
-                [`${componentCls}-title`]: {
+                [`&__nowrap`]: {
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'flex-start',
+                    justifyContent: 'space-between'
+                },
+                [`${componentCls}-title`]: {
                     fontSize: token.fontSizeLG,
                     color: token.colorText,
                     lineHeight: token.lineHeightLG,
                     fontWeight: token.fontWeightStrong,
                     whiteSpace: 'nowrap',
-                    paddingInlineEnd: toolbarTitlePadding
+                    marginBlockEnd: token.sizeMS,
+                    [`&__nowrap`]: {
+                        marginBlockEnd: 0
+                    }
                 },
                 [`${componentCls}-actions`]: {
+                    textAlign: 'end',
                     whiteSpace: 'nowrap'
                 }
             }
@@ -41,10 +46,5 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableToolbar', (token) => {
-    const toolbarTitlePadding = token.sizeMS / 2
-
-    const toolbarToken = mergeToken(token, {
-        toolbarTitlePadding
-    })
-    return [genBaseStyle(toolbarToken)]
+    return [genBaseStyle(token)]
 })

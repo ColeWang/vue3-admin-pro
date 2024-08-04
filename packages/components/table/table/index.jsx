@@ -14,7 +14,7 @@ import { omitNil } from '../../../utils/util'
 import { getElement } from '../../../utils/dom'
 import { useConfigInject } from '../../../utils/extend'
 import useStyle from './style'
-import { isArray, isFunction, omit, pick } from 'lodash-es'
+import { isArray, isFunction, omit, pick, toPlainObject } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -169,7 +169,7 @@ export default defineComponent({
 
             const renderSearch = () => {
                 const searchProps = {
-                    ...propsSearch,
+                    ...toPlainObject(propsSearch),
                     loading: requestProps.loading,
                     columns: propsColumns,
                     manualRequest: manualRequest,
@@ -182,14 +182,13 @@ export default defineComponent({
             }
 
             const renderToolbar = () => {
-                const { options } = propsToolbar || {}
                 const toolbarSlots = {
                     title: getSlot(slots, props, 'title'),
                     actions: getSlot(slots, props, 'actions'),
                     settings: getSlot(slots, props, 'settings')
                 }
                 const toolbarProps = {
-                    options: options,
+                    ...omit(toPlainObject(propsToolbar), ['title', 'actions', 'settings']),
                     onExport: onExport
                 }
                 return <Toolbar {...toolbarProps} v-slots={toolbarSlots}/>

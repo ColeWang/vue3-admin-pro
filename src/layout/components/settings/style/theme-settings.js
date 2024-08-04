@@ -81,7 +81,7 @@ function genBaseStyle (token) {
 
     return {
         [componentCls]: {
-            [`${componentCls}-block-wrap`]: {
+            [`${componentCls}-block-wrapper`]: {
                 marginBlockEnd: token.sizeLG
             },
             [`${componentCls}-title`]: {

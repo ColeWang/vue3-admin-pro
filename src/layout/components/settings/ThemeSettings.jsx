@@ -120,19 +120,19 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <div class={`${prefixCls.value}-block-wrap`}>
+                    <div class={`${prefixCls.value}-block-wrapper`}>
                         <div class={`${prefixCls.value}-title`}>整体风格</div>
                         <div class={`${prefixCls.value}-theme-block`}>
                             {themeDom}
                         </div>
                     </div>
-                    <div class={`${prefixCls.value}-block-wrap`}>
+                    <div class={`${prefixCls.value}-block-wrapper`}>
                         <div class={`${prefixCls.value}-title`}>主题色</div>
                         <div class={`${prefixCls.value}-primary-block`}>
                             {primaryDom}
                         </div>
                     </div>
-                    <div class={`${prefixCls.value}-block-wrap`}>
+                    <div class={`${prefixCls.value}-block-wrapper`}>
                         <div class={`${prefixCls.value}-title`}>紧凑主题</div>
                         <div class={`${prefixCls.value}-compact-block`}>
                             {compactDom}

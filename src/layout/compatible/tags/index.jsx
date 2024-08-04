@@ -210,7 +210,7 @@ export default defineComponent({
                     <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-content`}>
-                                <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-left`]}>
+                                <div class={[`${prefixCls.value}-button-wrapper`, `${prefixCls.value}-button-wrapper-left`]}>
                                     <Button
                                         class={`${prefixCls.value}-button`}
                                         type={'text'}
@@ -219,7 +219,7 @@ export default defineComponent({
                                     />
                                 </div>
                                 {tagsScrollDom}
-                                <div class={[`${prefixCls.value}-button-wrap`, `${prefixCls.value}-button-wrap-right`]}>
+                                <div class={[`${prefixCls.value}-button-wrapper`, `${prefixCls.value}-button-wrapper-right`]}>
                                     <Button
                                         class={`${prefixCls.value}-button`}
                                         type={'text'}
@@ -227,7 +227,7 @@ export default defineComponent({
                                         onClick={handleScroll.bind(null, -240)}
                                     />
                                 </div>
-                                <div class={`${prefixCls.value}-close-wrap`}>
+                                <div class={`${prefixCls.value}-close-wrapper`}>
                                     <Dropdown placement={'bottomRight'} v-slots={dropdownSlots}>
                                         <Button
                                             class={`${prefixCls.value}-button`}

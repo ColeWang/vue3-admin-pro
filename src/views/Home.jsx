@@ -1,11 +1,13 @@
 import { computed, defineComponent, unref } from 'vue'
-import { Action, Descriptions as Descs, ModalForm, Number, Table, Text } from '@site'
 import { Button, Card } from 'ant-design-vue'
+import { Action, Descriptions as Descs, ModalForm, Number, Table, Text, useSite } from '@site'
 
 export default defineComponent({
     inheritAttrs: false,
     name: 'HomeIndex',
     setup () {
+        const $site = useSite()
+
         const columns = computed(() => {
             return [
                 {
@@ -142,14 +144,16 @@ export default defineComponent({
                         />
                     </ModalForm>
                 ),
-                alertOptions: ({ rows, keys }) => ([
-                    <Action onClick={onAlertClick.bind(null, rows, keys)}>
-                        批量编辑
-                    </Action>,
-                    <Action onClick={onAlertClick.bind(null, rows, keys)}>
-                        批量编辑
-                    </Action>
-                ]),
+                alertOptions: ({ rows, keys }) => (
+                    <Action.Group max={$site.screen.lt.sm ? 1 : 3}>
+                        <Action onClick={onAlertClick.bind(null, rows, keys)}>
+                            批量编辑
+                        </Action>
+                        <Action onClick={onAlertClick.bind(null, rows, keys)}>
+                            批量编辑
+                        </Action>
+                    </Action.Group>
+                ),
                 extra: ({ pageData }) => (
                     <Card>
                         <Descs size={'small'}>

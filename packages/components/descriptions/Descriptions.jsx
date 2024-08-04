@@ -1,6 +1,7 @@
-import { defineComponent, ref, unref } from 'vue'
-import { ConfigProvider, Descriptions, Form, Space, Spin, theme } from 'ant-design-vue'
+import { defineComponent, ref } from 'vue'
+import { ConfigProvider, Descriptions, Form, Spin } from 'ant-design-vue'
 import { BaseField } from '../base-field'
+import { ResizeObserver } from '../resize-observer'
 import useFetchData from './hooks/useFetchData'
 import { flattenChildren, getPropsSlot } from '../../utils/props-util'
 import { getElement } from '../../utils/dom'
@@ -49,7 +50,6 @@ export default defineComponent({
     setup (props, { emit, slots, attrs, expose }) {
         const { prefixCls } = useConfigInject('pro-descriptions', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
-        const { token } = theme.useToken()
 
         const popupContainer = ref(null)
 
@@ -118,7 +118,6 @@ export default defineComponent({
 
         return () => {
             const { columns, emptyText } = props
-            const { sizeMS } = unref(token)
 
             const nodes = flattenChildren(slots.default ? slots.default() : [])
 
@@ -145,7 +144,7 @@ export default defineComponent({
                                             {titleDom}
                                         </div>
                                         <div class={`${prefixCls.value}-extra`}>
-                                            <Space size={sizeMS / 2}>{extraDom}</Space>
+                                            {extraDom}
                                         </div>
                                     </div>
                                 )}

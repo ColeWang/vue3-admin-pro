@@ -2,6 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Button, Space, theme } from 'ant-design-vue'
 import { useLocaleReceiver } from '../../locale-provider'
 import { preventDefault } from '../../../utils/event'
+import { toPlainObject } from 'lodash-es'
 
 const submitterProps = {
     size: {
@@ -62,13 +63,13 @@ export default defineComponent({
             const { sizeMS } = unref(token)
 
             const needSubmitButtonProps = {
-                ...submitButtonProps,
+                ...toPlainObject(submitButtonProps),
                 type: 'primary',
                 loading: loading,
                 onClick: onSubmit
             }
             const resetButtonDom = resetButtonProps !== false && (
-                <Button {...resetButtonProps} onClick={onReset}>
+                <Button {...toPlainObject(resetButtonProps)} onClick={onReset}>
                     {resetText || t('reset')}
                 </Button>
             )

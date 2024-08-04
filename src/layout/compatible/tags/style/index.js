@@ -31,7 +31,7 @@ function genBaseStyle (token) {
                         color: token.colorPrimaryActive
                     },
                 },
-                [`${componentCls}-button-wrap`]: {
+                [`${componentCls}-button-wrapper`]: {
                     height: tagsHeight,
                     background: token.colorBgContainer,
                     [`&-left`]: {
@@ -41,7 +41,7 @@ function genBaseStyle (token) {
                         borderInlineStart: `1px solid ${token.colorBorder}`,
                     }
                 },
-                [`${componentCls}-close-wrap`]: {
+                [`${componentCls}-close-wrapper`]: {
                     height: tagsHeight,
                     paddingInlineEnd: tagsCloseRight,
                     background: token.colorBgContainer,

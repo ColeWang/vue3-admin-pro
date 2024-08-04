@@ -6,6 +6,7 @@ import {
     SettingOutlined,
     VerticalAlignBottomOutlined
 } from '@ant-design/icons-vue'
+import { ResizeObserver } from '../../../resize-observer'
 import Density from '../density'
 import Setting from '../setting'
 import { useSharedContext } from '../../hooks/useSharedContext'
@@ -14,7 +15,7 @@ import { getSlotVNode } from '../../../../utils/props-util'
 import { getElement } from '../../../../utils/dom'
 import { useConfigInject } from '../../../../utils/extend'
 import useStyle from './style'
-import { pick } from 'lodash-es'
+import { pick, toPlainObject } from 'lodash-es'
 
 const defaultOptions = {
     reload: true,
@@ -26,13 +27,18 @@ const defaultOptions = {
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        title: {
-            type: Function,
-            default: undefined
+        // 换行宽度 556 form/layouts/query-filter/hooks/useQueryFilter.js
+        wrapWidth: {
+            type: Number,
+            default: 556
         },
         options: {
             type: [Object, Boolean],
             default: () => ({})
+        },
+        title: {
+            type: Function,
+            default: undefined
         },
         actions: {
             type: Function,
@@ -53,20 +59,27 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
+        const { requestProps = {}, onReload } = useSharedContext()
 
         const popupContainer = ref(null)
 
-        const { requestProps = {}, onReload } = useSharedContext()
+        const size = ref({ width: 0, height: 0 })
+
+        function onResize (value) {
+            size.value = value
+        }
 
         function onExportClick () {
             emit('export')
         }
 
         return () => {
-            const { options: propsOptions } = props
+            const { wrapWidth, options: propsOptions } = props
+            const { width: targetWidth } = unref(size)
             const { sizeMS } = unref(token)
 
             const slotScope = {
+                nowrap: targetWidth >= wrapWidth,
                 loading: requestProps.loading,
                 pageData: requestProps.dataSource,
                 pagination: requestProps.pagination
@@ -114,7 +127,7 @@ export default defineComponent({
                     )
                 }
 
-                const options = pick({ ...defaultOptions, ...propsOptions }, Object.keys(defaultOptions))
+                const options = pick({ ...defaultOptions, ...toPlainObject(propsOptions) }, Object.keys(defaultOptions))
                 const defaultSettings = Object.keys(options)
                     .filter((key) => options[key])
                     .map((key) => vNodeCatalog[key])
@@ -128,19 +141,33 @@ export default defineComponent({
                 )
             }
 
+            const containerClass = [`${prefixCls.value}-container`, {
+                [`${prefixCls.value}-container__nowrap`]: targetWidth >= wrapWidth
+            }]
+            const titleClass = [`${prefixCls.value}-title`, {
+                [`${prefixCls.value}-title__nowrap`]: targetWidth >= wrapWidth
+            }]
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
-                        <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
-                            <div class={`${prefixCls.value}-container`}>
-                                <div class={`${prefixCls.value}-title`}>{titleDom}</div>
-                                <div class={`${prefixCls.value}-actions`}>
-                                    <Space size={sizeMS / 2}>{actionsDom}</Space>
-                                    {propsOptions !== false && renderSettings()}
+                    <ResizeObserver onResize={onResize}>
+                        <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
+                            <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
+                                <div class={containerClass}>
+                                    {titleDom ? (
+                                        <div class={titleClass}>
+                                            {titleDom}
+                                        </div>
+                                    ) : (
+                                        <div/>
+                                    )}
+                                    <div class={`${prefixCls.value}-actions`}>
+                                        {actionsDom}
+                                        {propsOptions !== false && renderSettings()}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </ConfigProvider>
+                        </ConfigProvider>
+                    </ResizeObserver>
                 </div>
             )
         }

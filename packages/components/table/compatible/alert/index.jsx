@@ -75,7 +75,7 @@ export default defineComponent({
                                         {customContent || defaultContent}
                                     </div>
                                     <div class={`${prefixCls.value}-options`}>
-                                        <Space size={sizeMS / 2}>{optionsDom}</Space>
+                                        {optionsDom}
                                     </div>
                                 </div>
                             </div>

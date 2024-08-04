@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { Button, Card } from 'ant-design-vue'
+import { Button, Card, Space } from 'ant-design-vue'
 import { Descriptions as Descs } from '@site'
 
 export default defineComponent({
@@ -86,9 +86,12 @@ export default defineComponent({
                             }
                         ]}
                         v-slots={{
-                            extra: () => {
-                                return [<Button>链接</Button>, <Button>链接</Button>]
-                            }
+                            extra: () => (
+                                <Space size={8}>
+                                    <Button>链接</Button>
+                                    <Button>链接</Button>
+                                </Space>
+                            )
                         }}
                     >
                         <Descs.Item
