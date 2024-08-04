@@ -45,8 +45,9 @@ export default createReactivePlugin({
         this.trickle()
     },
     done () {
-        clearTimeout(timer)
+        if (!this.isActive || this.status >= 100) return
         // --
+        clearTimeout(timer)
         this.setStatus(100)
     },
     trickle () {

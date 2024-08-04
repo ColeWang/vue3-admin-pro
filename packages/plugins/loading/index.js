@@ -18,6 +18,7 @@ export default createReactivePlugin({
         this.update({ visible: true })
     },
     hide (config) {
+        if (!this.isActive) return
         // 动画结束
         const onAfterClose = () => {
             this.destroy()
