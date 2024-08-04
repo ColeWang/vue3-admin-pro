@@ -1,9 +1,6 @@
 import Fullscreen from './fullscreen'
-import Screen from './screen'
 import Loading from './loading'
+import Progress from './progress'
+import Screen from './screen'
 
-export {
-    Fullscreen,
-    Screen,
-    Loading
-}
+export { Fullscreen, Loading, Progress, Screen }

@@ -4,20 +4,22 @@ import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
+    props: {
+        style: {
+            type: Object,
+            default: () => ({})
+        }
+    },
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-progress', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
-        function inc (amount) {
-
-        }
-
         return () => {
+            const { style } = props
+
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <div class={`${prefixCls.value}-bar`}>
-                        <div class={`${prefixCls.value}-peg`}/>
-                    </div>
+                    <div class={`${prefixCls.value}-bar`} style={style}/>
                 </div>
             )
         }

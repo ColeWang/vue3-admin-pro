@@ -11,16 +11,8 @@ function genBaseStyle (token) {
                 insetInline: 0,
                 zIndex: token.zIndexPopupBase + 31,
                 width: '100%',
-                height: 2,
-                backgroundColor: token.colorPrimary,
-                [`${componentCls}-peg`]: {
-                    position: 'absolute',
-                    insetInlineEnd: 0,
-                    width: 100,
-                    height: '100%',
-                    boxShadow: `0 0 10px ${token.colorPrimary}, 0 0 5px ${token.colorPrimary}`,
-                    transform: `rotate(3deg) translate(0px, -4px)`
-                }
+                height: token.sizeXXS / 2,
+                backgroundColor: token.colorPrimary
             }
         }
     }

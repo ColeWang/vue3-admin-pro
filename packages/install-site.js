@@ -1,13 +1,14 @@
 import { inject } from 'vue'
-import { Fullscreen, Loading, Screen } from './plugins'
+import { Fullscreen, Loading, Progress, Screen } from './plugins'
 import { forEach, omit } from 'lodash-es'
 
 const BaseKey = Symbol('Site')
 
 const defaultPlugins = {
     'fullscreen': Fullscreen,
-    'screen': Screen,
-    'loading': Loading
+    'loading': Loading,
+    'progress': Progress,
+    'screen': Screen
 }
 
 function install (app, options) {

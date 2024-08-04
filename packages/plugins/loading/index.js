@@ -5,34 +5,39 @@ import { omit } from 'lodash-es'
 
 const container = createDocumentFragment()
 let instance = null
+let configOptions = {}
 let configProps = {}
 
 export default createReactivePlugin({
     isActive: false
 }, {
     show () {
+        instance = this.render(configProps, configOptions)
+        // --
         this.isActive = true
         this.update({ visible: true })
     },
     hide (config) {
-        this.isActive = false
+        // 动画结束
         const onAfterClose = () => {
+            this.destroy()
+            this.isActive = false
             config && config.onAfterClose && config.onAfterClose()
         }
         this.update({ visible: false, onAfterClose })
     },
     update (props) {
-        const nextVNode = cloneVNode(instance, {
-            ...configProps,
-            ...props
-        })
-        instance && vueRender(nextVNode, container)
+        if (!container || !instance) return
+        const nextVNode = cloneVNode(instance, { ...configProps, ...props })
+        vueRender(nextVNode, container)
     },
     destroy () {
-        instance && vueRender(null, container)
+        if (!container || !instance) return
+        vueRender(null, container)
         instance = null
     },
     render (props, options) {
+        if (!container) return null
         const vm = createVNode(Loading, { ...props })
         vm.appContext = options.parentContext || options.appContext || vm.appContext
         vueRender(vm, container)
@@ -42,6 +47,6 @@ export default createReactivePlugin({
         $site && ($site.loading = this)
 
         configProps = omit(options, ['parentContext', 'appContext'])
-        instance = this.render(configProps, options)
+        configOptions = options
     }
 })

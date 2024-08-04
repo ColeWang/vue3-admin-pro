@@ -1,7 +1,6 @@
 import { defineComponent, Fragment } from 'vue'
 import { Button } from 'ant-design-vue'
 import { Loading, useSite } from '@site'
-import Progress from '@site/plugins/progress/component'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -28,7 +27,6 @@ export default defineComponent({
                 <Fragment>
                     <Button onClick={onClick}>点击</Button>
                     <Button onClick={onClickLoading}>点击 Loading</Button>
-                    <Progress/>
                 </Fragment>
             )
         }
