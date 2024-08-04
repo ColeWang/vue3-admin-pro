@@ -1,5 +1,5 @@
 import antd from 'ant-design-vue/es/locale/en_US'
-import packages from '@site/locale/en-US'
+import site from '@site/locale/en-US'
 import dayjs from 'dayjs/locale/en'
 // --
 import routes from './routes'
@@ -9,7 +9,7 @@ import errorPages from './error-pages'
 export default {
     locale: 'en-US',
     antd: antd,
-    packages: packages,
+    site: site,
     dayjs: dayjs,
     routes: routes,
     layout: layout,

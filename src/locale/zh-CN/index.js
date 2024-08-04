@@ -1,5 +1,5 @@
 import antd from 'ant-design-vue/es/locale/zh_CN'
-import packages from '@site/locale/zh-CN'
+import site from '@site/locale/zh-CN'
 import dayjs from 'dayjs/locale/zh-cn'
 // --
 import routes from './routes'
@@ -9,7 +9,7 @@ import errorPages from './error-pages'
 export default {
     locale: 'zh-CN',
     antd: antd,
-    packages: packages,
+    site: site,
     dayjs: dayjs,
     routes: routes,
     layout: layout,

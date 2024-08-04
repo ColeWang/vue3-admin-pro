@@ -39,14 +39,14 @@ export default defineComponent({
         const { prefixCls } = useConfigInject('pro-layout-tags', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
-        const { $t } = useGlobalProperties()
 
         const popupContainer = ref(null)
-        let tagRefsMap = {}
 
         const scrollOuterRef = ref(null)
         const scrollBodyRef = ref(null)
+        let tagRefsMap = {}
 
+        const { $t } = useGlobalProperties()
         const { showTitle } = useShowTitle()
 
         const bodyLeft = ref(0)

@@ -1,6 +1,6 @@
-import { defineComponent, Fragment } from 'vue'
+import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Button } from 'ant-design-vue'
-import { Loading, useSite } from '@site'
+import { Loading, Transition, useSite } from '@site'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -8,18 +8,24 @@ export default defineComponent({
     setup () {
         const $site = useSite()
 
+        const open = ref(true)
+
         function onClick () {
             $site.loading.show()
             setTimeout(() => {
                 $site.loading.hide()
-            }, 2000)
+            }, 1500)
         }
 
         function onClickLoading () {
             Loading.show()
             setTimeout(() => {
                 Loading.hide()
-            }, 2000)
+            }, 1500)
+        }
+
+        function onClickOpen () {
+            open.value = !open.value
         }
 
         return () => {
@@ -27,6 +33,15 @@ export default defineComponent({
                 <Fragment>
                     <Button onClick={onClick}>点击</Button>
                     <Button onClick={onClickLoading}>点击 Loading</Button>
+                    <Button onClick={onClickOpen}>点击 Transition</Button>
+                    <Transition>
+                        <div v-show={unref(open)} style={{ background: 'pink' }}>
+                            <div>Transition</div>
+                            <div>Transition</div>
+                            <div>Transition</div>
+                            <div>Transition</div>
+                        </div>
+                    </Transition>
                 </Fragment>
             )
         }

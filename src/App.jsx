@@ -24,11 +24,11 @@ export default defineComponent({
         })
 
         return () => {
-            const { antd, packages } = unref(localeMessage)
+            const { antd, site } = unref(localeMessage)
 
             return (
                 <ConfigProvider locale={antd} theme={unref(themeProvider)}>
-                    <LocaleProvider locale={packages}>
+                    <LocaleProvider locale={site}>
                         <RouterView/>
                     </LocaleProvider>
                 </ConfigProvider>

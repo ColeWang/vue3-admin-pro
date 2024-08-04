@@ -63,12 +63,12 @@ export default defineComponent({
     props: baseFormProps,
     emits: ['submit', 'finish', 'finishFailed', 'reset', 'valuesChange'],
     setup (props, { emit, slots, attrs, expose }) {
-        const popupContainer = ref(null)
-        const formInstanceRef = ref(null)
-
         const { prefixCls } = useConfigInject('pro-base-form', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
+
+        const popupContainer = ref(null)
+        const formInstanceRef = ref(null)
 
         const defaultValues = cloneProxyToRaw(props.initialValues)
         // 考虑到 model 传递就不再需要 initialValues

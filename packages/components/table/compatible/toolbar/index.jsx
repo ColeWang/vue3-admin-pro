@@ -49,12 +49,13 @@ export default defineComponent({
     },
     emits: ['export'],
     setup (props, { emit, slots, attrs }) {
-        const popupContainer = ref(null)
-
         const { prefixCls } = useConfigInject('pro-table-toolbar', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
+
+        const popupContainer = ref(null)
+
         const { requestProps = {}, onReload } = useSharedContext()
 
         function onExportClick () {

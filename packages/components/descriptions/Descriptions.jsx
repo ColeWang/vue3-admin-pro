@@ -47,11 +47,11 @@ export default defineComponent({
     },
     emits: ['load', 'requestError'],
     setup (props, { emit, slots, attrs, expose }) {
-        const popupContainer = ref(null)
-
         const { prefixCls } = useConfigInject('pro-descriptions', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
+
+        const popupContainer = ref(null)
 
         const { context: requestProps, onReload } = useFetchData(props.request, props, {
             manualRequest: !props.request,

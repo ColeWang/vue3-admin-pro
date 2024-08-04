@@ -29,12 +29,12 @@ export default defineComponent({
     },
     emits: ['cleanSelected'],
     setup (props, { emit, slots, attrs }) {
-        const popupContainer = ref(null)
-
         const { prefixCls } = useConfigInject('pro-table-alert', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'alert'])
+
+        const popupContainer = ref(null)
 
         function onCleanSelected () {
             emit('cleanSelected')

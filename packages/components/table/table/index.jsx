@@ -21,12 +21,12 @@ export default defineComponent({
     props: tableProps,
     emits: ['change', 'paginateChange', 'filterChange', 'sortChange', 'loadingChange', 'export', 'sizeChange', 'columnsChange', 'load', 'requestError', 'finish', 'reset'],
     setup (props, { emit, slots, attrs, expose }) {
-        const popupContainer = ref(null)
-        const tableRef = ref(null)
-
         const { prefixCls } = useConfigInject('pro-table', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = theme.useToken()
+
+        const popupContainer = ref(null)
+        const tableRef = ref(null)
 
         const tableSize = ref(props.size || 'middle')
 
