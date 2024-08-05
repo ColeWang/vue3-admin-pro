@@ -3,7 +3,7 @@ import Loading from './component'
 import { createDocumentFragment, createReactivePlugin } from '../../utils/create'
 import { omit } from 'lodash-es'
 
-const container = createDocumentFragment()
+const container = createDocumentFragment('site-loading')
 let instance = null
 let configOptions = {}
 let configProps = {}

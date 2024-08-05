@@ -1,7 +1,8 @@
 import { reactive } from 'vue'
 
-export function createDocumentFragment () {
+export function createDocumentFragment (id) {
     const container = document.createElement('div')
+    id && (container.id = id)
     document.body.appendChild(container)
     return container
 }
