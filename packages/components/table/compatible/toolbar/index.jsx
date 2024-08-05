@@ -1,5 +1,5 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Button, ConfigProvider, Dropdown, Popover, Space, theme, Tooltip } from 'ant-design-vue'
+import { Button, ConfigProvider, Dropdown, Popover, Space, Tooltip } from 'ant-design-vue'
 import {
     ColumnHeightOutlined,
     ReloadOutlined,
@@ -9,6 +9,7 @@ import {
 import { ResizeObserver } from '../../../resize-observer'
 import Density from '../density'
 import Setting from '../setting'
+import useSpanConfig from '../../../form/layouts/query-filter/hooks/useSpanConfig'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
 import { getSlotVNode } from '../../../../utils/props-util'
@@ -27,11 +28,6 @@ const defaultOptions = {
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        // 换行宽度 556 form/layouts/query-filter/hooks/useQueryFilter.js
-        wrapWidth: {
-            type: Number,
-            default: 556
-        },
         options: {
             type: [Object, Boolean],
             default: () => ({})
@@ -48,6 +44,10 @@ export default defineComponent({
             type: Function,
             default: undefined
         },
+        getSpanConfig: {
+            type: Function,
+            default: undefined
+        },
         onExport: {
             type: Function,
             default: undefined
@@ -57,13 +57,14 @@ export default defineComponent({
     setup (props, { emit, slots, attrs }) {
         const { prefixCls } = useConfigInject('pro-table-toolbar', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
-        const { token } = theme.useToken()
         const { t } = useLocaleReceiver(['Table', 'toolbar'])
         const { requestProps = {}, onReload } = useSharedContext()
 
         const popupContainer = ref(null)
 
         const size = ref({ width: 0, height: 0 })
+
+        const { span } = useSpanConfig(size, props)
 
         function onResize (value) {
             size.value = value
@@ -74,12 +75,10 @@ export default defineComponent({
         }
 
         return () => {
-            const { wrapWidth, options: propsOptions } = props
-            const { width: targetWidth } = unref(size)
-            const { sizeMS } = unref(token)
+            const { options: propsOptions } = props
 
             const slotScope = {
-                nowrap: targetWidth >= wrapWidth,
+                wordWrap: unref(span) === 24,
                 loading: requestProps.loading,
                 pageData: requestProps.dataSource,
                 pagination: requestProps.pagination
@@ -133,35 +132,32 @@ export default defineComponent({
                     .map((key) => vNodeCatalog[key])
 
                 const customSettings = getSlotVNode(slots, props, 'settings', slotScope)
-
                 return (
-                    <Space.Compact style={{ marginInlineStart: `${sizeMS / 2}px` }}>
-                        {customSettings || defaultSettings}
-                    </Space.Compact>
+                    <Space.Compact>{customSettings || defaultSettings}</Space.Compact>
                 )
             }
 
-            const containerClass = [`${prefixCls.value}-container`, {
-                [`${prefixCls.value}-container__nowrap`]: targetWidth >= wrapWidth
-            }]
-            const titleClass = [`${prefixCls.value}-title`, {
-                [`${prefixCls.value}-title__nowrap`]: targetWidth >= wrapWidth
-            }]
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
                     <ResizeObserver onResize={onResize}>
                         <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                             <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
-                                <div class={containerClass}>
-                                    {titleDom ? (
-                                        <div class={titleClass}>
-                                            {titleDom}
+                                <div class={[`${prefixCls.value}-container`, {
+                                    [`${prefixCls.value}-container__word-wrap`]: unref(span) === 24
+                                }]}>
+                                    {titleDom || actionsDom ? (
+                                        <div class={`${prefixCls.value}-header`}>
+                                            <div class={`${prefixCls.value}-title`}>
+                                                {titleDom}
+                                            </div>
+                                            <div class={`${prefixCls.value}-actions`}>
+                                                {actionsDom}
+                                            </div>
                                         </div>
                                     ) : (
                                         <div/>
                                     )}
-                                    <div class={`${prefixCls.value}-actions`}>
-                                        {actionsDom}
+                                    <div class={`${prefixCls.value}-settings`}>
                                         {propsOptions !== false && renderSettings()}
                                     </div>
                                 </div>

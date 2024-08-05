@@ -1,29 +1,9 @@
 import { computed, ref, unref, watch } from 'vue'
+import useSpanConfig from './useSpanConfig'
 import tryOnScopeDispose from '../../../../../hooks/tryOnScopeDispose'
 import { flattenChildren } from '../../../../../utils/props-util'
 import { isValidElement } from '../../../../../utils/is'
-import { isFunction, map } from 'lodash-es'
-
-const breakpoints = {
-    horizontal: [
-        [556, 24, 'vertical'],
-        [834, 12, 'horizontal'],
-        [1112, 8, 'horizontal'],
-        [Infinity, 6, 'horizontal']
-    ],
-    vertical: [
-        [556, 24, 'vertical'],
-        [834, 12, 'vertical'],
-        [1112, 8, 'vertical'],
-        [Infinity, 6, 'vertical']
-    ]
-}
-
-function getSpanConfig (layout, width) {
-    const spanConfig = breakpoints[layout || 'horizontal']
-    const breakPoint = spanConfig.find((item) => width < item[0])
-    return { span: breakPoint[1], layout: breakPoint[2] }
-}
+import { map } from 'lodash-es'
 
 function getOffset (length, span) {
     const cols = 24 / span
@@ -31,25 +11,14 @@ function getOffset (length, span) {
 }
 
 function useQueryFilter (size, props) {
-    const { showCollapse, getSpanConfig: propsGetSpanConfig } = props
+    const { showCollapse } = props
 
-    // vertical horizontal 只有两种
-    const layout = ref('horizontal')
-    const span = ref(24)
+    const { layout, span } = useSpanConfig(size, props)
 
     const collapsed = ref(props.collapsed)
     const showNumber = computed(() => {
         const cols = 24 / unref(span) * props.defaultRowsNumber
         return Math.max(1, cols - 1)
-    })
-
-    const stopWatchSize = watch(size, ({ width }) => {
-        const spanSize = propsGetSpanConfig && isFunction(propsGetSpanConfig)
-            ? propsGetSpanConfig(props.layout, width) || {}
-            : getSpanConfig(props.layout, width)
-        // ---
-        layout.value = spanSize.layout || 'horizontal'
-        span.value = spanSize.span || 24
     })
 
     const stopWatchCollapsed = watch(() => props.collapsed, (value) => {
@@ -88,7 +57,6 @@ function useQueryFilter (size, props) {
     }
 
     function onStop () {
-        stopWatchSize && stopWatchSize()
         stopWatchCollapsed && stopWatchCollapsed()
     }
 

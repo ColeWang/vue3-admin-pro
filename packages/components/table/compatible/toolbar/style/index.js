@@ -1,7 +1,7 @@
-import { genComponentStyleHook } from '../../../../../utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../../utils/extend'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls } = token
+    const { componentCls, antCls, toolbarSettingsPaddingLeft } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -18,27 +18,38 @@ function genBaseStyle (token) {
                 }
             },
             [`${componentCls}-container`]: {
-                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
                 paddingBlock: token.sizeMS,
-                [`&__nowrap`]: {
+                overflow: 'hidden',
+                [`${componentCls}-header`]: {
+                    flex: 'auto',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    [`${componentCls}-title`]: {
+                        fontSize: token.fontSizeLG,
+                        color: token.colorText,
+                        lineHeight: token.lineHeightLG,
+                        fontWeight: token.fontWeightStrong,
+                        whiteSpace: 'nowrap',
+                    },
+                    [`${componentCls}-actions`]: {}
                 },
-                [`${componentCls}-title`]: {
-                    fontSize: token.fontSizeLG,
-                    color: token.colorText,
-                    lineHeight: token.lineHeightLG,
-                    fontWeight: token.fontWeightStrong,
-                    whiteSpace: 'nowrap',
-                    marginBlockEnd: token.sizeMS,
-                    [`&__nowrap`]: {
-                        marginBlockEnd: 0
-                    }
-                },
-                [`${componentCls}-actions`]: {
+                [`${componentCls}-settings`]: {
                     textAlign: 'end',
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    paddingInlineStart: toolbarSettingsPaddingLeft
+                },
+                [`&__word-wrap`]: {
+                    display: 'block',
+                    [`${componentCls}-header`]: {
+                        marginBlockEnd: token.sizeMS
+                    },
+                    [`${componentCls}-settings`]: {
+                        paddingInlineStart: 0
+                    }
                 }
             }
         }
@@ -46,5 +57,10 @@ function genBaseStyle (token) {
 }
 
 export default genComponentStyleHook('ProTableToolbar', (token) => {
-    return [genBaseStyle(token)]
+    const toolbarSettingsPaddingLeft = token.sizeMS / 2
+
+    const toolbarToken = mergeToken(token, {
+        toolbarSettingsPaddingLeft
+    })
+    return [genBaseStyle(toolbarToken)]
 })
