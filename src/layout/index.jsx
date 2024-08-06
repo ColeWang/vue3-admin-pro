@@ -68,7 +68,7 @@ export default defineComponent({
 
         return () => {
             const layoutSlots = {
-                sider: ({ collapsed, styleFn, onCloseDrawer: afterClose }) => {
+                sider: ({ collapsed, styleFn, onDrawerClose: afterClose }) => {
                     return (
                         <Sidebar
                             theme={unref(sideTheme)}
