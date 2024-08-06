@@ -3,7 +3,7 @@ import { Menu, theme } from 'ant-design-vue'
 import OutIcon from './OutIcon'
 import useShowTitle from '../../hooks/useShowTitle'
 import { hasChild, showChildren } from '../../utils'
-import { getPropsSlot } from '@site/utils/props-util'
+import { getSlotVNode } from '@site/utils/props-util'
 import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
 import { dropRight, head, isFunction, isNil, last, reverse } from 'lodash-es'
@@ -207,11 +207,11 @@ export default defineComponent({
                 onOpenChange: onOpenChange
             }
 
-            const slotScope = { collapsed: collapsed }
-            const logoDom = getPropsSlot(slots, props, 'logo', slotScope)
             const children = menus.map((item) => {
                 return createMenuItem(item, showTitle)
             })
+
+            const logoDom = getSlotVNode(slots, props, 'logo', { collapsed: collapsed })
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value, `${prefixCls.value}-${theme}`]} {...attrs}>

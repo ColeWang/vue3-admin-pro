@@ -36,7 +36,7 @@ export default defineComponent({
         const popupContainer = ref(null)
 
         function onCollapse () {
-            emit('collapse')
+            emit('collapse', !props.collapsed)
         }
 
         return () => {

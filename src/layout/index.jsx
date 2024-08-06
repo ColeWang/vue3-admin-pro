@@ -11,6 +11,19 @@ import useTags from './hooks/useTags'
 import routes from '@/router/routes'
 import { HOME_NAME } from '@/config'
 
+const LogoIcon = defineComponent(() => {
+    return () => {
+        const style = { width: '32px', height: '32px' }
+        return (
+            <img
+                src={'https://colewang.github.io/vue3-admin-pro/logo.svg'}
+                style={style}
+                alt={'logo'}
+            />
+        )
+    }
+})
+
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { attrs }) {
@@ -41,32 +54,30 @@ export default defineComponent({
             })
         })
 
-        function onSidebarChange (name) {
-            router.push({ name: name })
-        }
-
         function onTagsChange ({ name, query, params }) {
             router.push({ name, query, params })
         }
 
+        function onMenusChange (afterClose) {
+            return function (name) {
+                router.push({ name: name }).then(() => {
+                    afterClose && afterClose()
+                })
+            }
+        }
+
         return () => {
             const layoutSlots = {
-                sider: ({ collapsed, styleFn }) => {
-                    const logo = () => {
-                        const style = { width: '32px', height: '32px' }
-                        return (
-                            <img src={'https://colewang.github.io/vue3-admin-pro/logo.svg'} style={style} alt={'logo'}/>
-                        )
-                    }
+                sider: ({ collapsed, styleFn, onDrawerChange }) => {
                     return (
                         <Sidebar
                             theme={unref(sideTheme)}
-                            logo={logo}
+                            logo={() => <LogoIcon/>}
                             route={route}
                             menus={menus}
                             collapsed={collapsed}
                             styleFn={styleFn}
-                            onChange={onSidebarChange}
+                            onChange={onMenusChange(onDrawerChange)}
                         />
                     )
                 },

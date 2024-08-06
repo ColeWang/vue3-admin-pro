@@ -1,7 +1,7 @@
 import { defineComponent, KeepAlive, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
 import { BackTop } from 'ant-design-vue'
-import { getPropsSlot } from '@site/utils/props-util'
+import { getSlotVNode } from '@site/utils/props-util'
 import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
 
@@ -30,8 +30,8 @@ export default defineComponent({
         return () => {
             const { include } = props
 
-            const headerDom = getPropsSlot(slots, props, 'header')
-            const footerDom = getPropsSlot(slots, props, 'footer')
+            const headerDom = getSlotVNode(slots, props, 'header')
+            const footerDom = getSlotVNode(slots, props, 'footer')
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>

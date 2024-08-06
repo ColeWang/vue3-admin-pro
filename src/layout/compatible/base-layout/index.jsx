@@ -1,7 +1,7 @@
 import { computed, defineComponent, ref, unref } from 'vue'
 import { Drawer } from 'ant-design-vue'
 import { useSite } from '@site'
-import { getPropsSlot, getSlot } from '@site/utils/props-util'
+import { getSlotVNode } from '@site/utils/props-util'
 import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
 
@@ -26,58 +26,58 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const $site = useSite()
 
-        const collapsed = ref(false)
+        const hasDrawer = computed(() => $site.screen.lt.lg)
         const siderWidth = ref(0)
 
-        const open = computed(() => !collapsed.value)
+        const collapsed = ref(false)
 
-        function onCollapse () {
+        function onCollapse (value) {
+            // -- value
             collapsed.value = !unref(collapsed)
         }
 
+        function onDrawerChange () {
+            unref(hasDrawer) && onCollapse()
+        }
+
         function styleFn (width) {
-            // 缓存 width
-            siderWidth.value = width + 1
+            // 缓存 width border 1px
+            siderWidth.value = width
             return { width: `${width}px` }
         }
 
         return () => {
-            const siderSlot = getSlot(slots, props, 'sider')
-            const headerSlot = getSlot(slots, props, 'header')
-
-            const renderSider = () => {
-                if ($site.screen.lt.lg) {
-                    const drawerProps = {
-                        bodyStyle: { padding: 0 },
-                        placement: 'left',
-                        closable: false,
-                        width: unref(siderWidth),
-                        open: unref(open),
-                        ['onUpdate:open']: onCollapse
-                    }
-                    return (
-                        <Drawer {...drawerProps}>
-                            {() => siderSlot({ collapsed: false, styleFn })}
-                        </Drawer>
-                    )
-                }
-                return siderSlot({ collapsed: unref(collapsed) })
+            const slotScope = {
+                collapsed: unref(hasDrawer) ? false : unref(collapsed),
+                styleFn: styleFn,
+                onCollapse: onCollapse,
+                onDrawerChange: onDrawerChange
             }
 
-            const renderHeader = () => {
-                if ($site.screen.lt.lg) {
-                    return headerSlot({ collapsed: false, onCollapse })
-                }
-                return headerSlot({ collapsed: unref(collapsed), onCollapse })
-            }
+            const siderDom = getSlotVNode(slots, props, 'sider', slotScope)
+            const headerDom = getSlotVNode(slots, props, 'header', slotScope)
+            const contentDom = getSlotVNode(slots, props, 'content', slotScope)
 
-            const contentDom = getPropsSlot(slots, props, 'content')
+            const needSiderDom = unref(hasDrawer) ? (
+                <Drawer
+                    bodyStyle={{ padding: 0 }}
+                    placement={'left'}
+                    closable={false}
+                    width={unref(siderWidth) + 1}
+                    open={!unref(collapsed)}
+                    onUpdate:open={onDrawerChange}
+                >
+                    {siderDom}
+                </Drawer>
+            ) : (
+                siderDom
+            )
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    {siderSlot && renderSider()}
+                    {needSiderDom}
                     <div class={`${prefixCls.value}-prime`}>
-                        {headerSlot && renderHeader()}
+                        {headerDom}
                         <div class={`${prefixCls.value}-content`}>
                             {contentDom}
                         </div>

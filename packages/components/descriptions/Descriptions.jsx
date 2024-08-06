@@ -1,9 +1,8 @@
 import { defineComponent, ref } from 'vue'
 import { ConfigProvider, Descriptions, Form, Spin } from 'ant-design-vue'
 import { BaseField } from '../base-field'
-import { ResizeObserver } from '../resize-observer'
 import useFetchData from './hooks/useFetchData'
-import { flattenChildren, getPropsSlot } from '../../utils/props-util'
+import { flattenChildren, getPropsSlot, getSlotVNode } from '../../utils/props-util'
 import { getElement } from '../../utils/dom'
 import { useConfigInject } from '../../utils/extend'
 import useStyle from './style'
@@ -129,7 +128,7 @@ export default defineComponent({
                 data: requestProps.dataSource
             }
             const titleDom = getPropsSlot(slots, props, 'title', slotScope)
-            const extraDom = getPropsSlot(slots, props, 'extra', slotScope)
+            const extraDom = getSlotVNode(slots, props, 'extra', slotScope)
 
             const restProps = omit(props, ['title', 'extra'])
             const needDescsProps = { ...pick(restProps, Object.keys(Descriptions.props)) }
