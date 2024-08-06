@@ -36,8 +36,9 @@ export default defineComponent({
             collapsed.value = !unref(collapsed)
         }
 
-        function onDrawerChange () {
-            unref(hasDrawer) && onCollapse()
+        function onCloseDrawer () {
+            // unref(hasDrawer) && onCollapse()
+            unref(hasDrawer) && (collapsed.value = false)
         }
 
         function styleFn (width) {
@@ -51,7 +52,7 @@ export default defineComponent({
                 collapsed: unref(hasDrawer) ? false : unref(collapsed),
                 styleFn: styleFn,
                 onCollapse: onCollapse,
-                onDrawerChange: onDrawerChange
+                onCloseDrawer: onCloseDrawer
             }
 
             const siderDom = getSlotVNode(slots, props, 'sider', slotScope)
@@ -65,7 +66,7 @@ export default defineComponent({
                     closable={false}
                     width={unref(siderWidth) + 1}
                     open={!unref(collapsed)}
-                    onUpdate:open={onDrawerChange}
+                    onUpdate:open={onCollapse}
                 >
                     {siderDom}
                 </Drawer>
