@@ -57,6 +57,7 @@ class GalleryCache {
 export const localCache = new GalleryCache(localStorage)
 export const sessionCache = new GalleryCache(sessionStorage)
 
+export const VERSION__LOCAL = 'version'
 export const TAGS__LOCAL = 'tags'
 export const LOCALE__LOCAL = 'locale'
 export const THEME__LOCAL = 'theme'

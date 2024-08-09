@@ -1,5 +1,6 @@
 import { inject } from 'vue'
 import { Fullscreen, Loading, Progress, Screen } from './plugins'
+import { version } from './version'
 import { forEach, omit } from 'lodash-es'
 
 const BaseKey = Symbol('Site')
@@ -15,7 +16,7 @@ function install (app, options) {
     const { config: pluginConfig } = options
 
     const $site = {
-        version: __SITE_VERSION__,
+        version: version,
         config: pluginConfig
     }
 

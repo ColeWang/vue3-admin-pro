@@ -12,6 +12,10 @@ export default defineComponent({
             type: Array,
             default: () => ([])
         },
+        maxCache: {
+            type: [Number, String],
+            default: 10
+        },
         header: {
             type: Function,
             default: undefined
@@ -22,13 +26,13 @@ export default defineComponent({
         }
     },
     setup (props, { slots, attrs }) {
-        const spaceRef = ref(null)
-
         const { prefixCls } = useConfigInject('pro-layout-container', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
+        const spaceRef = ref(null)
+
         return () => {
-            const { include } = props
+            const { include, maxCache } = props
 
             const headerDom = getSlotVNode(slots, props, 'header')
             const footerDom = getSlotVNode(slots, props, 'footer')
@@ -43,7 +47,7 @@ export default defineComponent({
                                 <RouterView>
                                     {({ Component }) => {
                                         return (
-                                            <KeepAlive max={10} include={include}>
+                                            <KeepAlive include={include} max={maxCache}>
                                                 {Component}
                                             </KeepAlive>
                                         )
