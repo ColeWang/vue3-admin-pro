@@ -1,7 +1,7 @@
 import { computed, defineComponent, unref } from 'vue'
+import { useSite } from '@site/plugins'
+import { useConfigInject } from '@site/hooks'
 import { ExitFullscreenOutlined, FullscreenOutlined } from '@/components/icon'
-import { useSite } from '@site'
-import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
 
 export default defineComponent({

@@ -1,9 +1,9 @@
 import { defineComponent, unref } from 'vue'
 import { Input, theme } from 'ant-design-vue'
+import { useConfigInject } from '@site/hooks'
+import { getSlotVNode } from '@site/utils'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
-import { getSlotVNode } from '../../../utils/props-util'
-import { useConfigInject } from '../../../utils/extend'
 
 export default defineComponent({
     inheritAttrs: false,

@@ -1,11 +1,10 @@
 import { defineComponent } from 'vue'
 import { Dropdown, Menu } from 'ant-design-vue'
 import { GlobalOutlined } from '@ant-design/icons-vue'
-import { useAppInstance } from '@/hooks/useAppInstance'
-import useGlobalProperties from '@site/hooks/useGlobalProperties'
-import { useConfigInject } from '@site/utils/extend'
-import useStyle from './style'
+import { useConfigInject, useGlobalProperties } from '@site/hooks'
 import { map } from 'lodash-es'
+import { useAppInstance } from '@/hooks'
+import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,

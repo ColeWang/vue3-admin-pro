@@ -1,12 +1,12 @@
 import { computed, defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Menu, theme } from 'ant-design-vue'
+import { getSlotVNode } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
+import { dropRight, head, isFunction, isNil, last, reverse } from 'lodash-es'
 import OutIcon from './OutIcon'
 import useShowTitle from '../../hooks/useShowTitle'
 import { hasChild, showChildren } from '../../utils'
-import { getSlotVNode } from '@site/utils/props-util'
-import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
-import { dropRight, head, isFunction, isNil, last, reverse } from 'lodash-es'
 
 function createFlatMenus (menus) {
     const flatMenus = []

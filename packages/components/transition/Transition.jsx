@@ -1,6 +1,6 @@
 import { defineComponent, nextTick, Transition } from 'vue'
-import { addClass, removeClass } from '../../utils/dom'
-import { useConfigInject } from '../../utils/extend'
+import { addClass, removeClass } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
 import useStyle from './style'
 
 function collapseMotion (name, appear) {

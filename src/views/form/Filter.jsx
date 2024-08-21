@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Card } from 'ant-design-vue'
-import { Number, QueryFilter, Select, Text } from '@site'
+import { Number, QueryFilter, Select, Text } from '@site/components'
 
 export default defineComponent({
     inheritAttrs: false,

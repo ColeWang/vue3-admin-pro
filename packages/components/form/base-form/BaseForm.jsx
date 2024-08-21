@@ -1,12 +1,11 @@
 import { computed, defineComponent, ref, unref, watch } from 'vue'
 import { ConfigProvider, Form, theme } from 'ant-design-vue'
+import { useConfigInject } from '@site/hooks'
+import { cloneProxyToRaw, getElement } from '@site/utils'
+import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
 import RowWrap from '../helpers/RowWrap'
 import { createFromInstance } from './hooks/useFormInstance'
-import { cloneProxyToRaw } from '../../../utils/util'
-import { getElement } from '../../../utils/dom'
-import { useConfigInject } from '../../../utils/extend'
 import useStyle from './style'
-import { get, head, isFunction, isObject, pick, set, unset, update } from 'lodash-es'
 
 const baseFormProps = {
     ...Form.props,

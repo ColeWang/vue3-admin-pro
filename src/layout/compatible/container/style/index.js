@@ -1,4 +1,4 @@
-import { genComponentStyleHook, mergeToken } from '@site/utils/extend'
+import { genComponentStyleHook, mergeToken } from '@site/components'
 
 function genBaseStyle (token) {
     const { componentCls, containerPaddingInline } = token

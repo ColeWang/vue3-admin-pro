@@ -1,9 +1,8 @@
 import { defineComponent, unref } from 'vue'
 import { Avatar, Dropdown, Menu, theme } from 'ant-design-vue'
 import { LoginOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue'
-import { useAppInstance } from '@/hooks/useAppInstance'
-import useGlobalProperties from '@site/hooks/useGlobalProperties'
-import { useConfigInject } from '@site/utils/extend'
+import { useConfigInject, useGlobalProperties } from '@site/hooks'
+import { useAppInstance } from '@/hooks'
 import useStyle from './style'
 
 export default defineComponent({

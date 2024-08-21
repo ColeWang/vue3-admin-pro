@@ -1,8 +1,8 @@
 import { defineComponent, unref } from 'vue'
 import { Form } from 'ant-design-vue'
+import { pick } from 'lodash-es'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
-import { pick } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,

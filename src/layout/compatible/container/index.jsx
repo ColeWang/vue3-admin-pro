@@ -1,8 +1,8 @@
 import { defineComponent, KeepAlive, ref, unref } from 'vue'
 import { RouterView } from 'vue-router'
 import { BackTop } from 'ant-design-vue'
-import { getSlotVNode } from '@site/utils/props-util'
-import { useConfigInject } from '@site/utils/extend'
+import { getSlotVNode } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
 import useStyle from './style'
 
 export default defineComponent({

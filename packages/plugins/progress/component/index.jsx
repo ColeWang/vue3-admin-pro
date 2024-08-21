@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { useConfigInject } from '../../../utils/extend'
+import { useConfigInject } from '@site/hooks'
 import useStyle from './style'
 
 export default defineComponent({

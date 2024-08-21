@@ -1,5 +1,5 @@
 import { computed, defineComponent, unref } from 'vue'
-import { Action, Table } from '@site'
+import { Action, Table } from '@site/components'
 
 export default defineComponent({
     inheritAttrs: false,

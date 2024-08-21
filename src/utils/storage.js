@@ -1,4 +1,4 @@
-import { isEmpty } from '@site/utils/is'
+import { isEmpty } from '@site/utils'
 
 class GalleryCache {
     cache = null

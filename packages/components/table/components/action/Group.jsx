@@ -1,8 +1,8 @@
 import { defineComponent, unref } from 'vue'
 import { Dropdown, Menu, Space, theme } from 'ant-design-vue'
-import Action from './Action'
-import { flattenChildren } from '../../../../utils/props-util'
+import { flattenChildren } from '@site/utils'
 import { take, takeRight } from 'lodash-es'
+import Action from './Action'
 
 export default defineComponent({
     inheritAttrs: false,

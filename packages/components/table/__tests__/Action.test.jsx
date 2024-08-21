@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
+import mountTest from '@site/tests/shared/mountTest'
 import { Action } from '../index'
-import mountTest from '../../../tests/shared/mountTest'
 
 describe('Action', () => {
     mountTest(Action)

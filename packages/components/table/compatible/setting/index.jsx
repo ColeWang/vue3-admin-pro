@@ -1,11 +1,11 @@
 import { defineComponent, unref } from 'vue'
 import { Button, Checkbox, theme } from 'ant-design-vue'
+import { useConfigInject } from '@site/hooks'
+import { reduce, set } from 'lodash-es'
 import TreeList from './TreeList'
 import { useSharedContext } from '../../hooks/useSharedContext'
 import { useLocaleReceiver } from '../../../locale-provider'
-import { useConfigInject } from '../../../../utils/extend'
 import useStyle from './style'
-import { reduce, set } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,

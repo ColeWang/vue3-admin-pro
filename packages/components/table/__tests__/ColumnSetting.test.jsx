@@ -1,9 +1,9 @@
 import { describe } from 'vitest'
+import mountTest from '@site/tests/shared/mountTest'
 import ColumnSetting from '../compatible/setting'
 import TreeList from '../compatible/setting/TreeList'
 import TreeNode from '../compatible/setting/TreeNode'
 import Tooltip from '../compatible/setting/Tooltip'
-import mountTest from '../../../tests/shared/mountTest'
 
 describe('ColumnSetting', () => {
     mountTest(ColumnSetting)

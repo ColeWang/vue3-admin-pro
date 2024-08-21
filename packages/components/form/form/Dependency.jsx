@@ -1,8 +1,8 @@
 import { defineComponent, unref } from 'vue'
+import { cloneProxyToRaw } from '@site/utils'
+import { isFunction, reduce, set } from 'lodash-es'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'
-import { cloneProxyToRaw } from '../../../utils/util'
-import { isFunction, reduce, set } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,

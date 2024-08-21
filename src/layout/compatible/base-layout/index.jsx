@@ -1,8 +1,8 @@
 import { computed, defineComponent, ref, unref } from 'vue'
 import { Drawer } from 'ant-design-vue'
-import { useSite } from '@site'
-import { getSlotVNode } from '@site/utils/props-util'
-import { useConfigInject } from '@site/utils/extend'
+import { getSlotVNode } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
+import { useSite } from '@site/plugins'
 import useStyle from './style'
 
 export default defineComponent({

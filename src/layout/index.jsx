@@ -1,15 +1,16 @@
 import { computed, defineComponent, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAppInstance } from '@/hooks'
+import routes from '@/router/routes'
+import { HOME_NAME } from '@/config'
+// --
 import BaseLayout from './compatible/base-layout'
 import Sidebar from './compatible/sidebar'
 import Navbar from './compatible/navbar'
 import Container from './compatible/container'
 import Tags from './compatible/tags'
-import { useAppInstance } from '@/hooks/useAppInstance'
 import { getMenuList } from './utils'
 import useTags from './hooks/useTags'
-import routes from '@/router/routes'
-import { HOME_NAME } from '@/config'
 
 const LogoIcon = defineComponent(() => {
     return () => {

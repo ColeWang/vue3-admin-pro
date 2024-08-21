@@ -1,8 +1,8 @@
 import { defineComponent, unref } from 'vue'
 import { Button, Space, theme } from 'ant-design-vue'
-import { useLocaleReceiver } from '../../locale-provider'
-import { preventDefault } from '../../../utils/event'
+import { preventDefault } from '@site/utils'
 import { toPlainObject } from 'lodash-es'
+import { useLocaleReceiver } from '../../locale-provider'
 
 const submitterProps = {
     size: {

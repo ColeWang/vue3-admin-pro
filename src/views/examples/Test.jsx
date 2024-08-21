@@ -1,6 +1,7 @@
 import { defineComponent, Fragment, ref, unref } from 'vue'
 import { Button } from 'ant-design-vue'
-import { Loading, Transition, useSite } from '@site'
+import { Transition } from '@site/components'
+import { Loading, useSite } from '@site/plugins'
 
 export default defineComponent({
     inheritAttrs: false,

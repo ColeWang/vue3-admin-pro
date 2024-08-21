@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
-import { preventDefault } from '../../../../utils/event'
-import { useConfigInject } from '../../../../utils/extend'
+import { preventDefault } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
 import useStyle from './style'
 
 export default defineComponent({

@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
+import mountTest from '@site/tests/shared/mountTest'
+import dayjs from 'dayjs'
 // --
 import { BaseField } from '../index'
 import FieldDatePicker from '../components/DatePicker'
@@ -17,9 +19,7 @@ import FieldNumber from '../components/Number'
 import FieldTextArea from '../components/TextArea'
 import FieldText from '../components/Text'
 import FieldPassword from '../components/Password'
-import mountTest from '../../../tests/shared/mountTest'
 import { formatDate } from '../utils'
-import dayjs from 'dayjs'
 
 function mountFieldTest (valueType, Component, props) {
     it(`${valueType}`, async () => {

@@ -1,11 +1,10 @@
 import { createApp } from 'vue'
-import Root from '@/App'
+import { isFunction } from 'lodash-es'
 // ----
+import Root from '@/App'
 import createStores from '@/stores'
 import createRouter from '@/router'
 import createBoots from '@/boot'
-// ----
-import { isFunction } from 'lodash-es'
 // CSS
 import '@/css/reset.css'
 

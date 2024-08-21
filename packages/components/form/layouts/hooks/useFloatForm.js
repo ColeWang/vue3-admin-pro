@@ -1,7 +1,7 @@
 import { ref, unref, watch } from 'vue'
-import { BaseForm } from '../../base-form'
-import tryOnScopeDispose from '../../../../hooks/tryOnScopeDispose'
+import { tryOnScopeDispose } from '@site/hooks'
 import { isFunction } from 'lodash-es'
+import { BaseForm } from '../../base-form'
 
 const extraProps = {
     layout: {

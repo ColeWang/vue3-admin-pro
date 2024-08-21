@@ -1,4 +1,4 @@
-import { createReactivePlugin } from '../../utils/create'
+import { createReactivePlugin } from '../utils'
 
 const native = {
     request: ['requestFullscreen', 'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'].find((request) => !!document.documentElement[request]),

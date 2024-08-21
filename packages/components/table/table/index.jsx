@@ -1,6 +1,8 @@
 import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue'
 import { Card, ConfigProvider, Table, theme } from 'ant-design-vue'
-import tableProps from './props'
+import { getElement, getSlot, getSlotVNode, omitNil } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
+import { isArray, isFunction, omit, pick, toPlainObject } from 'lodash-es'
 import Search from '../compatible/search'
 import Extra from '../compatible/extra'
 import Toolbar from '../compatible/toolbar'
@@ -9,12 +11,8 @@ import useFetchData from '../hooks/useFetchData'
 import useTableColumns from '../hooks/useTableColumns'
 import useRowSelection from '../hooks/useRowSelection'
 import { createSharedContext } from '../hooks/useSharedContext'
-import { getSlot, getSlotVNode } from '../../../utils/props-util'
-import { omitNil } from '../../../utils/util'
-import { getElement } from '../../../utils/dom'
-import { useConfigInject } from '../../../utils/extend'
+import tableProps from './props'
 import useStyle from './style'
-import { isArray, isFunction, omit, pick, toPlainObject } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,

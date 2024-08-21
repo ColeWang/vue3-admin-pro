@@ -1,13 +1,13 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
+import mountTest from '@site/tests/shared/mountTest'
 import { Tooltip } from 'ant-design-vue'
+import { last } from 'lodash-es'
 import { BaseSearch, EditableTable, Table } from '../index'
 import Search from '../compatible/search'
 import Toolbar from '../compatible/toolbar'
 import Alert from '../compatible/alert'
 import { BaseForm, Submitter, Text } from '../../form'
-import mountTest from '../../../tests/shared/mountTest'
-import { last } from 'lodash-es'
 
 describe('Table', () => {
     mountTest(Table)

@@ -1,7 +1,7 @@
 import { defineComponent, Transition } from 'vue'
 import { Spin } from 'ant-design-vue'
 import { LoadingOutlined } from '@ant-design/icons-vue'
-import { useConfigInject } from '../../../utils/extend'
+import { useConfigInject } from '@site/hooks'
 import useStyle from './style'
 
 export default defineComponent({

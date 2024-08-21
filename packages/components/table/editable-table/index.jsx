@@ -1,9 +1,9 @@
 import { defineComponent, reactive, unref, watch } from 'vue'
 import { theme } from 'ant-design-vue'
+import { get, pick, set, unset } from 'lodash-es'
 import { Field, Form } from '../../form'
 import Table from '../table'
 import InlineError from './components/inline-error'
-import { get, pick, set, unset } from 'lodash-es'
 
 const editable = {
     type: 'multiple', // 可编辑表格的类型，单行编辑或者多行编辑

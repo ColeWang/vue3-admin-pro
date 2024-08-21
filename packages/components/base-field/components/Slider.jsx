@@ -1,8 +1,8 @@
 import { defineComponent, Fragment } from 'vue'
 import { Slider } from 'ant-design-vue'
-import baseFieldProps from '../props'
-import { getSlotVNode } from '../../../utils/props-util'
+import { getSlotVNode } from '@site/utils'
 import { isArray } from 'lodash-es'
+import baseFieldProps from '../props'
 
 export default defineComponent({
     inheritAttrs: false,

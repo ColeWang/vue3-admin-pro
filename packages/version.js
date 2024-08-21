@@ -1,6 +1,6 @@
 import { gt, head, lt, split, zipWith } from 'lodash-es'
 
-const version = __SITE_VERSION__ || '0.3.0'
+const version = __SITE_VERSION__ || '0.3.1'
 
 function parse (version) {
     return split(version, '.', 3).map(Number)

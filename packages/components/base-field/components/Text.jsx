@@ -1,8 +1,8 @@
 import { defineComponent, Fragment } from 'vue'
 import { Input } from 'ant-design-vue'
+import { getPropsSlot, getSlotVNode } from '@site/utils'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
-import { getPropsSlot, getSlotVNode } from '../../../utils/props-util'
 
 export default defineComponent({
     inheritAttrs: false,

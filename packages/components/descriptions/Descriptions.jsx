@@ -1,12 +1,11 @@
 import { defineComponent, ref } from 'vue'
 import { ConfigProvider, Descriptions, Form, Spin } from 'ant-design-vue'
+import { flattenChildren, getElement, getPropsSlot, getSlotVNode } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
+import { isFunction, omit, pick } from 'lodash-es'
 import { BaseField } from '../base-field'
 import useFetchData from './hooks/useFetchData'
-import { flattenChildren, getPropsSlot, getSlotVNode } from '../../utils/props-util'
-import { getElement } from '../../utils/dom'
-import { useConfigInject } from '../../utils/extend'
 import useStyle from './style'
-import { isFunction, omit, pick } from 'lodash-es'
 
 const extraProps = {
     dataSource: {

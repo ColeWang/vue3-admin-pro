@@ -1,4 +1,4 @@
-import { isEmpty } from '../../../utils/is'
+import { isEmpty } from '@site/utils'
 import { isFunction } from 'lodash-es'
 import dayjs from 'dayjs'
 

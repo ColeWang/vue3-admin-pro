@@ -5,9 +5,9 @@ import {
     VerticalAlignMiddleOutlined,
     VerticalAlignTopOutlined
 } from '@ant-design/icons-vue'
+import { useConfigInject } from '@site/hooks'
 import Tooltip from './Tooltip'
 import { useLocaleReceiver } from '../../../locale-provider'
-import { useConfigInject } from '../../../../utils/extend'
 import useStyle from './style/tree-node'
 
 export default defineComponent({

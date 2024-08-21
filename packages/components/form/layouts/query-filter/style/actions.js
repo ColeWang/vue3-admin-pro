@@ -1,4 +1,4 @@
-import { genComponentStyleHook } from '../../../../../utils/extend'
+import { genComponentStyleHook } from '../../../../theme'
 
 function genBaseStyle (token) {
     const { componentCls, iconCls } = token

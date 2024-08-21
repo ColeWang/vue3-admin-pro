@@ -1,14 +1,12 @@
 import { defineComponent, nextTick, ref, unref, watch } from 'vue'
 import { Button, ConfigProvider, Dropdown, Menu, theme } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
+import { getElement, omitNil } from '@site/utils'
+import { useConfigInject, useGlobalProperties } from '@site/hooks'
+import { isString } from 'lodash-es'
 import TagNode from './Node'
 import useShowTitle from '../../hooks/useShowTitle'
-import { omitNil } from '@site/utils/util'
-import { getElement } from '@site/utils/dom'
-import useGlobalProperties from '@site/hooks/useGlobalProperties'
-import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
-import { isString } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -210,7 +208,8 @@ export default defineComponent({
                     <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-content`}>
-                                <div class={[`${prefixCls.value}-button-wrapper`, `${prefixCls.value}-button-wrapper-left`]}>
+                                <div
+                                    class={[`${prefixCls.value}-button-wrapper`, `${prefixCls.value}-button-wrapper-left`]}>
                                     <Button
                                         class={`${prefixCls.value}-button`}
                                         type={'text'}
@@ -219,7 +218,8 @@ export default defineComponent({
                                     />
                                 </div>
                                 {tagsScrollDom}
-                                <div class={[`${prefixCls.value}-button-wrapper`, `${prefixCls.value}-button-wrapper-right`]}>
+                                <div
+                                    class={[`${prefixCls.value}-button-wrapper`, `${prefixCls.value}-button-wrapper-right`]}>
                                     <Button
                                         class={`${prefixCls.value}-button`}
                                         type={'text'}

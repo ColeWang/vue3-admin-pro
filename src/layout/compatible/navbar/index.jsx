@@ -1,14 +1,14 @@
 import { defineComponent, ref } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
+import { getElement } from '@site/utils'
+import { useConfigInject } from '@site/hooks'
+import { useSite } from '@site/plugins'
 import Breadcrumb from '../../components/breadcrumb'
 import Settings from '../../components/settings'
 import Fullscreen from '../../components/fullscreen'
 import Language from '../../components/language'
 import Avatar from '../../components/avatar'
 import { HamburgerOutlined } from '@/components/icon'
-import { useSite } from '@site'
-import { getElement } from '@site//utils/dom'
-import { useConfigInject } from '@site/utils/extend'
 import useStyle from './style'
 
 export default defineComponent({

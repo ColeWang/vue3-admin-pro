@@ -1,4 +1,4 @@
-import { genComponentStyleHook, mergeToken } from '../../../../../utils/extend'
+import { genComponentStyleHook, mergeToken } from '../../../../theme'
 
 function genBaseStyle (token) {
     const { componentCls, extraMarginBottom } = token

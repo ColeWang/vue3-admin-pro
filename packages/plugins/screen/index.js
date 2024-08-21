@@ -1,6 +1,5 @@
-import { createReactivePlugin } from '../../utils/create'
-import { addClass, getWindowSize, removeClass } from '../../utils/dom'
-import { addEvt } from '../../utils/event'
+import { addClass, addEvt, getWindowSize, removeClass } from '@site/utils'
+import { createReactivePlugin } from '../utils'
 import { debounce, pick } from 'lodash-es'
 
 const SIZE_LIST = ['sm', 'md', 'lg', 'xl', 'xxl']
