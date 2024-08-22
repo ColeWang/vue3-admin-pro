@@ -1,6 +1,6 @@
 import { computed, h } from 'vue'
 import { TypographyText } from 'ant-design-vue'
-import { isEmpty, valueEnumToText } from '@site/utils'
+import { isEmpty, valueEnumToText } from '@site-pro/utils'
 import { isArray, isFunction, isObject } from 'lodash-es'
 
 function getEllipsis (column) {

@@ -68,7 +68,7 @@ export default defineConfig((config) => {
         resolve: {
             alias: {
                 '@': resolve(__dirname, 'src'),
-                '@site': resolve(__dirname, 'packages')
+                '@site-pro': resolve(__dirname, 'packages')
             }
         },
         define: {

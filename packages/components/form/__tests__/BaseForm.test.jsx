@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import mountTest from '@site/tests/shared/mountTest'
+import mountTest from '@site-pro/tests/shared/mountTest'
 import { Button, Tooltip } from 'ant-design-vue'
 import { last } from 'lodash-es'
 import { BaseForm, Field, HocField, Submitter } from '../index'

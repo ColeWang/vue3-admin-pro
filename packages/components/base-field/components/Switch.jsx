@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Switch } from 'ant-design-vue'
-import { getSlotVNode } from '@site/utils'
+import { getSlotVNode } from '@site-pro/utils'
 import { isFunction } from 'lodash-es'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'

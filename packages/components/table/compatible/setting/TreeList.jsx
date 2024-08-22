@@ -1,6 +1,6 @@
 import { defineComponent, unref } from 'vue'
 import { theme, Tree } from 'ant-design-vue'
-import { useConfigInject } from '@site/hooks'
+import { useConfigInject } from '@site-pro/hooks'
 import TreeNode from './TreeNode'
 import DraggableOutlined from './DraggableOutlined'
 import useStyle from './style/tree-list'

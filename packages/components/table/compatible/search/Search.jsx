@@ -1,5 +1,5 @@
 import { computed, defineComponent, unref } from 'vue'
-import { isEmpty, namePathToString } from '@site/utils'
+import { isEmpty, namePathToString } from '@site-pro/utils'
 import { pick, reduce, set } from 'lodash-es'
 import { Field } from '../../../form'
 import BaseSearch from './BaseSearch'

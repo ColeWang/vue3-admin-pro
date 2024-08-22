@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import { Button, Space, theme } from 'ant-design-vue'
 import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
-import { useConfigInject } from '@site/hooks'
+import { useConfigInject } from '@site-pro/hooks'
 import { pick } from 'lodash-es'
 import { Submitter } from '../../base-form'
 import { useLocaleReceiver } from '../../../locale-provider'

@@ -1,6 +1,6 @@
 import { defineComponent, unref } from 'vue'
 import { Form } from 'ant-design-vue'
-import { namePathToString, toPx } from '@site/utils'
+import { namePathToString, toPx } from '@site-pro/utils'
 import { has, isArray, isNumber, isString, merge, pick } from 'lodash-es'
 import ColWrap from '../helpers/ColWrap'
 import { BaseField } from '../../base-field'

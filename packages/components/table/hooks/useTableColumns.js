@@ -1,5 +1,5 @@
 import { computed, ref, unref, watch } from 'vue'
-import { tryOnScopeDispose } from '@site/hooks'
+import { tryOnScopeDispose } from '@site-pro/hooks'
 import { isBoolean, isObject, map, reduce, set } from 'lodash-es'
 import useCustomRender from './useCustomRender'
 

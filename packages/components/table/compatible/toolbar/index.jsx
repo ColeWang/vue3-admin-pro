@@ -6,8 +6,8 @@ import {
     SettingOutlined,
     VerticalAlignBottomOutlined
 } from '@ant-design/icons-vue'
-import { getElement, getSlotVNode } from '@site/utils'
-import { useConfigInject } from '@site/hooks'
+import { getElement, getSlotVNode } from '@site-pro/utils'
+import { useConfigInject } from '@site-pro/hooks'
 import { pick, toPlainObject } from 'lodash-es'
 import { ResizeObserver } from '../../../resize-observer'
 import Density from '../density'

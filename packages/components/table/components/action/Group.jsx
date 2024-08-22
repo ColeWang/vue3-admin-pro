@@ -1,6 +1,6 @@
 import { defineComponent, unref } from 'vue'
 import { Dropdown, Menu, Space, theme } from 'ant-design-vue'
-import { flattenChildren } from '@site/utils'
+import { flattenChildren } from '@site-pro/utils'
 import { take, takeRight } from 'lodash-es'
 import Action from './Action'
 

@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { Dropdown, Menu } from 'ant-design-vue'
 import { GlobalOutlined } from '@ant-design/icons-vue'
-import { useConfigInject, useGlobalProperties } from '@site/hooks'
+import { useConfigInject, useGlobalProperties } from '@site-pro/hooks'
 import { map } from 'lodash-es'
 import { useAppInstance } from '@/hooks'
 import useStyle from './style'

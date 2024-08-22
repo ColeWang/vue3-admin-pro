@@ -1,7 +1,7 @@
 import { defineComponent, unref } from 'vue'
 import { Switch, theme as antTheme, Tooltip } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
-import { useConfigInject } from '@site/hooks'
+import { useConfigInject } from '@site-pro/hooks'
 import { useAppInstance } from '@/hooks'
 import useStyle from './style/theme-settings'
 

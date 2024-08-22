@@ -1,5 +1,5 @@
 import { describe } from 'vitest'
-import mountTest from '@site/tests/shared/mountTest'
+import mountTest from '@site-pro/tests/shared/mountTest'
 import ColumnSetting from '../compatible/setting'
 import TreeList from '../compatible/setting/TreeList'
 import TreeNode from '../compatible/setting/TreeNode'

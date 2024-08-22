@@ -1,5 +1,5 @@
 import { shallowReactive, watch } from 'vue'
-import { tryOnScopeDispose } from '@site/hooks'
+import { tryOnScopeDispose } from '@site-pro/hooks'
 import { isFunction, pick } from 'lodash-es'
 import { useLocaleReceiver } from '../../locale-provider'
 

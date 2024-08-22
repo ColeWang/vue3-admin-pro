@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Popover, theme } from 'ant-design-vue'
-import { cloneProxyToRaw } from '@site/utils'
+import { cloneProxyToRaw } from '@site-pro/utils'
 import { pick } from 'lodash-es'
 
 const WithHelp = defineComponent({

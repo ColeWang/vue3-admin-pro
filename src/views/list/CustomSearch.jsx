@@ -11,7 +11,7 @@ import {
     Slider,
     Switch,
     Table
-} from '@site/components'
+} from '@site-pro/components'
 
 const Test = HocField('test')
 

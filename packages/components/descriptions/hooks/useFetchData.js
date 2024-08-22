@@ -1,5 +1,5 @@
 import { shallowReactive, watch } from 'vue'
-import { tryOnScopeDispose } from '@site/hooks'
+import { tryOnScopeDispose } from '@site-pro/hooks'
 import { isFunction } from 'lodash-es'
 
 function useFetchData (request, props, options) {

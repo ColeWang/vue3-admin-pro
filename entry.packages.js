@@ -11,4 +11,4 @@ export { TagsNav }
 
 // packages
 
-export * from '@site'
+export * from '@site-pro'

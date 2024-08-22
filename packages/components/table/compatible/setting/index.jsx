@@ -1,6 +1,6 @@
 import { defineComponent, unref } from 'vue'
 import { Button, Checkbox, theme } from 'ant-design-vue'
-import { useConfigInject } from '@site/hooks'
+import { useConfigInject } from '@site-pro/hooks'
 import { reduce, set } from 'lodash-es'
 import TreeList from './TreeList'
 import { useSharedContext } from '../../hooks/useSharedContext'

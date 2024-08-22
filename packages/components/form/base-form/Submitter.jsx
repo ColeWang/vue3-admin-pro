@@ -1,6 +1,6 @@
 import { defineComponent, unref } from 'vue'
 import { Button, Space, theme } from 'ant-design-vue'
-import { preventDefault } from '@site/utils'
+import { preventDefault } from '@site-pro/utils'
 import { toPlainObject } from 'lodash-es'
 import { useLocaleReceiver } from '../../locale-provider'
 

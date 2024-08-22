@@ -1,5 +1,5 @@
 import { computed, defineComponent, unref } from 'vue'
-import { Action, Table } from '@site/components'
+import { Action, Table } from '@site-pro/components'
 
 export default defineComponent({
     inheritAttrs: false,

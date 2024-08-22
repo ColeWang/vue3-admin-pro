@@ -1,6 +1,6 @@
 import { computed, defineComponent, unref } from 'vue'
-import { useSite } from '@site/plugins'
-import { useConfigInject } from '@site/hooks'
+import { useSite } from '@site-pro/plugins'
+import { useConfigInject } from '@site-pro/hooks'
 import { ExitFullscreenOutlined, FullscreenOutlined } from '@/components/icon'
 import useStyle from './style'
 

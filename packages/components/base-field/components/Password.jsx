@@ -1,7 +1,7 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Input, Space, theme } from 'ant-design-vue'
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons-vue'
-import { getSlotVNode, isEmpty, preventDefault } from '@site/utils'
+import { getSlotVNode, isEmpty, preventDefault } from '@site-pro/utils'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'
 

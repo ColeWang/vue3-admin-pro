@@ -1,7 +1,7 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Button, Card } from 'ant-design-vue'
-import { Action, Descriptions as Descs, ModalForm, Number, Table, Text } from '@site/components'
-import { useSite } from '@site/plugins'
+import { Action, Descriptions as Descs, ModalForm, Number, Table, Text } from '@site-pro/components'
+import { useSite } from '@site-pro/plugins'
 
 export default defineComponent({
     inheritAttrs: false,

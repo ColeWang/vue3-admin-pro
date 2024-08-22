@@ -1,6 +1,6 @@
 import { computed, ref, unref, watch } from 'vue'
-import { tryOnScopeDispose } from '@site/hooks'
-import { flattenChildren, isValidElement } from '@site/utils'
+import { tryOnScopeDispose } from '@site-pro/hooks'
+import { flattenChildren, isValidElement } from '@site-pro/utils'
 import { map } from 'lodash-es'
 import useSpanConfig from './useSpanConfig'
 

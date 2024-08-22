@@ -1,6 +1,6 @@
 import { computed, defineComponent, unref } from 'vue'
 import { Select } from 'ant-design-vue'
-import { getSlotVNode, optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '@site/utils'
+import { getSlotVNode, optionsToValueEnum, valueEnumToOptions, valueEnumToText } from '@site-pro/utils'
 import { isUndefined } from 'lodash-es'
 import { useLocaleReceiver } from '../../locale-provider'
 import baseFieldProps from '../props'

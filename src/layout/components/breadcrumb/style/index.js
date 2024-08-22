@@ -1,4 +1,4 @@
-import { genComponentStyleHook } from '@site/components'
+import { genComponentStyleHook } from '@site-pro/components'
 
 function genBaseStyle (token) {
     const { componentCls, antCls } = token

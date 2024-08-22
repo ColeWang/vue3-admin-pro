@@ -1,6 +1,6 @@
 import { defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { getSlotVNode } from '@site/utils'
+import { getSlotVNode } from '@site-pro/utils'
 import { isFunction, omit, pick } from 'lodash-es'
 import { BaseForm, Submitter } from '../../base-form'
 import { default as useFloatForm, floatProps } from '../hooks/useFloatForm'

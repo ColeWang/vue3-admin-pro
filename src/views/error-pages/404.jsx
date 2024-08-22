@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { useGlobalProperties } from '@site/hooks'
+import { useGlobalProperties } from '@site-pro/hooks'
 import ErrorPage from './ErrorPage'
 
 export default defineComponent({

@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Button, Card } from 'ant-design-vue'
-import { ModalForm, Number, Text } from '@site/components'
+import { ModalForm, Number, Text } from '@site-pro/components'
 
 export default defineComponent({
     inheritAttrs: false,

@@ -1,9 +1,9 @@
 import { defineComponent, reactive, ref, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Button, Card, Checkbox } from 'ant-design-vue'
-import { Form, Password, Text } from '@site/components'
-import { useConfigInject } from '@site/hooks'
-import { useSite } from '@site/plugins'
+import { Form, Password, Text } from '@site-pro/components'
+import { useConfigInject } from '@site-pro/hooks'
+import { useSite } from '@site-pro/plugins'
 import { PasswordFilled, UserFilled } from '@/components/icon'
 import useStyle from './style'
 // --

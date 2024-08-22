@@ -1,7 +1,7 @@
 import { defineComponent, ref } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
-import { getElement } from '@site/utils'
-import { useConfigInject } from '@site/hooks'
+import { getElement } from '@site-pro/utils'
+import { useConfigInject } from '@site-pro/hooks'
 import useStyle from './style'
 
 export default defineComponent({

@@ -1,5 +1,5 @@
 import { defineComponent, unref } from 'vue'
-import { cloneProxyToRaw } from '@site/utils'
+import { cloneProxyToRaw } from '@site-pro/utils'
 import { isFunction, reduce, set } from 'lodash-es'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'

@@ -1,6 +1,6 @@
 import { defineComponent, unref } from 'vue'
 import { Col, theme } from 'ant-design-vue'
-import { getPropsSlot } from '@site/utils'
+import { getPropsSlot } from '@site-pro/utils'
 import RowWrap from '../helpers/RowWrap'
 import ColWrap from '../helpers/ColWrap'
 import { useFormInstance } from '../base-form'

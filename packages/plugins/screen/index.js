@@ -1,4 +1,4 @@
-import { addClass, addEvt, getWindowSize, removeClass } from '@site/utils'
+import { addClass, addEvt, getWindowSize, removeClass } from '@site-pro/utils'
 import { createReactivePlugin } from '../utils'
 import { debounce, pick } from 'lodash-es'
 

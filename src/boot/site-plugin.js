@@ -1,4 +1,4 @@
-import { createSite } from '@site/plugins'
+import { createSite } from '@site-pro/plugins'
 
 export default ({ app }) => {
     const site = createSite({

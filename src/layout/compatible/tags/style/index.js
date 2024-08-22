@@ -1,4 +1,4 @@
-import { genComponentStyleHook, mergeToken } from '@site/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components'
 
 function genBaseStyle (token) {
     const { componentCls, iconCls, tagsHeight, tagsButtonWidth, tagsCloseRight, tagsMenuMinWidth } = token
