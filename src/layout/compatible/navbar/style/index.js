@@ -1,7 +1,7 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, navbarHeight, navbarPaddingInline, navbarCollapseSize } = token
+    const { componentCls, proLayoutNavbarHeight, proLayoutNavbarPaddingInline, proLayoutNavbarCollapseSize } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -10,21 +10,21 @@ function genBaseStyle (token) {
                 position: 'relative'
             },
             [`${componentCls}-content`]: {
-                height: navbarHeight,
+                height: proLayoutNavbarHeight,
                 display: 'flex',
                 justifyContent: 'space-between',
-                paddingInline: navbarPaddingInline,
+                paddingInline: proLayoutNavbarPaddingInline,
                 background: token.colorBgContainer,
                 [`${componentCls}-left, ${componentCls}-right`]: {
-                    height: navbarHeight,
+                    height: proLayoutNavbarHeight,
                     display: 'flex',
                     alignItems: 'center'
                 },
                 [`${componentCls}-collapse`]: {
-                    width: navbarCollapseSize,
-                    height: navbarCollapseSize,
-                    fontSize: navbarCollapseSize,
-                    lineHeight: `${navbarCollapseSize}px`,
+                    width: proLayoutNavbarCollapseSize,
+                    height: proLayoutNavbarCollapseSize,
+                    fontSize: proLayoutNavbarCollapseSize,
+                    lineHeight: `${proLayoutNavbarCollapseSize}px`,
                     color: token.colorText,
                     textAlign: 'center',
                     cursor: 'pointer',
@@ -46,15 +46,17 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProLayoutNavbar', (token) => {
-    const navbarHeight = token.controlHeight + token.fontSize * token.lineHeight
-    const navbarPaddingInline = token.controlHeight / 2
-    const navbarCollapseSize = navbarHeight / 2
+function styleFn (token) {
+    const proLayoutNavbarHeight = token.controlHeight + token.fontSize * token.lineHeight
+    const proLayoutNavbarPaddingInline = token.controlHeight / 2
+    const proLayoutNavbarCollapseSize = proLayoutNavbarHeight / 2
 
-    const navbarToken = mergeToken(token, {
-        navbarHeight,
-        navbarPaddingInline,
-        navbarCollapseSize
+    const proLayoutNavbarToken = mergeToken(token, {
+        proLayoutNavbarHeight,
+        proLayoutNavbarPaddingInline,
+        proLayoutNavbarCollapseSize
     })
-    return [genBaseStyle(navbarToken)]
-})
+    return genBaseStyle(proLayoutNavbarToken)
+}
+
+export default genComponentStyleHook('ProLayoutNavbar', styleFn)

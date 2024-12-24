@@ -1,7 +1,14 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, iconCls, tagsHeight, tagsButtonWidth, tagsCloseRight, tagsMenuMinWidth } = token
+    const {
+        componentCls,
+        iconCls,
+        proLayoutTagsHeight,
+        proLayoutTagsButtonWidth,
+        proLayoutTagsCloseRight,
+        proLayoutTagsMenuMinWidth
+    } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -13,10 +20,10 @@ function genBaseStyle (token) {
             },
             [`${componentCls}-content`]: {
                 width: '100%',
-                height: tagsHeight,
+                height: proLayoutTagsHeight,
                 display: 'flex',
                 [`${componentCls}-button`]: {
-                    width: tagsButtonWidth,
+                    width: proLayoutTagsButtonWidth,
                     height: '100%',
                     fontSize: token.fontSizeSM,
                     color: token.colorText,
@@ -32,7 +39,7 @@ function genBaseStyle (token) {
                     },
                 },
                 [`${componentCls}-button-wrapper`]: {
-                    height: tagsHeight,
+                    height: proLayoutTagsHeight,
                     background: token.colorBgContainer,
                     [`&-left`]: {
                         borderInlineEnd: `1px solid ${token.colorBorder}`,
@@ -42,21 +49,21 @@ function genBaseStyle (token) {
                     }
                 },
                 [`${componentCls}-close-wrapper`]: {
-                    height: tagsHeight,
-                    paddingInlineEnd: tagsCloseRight,
+                    height: proLayoutTagsHeight,
+                    paddingInlineEnd: proLayoutTagsCloseRight,
                     background: token.colorBgContainer,
                     borderInlineStart: `1px solid ${token.colorBorder}`,
                     [`${componentCls}-button`]: {
                         position: 'relative',
                         [`&:before`]: {
                             position: 'absolute',
-                            insetInlineEnd: -tagsCloseRight,
+                            insetInlineEnd: -proLayoutTagsCloseRight,
                             insetInlineStart: 0,
                             insetBlock: 0,
                             content: '""',
                         },
                         [`${iconCls}-close-circle`]: {
-                            marginInlineEnd: -tagsCloseRight
+                            marginInlineEnd: -proLayoutTagsCloseRight
                         }
                     }
                 },
@@ -77,24 +84,26 @@ function genBaseStyle (token) {
                 }
             },
             [`${componentCls}-menu`]: {
-                minWidth: tagsMenuMinWidth,
+                minWidth: proLayoutTagsMenuMinWidth,
                 whiteSpace: 'nowrap'
             }
         }
     }
 }
 
-export default genComponentStyleHook('ProLayoutTags', (token) => {
-    const tagsHeight = token.controlHeight + token.sizeXXS * 2
-    const tagsButtonWidth = Math.ceil(tagsHeight * 0.65)
-    const tagsCloseRight = 6
-    const tagsMenuMinWidth = token.fontSize * 7
+function styleFn (token) {
+    const proLayoutTagsHeight = token.controlHeight + token.sizeXXS * 2
+    const proLayoutTagsButtonWidth = Math.ceil(proLayoutTagsHeight * 0.65)
+    const proLayoutTagsCloseRight = 6
+    const proLayoutTagsMenuMinWidth = token.fontSize * 7
 
-    const tagsToken = mergeToken(token, {
-        tagsHeight,
-        tagsButtonWidth,
-        tagsCloseRight,
-        tagsMenuMinWidth
+    const proLayoutTagsToken = mergeToken(token, {
+        proLayoutTagsHeight,
+        proLayoutTagsButtonWidth,
+        proLayoutTagsCloseRight,
+        proLayoutTagsMenuMinWidth
     })
-    return [genBaseStyle(tagsToken)]
-})
+    return genBaseStyle(proLayoutTagsToken)
+}
+
+export default genComponentStyleHook('ProLayoutTags', styleFn)

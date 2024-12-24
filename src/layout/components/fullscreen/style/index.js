@@ -1,4 +1,4 @@
-import { genComponentStyleHook } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
     const { componentCls } = token
@@ -28,6 +28,9 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProFullscreen', (token) => {
-    return [genBaseStyle(token)]
-})
+function styleFn (token) {
+    const proLayoutFullscreenToken = mergeToken(token, {})
+    return genBaseStyle(proLayoutFullscreenToken)
+}
+
+export default genComponentStyleHook('ProLayoutFullscreen', styleFn)

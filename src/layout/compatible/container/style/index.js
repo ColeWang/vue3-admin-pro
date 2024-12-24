@@ -1,7 +1,7 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, containerPaddingInline } = token
+    const { componentCls, proLayoutContainerPaddingInline } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -11,7 +11,7 @@ function genBaseStyle (token) {
             [`${componentCls}-space`]: {
                 width: '100%',
                 height: '100%',
-                paddingInline: containerPaddingInline,
+                paddingInline: proLayoutContainerPaddingInline,
                 overflowY: 'auto',
                 [`${componentCls}-view`]: {
                     position: 'relative',
@@ -19,7 +19,7 @@ function genBaseStyle (token) {
                         position: 'relative'
                     },
                     [`${componentCls}-view-fill`]: {
-                        height: containerPaddingInline
+                        height: proLayoutContainerPaddingInline
                     }
                 }
             }
@@ -27,11 +27,13 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProLayoutContainer', (token) => {
-    const containerPaddingInline = token.sizeMS
+function styleFn (token) {
+    const proLayoutContainerPaddingInline = token.sizeMS
 
-    const containerToken = mergeToken(token, {
-        containerPaddingInline
+    const proLayoutContainerToken = mergeToken(token, {
+        proLayoutContainerPaddingInline
     })
-    return [genBaseStyle(containerToken)]
-})
+    return genBaseStyle(proLayoutContainerToken)
+}
+
+export default genComponentStyleHook('ProLayoutContainer', styleFn)

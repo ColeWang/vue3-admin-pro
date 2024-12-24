@@ -80,14 +80,6 @@ const routes = [
                 meta: {
                     title: '查询表格'
                 }
-            },
-            {
-                path: 'editable-table',
-                name: 'ListEditableTable',
-                component: () => import('@/views/list/EditableTable'),
-                meta: {
-                    title: '可编辑表格'
-                }
             }
         ]
     },

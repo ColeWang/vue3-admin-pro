@@ -4,9 +4,6 @@
     "paths": {
       "@/*": [
         "src/*"
-      ],
-      "@site-pro/*": [
-        "packages/*"
       ]
     }
   },

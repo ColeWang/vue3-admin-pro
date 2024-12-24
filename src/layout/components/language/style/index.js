@@ -1,7 +1,7 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, languageMenuMinWidth } = token
+    const { componentCls, proLayoutLanguageMenuMinWidth } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -25,18 +25,20 @@ function genBaseStyle (token) {
                 }
             },
             [`${componentCls}-menu`]: {
-                minWidth: languageMenuMinWidth,
+                minWidth: proLayoutLanguageMenuMinWidth,
                 whiteSpace: 'nowrap'
             }
         }
     }
 }
 
-export default genComponentStyleHook('ProLanguage', (token) => {
-    const languageMenuMinWidth = token.fontSize * 8
+function styleFn (token) {
+    const proLayoutLanguageMenuMinWidth = token.fontSize * 8
 
-    const languageToken = mergeToken(token, {
-        languageMenuMinWidth
+    const proLayoutLanguageToken = mergeToken(token, {
+        proLayoutLanguageMenuMinWidth
     })
-    return [genBaseStyle(languageToken)]
-})
+    return genBaseStyle(proLayoutLanguageToken)
+}
+
+export default genComponentStyleHook('ProLayoutLanguage', styleFn)

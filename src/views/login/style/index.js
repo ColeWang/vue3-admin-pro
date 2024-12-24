@@ -1,7 +1,7 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls, loginBgColor, loginFormWidth, loginFormRight } = token
+    const { componentCls, antCls, proLoginBgColor, proLoginFormWidth, proLoginFormRight } = token
     const headMinHeight = token.fontSize * token.lineHeight + token.sizeSM * 2
     const errorHeight = token.controlHeight + token.sizeLG
     return {
@@ -9,7 +9,7 @@ function genBaseStyle (token) {
             position: 'relative',
             width: '100%',
             height: '100%',
-            background: loginBgColor,
+            background: proLoginBgColor,
             overflow: 'hidden',
             [`${antCls}-card`]: {
                 [`${antCls}-card-head`]: {
@@ -25,8 +25,8 @@ function genBaseStyle (token) {
             [`${componentCls}-form`]: {
                 position: 'absolute',
                 insetBlockStart: '50%',
-                insetInlineEnd: loginFormRight,
-                width: loginFormWidth,
+                insetInlineEnd: proLoginFormRight,
+                width: proLoginFormWidth,
                 transform: 'translateY(-60%)',
                 [`${componentCls}-checkbox-warp`]: {
                     display: 'flex',
@@ -54,15 +54,17 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProLogin', (token) => {
-    const loginBgColor = token.colorBgLayout
-    const loginFormWidth = token.controlHeight * 10 + 20
-    const loginFormRight = token.controlHeight * 10 - 80
+function styleFn (token) {
+    const proLoginBgColor = token.colorBgLayout
+    const proLoginFormWidth = token.controlHeight * 10 + 20
+    const proLoginFormRight = token.controlHeight * 10 - 80
 
-    const loginToken = mergeToken(token, {
-        loginBgColor,
-        loginFormWidth,
-        loginFormRight
+    const proLoginToken = mergeToken(token, {
+        proLoginBgColor,
+        proLoginFormWidth,
+        proLoginFormRight
     })
-    return [genBaseStyle(loginToken)]
-})
+    return genBaseStyle(proLoginToken)
+}
+
+export default genComponentStyleHook('ProLogin', styleFn)

@@ -13,8 +13,8 @@ const __dirname = dirname(__filename)
 const vendors = reduce({
     'vue-vendor': ['vue', 'vue-router', 'pinia'],
     'antd-vendor': ['ant-design-vue', '@ant-design/icons-vue'],
-    'utils-vendor': ['dayjs', 'lodash-es'],
-    'common-vendor': ['axios', 'vue-i18n', 'js-cookie', 'nprogress']
+    'utils-vendor': ['dayjs', 'lodash-es', 'axios', 'js-cookie'],
+    'common-vendor': ['vue-i18n']
 }, (result, modules, key) => {
     const needVendors = modules.map((name) => {
         return { name: name, vendor: key }
@@ -67,12 +67,11 @@ export default defineConfig((config) => {
         },
         resolve: {
             alias: {
-                '@': resolve(__dirname, 'src'),
-                '@site-pro': resolve(__dirname, 'packages')
+                '@': resolve(__dirname, 'src')
             }
         },
         define: {
-            '__SITE_VERSION__': `'${version}'`
+            '__VERSION__': `'${version}'`
         }
     }
 })

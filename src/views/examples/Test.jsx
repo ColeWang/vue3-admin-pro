@@ -1,6 +1,5 @@
-import { defineComponent, Fragment, ref, unref } from 'vue'
+import { defineComponent, Fragment } from 'vue'
 import { Button } from 'ant-design-vue'
-import { Transition } from '@site-pro/components'
 import { Loading, useSite } from '@site-pro/plugins'
 
 export default defineComponent({
@@ -8,8 +7,6 @@ export default defineComponent({
     name: 'ExamplesTest',
     setup () {
         const $site = useSite()
-
-        const open = ref(true)
 
         function onClick () {
             $site.loading.show()
@@ -25,24 +22,11 @@ export default defineComponent({
             }, 1500)
         }
 
-        function onClickOpen () {
-            open.value = !open.value
-        }
-
         return () => {
             return (
                 <Fragment>
                     <Button onClick={onClick}>点击</Button>
                     <Button onClick={onClickLoading}>点击 Loading</Button>
-                    <Button onClick={onClickOpen}>点击 Transition</Button>
-                    <Transition>
-                        <div v-show={unref(open)} style={{ background: 'pink' }}>
-                            <div>Transition</div>
-                            <div>Transition</div>
-                            <div>Transition</div>
-                            <div>Transition</div>
-                        </div>
-                    </Transition>
                 </Fragment>
             )
         }

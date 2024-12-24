@@ -1,7 +1,7 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, avatarMenuMinWidth } = token
+    const { componentCls, proLayoutAvatarMenuMinWidth } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -25,18 +25,20 @@ function genBaseStyle (token) {
                 }
             },
             [`${componentCls}-menu`]: {
-                minWidth: avatarMenuMinWidth,
+                minWidth: proLayoutAvatarMenuMinWidth,
                 whiteSpace: 'nowrap'
             }
         }
     }
 }
 
-export default genComponentStyleHook('ProAvatar', (token) => {
-    const avatarMenuMinWidth = token.fontSize * 8
+function styleFn (token) {
+    const proLayoutAvatarMenuMinWidth = token.fontSize * 8
 
-    const avatarToken = mergeToken(token, {
-        avatarMenuMinWidth
+    const proLayoutAvatarToken = mergeToken(token, {
+        proLayoutAvatarMenuMinWidth
     })
-    return [genBaseStyle(avatarToken)]
-})
+    return genBaseStyle(proLayoutAvatarToken)
+}
+
+export default genComponentStyleHook('ProLayoutAvatar', styleFn)

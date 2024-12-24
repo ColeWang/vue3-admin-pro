@@ -1,22 +1,24 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, errorPageBgColor } = token
+    const { componentCls, proErrorPageBgColor } = token
     return {
         [componentCls]: {
             width: '100%',
             height: '100%',
-            background: errorPageBgColor,
+            background: proErrorPageBgColor,
             overflow: 'hidden'
         }
     }
 }
 
-export default genComponentStyleHook('ProErrorPage', (token) => {
-    const errorPageBgColor = token.colorBgLayout
+function styleFn (token) {
+    const proErrorPageBgColor = token.colorBgLayout
 
-    const errorPageToken = mergeToken(token, {
-        errorPageBgColor
+    const proErrorPageToken = mergeToken(token, {
+        proErrorPageBgColor
     })
-    return [genBaseStyle(errorPageToken)]
-})
+    return genBaseStyle(proErrorPageToken)
+}
+
+export default genComponentStyleHook('ProErrorPage', styleFn)

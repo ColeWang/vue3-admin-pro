@@ -1,4 +1,4 @@
-import { genComponentStyleHook } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
     const { componentCls, antCls } = token
@@ -17,6 +17,9 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProBreadcrumb', (token) => {
-    return [genBaseStyle(token)]
-})
+function styleFn (token) {
+    const proLayoutBreadcrumbToken = mergeToken(token, {})
+    return genBaseStyle(proLayoutBreadcrumbToken)
+}
+
+export default genComponentStyleHook('ProLayoutBreadcrumb', styleFn)

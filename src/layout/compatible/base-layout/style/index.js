@@ -1,14 +1,14 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, layoutBgColor } = token
+    const { componentCls, proBaseLayoutBgColor } = token
     return {
         [componentCls]: {
             width: '100%',
             height: '100%',
             display: 'flex',
             flexDirection: 'row',
-            background: layoutBgColor,
+            background: proBaseLayoutBgColor,
             overflow: 'hidden',
             [`${componentCls}-prime`]: {
                 flex: 1,
@@ -24,11 +24,13 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProBaseLayout', (token) => {
-    const layoutBgColor = token.colorBgLayout
+function styleFn (token) {
+    const proBaseLayoutBgColor = token.colorBgLayout
 
-    const layoutToken = mergeToken(token, {
-        layoutBgColor
+    const proBaseLayoutToken = mergeToken(token, {
+        proBaseLayoutBgColor
     })
-    return [genBaseStyle(layoutToken)]
-})
+    return genBaseStyle(proBaseLayoutToken)
+}
+
+export default genComponentStyleHook('ProBaseLayout', styleFn)

@@ -1,7 +1,7 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components'
+import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
-    const { componentCls, antCls, sidebarLogoHeight, sidebarLightBg, sidebarDarkBg } = token
+    const { componentCls, antCls, proLayoutSidebarLogoHeight, proLayoutSidebarLightBg, proLayoutSidebarDarkBg } = token
     return {
         [componentCls]: {
             position: 'relative',
@@ -9,12 +9,12 @@ function genBaseStyle (token) {
             overflow: 'hidden',
             userSelect: 'none',
             [`&-light`]: {
-                background: sidebarLightBg,
+                background: proLayoutSidebarLightBg,
                 borderInlineEnd: `1px solid ${token.colorSplit}`
             },
             [`&-dark`]: {
-                background: sidebarDarkBg,
-                borderInlineEnd: `1px solid ${sidebarDarkBg}`
+                background: proLayoutSidebarDarkBg,
+                borderInlineEnd: `1px solid ${proLayoutSidebarDarkBg}`
             },
             [`${componentCls}-space`]: {
                 height: '100%',
@@ -33,7 +33,7 @@ function genBaseStyle (token) {
                 [`${componentCls}-content`]: {
                     position: 'relative',
                     [`${componentCls}-logo`]: {
-                        height: sidebarLogoHeight,
+                        height: proLayoutSidebarLogoHeight,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -50,15 +50,17 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProLayoutSidebar', (token) => {
-    const sidebarLogoHeight = token.controlHeight + token.sizeMS * 2
-    const sidebarLightBg = token.colorBgContainer
-    const sidebarDarkBg = '#001529'
+function styleFn (token) {
+    const proLayoutSidebarLogoHeight = token.controlHeight + token.sizeMS * 2
+    const proLayoutSidebarLightBg = token.colorBgContainer
+    const proLayoutSidebarDarkBg = '#001529'
 
-    const sidebarToken = mergeToken(token, {
-        sidebarLogoHeight,
-        sidebarLightBg,
-        sidebarDarkBg
+    const proLayoutSidebarToken = mergeToken(token, {
+        proLayoutSidebarLogoHeight,
+        proLayoutSidebarLightBg,
+        proLayoutSidebarDarkBg
     })
-    return [genBaseStyle(sidebarToken)]
-})
+    return genBaseStyle(proLayoutSidebarToken)
+}
+
+export default genComponentStyleHook('ProLayoutSidebar', styleFn)
