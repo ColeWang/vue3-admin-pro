@@ -8,7 +8,7 @@ import useStyle from './style'
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { attrs }) {
-        const { prefixCls } = useConfigInject('pro-settings', props)
+        const { prefixCls } = useConfigInject('pro-layout-settings', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
         const popupContainer = ref(null)

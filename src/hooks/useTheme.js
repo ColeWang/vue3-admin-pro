@@ -5,7 +5,10 @@ function useTheme () {
     const themeCache = localCache.getObj(THEME__LOCAL)
 
     const theme = ref(themeCache || {
-        sideDark: true
+        sideDark: true,
+        dark: false,
+        compact: false,
+        token: { colorPrimary: '#1677ff' }
     })
 
     function setTheme (value) {

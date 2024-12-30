@@ -1,4 +1,4 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
+import { genComponentStyleHook } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
     const { componentCls, iconCls } = token
@@ -34,12 +34,12 @@ function genBaseStyle (token) {
                     zIndex: 1,
                     content: '""'
                 },
-                [`&-dark`]: {
+                [`&-side-dark`]: {
                     [`&:before`]: {
                         backgroundColor: '#001529',
                     }
                 },
-                [`&-real-dark`]: {
+                [`&-dark`]: {
                     backgroundColor: '#262626',
                     [`&:after`]: {
                         backgroundColor: '#181818'
@@ -97,6 +97,8 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProSettingsTheme', (token) => {
-    return [genBaseStyle(token)]
-})
+function styleFn (token) {
+    return genBaseStyle(token)
+}
+
+export default genComponentStyleHook('ProLayoutSettingsTheme', styleFn)

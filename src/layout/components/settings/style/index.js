@@ -1,4 +1,4 @@
-import { genComponentStyleHook, mergeToken } from '@site-pro/components/theme'
+import { genComponentStyleHook } from '@site-pro/components/theme'
 
 function genBaseStyle (token) {
     const { componentCls } = token
@@ -32,6 +32,8 @@ function genBaseStyle (token) {
     }
 }
 
-export default genComponentStyleHook('ProSettings', (token) => {
-    return [genBaseStyle(token)]
-})
+function styleFn (token) {
+    return genBaseStyle(token)
+}
+
+export default genComponentStyleHook('ProLayoutSettings', styleFn)
