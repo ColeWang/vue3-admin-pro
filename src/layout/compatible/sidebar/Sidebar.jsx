@@ -22,6 +22,7 @@ function createFlatMenus (menus) {
     }
 
     loopMenus(menus, null)
+
     return flatMenus
 }
 

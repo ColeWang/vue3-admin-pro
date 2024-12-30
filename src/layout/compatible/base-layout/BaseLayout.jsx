@@ -32,7 +32,7 @@ export default defineComponent({
 
         const collapsed = ref(false)
 
-        function onCollapse (value) {
+        function onCollapse () {
             // -- value
             collapsed.value = !unref(collapsed)
         }
