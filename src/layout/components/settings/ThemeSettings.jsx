@@ -2,7 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Switch, theme as antTheme, Tooltip } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
 import { useConfigInject } from '@site-pro/hooks'
-import { useAppInstance } from '@/hooks'
+import useAppShare from '@/hooks/useAppShare'
 import useStyle from './style/theme-settings'
 
 const themeList = [
@@ -62,31 +62,31 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token } = antTheme.useToken()
 
-        const { themeConfig = {}, setThemeConfig } = useAppInstance()
+        const { theme, setTheme } = useAppShare()
 
         function onUpdateTheme (value) {
-            setThemeConfig && setThemeConfig({
-                ...unref(themeConfig),
+            setTheme && setTheme({
+                ...unref(theme),
                 theme: value
             })
         }
 
         function onUpdatePrimary (value) {
-            setThemeConfig && setThemeConfig({
-                ...unref(themeConfig),
+            setTheme && setTheme({
+                ...unref(theme),
                 primary: value
             })
         }
 
         function onUpdateCompact (value) {
-            setThemeConfig && setThemeConfig({
-                ...unref(themeConfig),
+            setTheme && setTheme({
+                ...unref(theme),
                 compact: value
             })
         }
 
         return () => {
-            const { theme, primary, compact } = unref(themeConfig)
+            const { primary, compact } = unref(theme)
 
             const themeDom = themeList.map((item) => {
                 return (

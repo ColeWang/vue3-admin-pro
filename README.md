@@ -5,6 +5,8 @@
 - 🏠 预览 [vue3-admin-pro](https://colewang.github.io/vue3-admin-pro/)
 - 🔥 文档 [docs](https://colewang.github.io/admin-docs/)
 
+原有的 packages 迁移到了 [site-pro](https://github.com/ColeWang/site-pro)，新文档后续会补全
+
 ## 特性
 
 - Vite

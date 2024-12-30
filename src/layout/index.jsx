@@ -1,6 +1,6 @@
 import { computed, defineComponent, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAppInstance } from '@/hooks'
+import useAppShare from '@/hooks/useAppShare'
 import routes from '@/router/routes'
 import { HOME_NAME } from '@/config'
 // --
@@ -28,7 +28,7 @@ const LogoIcon = defineComponent(() => {
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { attrs }) {
-        const { themeConfig = {} } = useAppInstance()
+        const { theme } = useAppShare()
 
         const route = useRoute()
         const router = useRouter()
@@ -39,11 +39,6 @@ export default defineComponent({
             homeName: HOME_NAME,
             route: route,
             onChange: onTagsChange
-        })
-
-        const sideTheme = computed(() => {
-            const { theme } = unref(themeConfig)
-            return theme === 'light' || theme === 'dark' ? theme : 'light'
         })
 
         const include = computed(() => {
@@ -68,11 +63,13 @@ export default defineComponent({
         }
 
         return () => {
+            const { sideDark } = unref(theme) || {}
+
             const layoutSlots = {
                 sider: ({ collapsed, styleFn, onDrawerClose: afterClose }) => {
                     return (
                         <Sidebar
-                            theme={unref(sideTheme)}
+                            theme={sideDark ? 'dark' : 'light'}
                             logo={() => <LogoIcon/>}
                             route={route}
                             menus={menus}

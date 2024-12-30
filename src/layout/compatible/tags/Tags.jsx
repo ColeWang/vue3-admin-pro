@@ -1,9 +1,8 @@
 import { defineComponent, nextTick, ref, unref, watch } from 'vue'
 import { Button, ConfigProvider, Dropdown, Menu, theme } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
-import { getElement, omitNil } from '@site-pro/utils'
-import { useConfigInject, useGlobalProperties } from '@site-pro/hooks'
-import { isString } from 'lodash-es'
+import { getElement } from '@site-pro/utils'
+import { useConfigInject, useGlobalProperties, useRefs } from '@site-pro/hooks'
 import TagNode from './node'
 import useShowTitle from '../../hooks/useShowTitle'
 import useStyle from './style'
@@ -43,19 +42,12 @@ export default defineComponent({
 
         const scrollOuterRef = ref(null)
         const scrollBodyRef = ref(null)
-        let tagRefsMap = {}
+        const { getRef, setRef } = useRefs()
 
         const { $t } = useGlobalProperties()
         const { showTitle } = useShowTitle()
 
         const bodyLeft = ref(0)
-
-        function onTagRefs (key, instance) {
-            if (key && isString(key)) {
-                const values = { ...tagRefsMap, [key]: instance }
-                tagRefsMap = omitNil(values)
-            }
-        }
 
         watch(() => props.route, (currentRoute) => {
             currentRoute && getTagInstanceByRoute(currentRoute.name)
@@ -137,7 +129,7 @@ export default defineComponent({
         function getTagInstanceByRoute (name) {
             nextTick().then(() => {
                 setTimeout(() => {
-                    const instance = tagRefsMap[name] || {}
+                    const instance = getRef(name) || {}
                     instance.$el && onMoveToView(instance.$el)
                 }, 0)
             })
@@ -176,7 +168,7 @@ export default defineComponent({
                     onClose: onClose(item)
                 }
                 return (
-                    <TagNode {...tagProps} key={key} ref={onTagRefs.bind(null, key)}>
+                    <TagNode {...tagProps} key={key} ref={setRef(key)}>
                         {showTitle && showTitle(item)}
                     </TagNode>
                 )

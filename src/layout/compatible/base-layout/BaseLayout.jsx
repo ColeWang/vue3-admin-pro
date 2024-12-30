@@ -49,16 +49,16 @@ export default defineComponent({
         }
 
         return () => {
-            const slotScope = {
+            const slotProps = {
                 collapsed: unref(hasDrawer) ? false : unref(collapsed),
                 styleFn: styleFn,
                 onCollapse: onCollapse,
                 onDrawerClose: onDrawerClose
             }
 
-            const siderDom = getSlotVNode(slots, props, 'sider', slotScope)
-            const headerDom = getSlotVNode(slots, props, 'header', slotScope)
-            const contentDom = getSlotVNode(slots, props, 'content', slotScope)
+            const siderDom = getSlotVNode(slots, props, 'sider', slotProps)
+            const headerDom = getSlotVNode(slots, props, 'header', slotProps)
+            const contentDom = getSlotVNode(slots, props, 'content', slotProps)
 
             const needSiderDom = unref(hasDrawer) ? (
                 <Drawer

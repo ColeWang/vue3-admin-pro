@@ -77,14 +77,6 @@ export default defineComponent({
                         request={request}
                         bordered={true}
                         size={'small'}
-                        columns={[
-                            {
-                                title: 'column',
-                                dataIndex: 'column',
-                                valueType: 'text',
-                                order: 9
-                            }
-                        ]}
                         v-slots={{
                             extra: () => (
                                 <Space size={8}>
@@ -99,7 +91,6 @@ export default defineComponent({
                             name={['deep', 'select']}
                             valueType={'select'}
                             valueEnum={valueEnum}
-                            order={10}
                         />
                         <Descs.Item
                             label={'treeSelect'}
@@ -171,9 +162,7 @@ export default defineComponent({
                             valueType={'dateRange'}
                         />
                         <Descs.Item label={'slotScope'}>
-                            {(slotScope) => {
-                                return slotScope.column
-                            }}
+                            123
                         </Descs.Item>
                     </Descs>
                 </Card>

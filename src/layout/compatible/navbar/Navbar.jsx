@@ -56,9 +56,7 @@ export default defineComponent({
                                     <div class={`${prefixCls.value}-collapse`} onClick={onCollapse}>
                                         <HamburgerOutlined class={collapseClass}/>
                                     </div>
-                                    {$site.screen.gt.xs ? (
-                                        <Breadcrumb router={router}/>
-                                    ) : null}
+                                    {$site.screen.gt.xs && <Breadcrumb router={router}/>}
                                 </div>
                                 <div class={`${prefixCls.value}-right`}>
                                     <Settings/>
