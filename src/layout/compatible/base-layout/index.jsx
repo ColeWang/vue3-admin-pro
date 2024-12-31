@@ -1,6 +1,6 @@
 import { computed, defineComponent, ref, unref } from 'vue'
 import { Drawer } from 'ant-design-vue'
-import { getSlotVNode } from '@site-pro/utils'
+import { getSlotVNode, toPx } from '@site-pro/utils'
 import { useConfigInject } from '@site-pro/hooks'
 import { useSite } from '@site-pro/plugins'
 import useStyle from './style'
@@ -45,7 +45,7 @@ export default defineComponent({
         function styleFn (width) {
             // 缓存 width border 1px
             siderWidth.value = width
-            return { width: `${width}px` }
+            return { width: toPx(width) }
         }
 
         return () => {

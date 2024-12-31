@@ -40,6 +40,10 @@ export default defineComponent({
             emit('collapse', !props.collapsed)
         }
 
+        function getPopupContainer () {
+            return getElement(popupContainer) || document.body
+        }
+
         return () => {
             const { router, collapsed } = props
 
@@ -49,7 +53,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
+                    <ConfigProvider getPopupContainer={getPopupContainer}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-content`}>
                                 <div class={`${prefixCls.value}-left`}>

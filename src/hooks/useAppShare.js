@@ -1,6 +1,6 @@
 import { inject, provide } from 'vue'
 
-const BaseKey = Symbol('App')
+const BaseKey = Symbol('AppShare')
 
 export function createAppShare (instance) {
     provide(BaseKey, instance)

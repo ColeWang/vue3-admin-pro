@@ -1,6 +1,6 @@
 import { computed, defineComponent, Fragment, ref, unref, watch } from 'vue'
 import { Menu, theme } from 'ant-design-vue'
-import { getSlotVNode } from '@site-pro/utils'
+import { getSlotVNode, toPx } from '@site-pro/utils'
 import { useConfigInject } from '@site-pro/hooks'
 import { dropRight, head, isFunction, isNil, last, reverse } from 'lodash-es'
 import OutIcon from './OutIcon'
@@ -145,9 +145,9 @@ export default defineComponent({
                 : controlHeightLG * 5 + level * 8
             // ----
             if (styleFn && isFunction(styleFn)) {
-                return styleFn(width) || { width: `${width}px` }
+                return styleFn(width) || { width: toPx(width) }
             }
-            return { width: `${width}px` }
+            return { width: toPx(width) }
         })
 
         watch(() => props.route, (currentRoute) => {

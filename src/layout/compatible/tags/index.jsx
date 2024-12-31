@@ -1,7 +1,7 @@
 import { defineComponent, nextTick, ref, unref, watch } from 'vue'
 import { Button, ConfigProvider, Dropdown, Menu, theme } from 'ant-design-vue'
 import { CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
-import { getElement } from '@site-pro/utils'
+import { getElement, toPx } from '@site-pro/utils'
 import { useConfigInject, useGlobalProperties, useRefs } from '@site-pro/hooks'
 import TagNode from './node'
 import useShowTitle from '../../hooks/useShowTitle'
@@ -151,6 +151,10 @@ export default defineComponent({
             }
         }
 
+        function getPopupContainer () {
+            return getElement(popupContainer) || document.body
+        }
+
         return () => {
             const { tags, route: currentRoute, homeName } = props
             const { sizeXXS } = unref(token)
@@ -161,7 +165,7 @@ export default defineComponent({
             const tagNodes = tags.map((item) => {
                 const { name: key } = item || {}
                 const tagProps = {
-                    style: { marginInlineEnd: `${sizeXXS}px` },
+                    style: { marginInlineEnd: toPx(sizeXXS) },
                     color: currentRoute.name === key ? 'primary' : 'default',
                     closable: key !== homeName,
                     onClick: onClick(item),
@@ -198,7 +202,7 @@ export default defineComponent({
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    <ConfigProvider getPopupContainer={getElement.bind(null, popupContainer)}>
+                    <ConfigProvider getPopupContainer={getPopupContainer}>
                         <div class={`${prefixCls.value}-popup-container`} ref={popupContainer}>
                             <div class={`${prefixCls.value}-content`}>
                                 <div
