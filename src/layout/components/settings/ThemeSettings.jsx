@@ -88,7 +88,7 @@ export default defineComponent({
                             <Tooltip title={'暗黑模式'}>
                                 <div
                                     class={[`${prefixCls.value}-theme`, `${prefixCls.value}-theme-dark`]}
-                                    onClick={setState.bind(null, { dark: true, sideDark: true })}
+                                    onClick={setState.bind(null, { dark: true, sideDark: false })}
                                 >
                                     {dark && sideDark ? <CheckOutlined/> : null}
                                 </div>
