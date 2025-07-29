@@ -3,9 +3,7 @@
 开箱即用的 Vue3/Ant Design Vue 中后台管理系统
 
 - 🏠 预览 [vue3-admin-pro](https://colewang.github.io/vue3-admin-pro/)
-- 🔥 文档 [docs](https://colewang.github.io/admin-docs/)
-
-原有的 packages 迁移到了 [site-pro](https://github.com/ColeWang/site-pro)，新文档后续会补全
+- 🔥 文档 [docs](https://colewang.github.io/site-pro/)
 
 ## 特性
 
