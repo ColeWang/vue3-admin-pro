@@ -25,10 +25,12 @@ const LogoIcon = defineComponent(() => {
     }
 }, {
     inheritAttrs: false,
+    name: 'LogoIcon'
 })
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ProLayout',
     setup (props, { attrs }) {
         const { theme } = useAppReceiver()
 

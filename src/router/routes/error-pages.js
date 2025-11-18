@@ -1,6 +1,6 @@
-import Error403 from '@/views/error-pages/403'
-import Error404 from '@/views/error-pages/404'
-import Error500 from '@/views/error-pages/500'
+import ProError403 from '@/views/error-pages/403'
+import ProError404 from '@/views/error-pages/404'
+import ProError500 from '@/views/error-pages/500'
 
 const errorPages = [
     {
@@ -10,7 +10,7 @@ const errorPages = [
             hideInMenu: true,
             notCache: true
         },
-        component: Error403
+        component: ProError403
     },
     {
         path: '/404',
@@ -19,7 +19,7 @@ const errorPages = [
             hideInMenu: true,
             notCache: true
         },
-        component: Error404
+        component: ProError404
     },
     {
         path: '/500',
@@ -28,7 +28,7 @@ const errorPages = [
             hideInMenu: true,
             notCache: true
         },
-        component: Error500
+        component: ProError500
     },
     {
         path: '/:pathMatch(.*)*',
@@ -36,7 +36,7 @@ const errorPages = [
             hideInMenu: true,
             notCache: true
         },
-        component: Error404
+        component: ProError404
     }
 ]
 

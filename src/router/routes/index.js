@@ -1,12 +1,25 @@
-import Layout from '@/layout'
-import errorPages from './error-pages'
+import ProLayout from '@/layout'
+import ProLogin from '@/views/login'
 import { concat } from 'lodash-es'
+import { HOME_NAME, LOGIN_NAME } from '@/config'
+import errorPages from './error-pages'
+// ---
+// -- pages
+import HomeIndex from '@/views/Home'
+import FormBasicForm from '@/views/form/BasicForm'
+import FormFloatingForm from '@/views/form/FloatingForm'
+import ListTable from '@/views/list/Table'
+import Exception403 from '@/views/error-pages/403'
+import Exception404 from '@/views/error-pages/404'
+import Exception500 from '@/views/error-pages/500'
+import ExamplesDescriptions from '@/views/examples/Descriptions'
+import ExamplesTest from '@/views/examples/Test'
 
 const routes = [
     {
         path: '/',
         name: '_home',
-        redirect: { name: 'Home' },
+        redirect: { name: HOME_NAME },
         meta: {
             hideInMenu: true,
             notCache: true
@@ -14,23 +27,23 @@ const routes = [
     },
     {
         path: '/login',
-        name: 'Login',
+        name: LOGIN_NAME,
         meta: {
             hideInMenu: true,
             notCache: true
         },
-        component: () => import('@/views/login/index')
+        component: ProLogin
     },
     {
         path: '/home',
         name: 'Home',
-        redirect: { name: 'HomeIndex' },
-        component: Layout,
+        redirect: { name: HOME_NAME },
+        component: ProLayout,
         children: [
             {
                 path: 'index',
                 name: 'HomeIndex',
-                component: () => import('@/views/Home'),
+                component: HomeIndex,
                 meta: {
                     title: '首页'
                 }
@@ -44,12 +57,12 @@ const routes = [
         meta: {
             title: '表单页'
         },
-        component: Layout,
+        component: ProLayout,
         children: [
             {
                 path: 'basic-form',
                 name: 'FormBasicForm',
-                component: () => import('@/views/form/BasicForm'),
+                component: FormBasicForm,
                 meta: {
                     title: '基础表单'
                 }
@@ -57,11 +70,11 @@ const routes = [
             {
                 path: 'floating-form',
                 name: 'FormFloatingForm',
-                component: () => import('@/views/form/FloatingForm'),
+                component: FormFloatingForm,
                 meta: {
                     title: '浮层表单'
                 }
-            },
+            }
         ]
     },
     {
@@ -71,12 +84,12 @@ const routes = [
         meta: {
             title: '列表页'
         },
-        component: Layout,
+        component: ProLayout,
         children: [
             {
                 path: 'table',
                 name: 'ListTable',
-                component: () => import('@/views/list/Table'),
+                component: ListTable,
                 meta: {
                     title: '查询表格'
                 }
@@ -90,12 +103,12 @@ const routes = [
         meta: {
             title: '异常页'
         },
-        component: Layout,
+        component: ProLayout,
         children: [
             {
                 path: '403',
                 name: 'Exception403',
-                component: () => import('@/views/error-pages/403'),
+                component: Exception403,
                 meta: {
                     title: '403'
                 }
@@ -103,7 +116,7 @@ const routes = [
             {
                 path: '404',
                 name: 'Exception404',
-                component: () => import('@/views/error-pages/404'),
+                component: Exception404,
                 meta: {
                     title: '404'
                 }
@@ -111,7 +124,7 @@ const routes = [
             {
                 path: '500',
                 name: 'Exception500',
-                component: () => import('@/views/error-pages/500'),
+                component: Exception500,
                 meta: {
                     title: '500'
                 }
@@ -125,12 +138,12 @@ const routes = [
         meta: {
             title: '组件展示'
         },
-        component: Layout,
+        component: ProLayout,
         children: [
             {
                 path: 'descriptions',
                 name: 'ExamplesDescriptions',
-                component: () => import('@/views/examples/Descriptions'),
+                component: ExamplesDescriptions,
                 meta: {
                     title: '描述列表'
                 }
@@ -138,7 +151,7 @@ const routes = [
             {
                 path: 'test',
                 name: 'ExamplesTest',
-                component: () => import('@/views/examples/Test'),
+                component: ExamplesTest,
                 meta: {
                     title: '测试'
                 }

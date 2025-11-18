@@ -7,6 +7,7 @@ import useStyle from './style'
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ProLayoutSettings',
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-layout-settings', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)

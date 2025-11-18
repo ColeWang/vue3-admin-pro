@@ -7,6 +7,7 @@ import useStyle from './style/theme-settings'
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ThemeSettings',
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-layout-theme-settings', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)

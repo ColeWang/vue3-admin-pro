@@ -104,6 +104,7 @@ function loadImage (src) {
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'Bubbly',
     setup (props, { attrs }) {
         const { token } = theme.useToken()
 

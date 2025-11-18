@@ -4,6 +4,7 @@ import { isFunction, isString } from 'lodash-es'
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ProLayoutOutIcon',
     props: {
         type: {
             type: [String, Function, Boolean],

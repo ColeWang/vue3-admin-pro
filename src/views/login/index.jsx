@@ -33,6 +33,7 @@ import useRemember from './useRemember'
  */
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ProLogin',
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-login', props)
         const [wrapSSR, hashId] = useStyle(prefixCls)

@@ -51,6 +51,7 @@ function createMenuItem (item, showTitle) {
 
 const XSubMenu = defineComponent({
     inheritAttrs: false,
+    name: 'XSunMenu',
     props: {
         ...Menu.SubMenu.props,
         option: {

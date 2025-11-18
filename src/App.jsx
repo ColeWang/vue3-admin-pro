@@ -18,6 +18,7 @@ console.log('time:', dayjs().format('YYYY-MM-DD HH:mm:ss'))
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ProApp',
     setup () {
         const { message, setMessage } = useLocaleReceiver()
         const { theme, setTheme } = useThemeReceiver()

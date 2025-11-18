@@ -3,6 +3,7 @@ import Icon from '@ant-design/icons-vue'
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'FullscreenOutlined',
     setup (props, { attrs }) {
         return () => {
             const iconSlots = {

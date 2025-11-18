@@ -7,6 +7,7 @@ import { HOME_NAME } from '@/config'
 
 export default defineComponent({
     inheritAttrs: false,
+    name: 'ProErrorPage',
     props: { ...Result.props },
     setup (props, { attrs }) {
         const { prefixCls } = useConfigInject('pro-error-page', props)

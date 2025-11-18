@@ -4,7 +4,7 @@ import ErrorPage from './ErrorPage'
 
 export default defineComponent({
     inheritAttrs: false,
-    name: 'Error500',
+    name: 'ProError500',
     setup (props, { attrs }) {
         const { $t } = useGlobalProperties()
         return () => {
