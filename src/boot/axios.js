@@ -27,11 +27,10 @@ instance.interceptors.response.use((res) => {
     return Promise.reject(err)
 })
 
-// 这将允许您使用 this.$axios (Vue Options API形式)
+export { instance as request }
+
 export default ({ app }) => {
     app.config.globalProperties.$axios = instance
     // 缓存 可以获取 $router、$i18n 等
     globalProperties = app.config.globalProperties
 }
-
-export { instance as request }

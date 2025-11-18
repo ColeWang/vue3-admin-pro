@@ -1,9 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
-// import { canTurnTo } from '@/layout/utils'
-import { getCookie, TOKEN_KEY } from '@/utils/cookie'
-import { HOME_NAME, LOGIN_NAME } from '@/config'
 import { Progress } from '@site-pro/plugins'
+// import { canTurnTo } from '@/layout/utils'
+import { HOME_NAME, LOGIN_NAME } from '@/config'
+import { TOKEN_KEY } from '@/config/symbols'
+import { getCookie } from '@/utils/cookie'
 import routes from './routes'
 
 export default () => {

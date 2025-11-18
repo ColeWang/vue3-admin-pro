@@ -183,12 +183,12 @@ export default defineComponent({
         }
 
         function onOpenChange (values) {
-            const latest = values.find((key) => unref(openKeys).indexOf(key) === -1)
+            const latest = values.find((key) => !unref(openKeys).includes(key))
             if (latest && !isNil(latest)) {
                 const nextKeys = genFlatKeys(flatMenus, last(values))
                 setOpenKeys(nextKeys)
             } else {
-                const findIndex = unref(openKeys).findIndex((key) => values.indexOf(key) === -1)
+                const findIndex = unref(openKeys).findIndex((key) => !values.includes(key))
                 const nextKeys = dropRight(unref(openKeys), unref(openKeys).length - findIndex)
                 setOpenKeys(nextKeys)
             }

@@ -1,7 +1,8 @@
 import { ref, unref, watch } from 'vue'
 import { tryOnScopeDispose } from '@site-pro/hooks'
 import { cloneProxyToRaw } from '@site-pro/utils'
-import { localCache, TAGS__LOCAL } from '@/utils/storage'
+import { TAGS__LOCAL } from '@/config/symbols'
+import { localCache } from '@/utils/storage'
 
 // @todo 版本升级的时候 清空 Tags 缓存
 function useTags (menus, options) {

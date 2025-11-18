@@ -8,7 +8,8 @@ import { PasswordFilled, UserFilled } from '@/components/icon'
 import useStyle from './style'
 // --
 import { HOME_NAME } from '@/config'
-import { setCookie, TOKEN_KEY } from '@/utils/cookie'
+import { TOKEN_KEY } from '@/config/symbols'
+import { setCookie } from '@/utils/cookie'
 import Bubbly from './bubbly'
 import useRemember from './useRemember'
 
@@ -37,8 +38,8 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const $site = useSite()
 
-        const router = useRouter()
-        const route = useRoute()
+        const $router = useRouter()
+        const $route = useRoute()
 
         const loading = ref(false)
         const errorType = ref(undefined)
@@ -61,10 +62,10 @@ export default defineComponent({
             loading.value = true
             setTimeout(() => {
                 setCookie(TOKEN_KEY, 'token')
-                const { redirect } = route.query || {}
+                const { redirect } = $route.query || {}
                 localRemember(model)
                 const name = redirect && String(redirect)
-                router.push({ name: name || HOME_NAME })
+                $router.push({ name: name || HOME_NAME })
             }, 1000)
         }
 

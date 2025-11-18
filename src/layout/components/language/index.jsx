@@ -3,7 +3,7 @@ import { Dropdown, Menu } from 'ant-design-vue'
 import { GlobalOutlined } from '@ant-design/icons-vue'
 import { useConfigInject, useGlobalProperties } from '@site-pro/hooks'
 import { map } from 'lodash-es'
-import useAppShare from '@/hooks/useAppShare'
+import { useAppReceiver } from '@/hooks/useAppReceiver'
 import useStyle from './style'
 
 export default defineComponent({
@@ -14,7 +14,7 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
 
         const { $i18n = {} } = useGlobalProperties()
-        const { setLocale } = useAppShare()
+        const { setMessage } = useAppReceiver()
 
         const localeList = {
             'zh-CN': '中文简体',
@@ -26,7 +26,7 @@ export default defineComponent({
         })
 
         function onLocaleChange (value) {
-            setLocale && setLocale(value)
+            setMessage && setMessage(value)
         }
 
         return () => {

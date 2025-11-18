@@ -1,6 +1,6 @@
 {
     "name": "vue3-admin-pro",
-    "version": "0.4.5",
+    "version": "1.0.0-alpha.2",
     "description": "开箱即用的 Vue3/Ant Design Vue 中后台管理系统",
     "repository": {
         "type": "git",
@@ -14,32 +14,33 @@
         "build": "vite build --mode production",
         "build:report": "vite build --mode production",
         "preview": "vite preview",
-        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs"
     },
     "dependencies": {
         "@ant-design/icons-vue": "^7.0.1",
-        "@site-pro/components": "^0.4.9",
-        "@site-pro/hooks": "^0.4.9",
-        "@site-pro/plugins": "^0.4.9",
-        "@site-pro/utils": "^0.4.9",
+        "@site-pro/components": "^1.0.0-alpha.2",
+        "@site-pro/hooks": "^1.0.0-alpha.2",
+        "@site-pro/plugins": "^1.0.0-alpha.2",
+        "@site-pro/utils": "^1.0.0-alpha.2",
         "ant-design-vue": "^4.2.6",
-        "axios": "^1.6.7",
-        "crypto-js": "^4.1.1",
-        "dayjs": "^1.11.10",
+        "axios": "^1.13.2",
+        "crypto-js": "^4.2.0",
+        "dayjs": "^1.11.19",
         "js-cookie": "^3.0.5",
         "lodash-es": "^4.17.21",
-        "pinia": "^2.1.7",
-        "vue": "^3.4.21",
-        "vue-i18n": "^9.10.1",
-        "vue-router": "^4.3.0"
+        "pinia": "^3.0.4",
+        "vue": "^3.5.24",
+        "vue-i18n": "^11.1.12",
+        "vue-router": "^4.6.3"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "^5.0.4",
-        "@vitejs/plugin-vue-jsx": "^3.1.0",
-        "eslint": "^8.57.0",
-        "eslint-plugin-vue": "^9.22.0",
-        "sass": "^1.71.1",
-        "vite": "5.4.6"
+        "@antfu/eslint-config": "^6.2.0",
+        "@vitejs/plugin-vue": "^6.0.1",
+        "@vitejs/plugin-vue-jsx": "^5.1.1",
+        "eslint": "^9.39.1",
+        "sass": "^1.94.1",
+        "typescript": "^5.9.3",
+        "vite": "^7.2.2"
     },
     "keywords": [
         "vue",
@@ -56,8 +57,7 @@
         "vite-admin"
     ],
     "engines": {
-        "node": ">=18.0.0",
-        "npm": ">=9.0.0"
+        "node": "^20.19.0 || ^22.12.0"
     },
     "license": "MIT"
 }

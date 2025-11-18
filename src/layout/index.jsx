@@ -1,6 +1,6 @@
 import { computed, defineComponent, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import useAppShare from '@/hooks/useAppShare'
+import { useAppReceiver } from '@/hooks/useAppReceiver'
 import routes from '@/router/routes'
 import { HOME_NAME } from '@/config'
 // --
@@ -9,8 +9,8 @@ import Sidebar from './compatible/sidebar'
 import Navbar from './compatible/navbar'
 import Container from './compatible/container'
 import Tags from './compatible/tags'
-import { getMenuList } from './utils'
 import useTags from './hooks/useTags'
+import { getMenuList } from './utils'
 
 const LogoIcon = defineComponent(() => {
     return () => {
@@ -23,21 +23,23 @@ const LogoIcon = defineComponent(() => {
             />
         )
     }
+}, {
+    inheritAttrs: false,
 })
 
 export default defineComponent({
     inheritAttrs: false,
     setup (props, { attrs }) {
-        const { theme } = useAppShare()
+        const { theme } = useAppReceiver()
 
-        const route = useRoute()
-        const router = useRouter()
+        const $router = useRouter()
+        const $route = useRoute()
 
         // 过滤没有权限的路由, 权限 access 一般是在后台请求过来放在 store 里面
         const menus = getMenuList(routes, [])
         const { tags, onTagClick, onTagClose } = useTags(menus, {
             homeName: HOME_NAME,
-            route: route,
+            route: $route,
             onChange: onTagsChange
         })
 
@@ -51,12 +53,12 @@ export default defineComponent({
         })
 
         function onTagsChange ({ name, query, params }) {
-            router.push({ name, query, params })
+            $router.push({ name, query, params })
         }
 
         function onMenusChange (afterClose) {
             return function (name) {
-                router.push({ name: name }).then(() => {
+                $router.push({ name: name }).then(() => {
                     afterClose && afterClose()
                 })
             }
@@ -66,12 +68,12 @@ export default defineComponent({
             const { sideDark } = unref(theme) || {}
 
             const layoutSlots = {
-                sider: ({ collapsed, styleFn, onDrawerClose: afterClose }) => {
+                sidebar: ({ collapsed, styleFn, onDrawerClose: afterClose }) => {
                     return (
                         <Sidebar
                             theme={sideDark ? 'dark' : 'light'}
                             logo={() => <LogoIcon/>}
-                            route={route}
+                            route={$route}
                             menus={menus}
                             collapsed={collapsed}
                             styleFn={styleFn}
@@ -82,13 +84,13 @@ export default defineComponent({
                 header: ({ collapsed, onCollapse }) => {
                     return [
                         <Navbar
-                            router={router}
+                            router={$router}
                             collapsed={collapsed}
                             onCollapse={onCollapse}
                         />,
                         <Tags
                             homeName={HOME_NAME}
-                            route={route}
+                            route={$route}
                             tags={unref(tags)}
                             onClick={onTagClick}
                             onClose={onTagClose}

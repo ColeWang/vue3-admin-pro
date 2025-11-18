@@ -44,6 +44,7 @@ export function canTurnTo (name, routes, access) {
             } else if (item.name === name) {
                 return hasAccess(item, access)
             }
+            return false
         })
     }
 

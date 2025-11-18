@@ -12,5 +12,3 @@ export function getCookie (key) {
 export function removeCookie (key) {
     Cookies.remove(key)
 }
-
-export const TOKEN_KEY = 'TOKEN_KEY'

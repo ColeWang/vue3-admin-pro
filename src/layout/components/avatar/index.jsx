@@ -2,7 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Avatar, Dropdown, Menu, theme } from 'ant-design-vue'
 import { LoginOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { useConfigInject, useGlobalProperties } from '@site-pro/hooks'
-import useAppShare from '@/hooks/useAppShare'
+import { useAppReceiver } from '@/hooks/useAppReceiver'
 import useStyle from './style'
 
 export default defineComponent({
@@ -14,7 +14,7 @@ export default defineComponent({
         const { token } = theme.useToken()
         const { $t } = useGlobalProperties()
 
-        const { onAvatarAction } = useAppShare()
+        const { onAvatarAction } = useAppReceiver()
 
         function onMenuClick (key) {
             onAvatarAction && onAvatarAction(key)

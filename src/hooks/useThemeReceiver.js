@@ -1,9 +1,10 @@
 import { ref, watch } from 'vue'
 import { tryOnScopeDispose } from '@site-pro/hooks'
 import { useSite } from '@site-pro/plugins'
-import { localCache, THEME__LOCAL } from '@/utils/storage'
+import { THEME__LOCAL } from '@/config/symbols'
+import { localCache } from '@/utils/storage'
 
-function useTheme () {
+export function useThemeReceiver () {
     const themeCache = localCache.getObj(THEME__LOCAL)
     const $site = useSite()
 
@@ -11,7 +12,9 @@ function useTheme () {
         sideDark: true,
         dark: false,
         compact: false,
-        token: { colorPrimary: '#1677ff' }
+        theme: {
+            token: { colorPrimary: '#1677ff' }
+        }
     })
 
     const stopWatchScreen = watch(() => $site.screen, (value) => {
@@ -30,5 +33,3 @@ function useTheme () {
 
     return { theme, setTheme }
 }
-
-export default useTheme

@@ -13,10 +13,10 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { $t } = useGlobalProperties()
 
-        const router = useRouter()
+        const $router = useRouter()
 
         function onBackHome () {
-            router.replace({ name: HOME_NAME })
+            $router.replace({ name: HOME_NAME })
         }
 
         return () => {

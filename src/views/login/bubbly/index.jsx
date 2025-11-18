@@ -8,11 +8,11 @@ function hexToRgba (colorStr, opacity) {
     const genRgba = (r, g, b, a) => {
         return `rgba(${r}, ${g}, ${b}, ${a})`
     }
-    const hexRegex = /^#?[0-9A-Fa-f]{6}$/
+    const hexRegex = /^#?[0-9A-F]{6}$/i
     if (colorStr && hexRegex.test(colorStr)) {
         const needColor = colorStr.replace('#', '')
         const match = needColor.match(/../g)
-        const [r, g, b] = match.map((value) => parseInt(value, 16))
+        const [r, g, b] = match.map((value) => Number.parseInt(value, 16))
         return genRgba(r, g, b, opacity)
     }
     return genRgba(22, 119, 255, opacity)
@@ -21,7 +21,7 @@ function hexToRgba (colorStr, opacity) {
 function bubbly (cv, colorStr, fillStyle, fillImage) {
     let cancel = null
 
-    const [width, height] = getWindowSize()
+    const { width, height } = getWindowSize()
 
     const ctx = cv.getContext('2d')
     const devicePixelRatio = (window.devicePixelRatio || 1)

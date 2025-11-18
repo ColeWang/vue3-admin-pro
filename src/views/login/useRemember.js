@@ -1,9 +1,10 @@
 import { ref, unref } from 'vue'
-import { localCache, PASSWORD__LOCAL, USERNAME__LOCAL } from '@/utils/storage'
+import { PASSWORD__LOCAL, USERNAME__LOCAL } from '@/config/symbols'
+import { localCache } from '@/utils/storage'
 import { AesDecode, AesEncode } from './ase'
 
 function useRemember (options) {
-    const { setState } = options
+    const { setState } = options || {}
 
     const checked = ref(false)
 

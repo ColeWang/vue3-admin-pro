@@ -160,7 +160,7 @@ export default defineComponent({
             const { sizeXXS } = unref(token)
 
             const scrollBodyStyle = {
-                insetInlineStart: unref(bodyLeft) + 'px'
+                insetInlineStart: toPx(unref(bodyLeft))
             }
             const tagNodes = tags.map((item) => {
                 const { name: key } = item || {}

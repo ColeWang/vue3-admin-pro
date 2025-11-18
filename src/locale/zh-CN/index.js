@@ -11,6 +11,7 @@ export default {
     antd: antd,
     site: zhCN,
     dayjs: dayjs,
+    // --
     routes: routes,
     layout: layout,
     errorPages: errorPages

@@ -9,7 +9,7 @@ export default defineComponent({
     inheritAttrs: false,
     name: 'ProBaseLayout',
     props: {
-        sider: {
+        sidebar: {
             type: Function,
             default: undefined
         },
@@ -28,7 +28,7 @@ export default defineComponent({
         const $site = useSite()
 
         const hasDrawer = computed(() => $site.screen.lt.lg)
-        const siderWidth = ref(0)
+        const sidebarWidth = ref(0)
 
         const collapsed = ref(false)
 
@@ -44,7 +44,7 @@ export default defineComponent({
 
         function styleFn (width) {
             // 缓存 width border 1px
-            siderWidth.value = width
+            sidebarWidth.value = width
             return { width: toPx(width) }
         }
 
@@ -56,28 +56,28 @@ export default defineComponent({
                 onDrawerClose: onDrawerClose
             }
 
-            const siderDom = getSlotVNode(slots, props, 'sider', slotProps)
+            const sidebarDom = getSlotVNode(slots, props, 'sidebar', slotProps)
             const headerDom = getSlotVNode(slots, props, 'header', slotProps)
             const contentDom = getSlotVNode(slots, props, 'content', slotProps)
 
-            const needSiderDom = unref(hasDrawer) ? (
+            const needSidebarDom = unref(hasDrawer) ? (
                 <Drawer
                     bodyStyle={{ padding: 0 }}
                     placement={'left'}
                     closable={false}
-                    width={unref(siderWidth) + 1}
+                    width={unref(sidebarWidth) + 1}
                     open={!unref(collapsed)}
                     onUpdate:open={onCollapse}
                 >
-                    {siderDom}
+                    {sidebarDom}
                 </Drawer>
             ) : (
-                siderDom
+                sidebarDom
             )
 
             return wrapSSR(
                 <div class={[prefixCls.value, hashId.value]} {...attrs}>
-                    {needSiderDom}
+                    {needSidebarDom}
                     <div class={`${prefixCls.value}-prime`}>
                         {headerDom}
                         <div class={`${prefixCls.value}-content`}>

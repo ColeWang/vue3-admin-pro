@@ -1,17 +1,26 @@
 import { defineComponent, unref, watch } from 'vue'
 import { RouterView } from 'vue-router'
-import { ConfigProvider } from 'ant-design-vue'
-import { LocaleProvider, ThemeProvider } from '@site-pro/components'
-import { createAppShare } from '@/hooks/useAppShare'
-import useLocale from '@/hooks/useLocale'
-import useTheme from '@/hooks/useTheme'
+import { LocaleProvider, ConfigProvider } from '@site-pro/components'
+import { pick } from 'lodash-es'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+// --- hooks
+import { createAppReceiver } from '@/hooks/useAppReceiver'
+import { useLocaleReceiver } from '@/hooks/useLocaleReceiver'
+import { useThemeReceiver } from '@/hooks/useThemeReceiver'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
+console.log('time zone:', dayjs.tz.guess())
+console.log('time:', dayjs().format('YYYY-MM-DD HH:mm:ss'))
 
 export default defineComponent({
     inheritAttrs: false,
     setup () {
-        const { message, setLocale } = useLocale()
-        const { theme, setTheme } = useTheme()
+        const { message, setMessage } = useLocaleReceiver()
+        const { theme, setTheme } = useThemeReceiver()
 
         watch(message, (value) => {
             value.dayjs && dayjs.locale(value.dayjs)
@@ -21,24 +30,27 @@ export default defineComponent({
             console.log(key)
         }
 
-        createAppShare({
+        createAppReceiver({
             theme: theme,
             setTheme: setTheme,
-            setLocale: setLocale,
+            setMessage: setMessage,
             onAvatarAction: onAvatarAction
         })
 
         return () => {
             const { antd, site } = unref(message)
 
+            const configProps = {
+                ...pick(unref(theme), Object.keys(ConfigProvider.props)),
+                locale: antd
+            }
+
             return (
-                <ThemeProvider {...unref(theme)}>
-                    <LocaleProvider locale={site}>
-                        <ConfigProvider locale={antd}>
-                            <RouterView/>
-                        </ConfigProvider>
-                    </LocaleProvider>
-                </ThemeProvider>
+                <LocaleProvider locale={site}>
+                    <ConfigProvider {...configProps}>
+                        <RouterView/>
+                    </ConfigProvider>
+                </LocaleProvider>
             )
         }
     }

@@ -4,7 +4,7 @@ const RoleAdmin = 'Admin'
 
 function hasOneOf (target, access) {
     return access.some((_) => {
-        return target.indexOf(_) > -1
+        return target.includes(_)
     })
 }
 

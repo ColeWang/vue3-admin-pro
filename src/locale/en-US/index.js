@@ -11,6 +11,7 @@ export default {
     antd: antd,
     site: enUS,
     dayjs: dayjs,
+    // --
     routes: routes,
     layout: layout,
     errorPages: errorPages

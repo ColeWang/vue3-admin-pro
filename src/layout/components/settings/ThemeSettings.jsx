@@ -2,7 +2,7 @@ import { defineComponent, unref } from 'vue'
 import { Switch, theme as antTheme, Tooltip } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
 import { useConfigInject } from '@site-pro/hooks'
-import useAppShare from '@/hooks/useAppShare'
+import { useAppReceiver } from '@/hooks/useAppReceiver'
 import useStyle from './style/theme-settings'
 
 export default defineComponent({
@@ -12,14 +12,14 @@ export default defineComponent({
         const [wrapSSR, hashId] = useStyle(prefixCls)
         const { token: antToken } = antTheme.useToken()
 
-        const { theme, setTheme } = useAppShare()
+        const { theme, setTheme } = useAppReceiver()
 
         function setState (state) {
             setTheme && setTheme({ ...unref(theme), ...state })
         }
 
         return () => {
-            const { dark, compact, token, sideDark } = unref(theme) || {}
+            const { sideDark, dark, compact, theme: sTheme = {} } = unref(theme) || {}
 
             const colors = [
                 {
@@ -72,7 +72,10 @@ export default defineComponent({
                             <Tooltip title={'亮色主题'}>
                                 <div
                                     class={[`${prefixCls.value}-theme`, `${prefixCls.value}-theme-light`]}
-                                    onClick={setState.bind(null, { dark: false, sideDark: false })}
+                                    onClick={setState.bind(null, {
+                                        dark: false,
+                                        sideDark: false
+                                    })}
                                 >
                                     {!dark && !sideDark ? <CheckOutlined/> : null}
                                 </div>
@@ -80,7 +83,10 @@ export default defineComponent({
                             <Tooltip title={'暗色主题'}>
                                 <div
                                     class={[`${prefixCls.value}-theme`, `${prefixCls.value}-theme-side-dark`]}
-                                    onClick={setState.bind(null, { dark: false, sideDark: true })}
+                                    onClick={setState.bind(null, {
+                                        dark: false,
+                                        sideDark: true
+                                    })}
                                 >
                                     {!dark && sideDark ? <CheckOutlined/> : null}
                                 </div>
@@ -88,7 +94,10 @@ export default defineComponent({
                             <Tooltip title={'暗黑模式'}>
                                 <div
                                     class={[`${prefixCls.value}-theme`, `${prefixCls.value}-theme-dark`]}
-                                    onClick={setState.bind(null, { dark: true, sideDark: false })}
+                                    onClick={setState.bind(null, {
+                                        dark: true,
+                                        sideDark: false
+                                    })}
                                 >
                                     {dark && sideDark ? <CheckOutlined/> : null}
                                 </div>
@@ -98,23 +107,32 @@ export default defineComponent({
                     <div class={`${prefixCls.value}-block-wrapper`}>
                         <div class={`${prefixCls.value}-title`}>主题色</div>
                         <div class={`${prefixCls.value}-primary-block`}>
-                            {colors.map((item) => (
-                                <Tooltip title={item.title} key={item.name}>
-                                    <div
-                                        class={`${prefixCls.value}-primary`}
-                                        style={{ backgroundColor: unref(antToken)[item.name] }}
-                                        onClick={setState.bind(null, { token: { colorPrimary: item.colorPrimary } })}
-                                    >
-                                        {token && token.colorPrimary === item.colorPrimary ? <CheckOutlined/> : null}
-                                    </div>
-                                </Tooltip>
-                            ))}
+                            {colors.map((item) => {
+                                return (
+                                    <Tooltip title={item.title} key={item.name}>
+                                        <div
+                                            class={`${prefixCls.value}-primary`}
+                                            style={{ backgroundColor: unref(antToken)[item.name] }}
+                                            onClick={setState.bind(null, {
+                                                theme: {
+                                                    token: { colorPrimary: item.colorPrimary }
+                                                }
+                                            })}
+                                        >
+                                            {sTheme.token.colorPrimary === item.colorPrimary ? <CheckOutlined/> : null}
+                                        </div>
+                                    </Tooltip>
+                                )
+                            })}
                         </div>
                     </div>
                     <div class={`${prefixCls.value}-block-wrapper`}>
                         <div class={`${prefixCls.value}-title`}>紧凑主题</div>
                         <div class={`${prefixCls.value}-compact-block`}>
-                            <Switch checked={compact} onUpdate:checked={setState.bind(null, { compact: !compact })}/>
+                            <Switch
+                                checked={compact}
+                                onUpdate:checked={setState.bind(null, { compact: !compact })}
+                            />
                         </div>
                     </div>
                 </div>

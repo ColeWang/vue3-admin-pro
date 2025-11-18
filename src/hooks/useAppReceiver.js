@@ -2,12 +2,10 @@ import { inject, provide } from 'vue'
 
 const BaseKey = Symbol('AppShare')
 
-export function createAppShare (instance) {
+export function createAppReceiver (instance) {
     provide(BaseKey, instance)
 }
 
-function useAppShare () {
+export function useAppReceiver () {
     return inject(BaseKey, {})
 }
-
-export default useAppShare
