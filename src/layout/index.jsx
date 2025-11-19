@@ -2,7 +2,7 @@ import { computed, defineComponent, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppReceiver } from '@/hooks/useAppReceiver'
 import routes from '@/router/routes'
-import { HOME_NAME } from '@/config'
+import { HOME_ROUTE_NAME } from '@/config'
 // --
 import BaseLayout from './compatible/base-layout'
 import Sidebar from './compatible/sidebar'
@@ -40,7 +40,7 @@ export default defineComponent({
         // 过滤没有权限的路由, 权限 access 一般是在后台请求过来放在 store 里面
         const menus = getMenuList(routes, [])
         const { tags, onTagClick, onTagClose } = useTags(menus, {
-            homeName: HOME_NAME,
+            homeRouteName: HOME_ROUTE_NAME,
             route: $route,
             onChange: onTagsChange
         })
@@ -91,7 +91,7 @@ export default defineComponent({
                             onCollapse={onCollapse}
                         />,
                         <Tags
-                            homeName={HOME_NAME}
+                            homeRouteName={HOME_ROUTE_NAME}
                             route={$route}
                             tags={unref(tags)}
                             onClick={onTagClick}

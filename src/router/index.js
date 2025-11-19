@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import { Progress } from '@site-pro/plugins'
 // import { canTurnTo } from '@/layout/utils'
-import { HOME_NAME, LOGIN_NAME } from '@/config'
+import { HOME_ROUTE_NAME, LOGIN_ROUTE_NAME } from '@/config'
 import { TOKEN_KEY } from '@/config/symbols'
 import { getCookie } from '@/utils/cookie'
 import routes from './routes'
@@ -19,11 +19,11 @@ export default () => {
         message.destroy()
         Modal.destroyAll()
         const token = getCookie(TOKEN_KEY)
-        if (!token && to.name !== LOGIN_NAME) {
-            next({ name: LOGIN_NAME })
-        } else if (token && to.name === LOGIN_NAME) {
-            next({ name: HOME_NAME })
-        } else if (!token && to.name === LOGIN_NAME) {
+        if (!token && to.name !== LOGIN_ROUTE_NAME) {
+            next({ name: LOGIN_ROUTE_NAME })
+        } else if (token && to.name === LOGIN_ROUTE_NAME) {
+            next({ name: HOME_ROUTE_NAME })
+        } else if (!token && to.name === LOGIN_ROUTE_NAME) {
             next()
         } else {
             // if (userinfo.hasGetInfo) {

@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { Button, Result } from 'ant-design-vue'
 import { useConfigInject, useGlobalProperties } from '@site-pro/hooks'
 import useStyle from './style'
-import { HOME_NAME } from '@/config'
+import { HOME_ROUTE_NAME } from '@/config'
 
 export default defineComponent({
     inheritAttrs: false,
@@ -17,7 +17,7 @@ export default defineComponent({
         const $router = useRouter()
 
         function onBackHome () {
-            $router.replace({ name: HOME_NAME })
+            $router.replace({ name: HOME_ROUTE_NAME })
         }
 
         return () => {

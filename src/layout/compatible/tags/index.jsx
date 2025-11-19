@@ -11,7 +11,7 @@ export default defineComponent({
     inheritAttrs: false,
     name: 'ProLayoutTags',
     props: {
-        homeName: {
+        homeRouteName: {
             type: String,
             default: undefined
         },
@@ -84,20 +84,20 @@ export default defineComponent({
         }
 
         function onMenuClose (type) {
-            const { homeName, route: currentRoute, tags } = props
+            const { homeRouteName, route: currentRoute, tags } = props
             const finalAction = {
                 all: () => {
                     const result = tags.filter((item) => {
-                        return item.name === homeName
+                        return item.name === homeRouteName
                     })
-                    emit('close', result, homeName)
+                    emit('close', result, homeRouteName)
                     setTimeout(() => {
-                        getTagInstanceByRoute(homeName)
+                        getTagInstanceByRoute(homeRouteName)
                     }, 100)
                 },
                 others: () => {
                     const result = tags.filter((item) => {
-                        return item.name === currentRoute.name || item.name === homeName
+                        return item.name === currentRoute.name || item.name === homeRouteName
                     })
                     emit('close', result)
                     setTimeout(() => {
@@ -156,7 +156,7 @@ export default defineComponent({
         }
 
         return () => {
-            const { tags, route: currentRoute, homeName } = props
+            const { tags, route: currentRoute, homeRouteName } = props
             const { sizeXXS } = unref(token)
 
             const scrollBodyStyle = {
@@ -167,7 +167,7 @@ export default defineComponent({
                 const tagProps = {
                     style: { marginInlineEnd: toPx(sizeXXS) },
                     color: currentRoute.name === key ? 'primary' : 'default',
-                    closable: key !== homeName,
+                    closable: key !== homeRouteName,
                     onClick: onClick(item),
                     onClose: onClose(item)
                 }

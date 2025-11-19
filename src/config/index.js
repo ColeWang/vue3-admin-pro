@@ -1,7 +1,7 @@
 // 首页 (路由的拦截、以及 TagsNav 不关闭的路由 name 。)
-export const HOME_NAME = 'HomeIndex'
+export const HOME_ROUTE_NAME = 'HomeIndex'
 // 登录页 (路由的拦截)
-export const LOGIN_NAME = 'Login'
+export const LOGIN_ROUTE_NAME = 'Login'
 
 // iconfont 的在线地址 src/components/icon/IconFont.jsx
 export const scriptUrl = ''

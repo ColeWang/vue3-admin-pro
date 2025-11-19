@@ -6,9 +6,9 @@ import { localCache } from '@/utils/storage'
 
 // @todo 版本升级的时候 清空 Tags 缓存
 function useTags (menus, options) {
-    const { homeName, route, onChange } = options || {}
+    const { homeRouteName, route, onChange } = options || {}
 
-    const homeRoute = getCurrentRoute(menus, homeName)
+    const homeRoute = getCurrentRoute(menus, homeRouteName)
     const cacheTags = localCache.getObj(TAGS__LOCAL)
     const tags = ref(cacheTags ? [...filterCache(menus, cacheTags)] : [homeRoute])
 

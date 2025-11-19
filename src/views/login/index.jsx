@@ -7,7 +7,7 @@ import { useSite } from '@site-pro/plugins'
 import { PasswordFilled, UserFilled } from '@/components/icon'
 import useStyle from './style'
 // --
-import { HOME_NAME } from '@/config'
+import { HOME_ROUTE_NAME } from '@/config'
 import { TOKEN_KEY } from '@/config/symbols'
 import { setCookie } from '@/utils/cookie'
 import Bubbly from './bubbly'
@@ -66,7 +66,7 @@ export default defineComponent({
                 const { redirect } = $route.query || {}
                 localRemember(model)
                 const name = redirect && String(redirect)
-                $router.push({ name: name || HOME_NAME })
+                $router.push({ name: name || HOME_ROUTE_NAME })
             }, 1000)
         }
 

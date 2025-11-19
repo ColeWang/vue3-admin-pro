@@ -1,7 +1,7 @@
 import ProLayout from '@/layout'
 import ProLogin from '@/views/login'
 import { concat } from 'lodash-es'
-import { HOME_NAME, LOGIN_NAME } from '@/config'
+import { HOME_ROUTE_NAME, LOGIN_ROUTE_NAME } from '@/config'
 import errorPages from './error-pages'
 // ---
 // -- pages
@@ -19,7 +19,7 @@ const routes = [
     {
         path: '/',
         name: '_home',
-        redirect: { name: HOME_NAME },
+        redirect: { name: HOME_ROUTE_NAME },
         meta: {
             hideInMenu: true,
             notCache: true
@@ -27,7 +27,7 @@ const routes = [
     },
     {
         path: '/login',
-        name: LOGIN_NAME,
+        name: LOGIN_ROUTE_NAME,
         meta: {
             hideInMenu: true,
             notCache: true
@@ -37,7 +37,7 @@ const routes = [
     {
         path: '/home',
         name: 'Home',
-        redirect: { name: HOME_NAME },
+        redirect: { name: HOME_ROUTE_NAME },
         component: ProLayout,
         children: [
             {
