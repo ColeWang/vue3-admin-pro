@@ -1,14 +1,13 @@
 import Cookies from 'js-cookie'
 
 export function setCookie (key, value, options) {
-    const attributes = options || { expires: 1 }
-    Cookies.set(key, value, attributes)
+    Cookies.set(key, value, options || { expires: 1, path: '/' })
 }
 
 export function getCookie (key) {
     return Cookies.get(key)
 }
 
-export function removeCookie (key) {
-    Cookies.remove(key)
+export function removeCookie (key, options) {
+    Cookies.remove(key, options || { path: '/' })
 }
