@@ -11,11 +11,11 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const vendors = reduce({
-    'vendor-vue': ['vue', 'vue-router', 'pinia'],
-    'vendor-antd': ['ant-design-vue', '@ant-design/icons-vue'],
-    'vendor-site-pro': ['@site-pro/components', '@site-pro/hooks', '@site-pro/plugins', '@site-pro/utils'],
-    'vendor-utils': ['lodash-es', 'dayjs', 'axios', 'vue-i18n'],
-    'vendor-common': ['js-cookie', 'crypto-js']
+    'vendor-vue': ['vue', '@vue', 'vue-router', 'pinia'],
+    'vendor-antd': ['ant-design-vue', '@ant-design'],
+    'vendor-site-pro': ['@site-pro'],
+    'vendor-utils': ['lodash-es', 'dayjs', 'axios', 'js-cookie', 'crypto-js'],
+    'vendor-common': ['vue-i18n', '@intlify']
 }, (result, modules, key) => {
     const needVendors = modules.map((name) => {
         return { name: name, vendor: key }
@@ -28,7 +28,7 @@ function manualChunks (id) {
         const result = vendors.find((item) => {
             return id.includes(`/node_modules/${item.name}/`)
         })
-        return result ? result.vendor : 'vendor-common'
+        return result ? result.vendor : 'vendor-other'
     }
     // 业务代码保持默认分包
     return null
